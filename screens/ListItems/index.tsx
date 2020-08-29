@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import {styles} from "./styles";
-import {View, Text, Image, ScrollView, RefreshControl} from "react-native";
+import {Image, RefreshControl, ScrollView, Text, View} from "react-native";
 import Assets from "../../constants/Assets";
-import { useAccountStateValue, Item } from "../../contexts/Account";
+import {Item, useAccountStateValue} from "../../contexts/Account";
 import ItemHeader from "../../components/ItemHeader";
 import ItemComponent from "../../components/ItemComponent";
+import {useNavigation} from "@react-navigation/native";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {AntDesign} from "@expo/vector-icons";
 
 const ListItems = () => {
+
+    const navigation = useNavigation();
 
     const {accountState} = useAccountStateValue();
     const {container} = accountState;
@@ -45,13 +50,31 @@ const ListItems = () => {
                         <Text style={styles.apiResult}>
                             {
                                 container.map((item, key) => {
-                                    {item.name}
+                                    {
+                                        item.name
+                                    }
                                 })
                             }
                         </Text>
                     </View>
                 </ScrollView>
-                {/*<AddItem navigation={this.props.navigation}></AddItem>*/}
+
+                <View style={{
+                    position: "absolute",
+                    padding: 20,
+                    borderRadius: 50,
+                    bottom: 36,
+                    right: 28,
+                    backgroundColor: "black"
+                }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
+                        <AntDesign
+                            name="plus"
+                            size={28}
+                            color='white'
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )

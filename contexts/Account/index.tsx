@@ -14,7 +14,7 @@ export type Item = {
     expiredAt: string // | Date;
     category: string;
     memo: string;
-    uri: string; // image uri
+    url: string; // image url
 }
 
 export type Account = {
@@ -36,28 +36,28 @@ export const initialAccount: Account = {
             expiredAt: '2022-1-23',
             category: '육류',
             memo: '냉동',
-            uri: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
+            url: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
         },
         {
             name: '양파',
             expiredAt: '2025-1-21',
             category: '야채',
             memo: '뉴비',
-            uri: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
+            url: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
         },
         {
             name: '닭',
             expiredAt: '2019-11-17',
             category: '육류',
             memo: '12호',
-            uri: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
+            url: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
         },
         {
             name: '감자',
             expiredAt: '2019-11-22',
             category: '야채',
             memo: '',
-            uri: '', // https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/potato.jpg
+            url: '', // https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/potato.jpg
         },
     ],
 }
