@@ -6,8 +6,8 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  냉장고: undefined;
-  레시피: undefined;
+  "Fridge": undefined;
+  "Recipe": undefined;
 };
 
 export type TabOneParamList = {

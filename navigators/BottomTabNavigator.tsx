@@ -1,4 +1,4 @@
-import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons, Feather} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
@@ -10,6 +10,8 @@ import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
 import ListItems from "../screens/ListItems";
 import AddItems from '../screens/AddItems';
 import CaptureItems from '../screens/CaptureItems';
+import {useAccountStateValue} from "../contexts/Account";
+import {StyleSheet, View} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -19,20 +21,22 @@ export default function BottomTabNavigator() {
     return (
 
         <BottomTab.Navigator
-            initialRouteName="냉장고"
+            initialRouteName="Fridge"
             tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
             <BottomTab.Screen
-                name="냉장고"
-                component={TabOneNavigator}
+                name="Fridge"
+                component={FridgeNavigator}
                 options={{
-                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="fridge" size={24} color={color}/>,
+                    title: "냉장고",
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="fridge" size={28} color={color}/>,
                 }}
             />
             <BottomTab.Screen
-                name="레시피"
-                component={TabTwoNavigator}
+                name="Recipe"
+                component={RecipeNavigator}
                 options={{
-                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="silverware-fork-knife" size={24}
+                    title: "레시피",
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="silverware-fork-knife" size={28}
                                                                      color={color}/>,
                 }}
             />
@@ -50,13 +54,34 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
-function TabOneNavigator() {
+function FridgeNavigator() {
+    // const {accountState} = useAccountStateValue();
+    // const {profile} = accountState;
+    // const {name} = profile;
+    //
+    // const styles = StyleSheet.create({
+    //     button: {backgroundColor: "transparent"}
+    // })
+
     return (
         <TabOneStack.Navigator>
             <TabOneStack.Screen
                 name="ListItems"
                 component={ListItems}
-                options={{headerTitle: '냉장고'}}
+                options={{
+                    headerTitle: '냉장고',
+                    headerRight: () => <View>
+                        <Ionicons.Button
+                            name="md-search"
+                            size={32}
+                            color="black"
+                            // @ts-ignore, TODO: how to fix it without @ts-ignore
+                            backgroundColor="transparent"
+                            onPress={() => alert("search")}
+                        />
+                    </View >
+                }}
+                // options={{headerTitle: `${name} 냉장고`}}
             />
             <TabOneStack.Screen
                 name="AddItems"
@@ -74,7 +99,7 @@ function TabOneNavigator() {
 
 const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
-function TabTwoNavigator() {
+function RecipeNavigator() {
     return (
         <TabTwoStack.Navigator>
             <TabTwoStack.Screen
