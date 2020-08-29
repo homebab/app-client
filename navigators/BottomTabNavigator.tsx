@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import Index from '../screens/ListRecipes';
 import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
 import ListItems from "../screens/ListItems";
 import AddItems from '../screens/AddItems';
@@ -103,8 +103,8 @@ function RecipeNavigator() {
     return (
         <TabTwoStack.Navigator>
             <TabTwoStack.Screen
-                name="TabTwoScreen"
-                component={TabTwoScreen}
+                name="ListRecipes"
+                component={Index}
                 options={{headerTitle: '레시피'}}
             />
         </TabTwoStack.Navigator>

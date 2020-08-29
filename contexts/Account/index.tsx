@@ -20,6 +20,7 @@ export type Item = {
 export type Account = {
     profile: Profile,
     container: Array<Item>,
+    isAuthenticated: boolean
 }
 
 export const initialAccount: Account = {
@@ -60,6 +61,8 @@ export const initialAccount: Account = {
             url: '', // https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/potato.jpg
         },
     ],
+
+    isAuthenticated: false,
 }
 
 type Props = {

@@ -1,5 +1,6 @@
 const Image = {
     Splash: require('../../new-client/assets/images/splash/splash3.jpg'),
+    backgroundImage: require('../../new-client/assets/images/splash/splash.jpg'),
     logo: require('../../new-client/assets/images/logo/logo.png'),
     menu: require('../../new-client/assets/images/header/menu.png'),
     search: require('../../new-client/assets/images/header/search.png'),
@@ -9,6 +10,8 @@ const Image = {
     addItem: require('../../new-client/assets/images/addItem.png')
 };
 
-export default {
+const Assets = {
     Image
 };
+
+export default Assets;

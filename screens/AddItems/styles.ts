@@ -81,14 +81,10 @@ const bottomTextInput: TextStyle = {
     fontSize: 26
 }
 
-const submitContainer: ViewStyle = {
-    width: "85%",
-    marginTop: 16,
-    paddingBottom: 16,
-    paddingTop: 16
-}
-
 const submitButton: ViewStyle = {
+    width: "85%",
+    marginTop: 24,
+    marginBottom: 24,
     backgroundColor: "#333333"
 }
 
@@ -110,7 +106,6 @@ export const styles = StyleSheet.create({
     bottomContainer,
     bottomTextInputBox,
     bottomTextInput,
-    submitContainer,
     submitButton,
     submitText
 });

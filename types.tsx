@@ -2,6 +2,8 @@ import {CameraCapturedPicture} from "expo-camera";
 
 // navigators
 export type RootStackParamList = {
+  SignIn: undefined;
+  SignUp: undefined;
   Root: undefined;
   NotFound: undefined;
 };
@@ -20,7 +22,7 @@ export type TabOneParamList = {
 };
 
 export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+  ListRecipes: undefined;
 };
 
 

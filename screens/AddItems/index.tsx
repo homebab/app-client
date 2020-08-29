@@ -13,7 +13,6 @@ const AddItems = () => {
     const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'AddItems'>>();
     const route = useRoute<RouteProp<TabOneParamList, 'AddItems'>>();
 
-
     const [name, setName] = useState<string>('');
     const [expiredAt, setExpiredAt] = useState<string>('');
     const [category, setCategory] = useState<string>('');
@@ -142,13 +141,13 @@ const AddItems = () => {
                     )
                 })}
 
-                <View style={styles.submitContainer}>
-                    <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-                        <Text style={styles.submitText}>
-                            식자재 추가
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+
+                <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                    <Text style={styles.submitText}>
+                        식자재 추가
+                    </Text>
+                </TouchableOpacity>
+
             </View>
 
         </View>
