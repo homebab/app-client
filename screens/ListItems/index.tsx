@@ -17,14 +17,12 @@ const ListItems = () => {
     const {container} = accountState;
     const [refreshing, setRefreshing] = useState<boolean>(false);
 
-    useEffect(() => {
-
-    }, [])
+    // useEffect(() => {
+    //
+    // }, [])
 
     return (
         <View style={styles.container}>
-            <View style={styles.wrapper}>
-
                 <ScrollView style={{backgroundColor: "#f2f2f2"}}
                             refreshControl={
                                 <RefreshControl
@@ -33,8 +31,8 @@ const ListItems = () => {
                                 />
                             }
                 >
-                    <View style={{width: "100%", aspectRatio: 2.5, backgroundColor: "skyblue",}}>
-                        <Image source={Assets.Image.advertise} style={styles.advertise}/>
+                    <View style={styles.advertiseContainer}>
+                        <Image source={Assets.Image.advertise} style={styles.advertiseImage}/>
                     </View>
 
                     <View style={{backgroundColor: "#f2f2f2"}}>
@@ -46,27 +44,10 @@ const ListItems = () => {
                                 </View>
                             ))
                         }
-
-                        <Text style={styles.apiResult}>
-                            {
-                                container.map((item, key) => {
-                                    {
-                                        item.name
-                                    }
-                                })
-                            }
-                        </Text>
                     </View>
                 </ScrollView>
 
-                <View style={{
-                    position: "absolute",
-                    padding: 20,
-                    borderRadius: 50,
-                    bottom: 36,
-                    right: 28,
-                    backgroundColor: "black"
-                }}>
+                <View style={styles.addButton}>
                     <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
                         <AntDesign
                             name="plus"
@@ -75,7 +56,6 @@ const ListItems = () => {
                         />
                     </TouchableOpacity>
                 </View>
-            </View>
         </View>
     )
 }

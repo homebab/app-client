@@ -16,7 +16,7 @@ export type TabOneParamList = {
   AddItems: {
     itemPhoto: CameraCapturedPicture
   }
-  CaptureItems: undefined;
+  CaptureItems: undefined
 };
 
 export type TabTwoParamList = {

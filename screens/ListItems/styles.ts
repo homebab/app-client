@@ -1,71 +1,35 @@
 import {StyleSheet, TextStyle, ViewStyle, ImageStyle} from "react-native";
 
-const imageBackground: ViewStyle = {
-    flex: 1,
-};
+
 
 const container: ViewStyle = {
     flex: 1,
 };
 
-const wrapper: ViewStyle = {
-    flex: 1,
-};
-
-/* const header: ViewStyle = {
-    flexDirection: "row",
-    height: 60,
-    backgroundColor: 'red',
-    alignItems: 'center',
-};
- */
-
-const main: ViewStyle = {
-    flex: 1,
-    backgroundColor: 'blue',
-    justifyContent: 'flex-start'
+const advertiseContainer: ViewStyle = {
+    width: "100%",
+    aspectRatio: 2.5,
+    backgroundColor: "skyblue"
 }
 
-const contents: ViewStyle = {
-    flex: 3,
-    backgroundColor: 'pink',
-}
-
-const advertise: ImageStyle = {
+const advertiseImage: ImageStyle = {
     flex:1,
     resizeMode: 'cover',
     width: '100%',
 }
 
-/* const title: TextStyle = {
-    color: '#000',
-    fontSize: 24,
-    textAlign: 'center'
-};
-
-const value: TextStyle = {
-    marginTop: 40,
-    marginBottom: 50,
-    color: '#000',
-    fontSize: 16,
-}; */
-
-const apiResult: TextStyle = {
-    flex: 1,
-    marginTop: 40,
-    color: '#000',
-    fontSize: 50,
-};
+const addButton: ViewStyle = {
+    position: "absolute",
+    padding: 20,
+    borderRadius: 50,
+    bottom: 36,
+    right: 28,
+    backgroundColor: "black"
+}
 
 export const styles = StyleSheet.create({
-    imageBackground,
     container,
-    wrapper,
-    /* title,
-    value, */
-    apiResult,
-    /* header, */
-    main,
-    advertise,
-    contents
+    advertiseContainer,
+    advertiseImage,
+    addButton
 });
