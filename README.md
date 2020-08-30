@@ -6,6 +6,24 @@ By recommending recipes based on food ingredients with notification that the she
 A cross platform capable of driving both Android and IOS services with React Native
 1. ReactNative
 2. Expo
+## Get Started
+```
+> npm install -g expo-cli
+> expo install
+> expo start
+```
+## Plan
+- [x] SignIn
+- [x] ListItems
+- [x] AddItems
+- [x] CaptureItems
+- [ ] Integration with Backend
+---
+- [ ] DetailItems
+- [ ] ListRecipes
+- [ ] DetailRecipes
+...
+
 ## Screenshots
 - itemList, RecipeList, RecipeDetail, AddItem
 <div>
