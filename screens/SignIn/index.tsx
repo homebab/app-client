@@ -5,6 +5,7 @@ import {Entypo} from '@expo/vector-icons';
 import Assets from '../../constants/Assets';
 import * as Google from 'expo-google-app-auth';
 import {styles} from './styles';
+import Credentials from '../../constants/Credentials';
 
 
 const SignIn = () => {
@@ -14,12 +15,14 @@ const SignIn = () => {
     const signInWithGoogle = async () => {
         try {
             const result = await Google.logInAsync({
-                androidClientId: "",
+                androidClientId: Credentials.Google.androidClientId,
                 //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
                 scopes: ["profile", "email"]
             });
 
             if (result.type === "success") {
+                // TODO: fetch POST api
+
                 console.log(result);
                 navigation.navigate('Root');
             } else {

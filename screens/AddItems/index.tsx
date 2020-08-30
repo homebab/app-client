@@ -20,6 +20,7 @@ const AddItems = () => {
     const [url, setUrl] = useState<string>('');
 
 
+    // TODO: precise validate Date format
     const onChangeDate = (text: string) => {
         /* console.log(text) */
 
@@ -64,6 +65,11 @@ const AddItems = () => {
     const handleSubmit = () => {
         if ((name).length == 0 || (expiredAt).split('-').length < 3) alert("옳바르지 않은 형식입니다.")
         else {
+            // TODO: fetcj POST api to upload item image to s3
+
+            // TODO: fetch POST api to add item on RDS
+
+            // TODO: fetch POST API for event logging
 
             // alert(itemPhoto)
             //

@@ -14,6 +14,7 @@ type State = {
     light: number,  //0: red, 1: yello, 2: green
 }
 
+// TODO: class -> function
 export default class ItemHeader extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -47,6 +48,13 @@ export default class ItemHeader extends React.Component<Props, State> {
     } */
 
     deleteButton() {
+        // TODO: fetch DELETE API to delete item on RDB
+
+        // TODO: fetch DELETE API to delete item image on s3
+
+        // TODO: fetch POST API for event logging
+
+
         fetch(EndPoints.SERVER_API + "foods/deleteById/1/" + this.props.item.name, {
             method: "DELETE",
             headers: {

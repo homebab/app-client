@@ -7,7 +7,7 @@ type Props = {
     item: Item,
 }
 
-
+// TODO: class -> function
 export default class ItemComponent extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
@@ -18,7 +18,7 @@ export default class ItemComponent extends React.Component<Props> {
             <View style={{padding:18, width:"100%", flexDirection: "row", backgroundColor:"white", borderBottomWidth:1.5, borderColor:"#e6e6e6"}}>
               
                 <View style={{flex:3, height:"100%", aspectRatio:1, backgroundColor:"black", alignItems: "center", justifyContent:"center",}}>
-                    {!(this.props.item.uri == '') && <Image source={{uri: this.props.item.uri}} style={{height: "100%", resizeMode: "cover", aspectRatio: 1}}/>}
+                    {!(this.props.item.url == '') && <Image source={{uri: this.props.item.url}} style={{height: "100%", resizeMode: "cover", aspectRatio: 1}}/>}
                 </View>
 
                 <View style={{flex:10, height:"100%" /* , backgroundColor:"pink" */, alignItems: "flex-start", marginLeft:18}}>
