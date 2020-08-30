@@ -1,6 +1,8 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 const { width: winWidth, height: winHeight } = Dimensions.get('window');
+const newHeight = winWidth * 4 / 3
+const newWidth = winHeight * 3 / 4
 
 export default StyleSheet.create({
     alignCenter: {
@@ -8,19 +10,21 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    // TODO: more precisely
     preview: {
         height: winHeight,
-        width: winWidth,
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
+        width: newWidth,
+        // position: 'absolute',
+        // left: 0,
+        // top: 0,
+        // right: 0,
+        // bottom: 0,
     },
     bottomToolbar: {
         width: winWidth,
         position: 'absolute',
-        height: 100,
+        // backgroundColor: 'black',
+        height: 120,
         bottom: 0,
     },
     captureBtn: {

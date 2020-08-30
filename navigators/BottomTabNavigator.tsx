@@ -11,7 +11,7 @@ import ListItems from "../screens/ListItems";
 import AddItems from '../screens/AddItems';
 import CaptureItems from '../screens/CaptureItems';
 import {useAccountStateValue} from "../contexts/Account";
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -27,16 +27,16 @@ export default function BottomTabNavigator() {
                 name="Fridge"
                 component={FridgeNavigator}
                 options={{
-                    title: "냉장고",
-                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="fridge" size={28} color={color}/>,
+                    tabBarLabel: "냉장고",
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="fridge" size={24} color={color}/>,
                 }}
             />
             <BottomTab.Screen
                 name="Recipe"
                 component={RecipeNavigator}
                 options={{
-                    title: "레시피",
-                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="silverware-fork-knife" size={28}
+                    tabBarLabel: "레시피",
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="silverware-fork-knife" size={24}
                                                                      color={color}/>,
                 }}
             />

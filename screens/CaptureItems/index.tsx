@@ -46,7 +46,7 @@ const CaptureItems = () => {
     }
     return (
         <React.Fragment>
-            <View>
+            <View style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <Camera
                     type={cameraType}
                     flashMode={flashMode}

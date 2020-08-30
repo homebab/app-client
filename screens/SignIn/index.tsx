@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         fontFamily: 'nanum-square-round',
         color: "white",
-        fontSize: 22,
+        fontSize: 20,
     },
     icon: {
         position: "absolute",
