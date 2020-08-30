@@ -12,6 +12,18 @@ A cross platform capable of driving both Android and IOS services with React Nat
 > expo install
 > expo start
 ```
+## Plan
+- [x] SignIn
+- [x] ListItems
+- [x] AddItems
+- [x] CaptureItems
+- [ ] Integration with Backend
+---
+- [ ] DetailItems
+- [ ] ListRecipes
+- [ ] DetailRecipes
+...
+
 ## Screenshots
 - itemList, RecipeList, RecipeDetail, AddItem
 <div>
