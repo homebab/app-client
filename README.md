@@ -9,7 +9,7 @@ A cross platform capable of driving both Android and IOS services with React Nat
 ## Get Started
 ```
 > npm install -g expo-cli
-> expo install
+> yarn add expo
 > expo start
 ```
 ## Plan
