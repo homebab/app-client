@@ -1,8 +1,13 @@
-# OMTM - 한끼두끼
-- AI based food ingredients management and usage pattern analysis
-## Brief
-By recommending recipes based on food ingredients with notification that the shelf life of the ingredients in the refrigerator is imminent, it helps you eat at home and reduces the amount of food that you throw away.
-## Environment
+```
+  ____  ____  ____          __  _      ____    ___  ____   ______ 
+ /    ||    \|    \        /  ]| |    |    |  /  _]|    \ |      |
+|  o  ||  o  )  o  )      /  / | |     |  |  /  [_ |  _  ||      |
+|     ||   _/|   _/      /  /  | |___  |  | |    _]|  |  ||_|  |_|
+|  _  ||  |  |  |       /   \_ |     | |  | |   [_ |  |  |  |  |  
+|  |  ||  |  |  |       \     ||     | |  | |     ||  |  |  |  |  
+|__|__||__|  |__|        \____||_____||____||_____||__|__|  |__|  
+                                                                  
+```
 A cross platform capable of driving both Android and IOS services with React Native
 1. ReactNative
 2. Expo
