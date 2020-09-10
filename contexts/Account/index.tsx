@@ -3,7 +3,10 @@ import { Actions } from "..";
 
 
 export type Profile = {
+    // omtm RDB id
     id: number;
+    // social id
+    subId?: number;
     email: string;
     name: string;
     age?: number;
@@ -30,7 +33,6 @@ export const initialAccount: Account = {
         id: 0,
         email: 'meow@gmail.com',
         name: 'meow',
-        age: 5
     },
 
     container:  [
@@ -101,7 +103,8 @@ const AccountController: React.FC = ({children}) => {
                 return {
                     ...state,
                     profile: action.value.profile,
-                    container: action.value.container
+                    container: action.value.container,
+                    isAuthenticated: action.value.isAuthenticated
                 };
             case 'addItem':
                 return {

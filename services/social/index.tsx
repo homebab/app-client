@@ -9,7 +9,7 @@ export const signInWithGoogle: () => Promise<GoogleUser | undefined> = async () 
             //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
             scopes: ["profile", "email"]
         });
-        console.log(`[omtm]: response is ${result}`);
+        console.debug(`[omtm]: response from Google is ${JSON.stringify(result)}`);
 
         if (result.type === "success") {
             // let userInfoResponse = await fetch('https://www.googleapis.com/userinfo/v2/me', {
@@ -21,10 +21,10 @@ export const signInWithGoogle: () => Promise<GoogleUser | undefined> = async () 
             // console.log('hi')
             // navigation.navigate('Root');
         } else {
-            console.log('[omtm]: LoginResult type is `canceled`')
+            console.debug('[omtm]: LoginResult type is `canceled`')
             return undefined;
         }
-    } catch (e) {
-        console.log("error", e);
+    } catch (err) {
+        console.warn(`[omtm]: fail to fetch api to Google with ${err}`);
     }
 }

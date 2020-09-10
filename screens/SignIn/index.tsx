@@ -10,20 +10,29 @@ import {CachedUser} from "../../types";
 import AsyncStorage from "@react-native-community/async-storage";
 import {GoogleUser} from "expo-google-app-auth";
 import {createUser} from "../../services/api";
+import {useAccountContext} from "../../contexts/Account";
 
 
 const SignIn = () => {
-    const cachedUser: CachedUser | undefined = useCachedUser();
     const navigation = useNavigation();
+
+    const cachedUser: CachedUser | undefined = useCachedUser();
+
+    const {accountDispatch, accountState} = useAccountContext();
+    const {isAuthenticated} = accountState;
 
     useEffect(() => {
         if (cachedUser && cachedUser.isActive) {
-            console.log(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
+            console.debug(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
 
+            // fetch GET api to App Server for retrieving userItems
+
+            // setAccount
+            accountDispatch({type: 'setAccount', value: {profile: cachedUser.profile, container: [], isAuthenticated: true}})
 
             navigation.navigate('Root');
         } else {
-            console.log('[omtm]: cachedUser is undefined or inactive')
+            console.debug('[omtm]: cachedUser is undefined or inactive')
         }
     }, [cachedUser]);
 
@@ -65,12 +74,7 @@ const SignIn = () => {
         <View style={styles.container}>
             <ImageBackground source={Assets.Image.backgroundImage} style={styles.image}/>
 
-
             <View style={styles.wrapper}>
-                {/*<Text style={styles.title}>{""}</Text>*/}
-                {/*<Text style={styles.subTitle}>{""}</Text>*/}
-
-
                 <TouchableOpacity style={[styles.button, styles.google]}
                                   onPress={() => singIn()}>
                     <Entypo style={styles.icon} name="google-" size={30} color="white"/>
@@ -79,7 +83,7 @@ const SignIn = () => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.facebook]}
-                                  onPress={() => navigation.navigate('Root')}>
+                                  onPress={() => isAuthenticated? navigation.navigate('Root'): alert('[omtm]: there is no active account')}>
                     <Entypo style={styles.icon} name="facebook" size={30} color="white"/>
                     <Text style={styles.text}>
                         페이스북 로그인

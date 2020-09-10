@@ -1,9 +1,7 @@
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
-import {useAccountContext} from "../contexts/Account";
 import {CachedUser} from "../types";
-import { useNavigation } from '@react-navigation/native';
 
 export default function useCachedResources() {
     const [cachedUser, setCachedUser] = React.useState<CachedUser | undefined>(undefined);

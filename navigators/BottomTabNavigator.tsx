@@ -1,6 +1,7 @@
 import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Avatar} from 'react-native-paper'
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
@@ -10,7 +11,10 @@ import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
 import ListItems from "../screens/ListItems";
 import AddItems from '../screens/AddItems';
 import CaptureItems from '../screens/CaptureItems';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
+import {useAccountContext} from "../contexts/Account";
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -54,13 +58,11 @@ export default function BottomTabNavigator() {
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function FridgeNavigator() {
-    // const {accountState} = useAccountStateValue();
-    // const {profile} = accountState;
-    // const {name} = profile;
-    //
-    // const styles = StyleSheet.create({
-    //     button: {backgroundColor: "transparent"}
-    // })
+    const navigation = useNavigation();
+
+    const {accountState, accountDispatch} = useAccountContext();
+    const {profile} = accountState;
+    const {image_url} = profile;
 
     return (
         <TabOneStack.Navigator>
@@ -69,16 +71,27 @@ function FridgeNavigator() {
                 component={ListItems}
                 options={{
                     headerTitle: '냉장고',
-                    headerRight: () => <View>
-                        <Ionicons.Button
-                            name="md-search"
-                            size={32}
-                            color="black"
-                            // @ts-ignore, TODO: how to fix it without @ts-ignore
-                            backgroundColor="transparent"
-                            onPress={() => alert("search")}
-                        />
-                    </View>
+                    headerRight: () =>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Ionicons.Button
+                                name="md-search"
+                                size={32}
+                                color="black"
+                                // @ts-ignore, TODO: how to fix it without @ts-ignore
+                                borderRadius={32}
+                                backgroundColor="transparent"
+                                iconStyle={{marginRight: 4, marginLeft: 4}}
+                                onPress={() => alert("search")}
+                            />
+                            <TouchableOpacity style={{marginLeft: 12, marginRight: 12}}
+                                              onPress={() => AsyncStorage.removeItem('user').then(_ => {
+                                                  accountDispatch({type: 'flush', value: {}});
+                                                  alert('캐시 삭제');
+                                                  navigation.navigate('Auth');
+                                              })}>
+                                <Avatar.Image size={36} source={{uri: image_url}}/>
+                            </TouchableOpacity>
+                        </View>
                 }}
                 // options={{headerTitle: `${name} 냉장고`}}
             />

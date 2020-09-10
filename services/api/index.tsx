@@ -1,8 +1,8 @@
 import {EndPoints} from "../../constants/Endpoints";
-import {Account, Profile} from "../../contexts/Account";
+import {Profile} from "../../contexts/Account";
 
 
-export const createUser = (userProfile: Profile) => {
+export const createUser = async (userProfile: Profile) => {
     const {name, email} = userProfile;
 
     fetch(EndPoints.buildAPIPath('/users'), {
@@ -16,5 +16,20 @@ export const createUser = (userProfile: Profile) => {
             name: name,
             email: email
         })
-    }).then(res => console.log(`[omtm]: fetch api to App Server and result is ${JSON.stringify(res)}`));
+    })
+        .then(res => res.json())
+        .then(res => {
+            console.debug(`[omtm]: response from Omtm Server is ${res}`);
+            console.debug(`[omtm]: response from Omtm Server is ${JSON.stringify(res)}`);
+            if (res.status === "500")
+                console.warn(`[omtm]: response status 500 with ${res.message}`);
+            else {
+                return res
+            }
+        })
+        .catch(err => console.warn(`[omtm]: fail to fetch api with ${err}`));
 };
+
+export const getUserItems = () => {
+
+}
