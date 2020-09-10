@@ -1,35 +1,46 @@
-import { Ionicons } from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
+import AsyncStorage from '@react-native-community/async-storage'
+import {useAccountContext} from "../contexts/Account";
+import {CachedUser} from "../types";
 
 export default function useCachedResources() {
-  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+    const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+    // const {accountDispatch} = useAccountContext();
 
-  // Load any resources or data that we need prior to rendering the app
-  React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
-      try {
-        SplashScreen.preventAutoHideAsync();
+        try {
+            SplashScreen.preventAutoHideAsync();
 
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-          'nanum-square-round': require('../assets/fonts/NanumSquareRoundR.ttf')
-          ,
-        });
-      } catch (e) {
-        // We might want to provide this error information to an error reporting service
-        console.warn(e);
-      } finally {
-        setLoadingComplete(true);
-        SplashScreen.hideAsync();
-      }
+            // Load fonts
+            await Font.loadAsync({
+                ...Ionicons.font,
+                'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+                'nanum-square-round': require('../assets/fonts/NanumSquareRoundR.ttf')
+                ,
+            });
+
+            // Load User
+            // const jsonValue = await AsyncStorage.getItem('user');
+            // if (jsonValue) {
+            //     const user: CachedUser = JSON.parse(jsonValue);
+            //     if (user.isActive) accountDispatch({type: "setAccount", value: {profile: user.profile, container: []}});
+            // }
+        } catch (e) {
+            // We might want to provide this error information to an error reporting service
+            console.warn(e);
+        } finally {
+            setLoadingComplete(true);
+            SplashScreen.hideAsync();
+        }
     }
 
-    loadResourcesAndDataAsync();
-  }, []);
+    // Load any resources or data that we need prior to rendering the app
+    React.useEffect(() => {
+        loadResourcesAndDataAsync().then();
+    }, []);
 
-  return isLoadingComplete;
+    return isLoadingComplete;
 }

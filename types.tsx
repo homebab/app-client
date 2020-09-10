@@ -1,9 +1,16 @@
 import {CameraCapturedPicture} from "expo-camera";
+import {Profile} from "./contexts/Account";
+
+// AsyncStorage
+export type CachedUser = {
+  profile: Profile,
+  isActive: boolean
+}
 
 // navigators
 export type RootStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
+  Auth: undefined;
+  // SignUp: undefined;
   Root: undefined;
   NotFound: undefined;
 };

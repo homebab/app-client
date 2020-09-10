@@ -65,7 +65,7 @@ const AddItems = () => {
     const handleSubmit = () => {
         if ((name).length == 0 || (expiredAt).split('-').length < 3) alert("옳바르지 않은 형식입니다.")
         else {
-            // TODO: fetcj POST api to upload item image to s3
+            // TODO: fetch POST api to upload item image to s3
 
             // TODO: fetch POST api to add item on RDS
 

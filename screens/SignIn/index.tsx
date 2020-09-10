@@ -1,37 +1,65 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Entypo} from '@expo/vector-icons';
 import Assets from '../../constants/Assets';
-import * as Google from 'expo-google-app-auth';
 import {styles} from './styles';
-import Credentials from '../../constants/Credentials';
+import useCachedUser from "../../hooks/useCachedUser";
+import {signInWithGoogle} from '../../services/social';
+import {CachedUser} from "../../types";
+import AsyncStorage from "@react-native-community/async-storage";
+import {GoogleUser} from "expo-google-app-auth";
+import {createUser} from "../../services/api";
 
 
 const SignIn = () => {
+    const cachedUser: CachedUser | undefined = useCachedUser();
     const navigation = useNavigation();
 
-    // TODO: maybe, not working after deployed
-    const signInWithGoogle = async () => {
-        try {
-            const result = await Google.logInAsync({
-                androidClientId: Credentials.Google.androidClientId,
-                //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
-                scopes: ["profile", "email"]
-            });
+    useEffect(() => {
+        if (cachedUser && cachedUser.isActive) {
+            console.log(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
 
-            if (result.type === "success") {
-                // TODO: fetch POST api
 
-                console.log(result);
-                navigation.navigate('Root');
-            } else {
-                console.log("cancelled");
-            }
-        } catch (e) {
-            console.log("error", e);
+            navigation.navigate('Root');
+        } else {
+            console.log('[omtm]: cachedUser is undefined or inactive')
         }
+    }, [cachedUser]);
+
+    const singIn = () => {
+        signInWithGoogle()
+            .then((googleUser: GoogleUser | undefined) => {
+                // cache user data to AsyncStorage
+                if (googleUser) {
+                    const {id, name, email, photoUrl} = googleUser;
+                    const user: CachedUser = {
+                        profile: {
+                            id: id ? parseInt(id) : -1,
+                            name: name ? name : '',
+                            email: email ? email : '',
+                            image_url: photoUrl
+                        },
+                        isActive: true
+                    }
+                    AsyncStorage.setItem('user', JSON.stringify(user))
+                        .then(() => {
+                            // fetch POST api to App Server
+                            createUser(user.profile)
+
+                            // navigate 'Root'
+                            navigation.navigate('Root')
+                        })
+                        .catch(err => alert('[omtm]: fail to set user on AsyncStorage with ' + err));
+                } else {
+                    alert('[omtm]: success to fetch api to Google, but googleUser is undefined');
+                }
+
+            })
+            .catch(err => alert('[omtm]: fail to fetch api to Google with ' + err))
     }
+
+    // TODO: maybe, not working after deployed
 
     return (
         <View style={styles.container}>
@@ -44,7 +72,7 @@ const SignIn = () => {
 
 
                 <TouchableOpacity style={[styles.button, styles.google]}
-                                  onPress={() => signInWithGoogle()}>
+                                  onPress={() => singIn()}>
                     <Entypo style={styles.icon} name="google-" size={30} color="white"/>
                     <Text style={styles.text}>
                         구글 로그인

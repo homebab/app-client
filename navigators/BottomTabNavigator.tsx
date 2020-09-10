@@ -1,4 +1,4 @@
-import {Ionicons, MaterialCommunityIcons, Feather} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
@@ -10,8 +10,7 @@ import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
 import ListItems from "../screens/ListItems";
 import AddItems from '../screens/AddItems';
 import CaptureItems from '../screens/CaptureItems';
-import {useAccountStateValue} from "../contexts/Account";
-import {StyleSheet, Text, View} from 'react-native';
+import {View} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -46,9 +45,9 @@ export default function BottomTabNavigator() {
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
-function TabBarIcon(props: { name: string; color: string }) {
-    return <Ionicons size={30} style={{marginBottom: -3}} {...props} />;
-}
+// function TabBarIcon(props: { name: string; color: string }) {
+//     return <Ionicons size={30} style={{marginBottom: -3}} {...props} />;
+// }
 
 // Each tab has its own navigators stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
@@ -79,7 +78,7 @@ function FridgeNavigator() {
                             backgroundColor="transparent"
                             onPress={() => alert("search")}
                         />
-                    </View >
+                    </View>
                 }}
                 // options={{headerTitle: `${name} 냉장고`}}
             />

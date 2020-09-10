@@ -55,7 +55,7 @@ export default class ItemHeader extends React.Component<Props, State> {
         // TODO: fetch POST API for event logging
 
 
-        fetch(EndPoints.SERVER_API + "foods/deleteById/1/" + this.props.item.name, {
+        fetch(EndPoints.BASE_URL + "foods/deleteById/1/" + this.props.item.name, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export default class ItemHeader extends React.Component<Props, State> {
                 console.log("delete" + this.props.item.name)
             })
 
-        fetch(EndPoints.SERVER_API + "foods/deleteImage/1", {
+        fetch(EndPoints.BASE_URL + "foods/deleteImage/1", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

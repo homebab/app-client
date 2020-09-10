@@ -6,7 +6,9 @@ export type Profile = {
     id: number;
     email: string;
     name: string;
-    age: number;
+    age?: number;
+    gender?: string;
+    image_url?: string;
 };
 
 export type Item = {
@@ -20,7 +22,7 @@ export type Item = {
 export type Account = {
     profile: Profile,
     container: Array<Item>,
-    isAuthenticated: boolean
+    isAuthenticated?: boolean
 }
 
 export const initialAccount: Account = {
@@ -75,7 +77,6 @@ type ContextProps = {
     accountDispatch: Dispatch<Actions>;
 }
 
-
 export const AccountContext: React.Context<ContextProps> = createContext({} as ContextProps);
 
 export const AccountProvider: React.FC<Props> =
@@ -89,7 +90,7 @@ export const AccountProvider: React.FC<Props> =
         );
     };
 
-export const useAccountStateValue = () => useContext(AccountContext);
+export const useAccountContext = () => useContext(AccountContext);
 
 const AccountController: React.FC = ({children}) => {
     const reducer: Reducer<Account, Actions> = (state, action) => {
