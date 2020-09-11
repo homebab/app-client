@@ -3,10 +3,8 @@ import { Actions } from "..";
 
 
 export type Profile = {
-    // omtm RDB id
-    id: number;
-    // social id
-    subId?: number;
+    id: number; // omtm RDB id
+    // socialId?: string;
     email: string;
     name: string;
     age?: number;

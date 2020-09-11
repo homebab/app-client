@@ -1,9 +1,7 @@
 import {EndPoints} from "../../constants/Endpoints";
-import {Profile} from "../../contexts/Account";
 
-
-export const createUser = async (userProfile: Profile) => {
-    const {name, email} = userProfile;
+export const createUser = async (name: string, email: string, imageUrl?: string) => await new Promise((resolve, reject) => {
+    // const {name, email} = userProfile;
 
     fetch(EndPoints.buildAPIPath('/users'), {
         headers: {
@@ -14,21 +12,25 @@ export const createUser = async (userProfile: Profile) => {
         method: 'POST',
         body: JSON.stringify({
             name: name,
-            email: email
+            email: email,
+            image_url: imageUrl
         })
     })
         .then(res => res.json())
         .then(res => {
-            console.debug(`[omtm]: response from Omtm Server is ${res}`);
             console.debug(`[omtm]: response from Omtm Server is ${JSON.stringify(res)}`);
-            if (res.status === "500")
+            if (res.status === 500)
                 console.warn(`[omtm]: response status 500 with ${res.message}`);
             else {
-                return res
+                // res will be number that represent a PK on RDB
+                resolve(res);
             }
         })
-        .catch(err => console.warn(`[omtm]: fail to fetch api with ${err}`));
-};
+        .catch(err => {
+            console.warn(`[omtm]: fail to fetch api with ${err}`);
+            reject(err);
+        });
+});
 
 export const getUserItems = () => {
 

@@ -11,8 +11,8 @@ export default function useCachedResources() {
             // Load CachedUser
             const jsonValue = await AsyncStorage.getItem('user');
             if (jsonValue) setCachedUser(JSON.parse(jsonValue));
-        } catch (e) {
-            console.warn(`[omtm]: fail to get user on AsyncStorage with ${e}`);
+        } catch (err) {
+            console.warn(`[omtm]: fail to get user on AsyncStorage with ${err}`);
         }
     }
 

@@ -25,10 +25,13 @@ const SignIn = () => {
         if (cachedUser && cachedUser.isActive) {
             console.debug(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
 
-            // fetch GET api to App Server for retrieving userItems
+            // TODO: fetch GET api to App Server for retrieving userItems
 
             // setAccount
-            accountDispatch({type: 'setAccount', value: {profile: cachedUser.profile, container: [], isAuthenticated: true}})
+            accountDispatch({
+                type: 'setAccount',
+                value: {profile: cachedUser.profile, container: [], isAuthenticated: true}
+            })
 
             navigation.navigate('Root');
         } else {
@@ -40,35 +43,43 @@ const SignIn = () => {
         signInWithGoogle()
             .then((googleUser: GoogleUser | undefined) => {
                 // cache user data to AsyncStorage
-                if (googleUser) {
-                    const {id, name, email, photoUrl} = googleUser;
-                    const user: CachedUser = {
-                        profile: {
-                            id: id ? parseInt(id) : -1,
-                            name: name ? name : '',
-                            email: email ? email : '',
-                            image_url: photoUrl
-                        },
-                        isActive: true
-                    }
-                    AsyncStorage.setItem('user', JSON.stringify(user))
-                        .then(() => {
-                            // fetch POST api to App Server
-                            createUser(user.profile)
+                if (googleUser && googleUser.email && googleUser.name) {
+                    // fetch POST api to App Server
+                    const {name, email, photoUrl} = googleUser;
 
-                            // navigate 'Root'
-                            navigation.navigate('Root')
+                    createUser(name, email, photoUrl)
+                        .then(res => {
+                            // cache user data on AsyncStorage
+                            const user: CachedUser = {
+                                profile: {
+                                    id: res as number, // TODO: handle result
+                                    name: name,
+                                    email: email,
+                                    image_url: photoUrl
+                                },
+                                isActive: true
+                            }
+
+                            AsyncStorage.setItem('user', JSON.stringify(user))
+                                .then(() => {
+                                    // setAccount
+                                    accountDispatch({
+                                        type: 'setAccount',
+                                        value: {profile: user.profile, container: [], isAuthenticated: true}
+                                    })
+
+                                    // navigate 'Root'
+                                    navigation.navigate('Root')
+                                })
+                                .catch(err => alert('[omtm]: fail to set user on AsyncStorage with ' + err));
                         })
-                        .catch(err => alert('[omtm]: fail to set user on AsyncStorage with ' + err));
+                        .catch(err => alert('[omtm]: fail to create user on RDB with ' + err))
                 } else {
                     alert('[omtm]: success to fetch api to Google, but googleUser is undefined');
                 }
-
             })
             .catch(err => alert('[omtm]: fail to fetch api to Google with ' + err))
     }
-
-    // TODO: maybe, not working after deployed
 
     return (
         <View style={styles.container}>
@@ -83,7 +94,7 @@ const SignIn = () => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.facebook]}
-                                  onPress={() => isAuthenticated? navigation.navigate('Root'): alert('[omtm]: there is no active account')}>
+                                  onPress={() => isAuthenticated ? navigation.navigate('Root') : alert('[omtm]: there is no active account')}>
                     <Entypo style={styles.icon} name="facebook" size={30} color="white"/>
                     <Text style={styles.text}>
                         페이스북 로그인
