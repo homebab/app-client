@@ -34,7 +34,7 @@ const SignIn = () => {
                 value: {profile: cachedUser.profile, container: [], isAuthenticated: true}
             })
 
-            navigation.navigate('Root');
+            // navigation.navigate('Root');
         } else {
             console.debug('[omtm]: cachedUser is undefined or inactive')
         }
@@ -80,7 +80,7 @@ const SignIn = () => {
                                     })
 
                                     // navigate 'Root'
-                                    navigation.navigate('Root')
+                                    // navigation.navigate('Root')
                                 })
                                 .catch(err => alert('[omtm]: fail to set user on AsyncStorage with ' + err));
                         })
@@ -133,7 +133,7 @@ const SignIn = () => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.facebook]}
-                                  onPress={() => isAuthenticated ? navigation.navigate('Root') : alert('[omtm]: there is no active account')}>
+                                  onPress={() => isAuthenticated ? navigation.navigate('Root') : alert('페이스북 로그인은 지원되지 않습니다')}>
                     <Entypo style={styles.icon} name="facebook" size={30} color="white"/>
                     <Text style={styles.text}>
                         페이스북 로그인

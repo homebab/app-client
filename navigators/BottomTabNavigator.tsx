@@ -1,4 +1,4 @@
-import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons, AntDesign} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Avatar} from 'react-native-paper'
@@ -58,7 +58,6 @@ export default function BottomTabNavigator() {
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function FridgeNavigator() {
-    const navigation = useNavigation();
 
     const {accountState, accountDispatch} = useAccountContext();
     const {profile} = accountState;
@@ -71,6 +70,7 @@ function FridgeNavigator() {
                 component={ListItems}
                 options={{
                     headerTitle: '냉장고',
+                    headerLeft: () => <View><AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /></View>,
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Ionicons.Button
@@ -88,7 +88,7 @@ function FridgeNavigator() {
                                                   accountDispatch({type: 'flush', value: {}});
                                                   console.log("[omtm]: success to delete cacheUser and flush accountContext")
                                                   alert('캐시 삭제');
-                                                  navigation.navigate('Auth');
+                                                  // navigation.navigate('Auth');
                                               })}>
                                 <Avatar.Image size={36} source={{uri: imageUrl}}/>
                             </TouchableOpacity>

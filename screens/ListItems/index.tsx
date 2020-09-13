@@ -8,7 +8,6 @@ import ItemComponent from "../../components/ItemComponent";
 import {useNavigation} from "@react-navigation/native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
-import useUserItems from "../../hooks/useUserItems";
 import {getUserItems} from "../../services/api";
 
 const ListItems = () => {
