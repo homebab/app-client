@@ -50,7 +50,6 @@ export const retrieveUser = (email: string) => new Promise((resolve, reject) => 
         .then(handleHttpStatus)
         .then(resolve)
         .catch(reject)
-
 });
 
 
@@ -60,7 +59,6 @@ export const addUserItem = (userId: number, name: string, expiredAt: Date, stora
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': 'Bearer ' + seller.cognitoId
         },
         method: 'POST',
         body: JSON.stringify({
@@ -82,7 +80,6 @@ export const addUserItem = (userId: number, name: string, expiredAt: Date, stora
             console.warn(`[omtm]: fail to fetch POST api to Omtm Server with ${err}`);
             reject(err);
         });
-
 })
 
 
@@ -92,7 +89,6 @@ export const getUserItems = (userId: number) => new Promise((resolve, reject) =>
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // 'Authorization': 'Bearer ' + seller.cognitoId
         },
         method: 'GET'
     })
@@ -100,3 +96,18 @@ export const getUserItems = (userId: number) => new Promise((resolve, reject) =>
         .then(resolve)
         .catch(reject)
 });
+
+
+export const deleteUserItems = (itemId: number) => new Promise((resolve, reject) => {
+
+    fetch(EndPoints.buildAPIPath(`/items/${itemId}`), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'DELETE'
+    })
+        .then(handleHttpStatus)
+        .then(resolve)
+        .catch(reject)
+})

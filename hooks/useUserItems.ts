@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {getUserItems} from "../services/api";
-import {useAccountContext} from "../contexts/Account";
+import {Item, useAccountContext} from "../contexts/Account";
 
 export default function useUserItems() {
     const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -12,11 +12,16 @@ export default function useUserItems() {
     const {id} = profile;
 
     const loadUserItems = () => {
-
         getUserItems(id)
             .then(res => {
-                console.log(JSON.stringify(res));
-                accountDispatch({type: 'setContainer', value: {container: res}})
+                const container = res as Array<Item>;
+                const converted = container.map(item => {
+                    return {
+                        ...item,
+                        expiredAt: new Date(item.expiredAt)
+                    }
+                })
+                accountDispatch({type: 'setContainer', value: {container: converted}})
                 setLoadingComplete(true);
             })
             .catch(

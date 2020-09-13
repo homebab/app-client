@@ -17,9 +17,9 @@ export type Profile = {
 };
 
 export type Item = {
-    id?: number;
+    id: number;
     name: string;
-    expiredAt: string; // | Date;
+    expiredAt: Date; // | Date;
     storage: Storage;
     tag: string;
     memo: string;
@@ -34,39 +34,43 @@ export type Account = {
 
 export const initialAccount: Account = {
     profile: {
-        id: 0,
+        id: -1,
         email: 'meow@gmail.com',
         name: 'meow',
     },
 
     container:  [
         {
+            id: -1,
             name: '돼지고기',
-            expiredAt: '2022-1-23',
+            expiredAt: new Date('2022-1-23'),
             storage: Storage.FRIDGE,
             tag: '육류',
             memo: '냉동',
             imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
         },
         {
+            id: -1,
             name: '양파',
-            expiredAt: '2025-1-21',
+            expiredAt: new Date('2025-1-21'),
             storage: Storage.FRIDGE,
             tag: '야채',
             memo: '뉴비',
             imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
         },
         {
+            id: -1,
             name: '닭',
-            expiredAt: '2019-11-17',
+            expiredAt: new Date('2019-11-17'),
             storage: Storage.FREEZER,
             tag: '육류',
             memo: '12호',
             imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
         },
         {
+            id: -1,
             name: '감자',
-            expiredAt: '2019-11-22',
+            expiredAt: new Date('2019-11-22'),
             storage: Storage.ROOM,
             tag: '야채',
             memo: '',

@@ -22,8 +22,9 @@ export default class ItemComponent extends React.Component<Props> {
                 </View>
 
                 <View style={{flex:10, height:"100%" /* , backgroundColor:"pink" */, alignItems: "flex-start", marginLeft:18}}>
-                    
-                        <Text style={{fontSize:12, color:"#737373"}}>{this.props.item.expiredAt}</Text>
+
+                        {/* TODO: Date string format */}
+                        <Text style={{fontSize:12, color:"#737373"}}>{this.props.item.expiredAt.toDateString()}</Text>
                         <Text style={{fontSize:16}}>{this.props.item.name}</Text>
                         <Text style={{position:"absolute",fontSize:12, bottom:0, color:"#737373"}}>{this.props.item.memo}</Text>
                         <View style={{backgroundColor:"#f2f2f2" , padding: 1, position:"absolute", right:0, top:0}}>

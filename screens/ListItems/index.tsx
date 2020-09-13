@@ -9,16 +9,41 @@ import {useNavigation} from "@react-navigation/native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
 import useUserItems from "../../hooks/useUserItems";
+import {getUserItems} from "../../services/api";
 
 const ListItems = () => {
 
     const navigation = useNavigation();
 
-    const {accountState, accountDispatch} = useAccountContext();
-    const {container} = accountState;
     const [refreshing, setRefreshing] = useState<boolean>(false);
 
-    const isLoadingComplete = useUserItems();
+    // const isLoadingComplete = useUserItems();
+
+    const {accountState, accountDispatch} = useAccountContext();
+    const {profile, container} = accountState;
+    const {id} = profile;
+
+    const loadUserItems = () => {
+        getUserItems(id)
+            .then(res => {
+                const container = res as Array<Item>;
+                const converted = container.map(item => {
+                    return {
+                        ...item,
+                        expiredAt: new Date(item.expiredAt)
+                    }
+                })
+                accountDispatch({type: 'setContainer', value: {container: converted}})
+                // setLoadingComplete(true);
+            })
+            .catch(
+                err => alert(err)
+            )
+    }
+
+    React.useEffect(() => {
+        loadUserItems();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -26,7 +51,7 @@ const ListItems = () => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                onRefresh={() => alert('refresh에 트리거됨')}
+                                onRefresh={() => loadUserItems()}
                             />
                         }
             >
