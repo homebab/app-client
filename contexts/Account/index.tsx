@@ -3,13 +3,14 @@ import { Actions } from "..";
 
 
 export type Profile = {
+    // TODO: strengthen security
     id: number; // omtm RDB id
     // socialId?: string;
     email: string;
     name: string;
     age?: number;
     gender?: string;
-    image_url?: string;
+    imageUrl?: string;
 };
 
 export type Item = {

@@ -1,7 +1,13 @@
 import {EndPoints} from "../../constants/Endpoints";
+import {handleHttpStatus} from './HttpStatus';
+
+// type Response = {
+//     status: HttpStatus,
+//     message: string,
+//     data: Object
+// }
 
 export const createUser = async (name: string, email: string, imageUrl?: string) => await new Promise((resolve, reject) => {
-    // const {name, email} = userProfile;
 
     fetch(EndPoints.buildAPIPath('/users'), {
         headers: {
@@ -13,23 +19,35 @@ export const createUser = async (name: string, email: string, imageUrl?: string)
         body: JSON.stringify({
             name: name,
             email: email,
-            image_url: imageUrl
+            imageUrl: imageUrl
         })
     })
-        .then(res => res.json())
+        .then(handleHttpStatus)
         .then(res => {
-            console.debug(`[omtm]: response from Omtm Server is ${JSON.stringify(res)}`);
-            if (res.status === 500)
-                console.warn(`[omtm]: response status 500 with ${res.message}`);
-            else {
-                // res will be number that represent a PK on RDB
-                resolve(res);
-            }
+            if (typeof(res) === "string")
+                throw Error(res)
+            else resolve(res);
         })
         .catch(err => {
-            console.warn(`[omtm]: fail to fetch api with ${err}`);
+            console.warn(`[omtm]: fail to fetch POST api to Omtm Server with ${err}`);
             reject(err);
         });
+});
+
+export const retrieveUser = async (email: string) => await new Promise((resolve, reject) => {
+    // TODO: is it necessary?
+
+    fetch(EndPoints.buildAPIPath(`/users?email=${email}`), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            // 'Authorization': 'Bearer ' + seller.cognitoId
+        },
+        method: 'GET'
+    })
+        .then(handleHttpStatus)
+        .then(resolve)
+        .catch(reject)
 });
 
 export const getUserItems = () => {

@@ -62,7 +62,7 @@ function FridgeNavigator() {
 
     const {accountState, accountDispatch} = useAccountContext();
     const {profile} = accountState;
-    const {image_url} = profile;
+    const {imageUrl} = profile;
 
     return (
         <TabOneStack.Navigator>
@@ -86,10 +86,11 @@ function FridgeNavigator() {
                             <TouchableOpacity style={{marginLeft: 12, marginRight: 12}}
                                               onPress={() => AsyncStorage.removeItem('user').then(_ => {
                                                   accountDispatch({type: 'flush', value: {}});
+                                                  console.log("[omtm]: success to delete cacheUser and flush accountContext")
                                                   alert('캐시 삭제');
                                                   navigation.navigate('Auth');
                                               })}>
-                                <Avatar.Image size={36} source={{uri: image_url}}/>
+                                <Avatar.Image size={36} source={{uri: imageUrl}}/>
                             </TouchableOpacity>
                         </View>
                 }}
