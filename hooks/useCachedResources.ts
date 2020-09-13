@@ -2,12 +2,10 @@ import {Ionicons} from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import AsyncStorage from '@react-native-community/async-storage'
-import {useAccountContext} from "../contexts/Account";
-import {CachedUser} from "../types";
 
 export default function useCachedResources() {
     const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+
     // const {accountDispatch} = useAccountContext();
 
     async function loadResourcesAndDataAsync() {

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Animated, Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {AntDesign, Foundation} from "@expo/vector-icons";
 
 
@@ -8,16 +8,23 @@ import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {TabOneParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
 
+import {addUserItem} from "../../services/api";
+import {Storage, useAccountContext} from "../../contexts/Account";
+
 const AddItems = () => {
 
     const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'AddItems'>>();
     const route = useRoute<RouteProp<TabOneParamList, 'AddItems'>>();
 
+    const {accountState} = useAccountContext();
+    const {profile} = accountState;
+    const {id} = profile;
+
     const [name, setName] = useState<string>('');
     const [expiredAt, setExpiredAt] = useState<string>('');
-    const [category, setCategory] = useState<string>('');
+    const [tag, setTag] = useState<string>('');
     const [memo, setMemo] = useState<string>('');
-    const [url, setUrl] = useState<string>('');
+    const [imageUrl, setImageUrl] = useState<string>('');
 
 
     // TODO: precise validate Date format
@@ -59,7 +66,7 @@ const AddItems = () => {
         }
 
         //this.props.newItem.category = text
-        setCategory(text)
+        setTag(text)
     }
 
     const handleSubmit = () => {
@@ -68,18 +75,17 @@ const AddItems = () => {
             // TODO: fetch POST api to upload item image to s3
 
             // TODO: fetch POST api to add item on RDS
+            addUserItem(id, name, new Date(expiredAt), Storage.FRIDGE, tag, memo, imageUrl)
+                .then(res => {
+                    console.log("[omtm]: success to add user's item with " + res);
+                    navigation.navigate('ListItems');
+                })
+                .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
 
             // TODO: fetch POST API for event logging
 
-            // alert(itemPhoto)
-            //
-            // this.props.addItem(this.state.newItem, this.props.id, photoItem)
-
-            // console.log(this.props.newContainer)
-            // this.props.navigation.navigate('ShowItems')
-            // setTimeout(() => this.props.navigation.navigate('ShowItems'), 3000);
         }
-        navigation.navigate('ListItems');
+
     }
 
     const bottomTextInputFields: Array<TextInputField> = [
@@ -88,7 +94,7 @@ const AddItems = () => {
             icon: <AntDesign name="calendar" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         },
         {
-            keyboardType: "default", placeholder: '미분류', value: category, onChangeHandler: setCategory,
+            keyboardType: "default", placeholder: '미분류', value: tag, onChangeHandler: setTag,
             icon: <AntDesign name="tago" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         },
         {

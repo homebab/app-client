@@ -8,6 +8,7 @@ import ItemComponent from "../../components/ItemComponent";
 import {useNavigation} from "@react-navigation/native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
+import useUserItems from "../../hooks/useUserItems";
 
 const ListItems = () => {
 
@@ -16,6 +17,8 @@ const ListItems = () => {
     const {accountState, accountDispatch} = useAccountContext();
     const {container} = accountState;
     const [refreshing, setRefreshing] = useState<boolean>(false);
+
+    const isLoadingComplete = useUserItems();
 
     return (
         <View style={styles.container}>

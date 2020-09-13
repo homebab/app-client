@@ -1,6 +1,9 @@
 import React, { Reducer, Dispatch, createContext, useReducer, useContext } from "react";
 import { Actions } from "..";
 
+export enum Storage {
+    FRIDGE = "FRIDGE", FREEZER = "FREEZER", ROOM = "ROOM"
+}
 
 export type Profile = {
     // TODO: strengthen security
@@ -14,11 +17,13 @@ export type Profile = {
 };
 
 export type Item = {
+    id?: number;
     name: string;
-    expiredAt: string // | Date;
-    category: string;
+    expiredAt: string; // | Date;
+    storage: Storage;
+    tag: string;
     memo: string;
-    url: string; // image url
+    imageUrl: string; // image url
 }
 
 export type Account = {
@@ -38,30 +43,34 @@ export const initialAccount: Account = {
         {
             name: '돼지고기',
             expiredAt: '2022-1-23',
-            category: '육류',
+            storage: Storage.FRIDGE,
+            tag: '육류',
             memo: '냉동',
-            url: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
+            imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
         },
         {
             name: '양파',
             expiredAt: '2025-1-21',
-            category: '야채',
+            storage: Storage.FRIDGE,
+            tag: '야채',
             memo: '뉴비',
-            url: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
+            imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
         },
         {
             name: '닭',
             expiredAt: '2019-11-17',
-            category: '육류',
+            storage: Storage.FREEZER,
+            tag: '육류',
             memo: '12호',
-            url: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
+            imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
         },
         {
             name: '감자',
             expiredAt: '2019-11-22',
-            category: '야채',
+            storage: Storage.ROOM,
+            tag: '야채',
             memo: '',
-            url: '', // https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/potato.jpg
+            imageUrl: '', // https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/potato.jpg
         },
     ],
 
@@ -105,6 +114,11 @@ const AccountController: React.FC = ({children}) => {
                     container: action.value.container,
                     isAuthenticated: action.value.isAuthenticated
                 };
+            case 'setContainer':
+                return {
+                    ...state,
+                    container: action.value.container
+                }
             case 'addItem':
                 return {
                     ...state,

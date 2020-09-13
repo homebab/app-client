@@ -5,12 +5,12 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigators';
-import AccountController from "./contexts/Account";
+import AccountController, {Storage} from "./contexts/Account";
 
 const App = () => {
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
-
+    
 
     if (!isLoadingComplete) {
         return null;
