@@ -1,5 +1,5 @@
-import React, { Reducer, Dispatch, createContext, useReducer, useContext } from "react";
-import { Actions } from "..";
+import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
+import {Actions} from "..";
 
 export enum Storage {
     FRIDGE = "FRIDGE", FREEZER = "FREEZER", ROOM = "ROOM"
@@ -39,7 +39,7 @@ export const initialAccount: Account = {
         name: 'meow',
     },
 
-    container:  [
+    container: [
         {
             id: -1,
             name: '돼지고기',
@@ -143,4 +143,18 @@ const AccountController: React.FC = ({children}) => {
 }
 
 export default AccountController;
+
+
+/*
+    Omtm Server -> Omtm Client
+    expiredAt: string -> Date
+ */
+
+export const convertContainer = (container: Array<Item>) =>
+    container.map(item => {
+        return {
+            ...item,
+            expiredAt: new Date(item.expiredAt)
+        }
+    });
 

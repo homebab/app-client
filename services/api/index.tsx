@@ -1,6 +1,6 @@
 import {EndPoints} from "../../constants/Endpoints";
 import {handleHttpStatus} from './HttpStatus';
-import {Storage} from "../../contexts/Account";
+import {Item, Storage} from "../../contexts/Account";
 
 // type Response = {
 //     status: HttpStatus,
@@ -36,6 +36,17 @@ export const createUser = (name: string, email: string, imageUrl?: string) => ne
 
 });
 
+export type UserResponse = {
+    id: number,
+    email: string,
+    name: string,
+    age: number,
+    gender: string,
+    imageUrl: string,
+    active: boolean,    // 휴먼 상태 유무
+    userItems: Array<Item>
+}
+
 export const retrieveUser = (email: string) => new Promise((resolve, reject) => {
     // TODO: is it necessary?
 
@@ -48,7 +59,12 @@ export const retrieveUser = (email: string) => new Promise((resolve, reject) => 
         method: 'GET'
     })
         .then(handleHttpStatus)
-        .then(resolve)
+        .then((res) => {
+            if (typeof (res) === "string")
+                throw Error(res)
+            console.debug(`[omtm]: retrieve user data, ${JSON.stringify(res)}`)
+            resolve(res);
+        })
         .catch(reject)
 });
 
@@ -93,12 +109,17 @@ export const getUserItems = (userId: number) => new Promise((resolve, reject) =>
         method: 'GET'
     })
         .then(handleHttpStatus)
-        .then(resolve)
+        .then((res) => {
+            if (typeof (res) === "string")
+                throw Error(res)
+            console.debug(`[omtm]: retrieve user's items data, ${JSON.stringify(res)}`);
+            resolve(res)
+        })
         .catch(reject)
 });
 
 
-export const deleteUserItems = (itemId: number) => new Promise((resolve, reject) => {
+export const deleteUserItem = (itemId: number) => new Promise((resolve, reject) => {
 
     fetch(EndPoints.buildAPIPath(`/items/${itemId}`), {
         headers: {
@@ -108,6 +129,10 @@ export const deleteUserItems = (itemId: number) => new Promise((resolve, reject)
         method: 'DELETE'
     })
         .then(handleHttpStatus)
-        .then(resolve)
+        .then(res => {
+            if (typeof (res) === "string")
+                throw Error(res)
+            resolve(res)
+        })
         .catch(reject)
 })

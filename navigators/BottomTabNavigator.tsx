@@ -70,7 +70,7 @@ function FridgeNavigator() {
                 component={ListItems}
                 options={{
                     headerTitle: '냉장고',
-                    headerLeft: () => <View><AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /></View>,
+                    headerLeft: () => <MaterialCommunityIcons name="fridge-outline" size={32} color="black" style={{marginLeft: 12}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Ionicons.Button
@@ -86,9 +86,8 @@ function FridgeNavigator() {
                             <TouchableOpacity style={{marginLeft: 12, marginRight: 12}}
                                               onPress={() => AsyncStorage.removeItem('user').then(_ => {
                                                   accountDispatch({type: 'flush', value: {}});
-                                                  console.log("[omtm]: success to delete cacheUser and flush accountContext")
+                                                  console.debug("[omtm]: success to delete cacheUser and flush accountContext")
                                                   alert('캐시 삭제');
-                                                  // navigation.navigate('Auth');
                                               })}>
                                 <Avatar.Image size={36} source={{uri: imageUrl}}/>
                             </TouchableOpacity>

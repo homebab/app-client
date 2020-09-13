@@ -29,10 +29,10 @@ const AddItems = () => {
 
     // TODO: precise validate Date format
     const onChangeDate = (text: string) => {
-        /* console.log(text) */
+        /* console.debug(text) */
 
         const date = text.split('-');
-        console.log(date)
+        console.debug(date)
 
         switch (date.length) {
             case 1:
@@ -77,7 +77,7 @@ const AddItems = () => {
             // TODO: fetch POST api to add item on RDS
             addUserItem(id, name, new Date(expiredAt), Storage.FRIDGE, tag, memo, imageUrl)
                 .then(res => {
-                    console.log("[omtm]: success to add user's item with " + res);
+                    console.debug("[omtm]: success to add user's item with " + JSON.stringify(res));
                     navigation.navigate('ListItems');
                 })
                 .catch(err => console.warn("[omtm]: fail to add user's item with " + err))

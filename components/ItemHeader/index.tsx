@@ -4,7 +4,7 @@ import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import React from 'react';
 import { Item } from "../../contexts/Account";
 import {EndPoints} from "../../constants/Endpoints";
-import {deleteUserItems} from "../../services/api";
+import {deleteUserItem} from "../../services/api";
 
 enum Color {
     RED = "#ff3333", YELLOW = "#ffff1a", GREEN = "#47d147"
@@ -24,8 +24,8 @@ const ItemHeader = (props: Props) => {
     const deleteButton = (e: GestureResponderEvent) => {
 
         // TODO: fetch DELETE API to delete item on RDB
-        deleteUserItems(id)
-            .then(res => console.log("[omtm]: success to delete user's item with " + res))
+        deleteUserItem(id)
+            .then(res => console.debug("[omtm]: success to delete user's item with " + res))
             .catch(err => console.warn("[omtm]: fail to delete user's item with " + err))
 
         // TODO: fetch DELETE API to delete item image on s3

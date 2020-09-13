@@ -1,5 +1,5 @@
 export const handleHttpStatus = (res: Response) => {
-    console.log(`response from Omtm Server: ${JSON.stringify(res)}`);
+    console.debug(`[omtm]: response from Omtm Server: ${JSON.stringify(res)}`);
 
     if (res.status >= 200 && res.status <= 299) {
         return res.json();

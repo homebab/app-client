@@ -9,8 +9,8 @@ import {signInWithGoogle} from '../../services/social';
 import {CachedUser} from "../../types";
 import AsyncStorage from "@react-native-community/async-storage";
 import {GoogleUser} from "expo-google-app-auth";
-import {createUser, retrieveUser} from "../../services/api";
-import {useAccountContext} from "../../contexts/Account";
+import {createUser, getUserItems, retrieveUser, UserResponse} from "../../services/api";
+import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
 
 
 const SignIn = () => {
@@ -21,20 +21,23 @@ const SignIn = () => {
     const {accountDispatch, accountState} = useAccountContext();
     const {isAuthenticated} = accountState;
 
+    // already signIn
     useEffect(() => {
+        // check cachedUser on AsyncStorage
         if (cachedUser && cachedUser.isActive) {
             console.debug(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
 
-            // TODO: fetch GET api to App Server for retrieving userItems
-
-
-            // setAccount
-            accountDispatch({
-                type: 'setAccount',
-                value: {profile: cachedUser.profile, container: [], isAuthenticated: true}
-            })
-
-            // navigation.navigate('Root');
+            // fetch GET api to App Server for retrieving userItems and set Account Context
+            getUserItems(cachedUser.profile.id)
+                .then(res => accountDispatch({
+                    type: 'setAccount',
+                    value: {
+                        profile: cachedUser.profile,
+                        container: convertContainer(res as Array<Item>),
+                        isAuthenticated: true
+                    }
+                }))
+                .catch(err => alert(err))
         } else {
             console.debug('[omtm]: cachedUser is undefined or inactive')
         }
@@ -48,17 +51,8 @@ const SignIn = () => {
                     // fetch POST api to App Server
                     const {name, email, photoUrl} = googleUser;
 
-                    const user: CachedUser = {
-                        profile: {
-                            id: -1,
-                            name: name,
-                            email: email,
-                            imageUrl: photoUrl
-                        },
-                        isActive: true
-                    }
-
                     createUser(name, email, photoUrl)
+                        // signUp logic
                         .then(res => {
                             // cache user data on AsyncStorage
                             const user: CachedUser = {
@@ -79,22 +73,26 @@ const SignIn = () => {
                                         value: {profile: user.profile, container: [], isAuthenticated: true}
                                     })
 
-                                    // navigate 'Root'
-                                    // navigation.navigate('Root')
                                 })
                                 .catch(err => alert('[omtm]: fail to set user on AsyncStorage with ' + err));
                         })
-                        .catch(err => {
+                        // signIn logic
+                        .catch(_ => {
                             /*
                                 `409: CONFLICT`: already createUser(singUp) on RDS but not cached on AsyncStorage
                                 So, retrieveUser(signIn) and cache user data on AsyncStorage
                             */
 
                             retrieveUser(email)
-                                .then((res: any) => {
-                                    console.log(`retrieve user data, ${JSON.stringify(res)}`)
+                                .then((res) => {
+                                    const response = res as UserResponse;
                                     const user: CachedUser = {
-                                        profile: {id: res.id, name: res.name, email: res.email, imageUrl: res.imageUrl},
+                                        profile: {
+                                            id: response.id,
+                                            name: response.name,
+                                            email: response.email,
+                                            imageUrl: response.imageUrl
+                                        },
                                         isActive: true
                                     }
 
@@ -103,21 +101,22 @@ const SignIn = () => {
                                             // setAccount
                                             accountDispatch({
                                                 type: 'setAccount',
-                                                value: {profile: user.profile, container: [], isAuthenticated: true}
+                                                value: {
+                                                    profile: user.profile,
+                                                    container: convertContainer(response.userItems as Array<Item>),
+                                                    isAuthenticated: true
+                                                }
                                             })
 
-                                            // navigate 'Root'
-                                            navigation.navigate('Root')
                                         })
                                         .catch(err => alert('[omtm]: fail to set user on AsyncStorage with ' + err));
                                 })
                                 .catch()
                         })
                 } else {
-                    alert('[omtm]: success to fetch api to Google, but googleUser is undefined');
+                    console.warn('[omtm]: success to fetch api to Google, but googleUser is undefined');
                 }
             })
-            .catch(err => alert('[omtm]: fail to fetch api to Google with ' + err))
     }
 
     return (

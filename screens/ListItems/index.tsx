@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {styles} from "./styles";
 import {Image, RefreshControl, ScrollView, View} from "react-native";
 import Assets from "../../constants/Assets";
-import {Item, useAccountContext} from "../../contexts/Account";
+import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
 import ItemHeader from "../../components/ItemHeader";
 import ItemComponent from "../../components/ItemComponent";
 import {useNavigation} from "@react-navigation/native";
@@ -16,33 +16,19 @@ const ListItems = () => {
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
 
-    // const isLoadingComplete = useUserItems();
-
     const {accountState, accountDispatch} = useAccountContext();
     const {profile, container} = accountState;
     const {id} = profile;
 
-    const loadUserItems = () => {
+    const refreshUserItems = () => {
         getUserItems(id)
-            .then(res => {
-                const container = res as Array<Item>;
-                const converted = container.map(item => {
-                    return {
-                        ...item,
-                        expiredAt: new Date(item.expiredAt)
-                    }
-                })
-                accountDispatch({type: 'setContainer', value: {container: converted}})
-                // setLoadingComplete(true);
-            })
-            .catch(
-                err => alert(err)
-            )
+            .then(res => accountDispatch({type: 'setContainer', value: {container: convertContainer(res as Array<Item>)}}))
+            .catch(err => alert(err))
     }
 
-    React.useEffect(() => {
-        loadUserItems();
-    }, []);
+    // React.useEffect(() => {
+    //     loadUserItems();
+    // }, []);
 
     return (
         <View style={styles.container}>
@@ -50,7 +36,7 @@ const ListItems = () => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                onRefresh={() => loadUserItems()}
+                                onRefresh={() => refreshUserItems()}
                             />
                         }
             >
@@ -60,7 +46,7 @@ const ListItems = () => {
 
                 <View style={{backgroundColor: "#f2f2f2"}}>
                     {
-                        container.map((item: Item, key) => (
+                        container.map((item: Item, key: number) => (
                             <View key={key}>
                                 <ItemHeader item={item}/>
                                 <ItemComponent item={item}/>
