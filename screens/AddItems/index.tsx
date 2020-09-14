@@ -9,14 +9,14 @@ import {TabOneParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {addUserItem} from "../../services/api";
-import {Storage, useAccountContext} from "../../contexts/Account";
+import {Item, Storage, useAccountContext} from "../../contexts/Account";
 
 const AddItems = () => {
 
     const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'AddItems'>>();
     const route = useRoute<RouteProp<TabOneParamList, 'AddItems'>>();
 
-    const {accountState} = useAccountContext();
+    const {accountState, accountDispatch} = useAccountContext();
     const {profile} = accountState;
     const {id} = profile;
 
@@ -27,36 +27,44 @@ const AddItems = () => {
     const [imageUrl, setImageUrl] = useState<string>('');
 
 
-    // TODO: precise validate Date format
-    const onChangeDate = (text: string) => {
-        /* console.debug(text) */
+    const formatDate = (date: string) => {
+        const delimiter = '-';
+        const split_date = date.split(delimiter);
+        const filtered_date = split_date.map(d => d.replace(/[^0-9]/g, ''));
 
-        const date = text.split('-');
-        console.debug(date)
+        const len = filtered_date.length
+        if (len === 1) {
+            const str = filtered_date[0];
 
-        switch (date.length) {
-            case 1:
-                if (date[0].length == 4) {
-                    if (2019 <= parseInt(date[0]) && parseInt(date[0]) < 5000) text = date[0] + '-'
-                    else alert("적절하지 않는 입력값입니다.")
-                }
+            if (str.length > 4) return str.slice(0, 4) + delimiter + str.slice(4, 5); // over
+            else return str // right
+        } else if (len === 2) {
+            const str = filtered_date[0];
+            const mid = filtered_date[1];
+            const midInt = parseInt(mid);
 
-                break;
-            case 2:
-                if (0 < parseInt(date[1]) && parseInt(date[1]) < 13) {
-                    // text = date[0] + '-' + date[1] + '-'    //error 있음
-                } else alert("적절하지 않는 입력값입니다.")
+            if (mid.length > 2) return str.slice(0, 4) + delimiter + mid.slice(0, 2) + delimiter + mid.slice(2, 3); // over
+            else if (mid.length == 2) {
+                if (midInt > 12) return str.slice(0, 4) + delimiter + mid.slice(0, 1) + delimiter + mid.slice(1, 2); // over
+                else return str.slice(0, 4) + delimiter + mid.slice(0, 2); // right
+            } else return str.slice(0, 4) + delimiter + mid.slice(0, 1); // right
+        } else if (len === 3) {
+            const str = filtered_date[0];
+            const mid = filtered_date[1];
+            const end = filtered_date[2];
+            const endInt = parseInt(end);
 
-                break;
-            case 3:
-                if (0 < parseInt(date[2]) && parseInt(date[2]) < 32 || date[2] == '') {
+            if (1 <= endInt && endInt <= 31) return str + delimiter + mid + delimiter + end.slice(0, 2); // right
+            else if (endInt > 31) return str + delimiter + mid + delimiter + '31';
+            else return str + delimiter + mid + delimiter;
+        } else {
+            const str = filtered_date[0];
+            const mid = filtered_date[1];
+            const end = filtered_date[2];
 
-                } else alert("적절하지 않는 입력값입니다.")
-
-                break;
+            return str + delimiter + mid + delimiter + end;
         }
 
-        setExpiredAt(text)
     }
 
     const onChangeTag = (text: string) => {
@@ -74,10 +82,13 @@ const AddItems = () => {
         else {
             // TODO: fetch POST api to upload item image to s3
 
-            // TODO: fetch POST api to add item on RDS
+            // fetch POST api to add user's item on RDS and add the item to container
             addUserItem(id, name, new Date(expiredAt), Storage.FRIDGE, tag, memo, imageUrl)
                 .then(res => {
+                    const item = res as Item;
                     console.debug("[omtm]: success to add user's item with " + JSON.stringify(res));
+                    accountDispatch({type: 'addItem', value: {item: {...item, expiredAt: new Date(item.expiredAt)}}});
+
                     navigation.navigate('ListItems');
                 })
                 .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
@@ -90,7 +101,10 @@ const AddItems = () => {
 
     const bottomTextInputFields: Array<TextInputField> = [
         {
-            keyboardType: "numeric", placeholder: '2020-2-3', value: expiredAt, onChangeHandler: onChangeDate,
+            keyboardType: "numeric",
+            placeholder: '2020-2-3',
+            value: expiredAt,
+            onChangeHandler: (text: string) => setExpiredAt(formatDate(text)),
             icon: <AntDesign name="calendar" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         },
         {
