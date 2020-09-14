@@ -9,12 +9,14 @@ import {AWSError} from "aws-sdk/lib/error";
 import {DeleteObjectOutput} from "aws-sdk/clients/s3";
 
 const bucket = 'omtm-production';
+// TODO: Local Date Partitioning
 const prefix = 'app-service/client/images/';
 
 export const uploadImageOnS3 = (picture: CameraCapturedPicture) => new Promise<string>(async (resolve, reject) => {
     const filename = `${uuidv4()}.jpg`;
     const key = prefix + filename;
 
+    // build s3 bucket
     const s3bucket = new S3({
         accessKeyId: AWS_ACCESS_KEY_ID,
         secretAccessKey: AWS_SECRET_ACCESS_KEY,
@@ -23,42 +25,39 @@ export const uploadImageOnS3 = (picture: CameraCapturedPicture) => new Promise<s
         signatureVersion: 'v4',
     });
 
-    let contentType = 'image/jpeg';
-    let contentDeposition = 'inline;filename="' + filename + '"';
-
-    console.log(key)
     const response: Response = await fetch(picture.uri);
     const blob: Blob = await response.blob();
-    s3bucket.createBucket(_ => {
-        const params: S3.Types.PutObjectRequest = {
-            Bucket: bucket, // process.env.BUCKET_NAME,
-            Key: key,
-            Body: blob,
-            ACL: "public-read",
-            ContentDisposition: contentDeposition,
-            ContentType: contentType,
-            // CacheControl: "no-cache"
-        };
-        s3bucket.upload(params, (err: Error, data: ManagedUpload.SendData) => {
-            if (err) {
-                console.warn('[omtm]: fail to upload the image to s3 with ', err);
-                reject(err);
-            } else {
-                console.log(`[omtm]: success to upload the image to s3 URL '${data.Location}'`);
-                resolve(data.Location);
-            }
-        });
+
+    // upload image
+    s3bucket.upload({
+        Bucket: bucket, // process.env.BUCKET_NAME,
+        Key: key,
+        Body: blob,
+        ACL: "public-read",
+        ContentDisposition: 'inline;filename="' + filename + '"',
+        ContentType: 'image/jpeg',
+        // CacheControl: "no-cache"
+    }, (err: Error, data: ManagedUpload.SendData) => {
+        if (err) {
+            console.warn('[omtm]: fail to upload the image to s3 with ', err);
+            reject(err);
+        } else {
+            console.log(`[omtm]: success to upload the image to s3 URL '${data.Location}'`);
+            resolve(data.Location);
+        }
     });
 });
 
-export const deleteImageOnS3 = (imageUrl: string) => new Promise ((resolve, reject) => {
+export const deleteImageOnS3 = (imageUrl: string) => new Promise((resolve, reject) => {
     const key = prefix + imageUrl.split('/').filter(s => s.includes(".jpg"))[0]
-    console.log(key)
+
+    // build s3 bucket
     const s3bucket = new S3({
         accessKeyId: AWS_ACCESS_KEY_ID,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY,
-        // @ts-ignore
+        secretAccessKey: AWS_SECRET_ACCESS_KEY
     });
+
+    // delete image
     s3bucket.deleteObject({
         Bucket: bucket, // process.env.BUCKET_NAME,
         Key: key
