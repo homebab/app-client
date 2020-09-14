@@ -4,7 +4,7 @@ import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import React from 'react';
 import {Item, useAccountContext} from "../../contexts/Account";
 import {EndPoints} from "../../constants/Endpoints";
-import {deleteUserItem} from "../../services/api";
+import {deleteUserItem} from "../../api/omtm";
 
 enum Color {
     RED = "#ff3333", YELLOW = "#ffff1a", GREEN = "#47d147"

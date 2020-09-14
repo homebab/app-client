@@ -5,11 +5,11 @@ import {Entypo} from '@expo/vector-icons';
 import Assets from '../../constants/Assets';
 import {styles} from './styles';
 import useCachedUser from "../../hooks/useCachedUser";
-import {signInWithGoogle} from '../../services/social';
+import {signInWithGoogle} from '../../api/google';
 import {CachedUser} from "../../types";
 import AsyncStorage from "@react-native-community/async-storage";
 import {GoogleUser} from "expo-google-app-auth";
-import {createUser, getUserItems, retrieveUser, UserResponse} from "../../services/api";
+import {createUser, getUserItems, retrieveUser, UserResponse} from "../../api/omtm";
 import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
 
 

@@ -21,6 +21,7 @@ const CaptureItems = () => {
     const camera = useRef<any>(undefined); // TODO: change 'any' to other type
 
     useEffect(() => {
+        console.log("[omtm]: set camera permission");
         (async () => {
             const {status} = await Camera.requestPermissionsAsync();
             setHasCameraPermission(status === 'granted');
@@ -32,7 +33,7 @@ const CaptureItems = () => {
     };
 
     const handleShortCapture = async () => {
-        const photoData: CameraCapturedPicture = await camera.current!.takePictureAsync();
+        const photoData: CameraCapturedPicture = await camera.current!.takePictureAsync({base64: true});
         setCapturing(false)
         navigation.navigate("AddItems", {
             itemPhoto: photoData
@@ -40,7 +41,7 @@ const CaptureItems = () => {
     };
 
     if (hasCameraPermission === null) {
-        return <View/>;
+        return <View style={{display: "flex", alignItems: "center", justifyContent: "center"}}><Text>카메라 권한을 허가해주세요</Text></View>; // <View/>;
     } else if (!hasCameraPermission) {
         return <Text>Access to camera has been denied.</Text>;
     }

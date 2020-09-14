@@ -1,5 +1,5 @@
 import {EndPoints} from "../../constants/Endpoints";
-import {handleHttpStatus} from './HttpStatus';
+import {handleHttpStatus} from '../HttpStatus';
 import {Item, Storage} from "../../contexts/Account";
 
 // type Response = {

@@ -7,8 +7,9 @@ import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {TabOneParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
 
-import {addUserItem} from "../../services/api";
+import {addUserItem} from "../../api/omtm";
 import {Item, Storage, useAccountContext} from "../../contexts/Account";
+import {uploadImageOnS3} from "../../api/aws";
 
 const AddItems = () => {
 
@@ -23,7 +24,7 @@ const AddItems = () => {
     const [expiredAt, setExpiredAt] = useState<string>('');
     const [tag, setTag] = useState<string>('');
     const [memo, setMemo] = useState<string>('');
-    const [imageUrl, setImageUrl] = useState<string>('');
+    // const [imageUrl, setImageUrl] = useState<string>('');
 
 
     const formatDate = (date: string) => {
@@ -77,26 +78,33 @@ const AddItems = () => {
     const handleSubmit = () => {
         if ((name).length == 0 || (expiredAt).split('-').length < 3) alert("옳바르지 않은 형식입니다.")
         else {
-            // TODO: fetch POST api to upload item image to s3
-            console.log(expiredAt);
-            console.log(new Date(expiredAt));
-            console.log(typeof (expiredAt))
-            const expiredDate = expiredAt.split('-').map(d => parseInt(d));
-            // fetch POST api to add user's item on RDS and add the item to Account context
-            addUserItem(id, name, new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2], 0, 0, 0), Storage.FRIDGE, tag, memo, imageUrl)
-                .then(res => {
-                    const item = res as Item;
-                    console.debug("[omtm]: success to add user's item with " + JSON.stringify(item));
-                    accountDispatch({type: 'addItem', value: {item: {...item, expiredAt: new Date(item.expiredAt)}}});
+            // fetch POST api to upload item image to s3
+            uploadImageOnS3(route.params.itemPhoto)
+                .then((imageUrl: string) => {
 
-                    navigation.navigate('ListItems');
+                    console.log(expiredAt);
+                    console.log(new Date(expiredAt));
+                    console.log(typeof (expiredAt))
+                    const expiredDate = expiredAt.split('-').map(d => parseInt(d));
+                    console.log(new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2]));
+                    // fetch POST api to add user's item on RDS and add the item to Account context
+                    addUserItem(id, name, new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2], 0, 0, 0), Storage.FRIDGE, tag, memo, imageUrl)
+                        .then(res => {
+                            const item = res as Item;
+                            console.debug("[omtm]: success to add user's item with " + JSON.stringify(item));
+                            accountDispatch({
+                                type: 'addItem',
+                                value: {item: {...item, expiredAt: new Date(item.expiredAt)}}
+                            });
+
+                            navigation.navigate('ListItems');
+                        })
+                        .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
+
+                    // TODO: fetch POST API for event logging
                 })
-                .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
-
-            // TODO: fetch POST API for event logging
-
+                .catch()
         }
-
     }
 
     const bottomTextInputFields: Array<TextInputField> = [
