@@ -5,6 +5,7 @@ import React from 'react';
 import {Item, useAccountContext} from "../../contexts/Account";
 import {EndPoints} from "../../constants/Endpoints";
 import {deleteUserItem} from "../../api/omtm";
+import {deleteImageOnS3} from "../../api/aws";
 
 enum Color {
     RED = "#ff3333", YELLOW = "#ffff1a", GREEN = "#47d147"
@@ -27,12 +28,12 @@ const ItemHeader = (props: Props) => {
         // fetch DELETE API to delete item on RDB and delete the item on Account context
         deleteUserItem(id)
             .then(res => {
-                accountDispatch({type: 'deleteItem', value: {id: res as number}});
-                console.debug("[omtm]: success to delete user's item with " + res)
+                // fetch DELETE API to delete item image on s3
+                deleteImageOnS3(item.imageUrl)
+                    .then(_ => accountDispatch({type: 'deleteItem', value: {id: res as number}}))
+                    .catch()
             })
             .catch(err => console.warn("[omtm]: fail to delete user's item with " + err))
-
-        // TODO: fetch DELETE API to delete item image on s3
 
         // TODO: fetch POST API for event logging
 

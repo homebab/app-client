@@ -91,7 +91,6 @@ const AddItems = () => {
                     addUserItem(id, name, new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2], 0, 0, 0), Storage.FRIDGE, tag, memo, imageUrl)
                         .then(res => {
                             const item = res as Item;
-                            console.debug("[omtm]: success to add user's item with " + JSON.stringify(item));
                             accountDispatch({
                                 type: 'addItem',
                                 value: {item: {...item, expiredAt: new Date(item.expiredAt)}}

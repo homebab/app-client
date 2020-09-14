@@ -27,10 +27,11 @@ export const createUser = (name: string, email: string, imageUrl?: string) => ne
         .then(res => {
             if (typeof (res) === "string")
                 throw Error(res)
-            else resolve(res);
+            console.debug('[omtm]: success to create user on Omtm Server with ' + res);
+            resolve(res);
         })
         .catch(err => {
-            console.warn(`[omtm]: fail to fetch POST api to Omtm Server with ${err}`);
+            console.warn(`[omtm]: fail to create user on Omtm Server with ${err}`);
             reject(err);
         });
 
@@ -59,13 +60,16 @@ export const retrieveUser = (email: string) => new Promise((resolve, reject) => 
         method: 'GET'
     })
         .then(handleHttpStatus)
-        .then((res) => {
+        .then(res => {
             if (typeof (res) === "string")
                 throw Error(res)
-            console.debug(`[omtm]: retrieve user data, ${JSON.stringify(res)}`)
+            console.debug(`[omtm]: success to retrieve user on Omtm Server, ${JSON.stringify(res)}`)
             resolve(res);
         })
-        .catch(reject)
+        .catch(err => {
+            console.warn(`[omtm]: fail to retrieve user on Omtm Server with ${err}`);
+            reject(err);
+        })
 });
 
 
@@ -90,10 +94,11 @@ export const addUserItem = (userId: number, name: string, expiredAt: Date, stora
         .then(res => {
             if (typeof (res) === "string")
                 throw Error(res)
-            else resolve(res);
+            console.debug("[omtm]: success to add user's item on Omtm Server with " + JSON.stringify(res));
+            resolve(res);
         })
         .catch(err => {
-            console.warn(`[omtm]: fail to fetch POST api to Omtm Server with ${err}`);
+            console.warn(`[omtm]: fail to add user's item on Omtm Server with ${err}`);
             reject(err);
         });
 })
@@ -111,9 +116,9 @@ export const getUserItems = (userId: number) => new Promise((resolve, reject) =>
         .then(handleHttpStatus)
         .then((res) => {
             if (typeof (res) === "string")
-                throw Error(res)
-            console.debug(`[omtm]: retrieve user's items data, ${JSON.stringify(res)}`);
-            resolve(res)
+                throw Error(res);
+            console.debug(`[omtm]: success to retrieve user's items data, ${JSON.stringify(res)}`);
+            resolve(res);
         })
         .catch(reject)
 });
@@ -131,8 +136,12 @@ export const deleteUserItem = (itemId: number) => new Promise((resolve, reject) 
         .then(handleHttpStatus)
         .then(res => {
             if (typeof (res) === "string")
-                throw Error(res)
-            resolve(res)
+                throw Error(res);
+            console.debug("[omtm]: success to delete user's item on Omtm Server with " + res);
+            resolve(res);
         })
-        .catch(reject)
+        .catch(err => {
+            console.warn("[omtm]: fail to delete user's item on Omtm Server with" + err);
+            reject(err);
+        })
 })
