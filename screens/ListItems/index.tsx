@@ -22,13 +22,12 @@ const ListItems = () => {
 
     const refreshUserItems = () => {
         getUserItems(id)
-            .then(res => accountDispatch({type: 'setContainer', value: {container: convertContainer(res as Array<Item>)}}))
+            .then(res => accountDispatch({
+                type: 'setContainer',
+                value: {container: convertContainer(res as Array<Item>)}
+            }))
             .catch(err => alert(err))
     }
-
-    // React.useEffect(() => {
-    //     loadUserItems();
-    // }, []);
 
     return (
         <View style={styles.container}>
@@ -46,12 +45,13 @@ const ListItems = () => {
 
                 <View style={{backgroundColor: "#f2f2f2"}}>
                     {
-                        container.map((item: Item, key: number) => (
-                            <View key={key}>
-                                <ItemHeader item={item}/>
-                                <ItemComponent item={item}/>
-                            </View>
-                        ))
+                        container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
+                            .map((item: Item, key: number) => (
+                                <View key={key}>
+                                    <ItemHeader item={item}/>
+                                    <ItemComponent item={item}/>
+                                </View>
+                            ))
                     }
                 </View>
             </ScrollView>

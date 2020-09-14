@@ -126,10 +126,12 @@ const AccountController: React.FC = ({children}) => {
             case 'addItem':
                 return {
                     ...state,
-                    container: [
-                        state.container,
-                        action.value.item
-                    ]
+                    container: state.container.concat([action.value.item])
+                };
+            case 'deleteItem':
+                return {
+                    ...state,
+                    container: state.container.filter(item => item.id !== action.value.id)
                 };
             default:
                 return state;
@@ -157,4 +159,3 @@ export const convertContainer = (container: Array<Item>) =>
             expiredAt: new Date(item.expiredAt)
         }
     });
-

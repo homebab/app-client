@@ -20,18 +20,12 @@ export default function useCachedResources() {
                 ,
             });
 
-            // Load User
-            // const jsonValue = await AsyncStorage.getItem('user');
-            // if (jsonValue) {
-            //     const user: CachedUser = JSON.parse(jsonValue);
-            //     if (user.isActive) accountDispatch({type: "setAccount", value: {profile: user.profile, container: []}});
-            // }
         } catch (e) {
             // We might want to provide this error information to an error reporting service
             console.warn(e);
         } finally {
             setLoadingComplete(true);
-            SplashScreen.hideAsync();
+            SplashScreen.hideAsync().then();
         }
     }
 

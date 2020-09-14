@@ -2,7 +2,7 @@
 import {View, Text, TouchableOpacity, GestureResponderEvent} from "react-native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import React from 'react';
-import { Item } from "../../contexts/Account";
+import {Item, useAccountContext} from "../../contexts/Account";
 import {EndPoints} from "../../constants/Endpoints";
 import {deleteUserItem} from "../../services/api";
 
@@ -18,14 +18,18 @@ const ItemHeader = (props: Props) => {
     const {item} = props
     const {id, expiredAt} = item
 
+    const {accountDispatch} = useAccountContext();
+
     const remainingDay = Math.round((expiredAt.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
     const color = 7 > remainingDay && remainingDay > 3 ? Color.YELLOW : remainingDay >= 7 ? Color.GREEN : Color.RED
 
     const deleteButton = (e: GestureResponderEvent) => {
-
-        // TODO: fetch DELETE API to delete item on RDB
+        // fetch DELETE API to delete item on RDB and delete the item on Account context
         deleteUserItem(id)
-            .then(res => console.debug("[omtm]: success to delete user's item with " + res))
+            .then(res => {
+                accountDispatch({type: 'deleteItem', value: {id: res as number}});
+                console.debug("[omtm]: success to delete user's item with " + res)
+            })
             .catch(err => console.warn("[omtm]: fail to delete user's item with " + err))
 
         // TODO: fetch DELETE API to delete item image on s3

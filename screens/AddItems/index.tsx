@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {AntDesign, Foundation} from "@expo/vector-icons";
 
-
 import {styles} from "./styles";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {TabOneParamList, TextInputField} from "../../types";
@@ -55,6 +54,7 @@ const AddItems = () => {
             const endInt = parseInt(end);
 
             if (1 <= endInt && endInt <= 31) return str + delimiter + mid + delimiter + end.slice(0, 2); // right
+            // TODO: make more precise
             else if (endInt > 31) return str + delimiter + mid + delimiter + '31';
             else return str + delimiter + mid + delimiter;
         } else {
@@ -67,26 +67,26 @@ const AddItems = () => {
 
     }
 
-    const onChangeTag = (text: string) => {
+    const formatTag = (text: string) => {
         if (text.length > 10) {
             alert("10자리 이상 입력할 수 없습니다.")
-            text = text.substr(0, 9)
-        }
-
-        //this.props.newItem.category = text
-        setTag(text)
+            return text.slice(0, 9)
+        } else return text
     }
 
     const handleSubmit = () => {
         if ((name).length == 0 || (expiredAt).split('-').length < 3) alert("옳바르지 않은 형식입니다.")
         else {
             // TODO: fetch POST api to upload item image to s3
-
-            // fetch POST api to add user's item on RDS and add the item to container
-            addUserItem(id, name, new Date(expiredAt), Storage.FRIDGE, tag, memo, imageUrl)
+            console.log(expiredAt);
+            console.log(new Date(expiredAt));
+            console.log(typeof (expiredAt))
+            const expiredDate = expiredAt.split('-').map(d => parseInt(d));
+            // fetch POST api to add user's item on RDS and add the item to Account context
+            addUserItem(id, name, new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2], 0, 0, 0), Storage.FRIDGE, tag, memo, imageUrl)
                 .then(res => {
                     const item = res as Item;
-                    console.debug("[omtm]: success to add user's item with " + JSON.stringify(res));
+                    console.debug("[omtm]: success to add user's item with " + JSON.stringify(item));
                     accountDispatch({type: 'addItem', value: {item: {...item, expiredAt: new Date(item.expiredAt)}}});
 
                     navigation.navigate('ListItems');
@@ -104,11 +104,14 @@ const AddItems = () => {
             keyboardType: "numeric",
             placeholder: '2020-2-3',
             value: expiredAt,
-            onChangeHandler: (text: string) => setExpiredAt(formatDate(text)),
+            onChangeHandler: (date: string) => setExpiredAt(formatDate(date)),
             icon: <AntDesign name="calendar" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         },
         {
-            keyboardType: "default", placeholder: '미분류', value: tag, onChangeHandler: setTag,
+            keyboardType: "default",
+            placeholder: '미분류',
+            value: tag,
+            onChangeHandler: (tag: string) => setTag(formatTag(tag)),
             icon: <AntDesign name="tago" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         },
         {
@@ -148,7 +151,6 @@ const AddItems = () => {
                 </View>
             </View>
 
-
             <View style={styles.bottomContainer}>
                 {bottomTextInputFields.map((f, k) => {
                     return (
@@ -166,7 +168,6 @@ const AddItems = () => {
                         </View>
                     )
                 })}
-
 
                 <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
                     <Text style={styles.submitText}>
