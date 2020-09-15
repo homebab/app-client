@@ -4,7 +4,7 @@ import {Image, RefreshControl, ScrollView, View} from "react-native";
 import Assets from "../../constants/Assets";
 import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
 import ItemHeader from "../../components/ItemHeader";
-import ItemComponent from "../../components/ItemComponent";
+import ItemContent from "../../components/ItemContent";
 import {useNavigation} from "@react-navigation/native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
@@ -49,7 +49,7 @@ const ListItems = () => {
                             .map((item: Item, key: number) => (
                                 <View key={key}>
                                     <ItemHeader item={item}/>
-                                    <ItemComponent item={item}/>
+                                    <ItemContent item={item}/>
                                 </View>
                             ))
                     }
