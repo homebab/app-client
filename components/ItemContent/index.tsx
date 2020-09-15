@@ -1,6 +1,7 @@
 import {Image, Text, View} from "react-native";
 import React from 'react';
 import {Item} from "../../contexts/Account";
+import {styles} from './styles'
 
 type Props = {
     item: Item,
@@ -13,33 +14,13 @@ const ItemContent = (props: Props) => {
     const formatDate = (date: Date) => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 
     return (
-        <View style={{
-            padding: 18,
-            width: "100%",
-            flexDirection: "row",
-            backgroundColor: "white",
-            borderBottomWidth: 1.5,
-            borderColor: "#e6e6e6"
-        }}>
-
-            <View style={{
-                flex: 3,
-                height: "100%",
-                aspectRatio: 1,
-                backgroundColor: "black",
-                alignItems: "center",
-                justifyContent: "center",
-            }}>
+        <View style={styles.container}>
+            <View style={styles.imageWrapper}>
                 {!(imageUrl == '') &&
-                <Image source={{uri: imageUrl}} style={{height: "100%", resizeMode: "cover", aspectRatio: 1}}/>}
+                <Image source={{uri: imageUrl}} style={styles.image}/>}
             </View>
 
-            <View style={{
-                flex: 10,
-                height: "100%" /* , backgroundColor:"pink" */,
-                alignItems: "flex-start",
-                marginLeft: 18
-            }}>
+            <View style={styles.content}>
                 <Text style={{fontSize: 12, color: "#737373"}}>{formatDate(expiredAt)}</Text>
                 <Text style={{fontSize: 16}}>{name}</Text>
                 <Text style={{position: "absolute", fontSize: 12, bottom: 0, color: "#737373"}}>{memo}</Text>

@@ -1,13 +1,22 @@
-import {StyleSheet, ImageStyle} from "react-native";
-import { tsNonNullExpression } from "@babel/types";
-
-
-const rightH: ImageStyle = {
-    
-};
-
-
+import {StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
-    rightH,
+    container: {
+        padding: 10,
+        width: "100%",
+        flexDirection: "row",
+        backgroundColor: "transparent",
+        alignItems: "center"
+    },
+    deleteButton: {
+        position: "absolute",
+        padding: 2,
+        borderRadius: 16,
+        right: 18,
+        aspectRatio: 1,
+        backgroundColor: "#b3b3b3"
+    }
 });
+
+
+

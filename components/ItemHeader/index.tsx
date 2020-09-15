@@ -1,11 +1,8 @@
-
-import {View, Text, TouchableOpacity, GestureResponderEvent} from "react-native";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import {GestureResponderEvent, Text, TouchableOpacity, View} from "react-native";
+import {Entypo, MaterialCommunityIcons} from "@expo/vector-icons";
 import React from 'react';
-import {Item, useAccountContext} from "../../contexts/Account";
-import {EndPoints} from "../../constants/Endpoints";
-import {deleteUserItem} from "../../api/omtm";
-import {deleteImageOnS3} from "../../api/aws";
+import {Item} from "../../contexts/Account";
+import {styles} from "./styles";
 
 enum Color {
     RED = "#ff3333", YELLOW = "#ffff1a", GREEN = "#47d147"
@@ -24,15 +21,15 @@ const ItemHeader = (props: Props) => {
     const color = 7 > remainingDay && remainingDay > 3 ? Color.YELLOW : remainingDay >= 7 ? Color.GREEN : Color.RED
 
     return (
-        <View style={{ padding: 10, width: "100%", flexDirection: "row", backgroundColor: "transparent", alignItems: "center" }}>
-            <View style={{ marginLeft: 10, marginRight: 12 }}>
-                <MaterialCommunityIcons name="circle" color={color} size={14} />
+        <View style={styles.container}>
+            <View style={{marginLeft: 10, marginRight: 12}}>
+                <MaterialCommunityIcons name="circle" color={color} size={14}/>
             </View>
             <Text>{remainingDay}일 남은 식품</Text>
 
-            <View style={{ position: "absolute", padding: 2, borderRadius: 16, right: 18, aspectRatio: 1, backgroundColor: "#b3b3b3" }}>
+            <View style={styles.deleteButton}>
                 <TouchableOpacity style={{}} onPress={showModal}>
-                    <Entypo name="cross" size={16} color="white" />
+                    <Entypo name="cross" size={16} color="white"/>
                 </TouchableOpacity>
             </View>
         </View>
