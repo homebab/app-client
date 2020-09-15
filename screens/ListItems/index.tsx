@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {styles} from "./styles";
-import {Image, RefreshControl, ScrollView, View} from "react-native";
+import {GestureResponderEvent, Image, RefreshControl, ScrollView, View} from "react-native";
 import Assets from "../../constants/Assets";
 import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
 import ItemHeader from "../../components/ItemHeader";
@@ -9,23 +9,29 @@ import {useNavigation} from "@react-navigation/native";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
 import {getUserItems} from "../../api/omtm";
+import DeleteModal from "../../components/DeleteModal";
 
 const ListItems = () => {
 
     const navigation = useNavigation();
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
     const {accountState, accountDispatch} = useAccountContext();
     const {profile, container} = accountState;
     const {id} = profile;
 
     const refreshUserItems = () => {
+        setRefreshing(true);
         getUserItems(id)
-            .then(res => accountDispatch({
-                type: 'setContainer',
-                value: {container: convertContainer(res as Array<Item>)}
-            }))
+            .then(res => {
+                accountDispatch({
+                    type: 'setContainer',
+                    value: {container: convertContainer(res as Array<Item>)}
+                })
+                setRefreshing(false);
+            })
             .catch(err => alert(err))
     }
 
@@ -48,7 +54,10 @@ const ListItems = () => {
                         container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
                             .map((item: Item, key: number) => (
                                 <View key={key}>
-                                    <ItemHeader item={item}/>
+                                    <DeleteModal item={item} visible={visibleDeleteModal}
+                                                 hideModal={() => setVisibleDeleteModal(false)}/>
+                                    <ItemHeader item={item}
+                                                showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}/>
                                     <ItemContent item={item}/>
                                 </View>
                             ))

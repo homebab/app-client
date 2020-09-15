@@ -13,32 +13,15 @@ enum Color {
 
 type Props = {
     item: Item,
+    showModal: (event: GestureResponderEvent) => void,
 }
 
 const ItemHeader = (props: Props) => {
-    const {item} = props
-    const {id, expiredAt} = item
-
-    const {accountDispatch} = useAccountContext();
+    const {item, showModal} = props
+    const {expiredAt} = item
 
     const remainingDay = Math.round((expiredAt.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
     const color = 7 > remainingDay && remainingDay > 3 ? Color.YELLOW : remainingDay >= 7 ? Color.GREEN : Color.RED
-
-    const deleteButton = (e: GestureResponderEvent) => {
-        // fetch DELETE API to delete item on RDB and delete the item on Account context
-        deleteUserItem(id)
-            .then(res => {
-                // fetch DELETE API to delete item image on s3
-                if(item.imageUrl !== 'default url')
-                    deleteImageOnS3(item.imageUrl)
-                        .then(_ => accountDispatch({type: 'deleteItem', value: {id: res as number}}))
-                        .catch()
-            })
-            .catch(err => console.warn("[omtm]: fail to delete user's item with " + err))
-
-        // TODO: fetch POST API for event logging
-
-    }
 
     return (
         <View style={{ padding: 10, width: "100%", flexDirection: "row", backgroundColor: "transparent", alignItems: "center" }}>
@@ -48,7 +31,7 @@ const ItemHeader = (props: Props) => {
             <Text>{remainingDay}일 남은 식품</Text>
 
             <View style={{ position: "absolute", padding: 2, borderRadius: 16, right: 18, aspectRatio: 1, backgroundColor: "#b3b3b3" }}>
-                <TouchableOpacity style={{}} onPress={deleteButton}>
+                <TouchableOpacity style={{}} onPress={showModal}>
                     <Entypo name="cross" size={16} color="white" />
                 </TouchableOpacity>
             </View>
