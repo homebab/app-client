@@ -8,7 +8,7 @@ import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {TabOneParamList} from "../../types";
 
-const CaptureItems = () => {
+const CaptureItem = () => {
 
     const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'CaptureItems'>>();
 
@@ -75,4 +75,4 @@ const CaptureItems = () => {
 }
 
 
-export default CaptureItems;
+export default CaptureItem;

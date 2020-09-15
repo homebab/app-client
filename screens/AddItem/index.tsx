@@ -11,7 +11,7 @@ import {addUserItem} from "../../api/omtm";
 import {Item, Storage, useAccountContext} from "../../contexts/Account";
 import {uploadImageOnS3} from "../../api/aws";
 
-const AddItems = () => {
+const AddItem = () => {
 
     const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'AddItems'>>();
     const route = useRoute<RouteProp<TabOneParamList, 'AddItems'>>();
@@ -24,10 +24,9 @@ const AddItems = () => {
     const [expiredAt, setExpiredAt] = useState<string>('');
     const [tag, setTag] = useState<string>('');
     const [memo, setMemo] = useState<string>('');
-    // const [imageUrl, setImageUrl] = useState<string>('');
-
 
     const formatDate = (date: string) => {
+        // TODO: handle exception that the input '2020-1-21' is not available, just available for '2020-12-1;
         const delimiter = '-';
         const split_date = date.split(delimiter);
         const filtered_date = split_date.map(d => d.replace(/[^0-9]/g, ''));
@@ -76,33 +75,46 @@ const AddItems = () => {
     }
 
     const handleSubmit = () => {
+        const splitDate = expiredAt.split('-').map(d => parseInt(d));
+        const expiredDate = new Date(splitDate[0], splitDate[1] - 1, splitDate[2], 0, 0, 0);
+
         if ((name).length == 0 || (expiredAt).split('-').length < 3) alert("옳바르지 않은 형식입니다.")
         else {
             // fetch POST api to upload item image to s3
-            uploadImageOnS3(route.params.itemPhoto)
-                .then((imageUrl: string) => {
+            if (route.params)
+                uploadImageOnS3(route.params.itemPhoto)
+                    .then((imageUrl: string) => {
+                        // fetch POST api to add user's item on RDS and add the item to Account context
+                        // TODO: handle Storage Type
+                        addUserItem(id, name, expiredDate, Storage.FRIDGE, tag, memo, imageUrl)
+                            .then(res => {
+                                const item = res as Item;
+                                accountDispatch({
+                                    type: 'addItem',
+                                    value: {item: {...item, expiredAt: new Date(item.expiredAt)}}
+                                });
 
-                    console.log(expiredAt);
-                    console.log(new Date(expiredAt));
-                    console.log(typeof (expiredAt))
-                    const expiredDate = expiredAt.split('-').map(d => parseInt(d));
-                    console.log(new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2]));
-                    // fetch POST api to add user's item on RDS and add the item to Account context
-                    addUserItem(id, name, new Date(expiredDate[0], expiredDate[1] - 1, expiredDate[2], 0, 0, 0), Storage.FRIDGE, tag, memo, imageUrl)
-                        .then(res => {
-                            const item = res as Item;
-                            accountDispatch({
-                                type: 'addItem',
-                                value: {item: {...item, expiredAt: new Date(item.expiredAt)}}
-                            });
+                                navigation.navigate('ListItems');
+                            })
+                            .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
 
-                            navigation.navigate('ListItems');
-                        })
-                        .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
+                        // TODO: fetch POST API for event logging
+                    })
+                    .catch()
+            else {
+                // TODO: set default image
+                addUserItem(id, name, expiredDate, Storage.FRIDGE, tag, memo, 'default url')
+                    .then(res => {
+                        const item = res as Item;
+                        accountDispatch({
+                            type: 'addItem',
+                            value: {item: {...item, expiredAt: new Date(item.expiredAt)}}
+                        });
 
-                    // TODO: fetch POST API for event logging
-                })
-                .catch()
+                        navigation.navigate('ListItems');
+                    })
+                    .catch(err => console.warn("[omtm]: fail to add user's item with " + err))
+            }
         }
     }
 
@@ -188,4 +200,4 @@ const AddItems = () => {
     );
 }
 
-export default AddItems;
+export default AddItem;

@@ -9,8 +9,8 @@ import useColorScheme from '../hooks/useColorScheme';
 import Index from '../screens/ListRecipes';
 import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
 import ListItems from "../screens/ListItems";
-import AddItems from '../screens/AddItems';
-import CaptureItems from '../screens/CaptureItems';
+import AddItem from '../screens/AddItem';
+import CaptureItem from '../screens/CaptureItem';
 import {TouchableOpacity, View} from 'react-native';
 import {useAccountContext} from "../contexts/Account";
 import AsyncStorage from '@react-native-community/async-storage';
@@ -97,12 +97,12 @@ function FridgeNavigator() {
             />
             <TabOneStack.Screen
                 name="AddItems"
-                component={AddItems}
+                component={AddItem}
                 options={{headerTitle: '식품 추가'}}
             />
             <TabOneStack.Screen
                 name="CaptureItems"
-                component={CaptureItems}
+                component={CaptureItem}
                 options={{headerTitle: '식품 사진'}}
             />
         </TabOneStack.Navigator>

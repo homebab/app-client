@@ -29,9 +29,10 @@ const ItemHeader = (props: Props) => {
         deleteUserItem(id)
             .then(res => {
                 // fetch DELETE API to delete item image on s3
-                deleteImageOnS3(item.imageUrl)
-                    .then(_ => accountDispatch({type: 'deleteItem', value: {id: res as number}}))
-                    .catch()
+                if(item.imageUrl !== 'default url')
+                    deleteImageOnS3(item.imageUrl)
+                        .then(_ => accountDispatch({type: 'deleteItem', value: {id: res as number}}))
+                        .catch()
             })
             .catch(err => console.warn("[omtm]: fail to delete user's item with " + err))
 
