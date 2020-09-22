@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "omtmappservice39721472": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

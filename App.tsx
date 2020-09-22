@@ -8,11 +8,21 @@ import Navigation from './navigators';
 import AccountController from "./contexts/Account";
 
 import Amplify from 'aws-amplify'
+// @ts-ignore
+import { withOAuth, IOAuthProps } from "aws-amplify-react-native";
+// @ts-ignore
 import config from './aws-exports'
+
 
 Amplify.configure(config)
 
-const App = () => {
+type Props = IOAuthProps & {
+
+}
+
+const App = (props: Props) => {
+
+    const {googleSignIn} = props;
 
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
@@ -31,4 +41,4 @@ const App = () => {
     }
 }
 
-export default App;
+export default withOAuth(App);

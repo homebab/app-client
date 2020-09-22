@@ -11,9 +11,19 @@ import AsyncStorage from "@react-native-community/async-storage";
 import {GoogleUser} from "expo-google-app-auth";
 import {createUser, getUserItems, retrieveUser, UserResponse} from "../../api/omtm";
 import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
+import {Auth} from 'aws-amplify';
+// @ts-ignore
+import {withOAuth, IOAuthProps} from 'aws-amplify-react-native';
+import {CognitoHostedUIIdentityProvider} from "@aws-amplify/auth";
 
 
-const SignIn = () => {
+type Props = IOAuthProps & {
+
+}
+
+const SignIn = (props: Props) => {
+    const {googleSignIn, facebookSignIn} = props;
+
     const navigation = useNavigation();
 
     const cachedUser: CachedUser | undefined = useCachedUser();
@@ -125,14 +135,14 @@ const SignIn = () => {
 
             <View style={styles.wrapper}>
                 <TouchableOpacity style={[styles.button, styles.google]}
-                                  onPress={() => singIn()}>
+                                  onPress={googleSignIn}>
                     <Entypo style={styles.icon} name="google-" size={30} color="white"/>
                     <Text style={styles.text}>
                         구글 로그인
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.facebook]}
-                                  onPress={() => isAuthenticated ? navigation.navigate('Root') : alert('페이스북 로그인은 지원되지 않습니다')}>
+                                  onPress={facebookSignIn}>
                     <Entypo style={styles.icon} name="facebook" size={30} color="white"/>
                     <Text style={styles.text}>
                         페이스북 로그인
@@ -144,5 +154,5 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default withOAuth(SignIn);
 
