@@ -7,7 +7,13 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigators';
 import AccountController from "./contexts/Account";
 
+import Amplify from 'aws-amplify'
+import config from './aws-exports'
+
+Amplify.configure(config)
+
 const App = () => {
+
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
 
