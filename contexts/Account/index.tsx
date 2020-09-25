@@ -16,6 +16,8 @@ export type Profile = {
     imageUrl?: string;
 };
 
+export type CachedUser = any;
+
 export type Item = {
     id: number;
     name: string;
@@ -28,6 +30,7 @@ export type Item = {
 
 export type Account = {
     profile: Profile,
+    cachedUser?: CachedUser,
     container: Array<Item>,
     isAuthenticated?: boolean
 }
@@ -114,9 +117,7 @@ const AccountController: React.FC = ({children}) => {
             case 'setAccount':
                 return {
                     ...state,
-                    profile: action.value.profile,
-                    container: action.value.container,
-                    isAuthenticated: action.value.isAuthenticated
+                    ...action.value
                 };
             case 'setContainer':
                 return {

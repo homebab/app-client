@@ -10,8 +10,7 @@ export type CachedUser = {
 // navigators
 export type RootStackParamList = {
   Auth: undefined;
-  // SignUp: undefined;
-  Root: undefined;
+  Base: undefined;
   NotFound: undefined;
 };
 

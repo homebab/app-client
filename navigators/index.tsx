@@ -5,7 +5,7 @@ import {ColorSchemeName} from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import {RootStackParamList} from '../types';
-import BottomTabNavigator from './BottomTabNavigator';
+import BaseNavigator from './BaseNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import SignIn from "../screens/SignIn";
 import {useAccountContext} from "../contexts/Account";
@@ -34,7 +34,7 @@ function RootNavigator() {
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
             {isAuthenticated
-                ? <Stack.Screen name="Root" component={BottomTabNavigator}/>
+                ? <Stack.Screen name="Base" component={BaseNavigator}/>
                 : <Stack.Screen name="Auth" component={SignIn}/>
             }
             <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>

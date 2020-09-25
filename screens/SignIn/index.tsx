@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {Entypo} from '@expo/vector-icons';
 import Assets from '../../constants/Assets';
 import {styles} from './styles';
@@ -8,13 +7,12 @@ import useCachedUser from "../../hooks/useCachedUser";
 import {signInWithGoogle} from '../../api/google';
 import {CachedUser} from "../../types";
 import AsyncStorage from "@react-native-community/async-storage";
-import {GoogleUser} from "expo-google-app-auth";
-import {createUser, getUserItems, retrieveUser, UserResponse} from "../../api/omtm";
+import {GoogleUser, logInAsync} from "expo-google-app-auth";
+import {createUser, retrieveUser, UserResponse} from "../../api/omtm";
 import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
-import {Auth} from 'aws-amplify';
 // @ts-ignore
-import {withOAuth, IOAuthProps} from 'aws-amplify-react-native';
-import {CognitoHostedUIIdentityProvider} from "@aws-amplify/auth";
+import {IOAuthProps, withOAuth} from 'aws-amplify-react-native';
+import { Auth } from 'aws-amplify';
 
 
 type Props = IOAuthProps & {
@@ -22,36 +20,69 @@ type Props = IOAuthProps & {
 }
 
 const SignIn = (props: Props) => {
-    const {googleSignIn, facebookSignIn} = props;
+    const {oAuthUser, oAuthError, hostedUISignIn, googleSignIn, facebookSignIn} = props;
 
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
 
-    const cachedUser: CachedUser | undefined = useCachedUser();
+    // const cachedUser: CachedUser | undefined = useCachedUser();
 
     const {accountDispatch, accountState} = useAccountContext();
     const {isAuthenticated} = accountState;
 
-    // already signIn
     useEffect(() => {
-        // check cachedUser on AsyncStorage
-        if (cachedUser && cachedUser.isActive) {
-            console.debug(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
+        console.log(oAuthUser)
+        console.log(oAuthError)
+        // Auth.currentUserCredentials()
 
-            // fetch GET api to App Server for retrieving userItems and set Account Context
-            getUserItems(cachedUser.profile.id)
-                .then(res => accountDispatch({
+        // AsyncStorage.getAllKeys().then(r => console.log(r))
+        // console.log(`oAuthUser: ${oAuthUser}`)
+        if (oAuthUser) {
+            accountDispatch({
+                type: 'setAccount',
+                value: {
+                    cachedUser: oAuthUser,
+                    // profile: cachedUser,
+                    // container: convertContainer(res as Array<Item>),
+                    isAuthenticated: true
+                }
+            })
+        } else {
+            Auth.currentAuthenticatedUser().then(res => {
+                console.log(`currentAuthenticatedUser: ${JSON.stringify(res)}`)
+                console.log(`oAuthUser: ${oAuthUser}`)
+                accountDispatch({
                     type: 'setAccount',
                     value: {
-                        profile: cachedUser.profile,
-                        container: convertContainer(res as Array<Item>),
+                        cachedUser: res,
+                        // profile: cachedUser,
+                        // container: convertContainer(res as Array<Item>),
                         isAuthenticated: true
                     }
-                }))
-                .catch(err => alert(err))
-        } else {
-            console.debug('[omtm]: cachedUser is undefined or inactive')
+                })
+            })
         }
-    }, [cachedUser]);
+    }, [])
+    // already signIn
+    // useEffect(() => {
+    //     /// check cachedUser on AsyncStorage
+    //     if (cachedUser && cachedUser.isActive) {
+    //         console.debug(`[omtm]: success to retrieve cachedUser ${JSON.stringify(cachedUser)}`)
+    //
+    //         // fetch GET api to App Server for retrieving userItems and set Account Context
+    //         getUserItems(cachedUser.profile.id)
+    //             .then(res => accountDispatch({
+    //                 type: 'setAccount',
+    //                 value: {
+    //                     profile: cachedUser.profile,
+    //                     container: convertContainer(res as Array<Item>),
+    //                     isAuthenticated: true
+    //                 }
+    //             }))
+    //             .catch(err => alert(err))
+    //     } else {
+    //         console.debug('[omtm]: cachedUser is undefined or inactive')
+    //     }
+    // }, [cachedUser]);
 
     const singIn = () => {
         signInWithGoogle()
@@ -134,6 +165,13 @@ const SignIn = (props: Props) => {
             <ImageBackground source={Assets.Image.backgroundImage} style={styles.image}/>
 
             <View style={styles.wrapper}>
+                <TouchableOpacity style={[styles.button, styles.cognito]}
+                                  onPress={hostedUISignIn}>
+                    <Entypo style={styles.icon} name="login" size={30} color="white"/>
+                    <Text style={styles.text}>
+                        한끼두끼 로그인
+                    </Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.google]}
                                   onPress={googleSignIn}>
                     <Entypo style={styles.icon} name="google-" size={30} color="white"/>

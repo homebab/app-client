@@ -48,6 +48,9 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    cognito: {
+        backgroundColor: "rgb(53,53,53)"
+    },
     google: {
         backgroundColor: "rgba(222, 82, 70, 1)",
     },
@@ -59,6 +62,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         fontFamily: 'nanum-square-round',
         color: "white",
+        fontWeight: "bold",
         fontSize: 16,
     },
     icon: {

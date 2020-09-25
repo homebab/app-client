@@ -18,7 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
+export default function BaseNavigator() {
     const colorScheme = useColorScheme();
 
     return (

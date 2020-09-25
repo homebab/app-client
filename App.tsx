@@ -16,13 +16,7 @@ import config from './aws-exports'
 
 Amplify.configure(config)
 
-type Props = IOAuthProps & {
-
-}
-
-const App = (props: Props) => {
-
-    const {googleSignIn} = props;
+const App = () => {
 
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
@@ -41,4 +35,4 @@ const App = (props: Props) => {
     }
 }
 
-export default withOAuth(App);
+export default App;
