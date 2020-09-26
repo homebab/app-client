@@ -4,7 +4,7 @@ import {AntDesign, Foundation} from "@expo/vector-icons";
 
 import {styles} from "./styles";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import {TabOneParamList, TextInputField} from "../../types";
+import {FridgeNaviParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
 
 import {addUserItem} from "../../api/omtm";
@@ -13,8 +13,8 @@ import {uploadImageOnS3} from "../../api/aws";
 
 const AddItem = () => {
 
-    const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'AddItems'>>();
-    const route = useRoute<RouteProp<TabOneParamList, 'AddItems'>>();
+    const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'AddItems'>>();
+    const route = useRoute<RouteProp<FridgeNaviParamList, 'AddItems'>>();
 
     const {accountState, accountDispatch} = useAccountContext();
     const {profile} = accountState;

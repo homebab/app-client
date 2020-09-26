@@ -6,11 +6,11 @@ import styles from './styles';
 import Toolbar from './toolbar.component';
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {TabOneParamList} from "../../types";
+import {FridgeNaviParamList} from "../../types";
 
 const CaptureItem = () => {
 
-    const navigation = useNavigation<StackNavigationProp<TabOneParamList, 'CaptureItems'>>();
+    const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'CaptureItems'>>();
 
     const [hasCameraPermission, setHasCameraPermission] = useState<Boolean | null>(null);
     const [cameraType, setCameraType] = useState<any>(Camera.Constants.Type.back);

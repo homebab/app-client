@@ -1,28 +1,38 @@
 import AsyncStorage from "@react-native-community/async-storage";
 // @ts-ignore
-import {withOAuth, IOAuthProps} from "aws-amplify-react-native"
-import {Avatar} from "react-native-paper";
+import {IOAuthProps, withOAuth} from "aws-amplify-react-native"
 import {TouchableOpacity} from "react-native";
 import * as React from "react";
-import {AccountContext} from "../../contexts/Account";
+import {useAccountContext} from "../../contexts/Account";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import { Auth } from "aws-amplify";
 
 type Props = IOAuthProps & {}
 
 const SignOut = (props: Props) => {
     const {signOut} = props;
-    AccountContext
+    const {accountDispatch} = useAccountContext();
 
     return (
         <TouchableOpacity style={{marginLeft: 12, marginRight: 12}}
                           onPress={() => AsyncStorage.removeItem('user').then(_ => {
-                              accountDispatch({type: 'flush', value: {}});
-                              console.debug("[omtm]: success to delete cacheUser and flush accountContext")
-                              alert('캐시 삭제');
-                          })}>
-            <Avatar.Image size={36} source={{uri: imageUrl}}/>
+                              Auth.signOut()
+                                  .then(res => {
+                                      accountDispatch({type: 'flush', value: {}});
+                                      console.debug("[omtm]: success to delete cachedUser and flush accountContext with", res)
+                                  })
+                                  .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
+                              })}>
+            <MaterialCommunityIcons
+                name="logout"
+                size={32}
+                color="black"
+                // @ts-ignore
+                backgroundColor="transparent"
+            />
         </TouchableOpacity>
     )
 }
 
 
-export withOAuth(SignOut)
+export default withOAuth(SignOut);

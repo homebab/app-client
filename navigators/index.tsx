@@ -4,11 +4,12 @@ import * as React from 'react';
 import {ColorSchemeName} from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import {RootStackParamList} from '../types';
+import {RootNaviParamList} from '../types';
 import BaseNavigator from './BaseNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
-import SignIn from "../screens/SignIn";
+import Landing from "../screens/Landing";
 import {useAccountContext} from "../contexts/Account";
+import AuthNavigator from "./AuthNavigator";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -24,7 +25,7 @@ export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName
 
 // A root stack navigators is often used for displaying modals on top oSf all other content
 // Read more here: https://reactnavigation.org/docs/modal
-const Stack = createStackNavigator<RootStackParamList>();
+const RootStack = createStackNavigator<RootNaviParamList>();
 
 function RootNavigator() {
 
@@ -32,12 +33,12 @@ function RootNavigator() {
     const {isAuthenticated} = accountState;
 
     return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <RootStack.Navigator screenOptions={{headerShown: false}}>
             {isAuthenticated
-                ? <Stack.Screen name="Base" component={BaseNavigator}/>
-                : <Stack.Screen name="Auth" component={SignIn}/>
+                ? <RootStack.Screen name="Base" component={BaseNavigator}/>
+                : <RootStack.Screen name="Auth" component={AuthNavigator}/>
             }
-            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
-        </Stack.Navigator>
+            <RootStack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
+        </RootStack.Navigator>
     );
 }

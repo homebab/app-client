@@ -8,18 +8,22 @@ export type CachedUser = {
 }
 
 // navigators
-export type RootStackParamList = {
+export type RootNaviParamList = {
   Auth: undefined;
   Base: undefined;
   NotFound: undefined;
 };
 
-export type BottomTabParamList = {
-  "Fridge": undefined;
-  "Recipe": undefined;
+export type AuthNaviParamList = {
+  Landing: undefined;
 };
 
-export type TabOneParamList = {
+export type BaseNaviParamList = {
+  Fridge: undefined;
+  Recipe: undefined;
+};
+
+export type FridgeNaviParamList = {
   ListItems: undefined;
   AddItems: {
     itemPhoto: CameraCapturedPicture
@@ -27,7 +31,7 @@ export type TabOneParamList = {
   CaptureItems: undefined
 };
 
-export type TabTwoParamList = {
+export type RecipeNaviParamList = {
   ListRecipes: undefined;
 };
 

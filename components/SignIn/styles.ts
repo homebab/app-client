@@ -1,46 +1,20 @@
 import {StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#f2f2f2",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    image: {
-        flex: 1,
-        position: "absolute",
-        height: "100%",
-        width: "100%",
-        resizeMode: "cover",
-        alignItems: "center",
-        justifyContent: "center",
-        opacity: 0.6,
-    },
+
     wrapper: {
         flex: 0.6,
-        width: "85%",
+        width: "80%",
         // backgroundColor: "white",
         alignItems: "center",
         justifyContent: "flex-end"
-    },
-    title: {
-        marginBottom: 0,
-        fontSize: 34,
-        fontFamily: 'nanum-square-round',
-    },
-    subTitle: {
-        alignSelf: "flex-end",
-        marginBottom: 24,
-        fontSize: 16,
-        fontFamily: 'nanum-square-round'
     },
     button: {
         display: "flex",
         flexDirection: "row",
         width: "100%",
-        marginTop: 12,
-        marginBottom: 12,
+        marginTop: 10,
+        marginBottom: 10,
         // paddingLeft: "10%",
         // paddingRight: 24,
         // paddingBottom: 16,
@@ -72,5 +46,4 @@ export const styles = StyleSheet.create({
     link: {
         fontWeight: 'bold',
     },
-
-});
+})

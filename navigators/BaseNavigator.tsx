@@ -1,22 +1,20 @@
-import {Ionicons, MaterialCommunityIcons, AntDesign} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Avatar} from 'react-native-paper'
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import Index from '../screens/ListRecipes';
-import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
+import ListRecipes from '../screens/ListRecipes';
+import {BaseNaviParamList, FridgeNaviParamList, RecipeNaviParamList} from '../types';
 import ListItems from "../screens/ListItems";
 import AddItem from '../screens/AddItem';
 import CaptureItem from '../screens/CaptureItem';
-import {TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 import {useAccountContext} from "../contexts/Account";
-import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import SignOut from "../components/SignOut";
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
 export default function BaseNavigator() {
     const colorScheme = useColorScheme();
@@ -55,7 +53,7 @@ export default function BaseNavigator() {
 
 // Each tab has its own navigators stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
 function FridgeNavigator() {
 
@@ -64,13 +62,14 @@ function FridgeNavigator() {
     const {imageUrl} = profile;
 
     return (
-        <TabOneStack.Navigator>
-            <TabOneStack.Screen
+        <FridgeStack.Navigator>
+            <FridgeStack.Screen
                 name="ListItems"
                 component={ListItems}
                 options={{
                     headerTitle: '냉장고',
-                    headerLeft: () => <MaterialCommunityIcons name="fridge-outline" size={32} color="black" style={{marginLeft: 12}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
+                    headerLeft: () => <MaterialCommunityIcons name="fridge-outline" size={32} color="black"
+                                                              style={{marginLeft: 12}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Ionicons.Button
@@ -83,42 +82,36 @@ function FridgeNavigator() {
                                 iconStyle={{marginRight: 4, marginLeft: 4}}
                                 onPress={() => alert("search")}
                             />
-                            <TouchableOpacity style={{marginLeft: 12, marginRight: 12}}
-                                              onPress={() => AsyncStorage.removeItem('user').then(_ => {
-                                                  accountDispatch({type: 'flush', value: {}});
-                                                  console.debug("[omtm]: success to delete cacheUser and flush accountContext")
-                                                  alert('캐시 삭제');
-                                              })}>
-                                <Avatar.Image size={36} source={{uri: imageUrl}}/>
-                            </TouchableOpacity>
+
+                            <SignOut/>
                         </View>
                 }}
                 // options={{headerTitle: `${name} 냉장고`}}
             />
-            <TabOneStack.Screen
+            <FridgeStack.Screen
                 name="AddItems"
                 component={AddItem}
                 options={{headerTitle: '식품 추가'}}
             />
-            <TabOneStack.Screen
+            <FridgeStack.Screen
                 name="CaptureItems"
                 component={CaptureItem}
                 options={{headerTitle: '식품 사진'}}
             />
-        </TabOneStack.Navigator>
+        </FridgeStack.Navigator>
     );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const RecipeStack = createStackNavigator<RecipeNaviParamList>();
 
 function RecipeNavigator() {
     return (
-        <TabTwoStack.Navigator>
-            <TabTwoStack.Screen
+        <RecipeStack.Navigator>
+            <RecipeStack.Screen
                 name="ListRecipes"
-                component={Index}
+                component={ListRecipes}
                 options={{headerTitle: '레시피'}}
             />
-        </TabTwoStack.Navigator>
+        </RecipeStack.Navigator>
     );
 }
