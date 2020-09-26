@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "omtmappservice39721472_identitypool_39721472",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "omtmap39721472",
-    "userPoolName": "omtmappservice39721472_userpool_39721472",
+    "identityPoolName": "omtmappservice72c1308e_identitypool_72c1308e",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "omtmap72c1308e",
+    "userPoolName": "omtmappservice72c1308e_userpool_72c1308e",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "omtmap39721472_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "omtmap72c1308e_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "39721472",
-    "resourceName": "omtmappservice39721472",
+    "sharedId": "72c1308e",
+    "resourceName": "omtmappservice72c1308e",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -47,14 +47,14 @@
     },
     "useDefault": "defaultSocial",
     "hostedUI": true,
-    "hostedUIDomainName": "omtmappservice39721472-39721472",
+    "hostedUIDomainName": "omtm-app-service",
     "authProvidersUserPool": [
         "Facebook",
         "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\"],\"LogoutURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\"]}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "dependsOn": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\"],\"LogoutURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\"]}"
+    "dependsOn": []
 }

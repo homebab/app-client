@@ -7,9 +7,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigators';
 import AccountController from "./contexts/Account";
 
-import Amplify from 'aws-amplify'
-// @ts-ignore
-import { withOAuth, IOAuthProps } from "aws-amplify-react-native";
+import Amplify, {Analytics, AWSKinesisFirehoseProvider} from 'aws-amplify'
 // @ts-ignore
 import config from './aws-exports'
 

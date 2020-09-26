@@ -13,7 +13,7 @@
     },
     "categories": {
       "auth": {
-        "omtmappservice39721472": {
+        "omtmappservice72c1308e": {
           "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"968960786946950\",\"client_secret\":\"bcce9ffbd04861d0721f140d49d7ef2e\"},{\"ProviderName\":\"Google\",\"client_id\":\"74436265621-stnjr1591e24t77j3puvmtf756d9raug.apps.googleusercontent.com\",\"client_secret\":\"iBcyH0hsriIBeM_1bXE4NdfD\"}]"
         }
       }

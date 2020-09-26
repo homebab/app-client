@@ -25,7 +25,7 @@ export type Item = {
     storage: Storage;
     tag: string;
     memo: string;
-    imageUrl: string; // image url
+    imageUrl?: string; // image url
 }
 
 export type Account = {

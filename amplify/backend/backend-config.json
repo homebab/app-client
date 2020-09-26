@@ -1,10 +1,17 @@
 {
   "auth": {
-    "omtmappservice39721472": {
+    "omtmappservice72c1308e": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false
+    }
+  },
+  "api": {},
+  "analytics": {
+    "omtmAppService": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
     }
   }
 }
