@@ -43,10 +43,7 @@ const AddItem = () => {
             }
 
             accountDispatch({type: "addItem", value: {item: userItem}})
-
-            AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
-                .then(_ => navigation.navigate('ListItems'))
-                .catch(err => console.warn('[omtm]: fail to set userItem on AsyncStorage with', err))
+            navigation.pop()
         }
     }
 

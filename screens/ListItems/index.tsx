@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {styles} from "./styles";
 import {GestureResponderEvent, Image, RefreshControl, ScrollView, View} from "react-native";
 import Assets from "../../constants/Assets";
@@ -12,6 +12,7 @@ import {getUserItems} from "../../api/omtm";
 import DeleteModal from "../../components/DeleteModal";
 import AsyncStorage from "@react-native-community/async-storage";
 import LocalStorage from "../../constants/LocalStorage";
+import { Analytics } from "aws-amplify";
 
 const ListItems = () => {
 
@@ -21,20 +22,40 @@ const ListItems = () => {
     const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
     const {accountState, accountDispatch} = useAccountContext();
-    const {profile, container} = accountState;
-    const {id} = profile;
+    const {container} = accountState;
+
+    useEffect(() => {
+        AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
+            .then(_ => {
+                console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
+                setVisibleDeleteModal(false);
+            })
+            .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
+    }, [container])
 
     const refreshUserItems = () => {
+        console.log(accountState.cachedUser.username)
+        Analytics.record({
+            name: 'refreshUserItems',
+            attributes: { message: `hello im ${accountState.cachedUser.username}`}
+            })
+            .then(res => console.debug(res))
+            .catch(err => console.warn(err))
+
         setRefreshing(true);
 
         AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
             .then(userItems => {
                 accountDispatch({
                     type: 'setContainer',
-                    value: {container: userItems? JSON.parse(userItems): []}
+                    value: {container: userItems? convertContainer(JSON.parse(userItems)): []}
                 })
+                setRefreshing(false)
             })
-            .catch(err => alert(`식자재 정보를 불러오지 못했습니다. ${err}`))
+            .catch(err => {
+                alert(`식자재 정보를 불러오지 못했습니다. ${err}`)
+                setRefreshing(false)
+            })
     }
 
     return (

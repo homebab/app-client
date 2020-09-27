@@ -19,15 +19,6 @@ const Landing = () => {
     const {isAuthenticated} = accountState;
 
     useEffect(() => {
-        // Analytics.record({
-        //     data: {
-        //         test: "hello"
-        //     },
-        //     streamName: 'omtm-event-stream'
-        // }, 'AWSKinesisFirehose')
-        //     .then(res => console.debug('[omtm]:', res))
-        //     .catch(err => console.warn('[omtm]:',err));
-
         Hub.listen("auth", ({payload: {event, data}}) => {
             switch (event) {
                 case "signIn":
@@ -49,7 +40,6 @@ const Landing = () => {
         Auth.currentAuthenticatedUser()
             .then(cachedUser => {
                 // retrieve userItems
-
                 AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
                     .then(userItems => {
                         accountDispatch({
@@ -57,7 +47,7 @@ const Landing = () => {
                             value: {
                                 cachedUser: cachedUser,
                                 // profile: cachedUser,
-                                container: userItems? JSON.parse(userItems): [],
+                                container: userItems? convertContainer(JSON.parse(userItems)): [],
                                 isAuthenticated: true
                             }
                         })

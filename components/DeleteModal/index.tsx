@@ -7,6 +7,9 @@ import {deleteUserItem} from "../../api/omtm";
 import {deleteImageOnS3} from "../../api/aws";
 import {Item, useAccountContext} from "../../contexts/Account";
 import {styles} from "./style"
+import AsyncStorage from "@react-native-community/async-storage";
+import LocalStorage from '../../constants/LocalStorage';
+import {useEffect} from "react";
 
 type Props = {
     item: Item,
@@ -17,15 +20,12 @@ type Props = {
 const DeleteModal = (props: Props) => {
     const {item, visible, hideModal} = props
     const {id} = item;
-    const {accountDispatch} = useAccountContext();
+    const {accountState, accountDispatch} = useAccountContext();
+    const {container} = accountState
 
     const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
 
-    const handleSubmit = () => {
-        console.log(`[omtm]: delete itemId ${id} with ${value}`)
-        accountDispatch({type: 'deleteItem', value: {id: id}})
-        hideModal();
-    }
+    const handleSubmit = () => accountDispatch({type: 'deleteItem', value: {id: id}})
 
     return (
         <Modal visible={visible} animationType={"fade"} transparent={true}>
