@@ -23,23 +23,9 @@ const DeleteModal = (props: Props) => {
 
     const handleSubmit = () => {
         console.log(`[omtm]: delete itemId ${id} with ${value}`)
-
-        // fetch DELETE API to delete item on RDB and delete the item on Account context
-        deleteUserItem(id)
-            .then(res => {
-                // fetch DELETE API to delete item image on s3
-                if (item.imageUrl !== 'default url')
-                    deleteImageOnS3(item.imageUrl)
-                        .then(_ => accountDispatch({type: 'deleteItem', value: {id: res as number}}))
-                        .catch()
-            })
-            .catch(err => console.warn("[omtm]: fail to delete user's item with " + err))
-
-        // TODO: fetch POST API for event logging
-
+        accountDispatch({type: 'deleteItem', value: {id: id}})
         hideModal();
     }
-
 
     return (
         <Modal visible={visible} animationType={"fade"} transparent={true}>

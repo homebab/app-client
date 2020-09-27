@@ -9,6 +9,7 @@
       "UnauthRoleName": "amplify-omtmappservice-prod-174537-unauthRole",
       "StackName": "amplify-omtmappservice-prod-174537",
       "StackId": "arn:aws:cloudformation:ap-northeast-2:783361761742:stack/amplify-omtmappservice-prod-174537/08ce4180-fcb0-11ea-8bba-0a80329c84bc",
+      "AmplifxyAppId": "d3852txsox6qbi",
       "AmplifyAppId": "d3852txsox6qbi"
     },
     "categories": {

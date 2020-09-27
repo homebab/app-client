@@ -10,6 +10,8 @@ import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
 import {getUserItems} from "../../api/omtm";
 import DeleteModal from "../../components/DeleteModal";
+import AsyncStorage from "@react-native-community/async-storage";
+import LocalStorage from "../../constants/LocalStorage";
 
 const ListItems = () => {
 
@@ -24,15 +26,15 @@ const ListItems = () => {
 
     const refreshUserItems = () => {
         setRefreshing(true);
-        getUserItems(id)
-            .then(res => {
+
+        AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
+            .then(userItems => {
                 accountDispatch({
                     type: 'setContainer',
-                    value: {container: convertContainer(res as Array<Item>)}
+                    value: {container: userItems? JSON.parse(userItems): []}
                 })
-                setRefreshing(false);
             })
-            .catch(err => alert(err))
+            .catch(err => alert(`식자재 정보를 불러오지 못했습니다. ${err}`))
     }
 
     return (

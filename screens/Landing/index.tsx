@@ -4,9 +4,10 @@ import Assets from '../../constants/Assets';
 import {styles} from './styles';
 import {convertContainer, Item, useAccountContext} from "../../contexts/Account";
 // @ts-ignore
-import {Auth, Hub, Analytics} from 'aws-amplify';
+import {Auth, Hub} from 'aws-amplify';
 import SignIn from '../../components/SignIn';
 import AsyncStorage from "@react-native-community/async-storage";
+import LocalStorage from '../../constants/LocalStorage';
 
 
 const Landing = () => {
@@ -18,16 +19,14 @@ const Landing = () => {
     const {isAuthenticated} = accountState;
 
     useEffect(() => {
-        Analytics.record({
-            data: {
-                test: "hello"
-            },
-            streamName: 'omtm-event-stream'
-        }, 'AWSKinesisFirehose')
-            .then(res => console.debug('[omtm]:', res))
-            .catch(err => console.warn('[omtm]:',err));
-
-        console.log('whathell')
+        // Analytics.record({
+        //     data: {
+        //         test: "hello"
+        //     },
+        //     streamName: 'omtm-event-stream'
+        // }, 'AWSKinesisFirehose')
+        //     .then(res => console.debug('[omtm]:', res))
+        //     .catch(err => console.warn('[omtm]:',err));
 
         Hub.listen("auth", ({payload: {event, data}}) => {
             switch (event) {
@@ -51,28 +50,19 @@ const Landing = () => {
             .then(cachedUser => {
                 // retrieve userItems
 
-                AsyncStorage.getItem('userItems')
+                AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
                     .then(userItems => {
-                        if (userItems)
-                            accountDispatch({
-                                type: 'setAccount',
-                                value: {
-                                    cachedUser: cachedUser,
-                                    // profile: cachedUser,
-                                    container: convertContainer(JSON.parse(userItems) as Array<Item>),
-                                    isAuthenticated: true
-                                }
-                            })
-                        else {
-                            console.warn("[omtm]: no userItems with")
-                        }
+                        accountDispatch({
+                            type: 'setAccount',
+                            value: {
+                                cachedUser: cachedUser,
+                                // profile: cachedUser,
+                                container: userItems? JSON.parse(userItems): [],
+                                isAuthenticated: true
+                            }
+                        })
                     })
-                    .catch(err => {
-                        console.debug("[omtm]: no userItems with", err)
-                        AsyncStorage.setItem('userItems', '')
-                    })
-
-
+                    .catch(err => alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`))
             })
             .catch(err => console.log(`[omtm]: ${err}`))
 

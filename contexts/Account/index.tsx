@@ -19,7 +19,7 @@ export type Profile = {
 export type CachedUser = any;
 
 export type Item = {
-    id: number;
+    id: string;
     name: string;
     expiredAt: Date; // | Date;
     storage: Storage;
@@ -44,7 +44,7 @@ export const initialAccount: Account = {
 
     container: [
         {
-            id: -1,
+            id: '',
             name: '돼지고기',
             expiredAt: new Date('2022-1-23'),
             storage: Storage.FRIDGE,
@@ -53,7 +53,7 @@ export const initialAccount: Account = {
             imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
         },
         {
-            id: -1,
+            id: '',
             name: '양파',
             expiredAt: new Date('2025-1-21'),
             storage: Storage.FRIDGE,
@@ -62,7 +62,7 @@ export const initialAccount: Account = {
             imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
         },
         {
-            id: -1,
+            id: '',
             name: '닭',
             expiredAt: new Date('2019-11-17'),
             storage: Storage.FREEZER,
@@ -71,7 +71,7 @@ export const initialAccount: Account = {
             imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
         },
         {
-            id: -1,
+            id: '',
             name: '감자',
             expiredAt: new Date('2019-11-22'),
             storage: Storage.ROOM,

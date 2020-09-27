@@ -1,11 +1,11 @@
 {
     "appName": "omtmAppService",
-    "roleName": "pinpointLambdaRoleb46aa358",
-    "cloudformationPolicyName": "cloudformationPolicyb46aa358",
-    "cloudWatchPolicyName": "cloudWatchPolicyb46aa358",
-    "pinpointPolicyName": "pinpointPolicyb46aa358",
-    "authPolicyName": "pinpoint_amplify_b46aa358",
-    "unauthPolicyName": "pinpoint_amplify_b46aa358",
+    "roleName": "pinpointLambdaRole4abbab7e",
+    "cloudformationPolicyName": "cloudformationPolicy4abbab7e",
+    "cloudWatchPolicyName": "cloudWatchPolicy4abbab7e",
+    "pinpointPolicyName": "pinpointPolicy4abbab7e",
+    "authPolicyName": "pinpoint_amplify_4abbab7e",
+    "unauthPolicyName": "pinpoint_amplify_4abbab7e",
     "authRoleName": {
         "Ref": "AuthRoleName"
     },
