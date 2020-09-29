@@ -1,6 +1,6 @@
 import {Image, Text, View} from "react-native";
 import React from 'react';
-import {Item} from "../../contexts/Account";
+import {Item} from "../../../contexts/Account";
 import {styles} from './styles'
 
 type Props = {

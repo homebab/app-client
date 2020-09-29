@@ -1,7 +1,7 @@
 import {GestureResponderEvent, Text, TouchableOpacity, View} from "react-native";
 import {Entypo, MaterialCommunityIcons} from "@expo/vector-icons";
 import React from 'react';
-import {Item} from "../../contexts/Account";
+import {Item} from "../../../contexts/Account";
 import {styles} from "./styles";
 
 enum Color {
