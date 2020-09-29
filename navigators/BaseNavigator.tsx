@@ -37,7 +37,7 @@ export default function BaseNavigator() {
                 component={RecipeNavigator}
                 options={{
                     tabBarLabel: "레시피",
-                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="silverware-fork-knife" size={24}
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="chef-hat" size={24}
                                                                      color={color}/>,
                 }}
             />
@@ -68,8 +68,8 @@ function FridgeNavigator() {
                 component={ListItems}
                 options={{
                     headerTitle: '냉장고',
-                    headerLeft: () => <MaterialCommunityIcons name="fridge-outline" size={32} color="black"
-                                                              style={{marginLeft: 12}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
+                    headerLeft: () => <MaterialCommunityIcons name="fridge" size={32} color="black"
+                                                              style={{marginLeft: 20}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Ionicons.Button
@@ -110,7 +110,10 @@ function RecipeNavigator() {
             <RecipeStack.Screen
                 name="ListRecipes"
                 component={ListRecipes}
-                options={{headerTitle: '레시피'}}
+                options={{
+                    headerTitle: '레시피',
+                    headerLeft: () => <MaterialCommunityIcons name="chef-hat" size={32} color="black" style={{marginLeft: 20}}/>
+                }}
             />
         </RecipeStack.Navigator>
     );

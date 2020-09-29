@@ -20,8 +20,7 @@ type Props = {
 const DeleteModal = (props: Props) => {
     const {item, visible, hideModal} = props
     const {id} = item;
-    const {accountState, accountDispatch} = useAccountContext();
-    const {container} = accountState
+    const {accountDispatch} = useAccountContext();
 
     const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
 
@@ -35,7 +34,6 @@ const DeleteModal = (props: Props) => {
                         <Feather name="trash-2" size={24} color="black" style={{marginRight: 12}}/><Text
                         style={styles.modalText}>얼만큼 버리셨나요?</Text>
                     </View>
-
 
                     <RadioButton.Group onValueChange={value => setValue(value as 'empty' | 'remain')} value={value}>
                         <RadioButton.Item label="조금 버렸습니다" value="empty" labelStyle={{fontSize: 18}}/>
@@ -58,7 +56,6 @@ const DeleteModal = (props: Props) => {
                             <Text style={{...styles.textStyle, color: '#2196f3'}}>제출</Text>
                         </TouchableHighlight>
                     </View>
-
                 </View>
             </View>
 
