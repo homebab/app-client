@@ -134,6 +134,11 @@ const AccountController: React.FC = ({children}) => {
                     ...state,
                     container: state.container.filter(item => item.id !== action.value.id)
                 };
+            case 'deauthenticate':
+                return {
+                  ...state,
+                  isAuthenticated: false
+                };
             default:
                 return state;
         }

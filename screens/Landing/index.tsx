@@ -8,6 +8,7 @@ import {Auth, Hub} from 'aws-amplify';
 import SignIn from '../../components/SignIn';
 import AsyncStorage from "@react-native-community/async-storage";
 import LocalStorage from '../../constants/LocalStorage';
+import {CognitoUser} from "amazon-cognito-identity-js";
 
 
 const Landing = () => {
@@ -15,20 +16,24 @@ const Landing = () => {
     // const navigation = useNavigation();
     // const cachedUser: CachedUser | undefined = useCachedUser();
 
-    const {accountDispatch, accountState} = useAccountContext();
-    const {isAuthenticated} = accountState;
+    const {accountDispatch} = useAccountContext();
 
     useEffect(() => {
-        Hub.listen("auth", ({payload: {event, data}}) => {
+        Hub.listen("auth", async ({payload: {event, data}}) => {
             switch (event) {
                 case "signIn":
-                    console.debug("[omtm]: success to signIn with", data)
+                    const cognitoUser: CognitoUser = data
+                    console.debug("[omtm]: success to signIn for", cognitoUser.getUsername())
+
+                    // retrieve cached userItems
+                    const userItems = await AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
+
                     accountDispatch({
                         type: 'setAccount',
                         value: {
-                            cachedUser: data,
+                            cachedUser: cognitoUser,
                             // profile: cachedUser,
-                            // container: convertContainer(res as Array<Item>),
+                            container: userItems? convertContainer(JSON.parse(userItems)): [],
                             isAuthenticated: true
                         }
                     });

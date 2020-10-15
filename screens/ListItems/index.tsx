@@ -34,15 +34,15 @@ const ListItems = () => {
     }, [container])
 
     const refreshUserItems = () => {
+        setRefreshing(true);
+
         console.log(accountState.cachedUser.username)
         Analytics.record({
             name: 'refreshUserItems',
             attributes: { message: `hello im ${accountState.cachedUser.username}`}
             })
-            .then(res => console.debug(res))
-            .catch(err => console.warn(err))
-
-        setRefreshing(true);
+            .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + res))
+            .catch(err => console.warn("[omtm]: fail to record with " + err))
 
         AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
             .then(userItems => {

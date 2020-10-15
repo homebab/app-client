@@ -18,8 +18,8 @@ const SignOut = (props: Props) => {
                           onPress={() => AsyncStorage.removeItem('user').then(_ => {
                               Auth.signOut()
                                   .then(res => {
-                                      accountDispatch({type: 'flush', value: {}});
-                                      console.debug("[omtm]: success to delete cachedUser and flush accountContext with", res)
+                                      accountDispatch({type: 'deauthenticate', value: {}});
+                                      console.debug("[omtm]: success to sign out")
                                   })
                                   .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
                               })}>
