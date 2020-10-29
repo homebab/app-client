@@ -7,38 +7,38 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigators';
 import AccountController from "./contexts/Account";
 
+import * as Linking from 'expo-linking';
+
 import Amplify, {Analytics, AWSKinesisFirehoseProvider} from 'aws-amplify'
 // @ts-ignore
-import config from './aws-exports'
+import awsConfig from './aws-exports'
 
+// const [
+//     localRedirectSignIn,
+//     productionRedirectSignIn,
+// ] = awsConfig.oauth.redirectSignIn.split(",");
+//
+// const [
+//     localRedirectSignOut,
+//     productionRedirectSignOut,
+// ] = awsConfig.oauth.redirectSignOut.split(",");
 
-Amplify.configure(config)
-// Analytics.addPluggable(new AWSKinesisFirehoseProvider());
-//
-// Analytics.configure({
-//     AWSKinesisFirehose: {
-//
-//         // OPTIONAL -  Amazon Kinesis Firehose service region
-//         region: 'us-west-2',
-//
-//         // OPTIONAL - The buffer size for events in number of items.
-//         bufferSize: 1000,
-//
-//         // OPTIONAL - The number of events to be deleted from the buffer when flushed.
-//         flushSize: 100,
-//
-//         // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
-//         flushInterval: 5000, // 5s
-//
-//         // OPTIONAL - The limit for failed recording retries.
-//         resendLimit: 5
-//     }
-// });
+const updatedAwsConfig = {
+    ...awsConfig,
+    oauth: {
+        ...awsConfig.oauth,
+        redirectSignIn: Linking.makeUrl(), // isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+        redirectSignOut: Linking.makeUrl() //isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+    }
+}
+
+Amplify.configure(updatedAwsConfig)
 
 const App = () => {
 
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
+    alert('Check redirect url: ' + Linking.makeUrl())
 
     if (!isLoadingComplete) {
         return null;
