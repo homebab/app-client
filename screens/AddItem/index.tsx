@@ -7,9 +7,7 @@ import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {FridgeNaviParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {Item, Storage, useAccountContext} from "../../contexts/Account";
-import AsyncStorage from "@react-native-community/async-storage";
-import LocalStorage  from "../../constants/LocalStorage"
-import { formatDate, formatTag } from "../../validators/format";
+import {formatDate, formatTag} from "../../validators/format";
 import {v4 as uuidv4} from "uuid"
 
 const AddItem = () => {
@@ -57,13 +55,16 @@ const AddItem = () => {
         },
         {
             keyboardType: "default",
-            placeholder: '미분류',
+            placeholder: '미분류 (10자 이내)',
             value: tag,
             onChangeHandler: (tag: string) => setTag(formatTag(tag)),
             icon: <AntDesign name="tago" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         },
         {
-            keyboardType: 'default', placeholder: '메모를 입력하시오.', value: memo, onChangeHandler: setMemo,
+            keyboardType: 'default',
+            placeholder: '메모를 입력하시오. (20자 이내)',
+            value: memo,
+            onChangeHandler: (memo: string) => setTag(formatTag(memo)),
             icon: <Foundation name="clipboard-pencil" size={28} color="#8c8c8c" style={{marginRight: 32}}/>
         }
     ]

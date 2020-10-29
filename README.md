@@ -12,10 +12,19 @@ A cross platform capable of driving both Android and IOS services with React Nat
 1. ReactNative
 2. Expo
 ## Get Started
+### Test
+```shell script
+$ npm install -g expo-cli
+$ yarn add expo
+$ expo start
 ```
-> npm install -g expo-cli
-> yarn add expo
-> expo start
+### Deploy
+- android
+    - play store
+```shell script
+# android 
+$ expo build:android
+
 ```
 ## Plan
 - [x] SignIn

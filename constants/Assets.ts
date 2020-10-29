@@ -7,7 +7,8 @@ const Image = {
     adduser: require('../../app-client/assets/images/header/adduser.png'),
     delete: require('../../app-client/assets/images/header/delete.png'),
     advertise: require('../../app-client/assets/images/advertisement.jpg'),// {uri: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/advertisement.jpg'},
-    addItem: require('../../app-client/assets/images/addItem.png')
+    addItem: require('../../app-client/assets/images/addItem.png'),
+    ingredients: require('../../app-client/assets/images/ingredients.png')
 };
 
 const Assets = {

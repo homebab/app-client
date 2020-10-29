@@ -42,7 +42,14 @@ export const formatDate = (date: string) => {
 
 export const formatTag = (text: string) => {
     if (text.length > 10) {
-        alert("10자리 이상 입력할 수 없습니다.")
+        alert("10자 이내로 입력하시오.")
         return text.slice(0, 9)
+    } else return text
+}
+
+export const formatMemo = (text: string) => {
+    if (text.length > 20) {
+        alert("20자 이내로 입력하시오.")
+        return text.slice(0, 29)
     } else return text
 }
