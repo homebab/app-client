@@ -27,7 +27,7 @@ export default function ListRecipes() {
                         }
             >
                 {videoIds.map((id, key) => {
-                    return (<RecipeCard id={id}/>)
+                    return (<RecipeCard key={key} id={id}/>)
                 })}
             </ScrollView>
         </View>
