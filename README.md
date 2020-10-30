@@ -26,17 +26,22 @@ $ expo start
 $ expo build:android
 
 ```
-## Plan
-- [x] SignIn
-- [x] ListItems
-- [x] AddItems
-- [x] CaptureItems
-- [ ] Integration with Backend
----
-- [ ] DetailItems
-- [ ] ListRecipes
-- [ ] DetailRecipes
-...
+## AWS Amplify
+- install and configure
+    - see [prerequisites on docs](https://docs.amplify.aws/start/getting-started/installation/q/integration/react-native#sign-up-for-an-aws-account)
+```shell script
+$ amplify status
+
+| Category  | Resource name          | Operation | Provider plugin   |
+| --------- | ---------------------- | --------- | ----------------- |
+| Auth      | omtmappservice72c1308e | No Change | awscloudformation |
+| Analytics | omtmAppService         | No Change | awscloudformation |
+```
+- Auth
+    - [authentication](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js) with AWS cognito
+ 
+- Analytics
+    - [analytics](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js) with AWS pinpoint
 
 ## Screenshots
 - itemList, RecipeList, RecipeDetail, AddItem
