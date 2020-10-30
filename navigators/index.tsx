@@ -7,7 +7,6 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import {RootNaviParamList} from '../types';
 import BaseNavigator from './BaseNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
-import Landing from "../screens/Landing";
 import {useAccountContext} from "../contexts/Account";
 import AuthNavigator from "./AuthNavigator";
 

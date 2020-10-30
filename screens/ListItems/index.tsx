@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {styles} from "./styles";
-import {Image, RefreshControl, ScrollView, Text, View} from "react-native";
-import Assets from "../../constants/Assets";
+import {RefreshControl, ScrollView, Text, View} from "react-native";
 import {convertContainer, useAccountContext} from "../../contexts/Account";
 import {useNavigation} from "@react-navigation/native";
 import {TouchableOpacity} from "react-native-gesture-handler";
@@ -9,8 +8,7 @@ import {AntDesign} from "@expo/vector-icons";
 import AsyncStorage from "@react-native-community/async-storage";
 import LocalStorage from "../../constants/LocalStorage";
 import {Analytics} from "aws-amplify";
-import ItemsGrid from "../../components/ItemsGrid";
-import ItemNavigator from "../../navigators/ItemNavigator";
+import ItemsGrid from "./ItemsGrid";
 
 const ListItems = () => {
 
@@ -21,14 +19,14 @@ const ListItems = () => {
     const {accountState, accountDispatch} = useAccountContext();
     const {container} = accountState;
 
-    useEffect(() => {
-        AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
-            .then(_ => {
-                console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
-                // setVisibleDeleteModal(false);
-            })
-            .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
-    }, [container])
+    // useEffect(() => {
+    //     AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
+    //         .then(_ => {
+    //             console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
+    //             // setVisibleDeleteModal(false);
+    //         })
+    //         .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
+    // }, [container])
 
     const refreshUserItems = () => {
         setRefreshing(true);
@@ -60,7 +58,7 @@ const ListItems = () => {
     return (
         <View style={styles.container}>
             <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                        // contentContainerStyle={{alignItems: "center"}}
+                // contentContainerStyle={{alignItems: "center"}}
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
@@ -68,18 +66,8 @@ const ListItems = () => {
                             />
                         }
             >
-                {/*<View style={styles.advertiseContainer}>*/}
-                {/*    <Image source={Assets.Image.advertise} style={styles.advertiseImage}/>*/}
-                {/*</View>*/}
                 <View
-                    style={{
-                        alignSelf: 'center',
-                        width: "80%",
-                        backgroundColor: "white",
-                        marginTop: 32,
-                        flexDirection: 'row',
-                        justifyContent: "space-around",
-                    }}>
+                    style={styles.storageMenu}>
                     {
                         storageTypes.map((s, k) => (
                             <View key={k} style={{padding: 10}}>
@@ -90,6 +78,17 @@ const ListItems = () => {
                 </View>
 
                 <ItemsGrid container={container}/>
+                {/*{*/}
+                {/*    <Grid container={container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())*/}
+                {/*        .map((item: Item, key: number) => (*/}
+                {/*            <View key={key}>*/}
+                {/*                <DeleteModal item={item} visible={visibleDeleteModal}*/}
+                {/*                             hideModal={() => setVisibleDeleteModal(false)}/>*/}
+                {/*                <ItemCard item={item}*/}
+                {/*                          showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}/>*/}
+                {/*            </View>*/}
+                {/*        ))}/>*/}
+                {/*}*/}
             </ScrollView>
 
             <View style={styles.addButton}>

@@ -4,21 +4,13 @@ import {GestureResponderEvent, Image, Text, View} from "react-native";
 import {styles} from "./styles";
 import Assets from "../../constants/Assets";
 
-enum Color {
-    RED = "#ff3333", YELLOW = "#ffff1a", GREEN = "#47d147"
-}
-
 type Props = {
-    item: Item,
-    showModal: (event: GestureResponderEvent) => void,
+    label: string,
+    // showModal: (event: GestureResponderEvent) => void,
 }
 
 const ItemCard = (props: Props) => {
-    const {item, showModal} = props
-    const {expiredAt} = item
-
-    const remainingDay = Math.round((expiredAt.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
-    const color = 7 > remainingDay && remainingDay > 3 ? Color.YELLOW : remainingDay >= 7 ? Color.GREEN : Color.RED
+    const {label} = props
 
     return (
         <View style={styles.container}>
@@ -29,7 +21,7 @@ const ItemCard = (props: Props) => {
                     style={{width: 32, height: 32}}
                 />
             </View>
-            <Text>{item.name}</Text>
+            <Text>{label}</Text>
         </View>
     );
 }
