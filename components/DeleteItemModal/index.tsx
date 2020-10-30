@@ -3,13 +3,8 @@ import * as React from 'react';
 import {Modal, Text, TouchableHighlight, View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Feather} from '@expo/vector-icons';
-import {deleteUserItem} from "../../api/omtm";
-import {deleteImageOnS3} from "../../api/aws";
 import {Item, useAccountContext} from "../../contexts/Account";
 import {styles} from "./style"
-import AsyncStorage from "@react-native-community/async-storage";
-import LocalStorage from '../../constants/LocalStorage';
-import {useEffect} from "react";
 
 type Props = {
     item: Item,

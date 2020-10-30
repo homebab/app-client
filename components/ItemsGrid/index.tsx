@@ -1,6 +1,6 @@
 import {Item} from "../../contexts/Account";
 import {GestureResponderEvent, View} from "react-native";
-import DeleteModal from "../DeleteModal";
+import DeleteModal from "../DeleteItemModal";
 import ItemCard from "../ItemNewCard";
 import {chunkArray} from "../../utils/functions";
 import React, {useState} from "react";
@@ -12,6 +12,8 @@ type Props = {
 const ItemsGrid = (props: Props) => {
     const {container} = props;
     const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
+
+    const chunk_size = 4
 
     const itemComponents = container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
         .map((item: Item, key: number) => (
@@ -26,7 +28,7 @@ const ItemsGrid = (props: Props) => {
             </View>
         ));
 
-    const chunked = chunkArray(itemComponents, 5);
+    const chunked = chunkArray(itemComponents, chunk_size);
 
     return (
         <View style={{backgroundColor: "#f2f2f2", padding: "5%"}}>

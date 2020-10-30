@@ -12,8 +12,8 @@ export const createUser = (name: string, email: string, imageUrl?: string) => ne
 
     fetch(EndPoints.buildAPIPath('/users'), {
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Content-Type': 'application/ingredients.json',
+            'Accept': 'application/ingredients.json',
             // 'Authorization': 'Bearer ' + seller.cognitoId
         },
         method: 'POST',
@@ -53,8 +53,8 @@ export const retrieveUser = (email: string) => new Promise((resolve, reject) => 
 
     fetch(EndPoints.buildAPIPath(`/users?email=${email}`), {
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Content-Type': 'application/ingredients.json',
+            'Accept': 'application/ingredients.json',
             // 'Authorization': 'Bearer ' + seller.cognitoId
         },
         method: 'GET'
@@ -77,8 +77,8 @@ export const addUserItem = (userId: number, name: string, expiredAt: Date, stora
 
     fetch(EndPoints.buildAPIPath(`/items/${userId}`), {
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Content-Type': 'application/ingredients.json',
+            'Accept': 'application/ingredients.json',
         },
         method: 'POST',
         body: JSON.stringify({
@@ -108,8 +108,8 @@ export const getUserItems = (userId: number) => new Promise((resolve, reject) =>
 
     fetch(EndPoints.buildAPIPath(`/items/${userId}`), {
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Content-Type': 'application/ingredients.json',
+            'Accept': 'application/ingredients.json',
         },
         method: 'GET'
     })
@@ -128,8 +128,8 @@ export const deleteUserItem = (itemId: number) => new Promise((resolve, reject) 
 
     fetch(EndPoints.buildAPIPath(`/items/${itemId}`), {
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Content-Type': 'application/ingredients.json',
+            'Accept': 'application/ingredients.json',
         },
         method: 'DELETE'
     })

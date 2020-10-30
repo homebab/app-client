@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {styles} from "./styles";
-import {Image, RefreshControl, ScrollView, View} from "react-native";
+import {Image, RefreshControl, ScrollView, Text, View} from "react-native";
 import Assets from "../../constants/Assets";
 import {convertContainer, useAccountContext} from "../../contexts/Account";
 import {useNavigation} from "@react-navigation/native";
@@ -16,7 +16,6 @@ const ListItems = () => {
     const navigation = useNavigation();
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
-    // const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
     const {accountState, accountDispatch} = useAccountContext();
     const {container} = accountState;
@@ -55,33 +54,12 @@ const ListItems = () => {
             })
     }
 
-
-    // const itemGrid = () => {
-    //     const itemCards = container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
-    //         .map((item: Item, key: number) => (
-    //             <View key={key}>
-    //                 <DeleteModal item={item} visible={visibleDeleteModal}
-    //                              hideModal={() => setVisibleDeleteModal(false)}/>
-    //                 <ItemCard item={item}
-    //                           showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}/>
-    //                 {/*<ItemHeader item={item}*/}
-    //                 {/*            showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}/>*/}
-    //                 {/*<ItemContent item={item}/>*/}
-    //             </View>
-    //         ));
-    //
-    //     const chunked = chunkArray(itemCards, 5);
-    //
-    //     return chunked.map((components, key: number) => (
-    //         <View key={key} style={{flexDirection: "row"}}>
-    //             {components.map(component => component)}
-    //         </View>
-    //     ));
-    // }
+    const storageTypes = ["전체", "냉장", "냉동", "실온"]
 
     return (
         <View style={styles.container}>
             <ScrollView style={{backgroundColor: "#f2f2f2"}}
+                        // contentContainerStyle={{alignItems: "center"}}
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
@@ -89,8 +67,25 @@ const ListItems = () => {
                             />
                         }
             >
-                <View style={styles.advertiseContainer}>
-                    <Image source={Assets.Image.advertise} style={styles.advertiseImage}/>
+                {/*<View style={styles.advertiseContainer}>*/}
+                {/*    <Image source={Assets.Image.advertise} style={styles.advertiseImage}/>*/}
+                {/*</View>*/}
+                <View
+                    style={{
+                        alignSelf: 'center',
+                        width: "80%",
+                        backgroundColor: "white",
+                        marginTop: 32,
+                        flexDirection: 'row',
+                        justifyContent: "space-around",
+                    }}>
+                    {
+                        storageTypes.map((s, k) => (
+                            <View key={k} style={{padding: 10}}>
+                                <Text>{s}</Text>
+                            </View>
+                        ))
+                    }
                 </View>
 
                 <ItemsGrid container={container}/>
@@ -100,7 +95,7 @@ const ListItems = () => {
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
                     <AntDesign
                         name="plus"
-                        size={28}
+                        size={20}
                         color='white'
                     />
                 </TouchableOpacity>
