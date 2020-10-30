@@ -56,5 +56,5 @@
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "dependsOn": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\",\"omtm://\"],\"LogoutURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\",\"omtm://\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\",\"omtm://\",\"exp://localhost:19000/\"],\"LogoutURLs\":[\"exp://2n-ef8.meowpunch.app-client.exp.direct:80/\",\"omtm://\",\"exp://localhost:19000/\"]}"
 }

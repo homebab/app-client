@@ -37,11 +37,12 @@ $ amplify status
 | Auth      | omtmappservice72c1308e | No Change | awscloudformation |
 | Analytics | omtmAppService         | No Change | awscloudformation |
 ```
-- Auth
-    - [authentication](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js) with AWS cognito
+### Auth
+- [authentication](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js) with AWS cognito
  
-- Analytics
-    - [analytics](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js) with AWS pinpoint
+### Analytics
+- [analytics](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js) with AWS pinpoint
+- [pinpoint stream to Amazon Kinesis](https://docs.amplify.aws/lib/analytics/storing/q/platform/js)
 
 ## Screenshots
 - itemList, RecipeList, RecipeDetail, AddItem
