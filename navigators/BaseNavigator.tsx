@@ -13,6 +13,7 @@ import CaptureItem from '../screens/CaptureItem';
 import {View} from 'react-native';
 import {useAccountContext} from "../contexts/Account";
 import SignOut from "../components/SignOut";
+import ItemNavigator from "./ItemNavigator";
 
 const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
@@ -65,7 +66,7 @@ function FridgeNavigator() {
         <FridgeStack.Navigator>
             <FridgeStack.Screen
                 name="ListItems"
-                component={ListItems}
+                component={ItemNavigator}
                 options={{
                     headerTitle: '냉장고',
                     headerLeft: () => <MaterialCommunityIcons name="fridge" size={32} color="black"

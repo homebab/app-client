@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import LocalStorage from "../../constants/LocalStorage";
 import {Analytics} from "aws-amplify";
 import ItemsGrid from "../../components/ItemsGrid";
+import ItemNavigator from "../../navigators/ItemNavigator";
 
 const ListItems = () => {
 
