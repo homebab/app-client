@@ -12,25 +12,33 @@ import * as Linking from 'expo-linking';
 import Amplify, {Analytics, AWSKinesisFirehoseProvider} from 'aws-amplify'
 // @ts-ignore
 import awsConfig from './aws-exports'
+import {uploadImageOnS3} from "./api/aws";
 
-// const [
-//     localRedirectSignIn,
-//     productionRedirectSignIn,
-// ] = awsConfig.oauth.redirectSignIn.split(",");
-//
-// const [
-//     localRedirectSignOut,
-//     productionRedirectSignOut,
-// ] = awsConfig.oauth.redirectSignOut.split(",");
+
+const [
+    productionRedirectSignIn,
+    developmentRedirectSignIn,
+] = awsConfig.oauth.redirectSignIn.split(",");
+
+const [
+    productionRedirectSignOut,
+    developmentRedirectSignOut,
+] = awsConfig.oauth.redirectSignOut.split(",");
+
+console.debug('[omtm]: host on ' + Linking.makeUrl())
+
+const isExpo = Linking.makeUrl().includes("exp://")
 
 const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
         ...awsConfig.oauth,
-        redirectSignIn: Linking.makeUrl(), // isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
-        redirectSignOut: Linking.makeUrl() //isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+        redirectSignIn: isExpo ? developmentRedirectSignIn : productionRedirectSignIn,
+        redirectSignOut: isExpo ? developmentRedirectSignOut : productionRedirectSignOut,
     }
 }
+
+console.debug('[omtm]: update AWS amplify config ' + updatedAwsConfig.oauth)
 
 Amplify.configure(updatedAwsConfig)
 
@@ -38,7 +46,6 @@ const App = () => {
 
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
-    alert('Check redirect url: ' + Linking.makeUrl())
 
     if (!isLoadingComplete) {
         return null;
