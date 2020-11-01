@@ -16,29 +16,33 @@ import {uploadImageOnS3} from "./api/aws";
 
 
 const [
-    productionRedirectSignIn,
-    developmentRedirectSignIn,
+    ProdRedirectSignIn,
+    LANRedirectSignIn,
+    TunnelRedirectSignIn
 ] = awsConfig.oauth.redirectSignIn.split(",");
 
 const [
-    productionRedirectSignOut,
-    developmentRedirectSignOut,
+    ProdRedirectSignOut,
+    LANRedirectSignOut,
+    TunnelRedirectSignOut
 ] = awsConfig.oauth.redirectSignOut.split(",");
 
 console.debug('[omtm]: host on ' + Linking.makeUrl())
+console.debug()
 
-const isExpo = Linking.makeUrl().includes("exp://")
+const isTunnel = Linking.makeUrl().includes("exp://")
+const isLAN = Linking.makeUrl().includes("localhost") || Linking.makeUrl().includes("127.0.0.1")
 
 const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
         ...awsConfig.oauth,
-        redirectSignIn: isExpo ? developmentRedirectSignIn : productionRedirectSignIn,
-        redirectSignOut: isExpo ? developmentRedirectSignOut : productionRedirectSignOut,
+        redirectSignIn: isLAN ? LANRedirectSignIn : isTunnel? TunnelRedirectSignIn: ProdRedirectSignIn,
+        redirectSignOut: isLAN ? LANRedirectSignOut : isTunnel? TunnelRedirectSignOut: ProdRedirectSignOut,
     }
 }
 
-console.debug('[omtm]: update AWS amplify config ' + updatedAwsConfig.oauth)
+console.debug('[omtm]: update AWS amplify config ' + JSON.stringify(updatedAwsConfig.oauth))
 
 Amplify.configure(updatedAwsConfig)
 

@@ -78,17 +78,6 @@ const ListItems = () => {
                 </View>
 
                 <ItemsGrid container={container}/>
-                {/*{*/}
-                {/*    <Grid container={container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())*/}
-                {/*        .map((item: Item, key: number) => (*/}
-                {/*            <View key={key}>*/}
-                {/*                <DeleteModal item={item} visible={visibleDeleteModal}*/}
-                {/*                             hideModal={() => setVisibleDeleteModal(false)}/>*/}
-                {/*                <ItemCard item={item}*/}
-                {/*                          showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}/>*/}
-                {/*            </View>*/}
-                {/*        ))}/>*/}
-                {/*}*/}
             </ScrollView>
 
             <View style={styles.addButton}>
