@@ -79,16 +79,6 @@ const ListItems = () => {
 
                 <ItemsGrid container={container}/>
             </ScrollView>
-
-            <View style={styles.addButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                    <AntDesign
-                        name="plus"
-                        size={20}
-                        color='white'
-                    />
-                </TouchableOpacity>
-            </View>
         </View>
     )
 }

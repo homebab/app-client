@@ -14,14 +14,6 @@ export const styles = StyleSheet.create({
         resizeMode: 'cover',
         width: '100%',
     },
-    addButton: {
-        position: "absolute",
-        padding: 20,
-        borderRadius: 50,
-        bottom: 36,
-        right: 28,
-        backgroundColor: "black"
-    },
     storageMenu: {
         alignSelf: 'center',
         width: "80%",
