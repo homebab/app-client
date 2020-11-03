@@ -1,5 +1,4 @@
 import {StyleSheet} from "react-native";
-import Layout from "../../constants/Layout";
 
 export const styles = StyleSheet.create({
     container: {
@@ -16,11 +15,17 @@ export const styles = StyleSheet.create({
         aspectRatio: 1,
         backgroundColor: "#b3b3b3"
     },
-    Avatar: {
+    avatar: {
         padding: 8,
         borderRadius: 50,
         aspectRatio: 1,
         backgroundColor: "white"
+    },
+    pressed: {
+        opacity: 0.2
+    },
+    unPressed: {
+        opacity: 1
     }
 });
 

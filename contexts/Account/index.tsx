@@ -2,7 +2,7 @@ import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "r
 import {Actions} from "..";
 
 export enum Storage {
-    FRIDGE = "FRIDGE", FREEZER = "FREEZER", ROOM = "ROOM"
+    FRIDGE = "냉장", FREEZER = "냉동", ROOM = "실온"
 }
 
 export type Profile = {

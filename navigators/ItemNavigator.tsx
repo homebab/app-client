@@ -3,6 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import ingredients from "../assets/ingredients.json"
 import React from "react";
 import {Item, useAccountContext} from "../contexts/Account";
+import {Ingredients} from "../constants/Ingredients";
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -15,7 +16,7 @@ type Props = {
 function ItemNavigator(props: Props) {
     const {Component} = props
 
-    const categories = ingredients.categories
+    const categories = Ingredients.categories
 
     return (
         <TopTab.Navigator tabBarOptions={{scrollEnabled: true, tabStyle: {width: "auto"}}}>
@@ -25,7 +26,7 @@ function ItemNavigator(props: Props) {
                         <TopTab.Screen key={key} name={category}>
 
                             {
-                                (_) => Component()
+                                (props) => Component()
                                 // (_) => ItemsGrid(container.filter((item: Item) => category === "전체" ? true : item.category === category))
                             }
                         </TopTab.Screen>)

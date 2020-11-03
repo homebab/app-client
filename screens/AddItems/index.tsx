@@ -4,28 +4,29 @@ import ItemNavigator from "../../navigators/ItemNavigator";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import Grid from "../../components/Grid";
-import ingredients from "../../assets/ingredients.json"
 import { useRoute } from "@react-navigation/native";
+import {Ingredients} from "../../constants/Ingredients";
 
-const AddItems = () => {
+type props = {}
 
+const ItemsGrid = () => {
     const route = useRoute();
 
-    console.log(typeof ingredients)
-    const ItemsGrid = () => {
+    const items = Ingredients[route.name as keyof Ingredients]
+    const itemCards = items? items.map((item: string, key: number) => <ItemCard key={key} label={item}/>) : []
 
-        const itemCards = ingredients.과일
-            .map((item: string, key: number) => <ItemCard key={key} label={item}/>)
+    return (
+        <View style={styles.container}>
+            <ScrollView style={{backgroundColor: "#f2f2f2"}}
+            >
+                <Grid container={itemCards}/>
+            </ScrollView>
+        </View>
+    )
+}
 
-        return (
-            <View style={styles.container}>
-                <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                >
-                    <Grid container={itemCards}/>
-                </ScrollView>
-            </View>
-        )
-    }
+
+const AddItems = () => {
 
     return (
         <>
