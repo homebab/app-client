@@ -21,5 +21,13 @@ export const styles = StyleSheet.create({
         marginTop: 32,
         flexDirection: 'row',
         justifyContent: "space-around",
+    },
+    plusButton: {
+        position: "absolute",
+        padding: 20,
+        borderRadius: 50,
+        bottom: 36,
+        right: 28,
+        backgroundColor: "black"
     }
 });

@@ -1,42 +1,38 @@
 import React from "react";
-import {styles} from "./styles";
 import {ScrollView, View} from "react-native";
-import {useAccountContext} from "../../contexts/Account";
-import {useNavigation} from "@react-navigation/native";
+import ItemNavigator from "../../navigators/ItemNavigator";
+import ItemCard from "../../components/ItemCard";
+import {styles} from "./styles";
+import Grid from "../../components/Grid";
 import ingredients from "../../assets/ingredients.json"
-import ItemsGrid from "./ItemsGrid";
+import { useRoute } from "@react-navigation/native";
 
 const AddItems = () => {
 
-    const navigation = useNavigation();
+    const route = useRoute();
 
-    const {accountState, accountDispatch} = useAccountContext();
-    const container = ingredients.과일
+    console.log(typeof ingredients)
+    const ItemsGrid = () => {
 
-    // useEffect(() => {
-    //     AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
-    //         .then(_ => {
-    //             console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
-    //             // setVisibleDeleteModal(false);
-    //         })
-    //         .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
-    // }, [container])
+        const itemCards = ingredients.과일
+            .map((item: string, key: number) => <ItemCard key={key} label={item}/>)
+
+        return (
+            <View style={styles.container}>
+                <ScrollView style={{backgroundColor: "#f2f2f2"}}
+                >
+                    <Grid container={itemCards}/>
+                </ScrollView>
+            </View>
+        )
+    }
 
     return (
-        <View style={styles.container}>
-            <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                // contentContainerStyle={{alignItems: "center"}}
-                //         refreshControl={
-                //             <RefreshControl
-                //                 refreshing={refreshing}
-                //                 onRefresh={() => refreshUserItems()}
-                //             />
-                //         }
-            >
-                <ItemsGrid container={container}/>
-            </ScrollView>
-        </View>
+        <>
+            <ItemNavigator Component={ItemsGrid}/>
+        </>
     )
 }
 
 export default AddItems;
+

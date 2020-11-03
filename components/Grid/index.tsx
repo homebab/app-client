@@ -1,9 +1,6 @@
-import {Item} from "../../contexts/Account";
-import {GestureResponderEvent, View} from "react-native";
-import DeleteModal from "../DeleteItemModal";
-import ItemCard from "../ItemNewCard";
+import {View} from "react-native";
 import {chunkArray} from "../../utils/functions";
-import React, {useState} from "react";
+import React from "react";
 
 type Props = {
     container: Array<any>

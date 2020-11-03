@@ -23,6 +23,7 @@ export type Item = {
     name: string;
     expiredAt: Date; // | Date;
     storage: Storage;
+    category?: string;
     tag: string;
     memo: string;
     imageUrl?: string; // image url

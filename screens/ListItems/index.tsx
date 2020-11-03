@@ -1,86 +1,67 @@
-import React, {useEffect, useState} from "react";
-import {styles} from "./styles";
-import {RefreshControl, ScrollView, Text, View} from "react-native";
-import {convertContainer, useAccountContext} from "../../contexts/Account";
+import React, {useState} from "react";
+import {ScrollView, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
+import ItemNavigator from "../../navigators/ItemNavigator";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
-import AsyncStorage from "@react-native-community/async-storage";
-import LocalStorage from "../../constants/LocalStorage";
-import {Analytics} from "aws-amplify";
-import ItemsGrid from "./ItemsGrid";
+import {Item, useAccountContext} from "../../contexts/Account";
+import DeleteModal from "../../components/DeleteItemModal";
+import ItemCard from "../../components/ItemCard";
+import {styles} from "./styles";
+import Grid from "../../components/Grid";
 
 const ListItems = () => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation()
 
-    const [refreshing, setRefreshing] = useState<boolean>(false);
-
-    const {accountState, accountDispatch} = useAccountContext();
+    const {accountState} = useAccountContext();
     const {container} = accountState;
 
-    // useEffect(() => {
-    //     AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
-    //         .then(_ => {
-    //             console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
-    //             // setVisibleDeleteModal(false);
-    //         })
-    //         .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
-    // }, [container])
+    const ItemsGrid = () => {
 
-    const refreshUserItems = () => {
-        setRefreshing(true);
+        const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
-        console.log(accountState.cachedUser.username)
-        Analytics.record({
-            name: 'refreshUserItems',
-            attributes: {message: `hello im ${accountState.cachedUser.username}`}
-        })
-            .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + res))
-            .catch(err => console.warn("[omtm]: fail to record with " + err))
+        const itemCards = container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
+            .map((item: Item, key: number) => (
+                <View key={key}>
+                    <DeleteModal item={item} visible={visibleDeleteModal}
+                                 hideModal={() => setVisibleDeleteModal(false)}/>
+                    <ItemCard label={item.name}
+                        // showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}
+                    />
+                </View>
+            ))
 
-        AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
-            .then(userItems => {
-                accountDispatch({
-                    type: 'setContainer',
-                    value: {container: userItems ? convertContainer(JSON.parse(userItems)) : []}
-                });
-                setRefreshing(false);
-            })
-            .catch(err => {
-                alert(`식자재 정보를 불러오지 못했습니다. ${err}`);
-                setRefreshing(false);
-            })
+        return (
+            <View style={styles.container}>
+                <ScrollView style={{backgroundColor: "#f2f2f2"}}
+                    // contentContainerStyle={{alignItems: "center"}}
+                    //         refreshControl={
+                    //             <RefreshControl
+                    //                 refreshing={refreshing}
+                    //                 onRefresh={() => refreshUserItems()}
+                    //             />
+                    //         }
+                >
+
+                    <Grid container={itemCards}/>
+                </ScrollView>
+            </View>
+        )
     }
 
-    const storageTypes = ["전체", "냉장", "냉동", "실온"]
-
     return (
-        <View style={styles.container}>
-            <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                // contentContainerStyle={{alignItems: "center"}}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={() => refreshUserItems()}
-                            />
-                        }
-            >
-                <View
-                    style={styles.storageMenu}>
-                    {
-                        storageTypes.map((s, k) => (
-                            <View key={k} style={{padding: 10}}>
-                                <Text>{s}</Text>
-                            </View>
-                        ))
-                    }
-                </View>
+        <>
+            <ItemNavigator Component={ItemsGrid}/>
 
-                <ItemsGrid container={container}/>
-            </ScrollView>
-        </View>
+            <View style={styles.plusButton}>
+                <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
+                    <AntDesign name="plus" size={20} color='white'/>
+                </TouchableOpacity>
+            </View>
+        </>
     )
 }
 
 export default ListItems;
+

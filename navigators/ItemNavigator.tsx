@@ -1,47 +1,37 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import ingredients from "../assets/ingredients.json"
-import ListItems from "../screens/ListItems";
 import React from "react";
-import {StyleSheet, View} from "react-native";
-import {styles} from "../screens/ListItems/styles";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {AntDesign} from "@expo/vector-icons";
-import {useNavigation} from '@react-navigation/native';
+import {Item, useAccountContext} from "../contexts/Account";
 
 const TopTab = createMaterialTopTabNavigator();
 
-// refer to https://reactnavigation.org/docs/material-top-tab-navigator/
-function ItemNavigator() {
+type Props = {
+    Component: any
+    // container: Array<any>
+}
 
-    const navigation = useNavigation()
-    const itemCategories = ingredients.category;
-    const styles = StyleSheet.create({
-        plusButton: {
-            position: "absolute",
-            padding: 20,
-            borderRadius: 50,
-            bottom: 36,
-            right: 28,
-            backgroundColor: "black"
-        }
-    })
+// refer to https://reactnavigation.org/docs/material-top-tab-navigator/
+function ItemNavigator(props: Props) {
+    const {Component} = props
+
+    const categories = ingredients.categories
 
     return (
-        <>
-            <TopTab.Navigator tabBarOptions={{scrollEnabled: true, tabStyle: {width: "auto"}}}>
-                {
-                    itemCategories.map((itemType, key) => (
-                        <TopTab.Screen key={key} name={itemType} component={ListItems}/>
-                    ))
-                }
-            </TopTab.Navigator>
-            <View style={styles.plusButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                    <AntDesign name="plus" size={20} color='white'/>
-                </TouchableOpacity>
-            </View>
-        </>
+        <TopTab.Navigator tabBarOptions={{scrollEnabled: true, tabStyle: {width: "auto"}}}>
+            {
+                categories.map((category, key) => {
+                    return (
+                        <TopTab.Screen key={key} name={category}>
+
+                            {
+                                (_) => Component()
+                                // (_) => ItemsGrid(container.filter((item: Item) => category === "전체" ? true : item.category === category))
+                            }
+                        </TopTab.Screen>)
+                })
+            }
+        </TopTab.Navigator>
     );
 }
 

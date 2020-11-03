@@ -27,11 +27,12 @@ const [
     TunnelRedirectSignOut
 ] = awsConfig.oauth.redirectSignOut.split(",");
 
-console.debug('[omtm]: host on ' + Linking.makeUrl())
-console.debug()
+const hostUrl = Linking.makeUrl()
 
-const isTunnel = Linking.makeUrl().includes("exp://")
-const isLAN = Linking.makeUrl().includes("localhost") || Linking.makeUrl().includes("127.0.0.1")
+console.debug('[omtm]: host on ' + hostUrl)
+
+const isTunnel = hostUrl.includes("exp://")
+const isLAN = hostUrl.includes("localhost") || hostUrl.includes("127.0.0.1")
 
 const updatedAwsConfig = {
     ...awsConfig,
