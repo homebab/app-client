@@ -1,37 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {Item} from "../../contexts/Account";
-import {GestureResponderEvent, Image, Text, TouchableHighlight, TouchableOpacity, View} from "react-native";
+import React, {useEffect} from 'react';
+import {GestureResponderEvent, Image, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "./styles";
 import Assets from "../../constants/Assets";
+import {useContainerContext} from "../../contexts/Container";
 
 type Props = {
     label: string,
-    // showModal: (event: GestureResponderEvent) => void,
+    handlePress?: (e: GestureResponderEvent) => void
 }
 
 const ItemCard = (props: Props) => {
-    const {label} = props;
-    const [isPressed, setIsPressed] = useState<boolean>(false);
-
-    useEffect(() => {
-        console.log(`[omtm]: ${label} is pressed, set ${isPressed}`)
-    }, [isPressed])
-    const handlePress = (_: GestureResponderEvent) => {
-        isPressed ? setIsPressed(false) : setIsPressed(true);
-    }
+    const {label, handlePress} = props;
 
     return (
         <TouchableOpacity style={[styles.container]} onPress={handlePress}>
-            <View style={[styles.avatar, isPressed? styles.pressed: styles.unPressed]}>
+            <View style={styles.avatar}>
                 <Image
                     source={Assets.Image.ingredients}
                     fadeDuration={0}
                     style={{width: 32, height: 32}}
-                    // style={{width: 32, height: 32}}
                 />
             </View>
 
-            <Text style={isPressed? styles.pressed: styles.unPressed}>{label}</Text>
+            <Text>{label}</Text>
         </TouchableOpacity>
     );
 }

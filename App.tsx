@@ -1,5 +1,5 @@
 import {StatusBar} from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
@@ -9,10 +9,10 @@ import AccountController from "./contexts/Account";
 
 import * as Linking from 'expo-linking';
 
-import Amplify, {Analytics, AWSKinesisFirehoseProvider} from 'aws-amplify'
+import Amplify from 'aws-amplify'
 // @ts-ignore
 import awsConfig from './aws-exports'
-import {uploadImageOnS3} from "./api/aws";
+import ContainerController from "./contexts/Container";
 
 
 const [
@@ -38,8 +38,8 @@ const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
         ...awsConfig.oauth,
-        redirectSignIn: isLAN ? LANRedirectSignIn : isTunnel? TunnelRedirectSignIn: ProdRedirectSignIn,
-        redirectSignOut: isLAN ? LANRedirectSignOut : isTunnel? TunnelRedirectSignOut: ProdRedirectSignOut,
+        redirectSignIn: isLAN ? LANRedirectSignIn : isTunnel ? TunnelRedirectSignIn : ProdRedirectSignIn,
+        redirectSignOut: isLAN ? LANRedirectSignOut : isTunnel ? TunnelRedirectSignOut : ProdRedirectSignOut,
     }
 }
 
@@ -58,7 +58,9 @@ const App = () => {
         return (
             <SafeAreaProvider>
                 <AccountController>
-                    <Navigation colorScheme={colorScheme}/>
+                    <ContainerController>
+                        <Navigation colorScheme={colorScheme}/>
+                    </ContainerController>
                 </AccountController>
                 <StatusBar/>
             </SafeAreaProvider>
