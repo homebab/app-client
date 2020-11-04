@@ -1,56 +1,52 @@
-import React, {useEffect} from "react";
-import {GestureResponderEvent, ScrollView, View} from "react-native";
+import React from "react";
+import {ScrollView, View} from "react-native";
 import ItemNavigator from "../../navigators/ItemNavigator";
-import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import Grid from "../../components/Grid";
 import {useRoute} from "@react-navigation/native";
 import {Ingredients} from "../../constants/Ingredients";
-import {useContainerContext, Item} from "../../contexts/Container";
+import AddItemCard from "../../components/AddItemCard";
 
 type props = {}
+
+// const itemCards = (name: string, key: number) => {
+//
+//     const {containerState, containerDispatch} = useContainerContext();
+//     const {basket} = containerState;
+//
+//     useEffect(() => {
+//         console.log(basket)
+//     }, [basket])
+//
+//
+//     const isContained = basket.filter(item => item.name == name).length > 0;
+//
+//     const handlePress = (_: GestureResponderEvent) => {
+//         console.log(isContained)
+//         const updatedBasket = isContained ? basket.filter(item => item.name != name) : [...basket, {name: name}];
+//         containerDispatch({type: "updateBasket", value: {basket: updatedBasket}});
+//     }
+//
+//     return (
+//         <View key={key} style={isContained ? {opacity: 0.2} : {opacity: 1}}>
+//             <ItemCard label={name} handlePress={handlePress}/>
+//         </View>
+//     )
+// }
 
 const ItemsGrid = () => {
     const route = useRoute();
 
-    const {containerState, containerDispatch} = useContainerContext();
-    const {basket} = containerState;
-
-    useEffect(() => {
-        if (route.name == "채소")
-            console.log(basket)
-    }, [basket])
-
-    // const [isPressed, setIsPressed] = useState<boolean>(!basket.filter(item => item.name == label));
-
-    const items = Ingredients[route.name as keyof Ingredients]
-    const itemCards = (basket: Array<Item>) => items ? items.map((name: string, key: number) => {
-
-        const isContained = basket.filter(item => item.name == name).length > 0;
-
-        const handlePress = (_: GestureResponderEvent) => {
-            // isPressed ? setIsPressed(false) : setIsPressed(true);
-            // console.log("re")
-            // console.log(name)
-            // console.log(basket)
-            console.log(isContained)
-            const updatedBasket = isContained ? basket.filter(item => item.name != name) : [...basket, {name: name}];
-            // console.log(updatedBasket)
-            containerDispatch({type: "updateBasket", value: {basket: updatedBasket}});
-        }
-
-        return (
-            <View key={key} style={isContained ? {opacity: 0.2} : {opacity: 1}}>
-                <ItemCard label={name} handlePress={handlePress}/>
-            </View>
-        )
-    }) : []
+    const items: Array<string> | null = Ingredients[route.name as keyof Ingredients]
 
     return (
         <View style={styles.container}>
-            <ScrollView style={{backgroundColor: "#f2f2f2"}}
-            >
-                <Grid container={itemCards(basket)}/>
+            <ScrollView style={{backgroundColor: "#f2f2f2"}}>
+                <Grid container={
+                    items ?
+                        items.map((name: string, key: number) => <AddItemCard key={key} label={name}/>)
+                        : []
+                }/>
             </ScrollView>
         </View>
     )
