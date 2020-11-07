@@ -74,6 +74,11 @@ const ContainerController: React.FC = ({children}) => {
                     ...state,
                     fridge: []
                 }
+            case 'setFridge':
+                return {
+                    ...state,
+                    fridge: action.value.fridge
+                }
             case 'addFridgeItems':
                 // console.log(action.value)
                 return {

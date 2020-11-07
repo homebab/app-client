@@ -17,7 +17,7 @@ function StorageNavigator(props: Props) {
     const storages = Object.values(Storage)
 
     return (
-        <TopTab.Navigator>
+        <TopTab.Navigator swipeEnabled={false}>
             {
                 storages.map((storage, key) => {
                     return (

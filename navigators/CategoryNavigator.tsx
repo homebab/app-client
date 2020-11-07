@@ -17,7 +17,7 @@ const CategoryNavigator: React.FC<Props> = (props: Props) => {
     const categories = Object.values(Category)
 
     return (
-        <TopTab.Navigator tabBarOptions={{scrollEnabled: true, tabStyle: {width: "auto"}}}>
+        <TopTab.Navigator swipeEnabled={false} tabBarOptions={{scrollEnabled: true, tabStyle: {width: "auto"}}}>
             {
                 categories.map((category, key) => {
                     return (

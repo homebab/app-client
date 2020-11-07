@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import CategoryNavigator from "../../navigators/CategoryNavigator";
@@ -9,6 +9,8 @@ import {styles} from "./styles";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import {HOCStorageNavigator} from "../../navigators/StorageNavigator";
+import LocalStorage from "../../constants/LocalStorage";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const ListItemsGrid = (container: Array<Item>) => {
     const itemCards = container // .sort((l: Item, r: Item) => l.expiredAt!.getTime() - r.expiredAt!.getTime())
@@ -35,24 +37,19 @@ const ListItems: React.FC = () => {
     const {fridge} = containerState;
     const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
+    useEffect(() => {
+        AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(fridge))
+            .then(_ => {
+                console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
+                // setVisibleDeleteModal(false);
+            })
+            .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
+    }, [fridge])
 
     return (
         <>
             {/*<StorageNavigator component={ListItemsGrid} container={fridge}/>*/}
             <CategoryNavigator component={HOCStorageNavigator(ListItemsGrid)} container={fridge}/>
-
-            {/*<View style={{position: "absolute", bottom: "50%", right: "50%"}}>*/}
-            {/*    <TouchableOpacity onPress={() => alert("search")}>*/}
-            {/*        <Ionicons*/}
-            {/*            name="ios-trash"*/}
-            {/*            size={32}*/}
-            {/*            color="black"*/}
-            {/*            // @ts-ignore, TODO: how to fix it without @ts-ignore*/}
-            {/*            borderRadius={32}*/}
-            {/*            backgroundColor="transparent"*/}
-            {/*        />*/}
-            {/*    </TouchableOpacity>*/}
-            {/*</View>*/}
 
             <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>

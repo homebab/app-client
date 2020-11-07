@@ -1,4 +1,4 @@
-import {AntDesign, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
@@ -6,15 +6,7 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ListRecipes from '../screens/ListRecipes';
-import {BaseNaviParamList, FridgeNaviParamList, RecipeNaviParamList} from '../types';
-import CaptureItem from '../screens/CaptureItem';
-import {StyleSheet, View} from 'react-native';
-import {useAccountContext} from "../contexts/Account";
-import SignOut from "../components/SignOut";
-import CategoryNavigator from "./CategoryNavigator";
-import AddItems from "../screens/AddItems";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {useNavigation} from "@react-navigation/native";
+import {BaseNaviParamList, RecipeNaviParamList} from '../types';
 import FridgeNavigator from "./FridgeNavigator";
 import Dashboard from "../screens/Dashboard";
 import Settings from "../screens/Settings";
@@ -67,7 +59,6 @@ export default function BaseNavigator() {
         </BottomTab.Navigator>
     );
 }
-
 
 
 const RecipeStack = createStackNavigator<RecipeNaviParamList>();

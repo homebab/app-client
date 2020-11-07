@@ -1,5 +1,6 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
 import {Actions} from "..";
+import {CognitoUser} from "amazon-cognito-identity-js";
 
 export enum Storage {
     FRIDGE = "냉장", FREEZER = "냉동", ROOM = "실온"
@@ -16,23 +17,11 @@ export type Profile = {
     imageUrl?: string;
 };
 
-export type CachedUser = any;
-
-export type Item = {
-    id: string;
-    name: string;
-    expiredAt: Date; // | Date;
-    storage: Storage;
-    category?: string;
-    tag: string;
-    memo: string;
-    imageUrl?: string; // image url
-}
+export type CachedUser = CognitoUser;
 
 export type Account = {
     profile: Profile,
     cachedUser?: CachedUser,
-    container: Array<Item>,
     isAuthenticated?: boolean
 }
 
@@ -42,45 +31,6 @@ export const initialAccount: Account = {
         email: 'meow@gmail.com',
         name: 'meow',
     },
-
-    container: [
-        {
-            id: '',
-            name: '돼지고기',
-            expiredAt: new Date('2022-1-23'),
-            storage: Storage.FRIDGE,
-            tag: '육류',
-            memo: '냉동',
-            imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
-        },
-        {
-            id: '',
-            name: '양파',
-            expiredAt: new Date('2025-1-21'),
-            storage: Storage.FRIDGE,
-            tag: '야채',
-            memo: '뉴비',
-            imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/onion.jpg',
-        },
-        {
-            id: '',
-            name: '닭',
-            expiredAt: new Date('2019-11-17'),
-            storage: Storage.FREEZER,
-            tag: '육류',
-            memo: '12호',
-            imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/chicken.jpg',
-        },
-        {
-            id: '',
-            name: '감자',
-            expiredAt: new Date('2019-11-22'),
-            storage: Storage.ROOM,
-            tag: '야채',
-            memo: '',
-            imageUrl: '', // https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/potato.jpg
-        },
-    ],
 
     isAuthenticated: false,
 }
@@ -120,21 +70,6 @@ const AccountController: React.FC = ({children}) => {
                     ...state,
                     ...action.value
                 };
-            case 'setContainer':
-                return {
-                    ...state,
-                    container: action.value.container
-                }
-            case 'addItem':
-                return {
-                    ...state,
-                    container: state.container.concat([action.value.item])
-                };
-            case 'deleteItem':
-                return {
-                    ...state,
-                    container: state.container.filter(item => item.id !== action.value.id)
-                };
             case 'deauthenticate':
                 return {
                   ...state,
@@ -152,17 +87,3 @@ const AccountController: React.FC = ({children}) => {
 }
 
 export default AccountController;
-
-
-/*
-    Omtm Server -> Omtm Client
-    expiredAt: string -> Date
- */
-
-export const convertContainer = (container: Array<Item>) =>
-    container.map(item => {
-        return {
-            ...item,
-            expiredAt: new Date(item.expiredAt)
-        }
-    });
