@@ -2,15 +2,13 @@
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 import {createStackNavigator, StackNavigationProp} from "@react-navigation/stack";
 import {FridgeNaviParamList} from "../types";
-import {TextInput, TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, View} from "react-native";
 import {AntDesign, Feather, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
-import SignOut from "../components/SignOut";
 import AddItems from "../screens/AddItems";
 import CaptureItem from "../screens/CaptureItem";
 import * as React from "react";
 import ListItems from "../screens/ListItems";
 import {useNavigation} from "@react-navigation/native";
-import Layout from "../constants/Layout";
 import {Item, useContainerContext} from "../contexts/Container";
 import {v4 as uuidv4} from "uuid"
 import {Storage} from "../types/Storage";
@@ -32,21 +30,32 @@ export default function FridgeNavigator() {
                 options={{
                     headerTitle: '냉장고',
                     headerLeft: () => <MaterialCommunityIcons name="fridge" size={32} color="black"
-                                                              style={{marginLeft: 20}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
+                                                              style={{marginLeft: 16}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Ionicons.Button
-                                name="md-search"
-                                size={32}
-                                color="black"
-                                // @ts-ignore, TODO: how to fix it without @ts-ignore
-                                borderRadius={32}
-                                backgroundColor="transparent"
-                                iconStyle={{marginRight: 4, marginLeft: 4}}
-                                onPress={() => alert("search")}
-                            />
+                            <TouchableOpacity style={{marginRight: 24}} onPress={() => alert("search")}>
+                                <Ionicons
+                                    name="md-search"
+                                    size={32}
+                                    color="black"
+                                    // @ts-ignore, TODO: how to fix it without @ts-ignore
+                                    borderRadius={32}
+                                    backgroundColor="transparent"
+                                    // iconStyle={{marginRight: 4, marginLeft: 4}}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{marginRight: 16}} onPress={() => alert("search")}>
+                                <Ionicons
+                                    name="ios-trash"
+                                    size={32}
+                                    color="black"
+                                    // @ts-ignore, TODO: how to fix it without @ts-ignore
+                                    borderRadius={32}
+                                    backgroundColor="transparent"
+                                    // iconStyle={{marginRight: 4, marginLeft: 4}}
+                                />
+                            </TouchableOpacity>
 
-                            <SignOut/>
                         </View>
                 }}
             />
@@ -69,7 +78,7 @@ export default function FridgeNavigator() {
                             <Feather
                                 name="x" size={28} color="black"
                                 // @ts-ignore
-                                backgroundColor="transparent" style={{marginLeft: 10}}/>
+                                backgroundColor="transparent" style={{marginLeft: 16}}/>
                         </TouchableOpacity>,
                     headerRight: () =>
                         <TouchableOpacity onPress={() => {
@@ -89,7 +98,7 @@ export default function FridgeNavigator() {
                             navigation.pop()
                         }}>
                             <AntDesign name={"arrowright"} size={28} color="black"
-                                       style={{marginRight: 20}}/>
+                                       style={{marginRight: 16}}/>
                         </TouchableOpacity>
                 }}
             />

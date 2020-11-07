@@ -2,7 +2,6 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import React from "react";
 import {Item} from '../contexts/Container';
 import {Storage} from '../types/Storage'
-import ItemNavigator from "./ItemNavigator";
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -12,7 +11,7 @@ type Props = {
 }
 
 // refer to https://reactnavigation.org/docs/material-top-tab-navigator/
-function StorageNavigator(props: Props): JSX.Element {
+function StorageNavigator(props: Props) {
     const {component, container} = props
 
     const storages = Object.values(Storage)
@@ -25,10 +24,7 @@ function StorageNavigator(props: Props): JSX.Element {
                         <TopTab.Screen key={key} name={storage}>
                             {
                                 _ => component(
-                                    container.filter((item: Item) => {
-                                        console.log('아이템' + item.storage)
-                                        return storage == Storage.TOTAL ? true : item.storage== storage
-                                    })
+                                    container.filter((item: Item) => storage == Storage.TOTAL ? true : item.storage == storage)
                                 )
                             }
                         </TopTab.Screen>)

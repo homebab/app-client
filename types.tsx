@@ -21,6 +21,8 @@ export type AuthNaviParamList = {
 export type BaseNaviParamList = {
   Fridge: undefined;
   Recipe: undefined;
+  Dashboard: undefined;
+  Settings: undefined;
 };
 
 export type FridgeNaviParamList = {

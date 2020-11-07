@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import ItemNavigator from "../../navigators/ItemNavigator";
+import CategoryNavigator from "../../navigators/CategoryNavigator";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
@@ -38,7 +38,8 @@ const ListItems: React.FC = () => {
 
     return (
         <>
-            <ItemNavigator component={HOCStorageNavigator(ListItemsGrid)} container={fridge}/>
+            {/*<StorageNavigator component={ListItemsGrid} container={fridge}/>*/}
+            <CategoryNavigator component={HOCStorageNavigator(ListItemsGrid)} container={fridge}/>
 
             <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>

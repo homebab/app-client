@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import ItemNavigator from "../../navigators/ItemNavigator";
+import CategoryNavigator from "../../navigators/CategoryNavigator";
 import {useRoute} from "@react-navigation/native";
 import {Ingredients} from "../../constants/Ingredients";
 import {Item, useContainerContext} from "../../contexts/Container";
@@ -33,7 +33,7 @@ const AddItems = () => {
 
     return (
         <>
-            <ItemNavigator component={AddItemsGrid} container={ingredients}/>
+            <CategoryNavigator component={AddItemsGrid} container={ingredients}/>
         </>
     )
 }

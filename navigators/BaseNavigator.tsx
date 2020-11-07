@@ -11,11 +11,13 @@ import CaptureItem from '../screens/CaptureItem';
 import {StyleSheet, View} from 'react-native';
 import {useAccountContext} from "../contexts/Account";
 import SignOut from "../components/SignOut";
-import ItemNavigator from "./ItemNavigator";
+import CategoryNavigator from "./CategoryNavigator";
 import AddItems from "../screens/AddItems";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {useNavigation} from "@react-navigation/native";
 import FridgeNavigator from "./FridgeNavigator";
+import Dashboard from "../screens/Dashboard";
+import Settings from "../screens/Settings";
 
 const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
@@ -41,6 +43,24 @@ export default function BaseNavigator() {
                 options={{
                     tabBarLabel: "레시피",
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="chef-hat" size={24}
+                                                                     color={color}/>,
+                }}
+            />
+            <BottomTab.Screen
+                name="Dashboard"
+                component={Dashboard}
+                options={{
+                    tabBarLabel: "식습관",
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="file-chart" size={24}
+                                                                     color={color}/>,
+                }}
+            />
+            <BottomTab.Screen
+                name="Settings"
+                component={Settings}
+                options={{
+                    tabBarLabel: "설정",
+                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="settings" size={24}
                                                                      color={color}/>,
                 }}
             />

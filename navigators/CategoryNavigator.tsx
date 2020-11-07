@@ -11,7 +11,7 @@ type Props = {
 }
 
 // refer to https://reactnavigation.org/docs/material-top-tab-navigator/
-const ItemNavigator: React.FC<Props> = (props: Props) => {
+const CategoryNavigator: React.FC<Props> = (props: Props) => {
     const {component, container} = props
 
     const categories = Object.values(Category)
@@ -35,8 +35,8 @@ const ItemNavigator: React.FC<Props> = (props: Props) => {
     );
 }
 
-export default ItemNavigator;
+export default CategoryNavigator;
 
-export const HOCItemNavigator = (component: any) => (container: Array<Item>) => {
-    return <ItemNavigator  component={component} container={container}/>
+export const HOCCategoryNavigator = (component: any) => (container: Array<Item>) => {
+    return <CategoryNavigator component={component} container={container}/>
 }
