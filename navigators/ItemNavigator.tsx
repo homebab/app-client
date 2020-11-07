@@ -1,6 +1,5 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React from "react";
-import {Ingredients} from "../constants/Ingredients";
 import {Item} from '../contexts/Container';
 import {Category} from "../types/Category";
 
@@ -23,7 +22,6 @@ function ItemNavigator(props: Props) {
                 categories.map((category, key) => {
                     return (
                         <TopTab.Screen key={key} name={category}>
-
                             {
                                 _ => Component(
                                     container.filter((item: Item) => category === "전체" ? true : item.category === category)

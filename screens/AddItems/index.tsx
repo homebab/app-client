@@ -2,9 +2,9 @@ import React, {useEffect} from "react";
 import ItemNavigator from "../../navigators/ItemNavigator";
 import {useRoute} from "@react-navigation/native";
 import {Ingredients} from "../../constants/Ingredients";
-import AddItemCard from "../../components/AddItemCard";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
+import AddItemCard from "../../components/ItemCard/AddItemCard";
 
 
 const AddItems = () => {
@@ -24,11 +24,9 @@ const AddItems = () => {
         .reduce((acc, val) => acc.concat(val));
 
     const AddItemsGrid = (container: Array<Item>) => {
-
-        const items: Array<string> | null = Ingredients[route.name as keyof Ingredients]
         return (
             <ScrollViewGrid container={container ?
-                container.map((item: Item, key: number) => <AddItemCard key={key} label={item.name}/>)
+                container.map((item: Item, key: number) => <AddItemCard key={key} item={item}/>)
                 : []
             }/>
         )

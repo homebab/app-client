@@ -5,9 +5,9 @@ import {Actions} from "..";
 export type Item = {
     id?: string;
     name: string;
+    category: string;
     expiredAt?: Date; // | Date;
     storage?: Storage;
-    category?: string;
     tag?: string;
     memo?: string;
     imageUrl?: string; // image url

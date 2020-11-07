@@ -2,27 +2,28 @@ import React from 'react';
 import {GestureResponderEvent, Image, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "./styles";
 import Assets from "../../constants/Assets";
-import {useContainerContext} from "../../contexts/Container";
+import {useContainerContext, Item} from "../../contexts/Container";
 import { useRoute } from '@react-navigation/native';
 
 type Props = {
-    label: string
+    item: Item
 }
 
 const AddItemCard = (props: Props) => {
-    const {label} = props;
+    const {item} = props;
 
     const route = useRoute();
     const {containerState, containerDispatch} = useContainerContext();
     const {basket} = containerState;
 
-    const isContained = basket.filter(item => item.name == label).length > 0;
+    const isContained = basket.filter(i => i.name == item.name).length > 0;
 
     const handlePress = (_: GestureResponderEvent) => {
         console.log(isContained);
+        // isContain ? deleteItem : addItem
         const updatedBasket = isContained ?
-            basket.filter(item => item.name != label) :
-            [...basket, {name: label, category: route.name}];
+            basket.filter(i => i.name != item.name) :
+            [...basket, {name: item.name, category: item.category}];
         containerDispatch({type: "updateBasket", value: {basket: updatedBasket}});
     }
 
@@ -36,7 +37,7 @@ const AddItemCard = (props: Props) => {
                 />
             </View>
 
-            <Text style={isContained ? styles.pressed : styles.unPressed}>{label}</Text>
+            <Text style={isContained ? styles.pressed : styles.unPressed}>{item.name}</Text>
         </TouchableOpacity>
     );
 }
