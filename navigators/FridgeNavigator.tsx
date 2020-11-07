@@ -73,14 +73,14 @@ export default function FridgeNavigator() {
                         </TouchableOpacity>,
                     headerRight: () =>
                         <TouchableOpacity onPress={() => {
-                            const userItems: Array<Item> = basket.filter(item => {
+                            const userItems: Array<Item> = basket.map(item => {
                                 const date = new Date();
                                 date.setDate(date.getDate() + 7);
 
                                 return {
                                     id: uuidv4(),
                                     name: item.name,
-                                    expiredAt: Date(), // | Date;
+                                    expiredAt: date, // | Date;
                                     storage: Storage.FRIDGE,
                                     category: item.category,
                                 }

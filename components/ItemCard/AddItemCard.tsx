@@ -12,14 +12,12 @@ type Props = {
 const AddItemCard = (props: Props) => {
     const {item} = props;
 
-    const route = useRoute();
     const {containerState, containerDispatch} = useContainerContext();
     const {basket} = containerState;
 
     const isContained = basket.filter(i => i.name == item.name).length > 0;
 
     const handlePress = (_: GestureResponderEvent) => {
-        console.log(isContained);
         // isContain ? deleteItem : addItem
         const updatedBasket = isContained ?
             basket.filter(i => i.name != item.name) :

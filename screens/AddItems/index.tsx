@@ -6,6 +6,14 @@ import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import AddItemCard from "../../components/ItemCard/AddItemCard";
 
+const AddItemsGrid = (container: Array<Item>) => {
+    return (
+        <ScrollViewGrid container={container ?
+            container.map((item: Item, key: number) => <AddItemCard key={key} item={item}/>)
+            : []
+        }/>
+    )
+}
 
 const AddItems = () => {
 
@@ -22,15 +30,6 @@ const AddItems = () => {
             })
         )
         .reduce((acc, val) => acc.concat(val));
-
-    const AddItemsGrid = (container: Array<Item>) => {
-        return (
-            <ScrollViewGrid container={container ?
-                container.map((item: Item, key: number) => <AddItemCard key={key} item={item}/>)
-                : []
-            }/>
-        )
-    }
 
     return (
         <>
