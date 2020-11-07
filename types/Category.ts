@@ -1,4 +1,3 @@
-
 export enum Category {
-    "전체", "채소", "과일", "육류", "수산물", "양공", "견과", "조미료", "소스", "양념", "면류", "유제품", "김치/젓갈", "반찬", "인스턴트", "과자/제과", "기타"
+    TOTAL = "전체", VEGETABLE = "채소", FRUIT = "과일", MEAT = "육류", SEAFOOD = "수산물", GRAIN_NUTS = "곡물/견과류", SPICE_SAUCE = "양념/소스", DAIRY = "유제품", SNACKS_BAKERY = "과자/제과", ETC = "기타"
 }
