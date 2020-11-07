@@ -2,15 +2,15 @@ import React, {useEffect} from 'react';
 import {GestureResponderEvent, Image, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "./styles";
 import Assets from "../../constants/Assets";
-import {useContainerContext} from "../../contexts/Container";
+import {useContainerContext, Item} from "../../contexts/Container";
 
 type Props = {
-    label: string,
+    item: Item,
     handlePress?: (e: GestureResponderEvent) => void
 }
 
 const ItemCard = (props: Props) => {
-    const {label, handlePress} = props;
+    const {item, handlePress} = props;
 
     return (
         <TouchableOpacity style={[styles.container]} onPress={handlePress}>
@@ -22,7 +22,7 @@ const ItemCard = (props: Props) => {
                 />
             </View>
 
-            <Text>{label}</Text>
+            <Text>{item.name}</Text>
         </TouchableOpacity>
     );
 }

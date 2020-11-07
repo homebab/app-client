@@ -26,8 +26,8 @@ export const styles = StyleSheet.create({
         position: "absolute",
         padding: 20,
         borderRadius: 50,
-        bottom: 36,
-        right: 28,
+        bottom: '8%',
+        right: '8%',
         backgroundColor: "black"
     }
 });

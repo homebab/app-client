@@ -255,7 +255,7 @@ Resources:
             - '     });'
             - ' }'
             - '};'
-      Handler: index.handler
+      Handler: index.tsx.handler
       Runtime: nodejs10.x
       Timeout: '300'
       Role: !GetAtt 
@@ -381,7 +381,7 @@ Resources:
             - '}}'
 
 
-      Handler: index.handler
+      Handler: index.tsx.handler
       Runtime: nodejs10.x
       Timeout: '300'
       Role: !GetAtt 
@@ -510,7 +510,7 @@ Resources:
             - ' } catch(err) { console.log(err.stack); response.send(event, context, response.FAILED, {err});};'
             - '} '
 
-      Handler: index.handler
+      Handler: index.tsx.handler
       Runtime: nodejs10.x
       Timeout: '300'
       Role: !GetAtt 
@@ -609,7 +609,7 @@ Resources:
             - '} catch(err) { console.log(err.stack); response.send(event, context, response.FAILED, {err});};'
             - '}'
 
-      Handler: index.handler
+      Handler: index.tsx.handler
       Runtime: nodejs10.x
       Timeout: '300'
       Role: !GetAtt 
