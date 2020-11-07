@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {ScrollView, View} from "react-native";
 import ItemNavigator from "../../navigators/ItemNavigator";
 import {styles} from "./styles";
@@ -6,33 +6,8 @@ import Grid from "../../components/Grid";
 import {useRoute} from "@react-navigation/native";
 import {Ingredients} from "../../constants/Ingredients";
 import AddItemCard from "../../components/AddItemCard";
+import {useContainerContext} from "../../contexts/Container";
 
-type props = {}
-
-// const itemCards = (name: string, key: number) => {
-//
-//     const {containerState, containerDispatch} = useContainerContext();
-//     const {basket} = containerState;
-//
-//     useEffect(() => {
-//         console.log(basket)
-//     }, [basket])
-//
-//
-//     const isContained = basket.filter(item => item.name == name).length > 0;
-//
-//     const handlePress = (_: GestureResponderEvent) => {
-//         console.log(isContained)
-//         const updatedBasket = isContained ? basket.filter(item => item.name != name) : [...basket, {name: name}];
-//         containerDispatch({type: "updateBasket", value: {basket: updatedBasket}});
-//     }
-//
-//     return (
-//         <View key={key} style={isContained ? {opacity: 0.2} : {opacity: 1}}>
-//             <ItemCard label={name} handlePress={handlePress}/>
-//         </View>
-//     )
-// }
 
 const ItemsGrid = () => {
     const route = useRoute();
@@ -54,6 +29,12 @@ const ItemsGrid = () => {
 
 
 const AddItems = () => {
+
+    const {containerDispatch} = useContainerContext()
+
+    useEffect(() => {
+        containerDispatch({type: 'flushBasket', value: null})
+    }, [])
 
     return (
         <>

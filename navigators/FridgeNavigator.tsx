@@ -2,52 +2,27 @@
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 import {createStackNavigator} from "@react-navigation/stack";
 import {FridgeNaviParamList} from "../types";
-import {useAccountContext} from "../contexts/Account";
-import {useNavigation} from "@react-navigation/native";
-import {StyleSheet, View} from "react-native";
-import ItemNavigator from "./ItemNavigator";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {AntDesign, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
+import {TextInput, TouchableOpacity, View} from "react-native";
+import {AntDesign, Feather, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import SignOut from "../components/SignOut";
 import AddItems from "../screens/AddItems";
 import CaptureItem from "../screens/CaptureItem";
 import * as React from "react";
 import ListItems from "../screens/ListItems";
+import {useNavigation} from "@react-navigation/native";
+import Layout from "../constants/Layout";
+import {Item, useContainerContext} from "../contexts/Container";
+import {v4 as uuidv4} from "uuid"
+import {Storage} from "../types/Storage";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
-// const ListItemsScreen = () => {
-//
-//     const navigation = useNavigation()
-//     const styles = StyleSheet.create({
-//         plusButton: {
-//             position: "absolute",
-//             padding: 20,
-//             borderRadius: 50,
-//             bottom: 36,
-//             right: 28,
-//             backgroundColor: "black"
-//         }
-//     })
-//     return (
-//         <>
-//             <ItemNavigator/>
-//
-//             <View style={styles.plusButton}>
-//                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-//                     <AntDesign name="plus" size={20} color='white'/>
-//                 </TouchableOpacity>
-//             </View>
-//         </>
-//     )
-// }
-
 export default function FridgeNavigator() {
 
-    const {accountState, accountDispatch} = useAccountContext();
-    const {profile} = accountState;
-    const {imageUrl} = profile;
+    const navigation = useNavigation();
 
+    const {containerState, containerDispatch} = useContainerContext();
+    const {basket} = containerState;
 
     return (
         <FridgeStack.Navigator>
@@ -78,7 +53,45 @@ export default function FridgeNavigator() {
             <FridgeStack.Screen
                 name="AddItems"
                 component={AddItems}
-                options={{headerTitle: '식품 추가'}}
+                options={{
+                    // TODO: searchbar
+                    // @ts-ignore
+                    // headerTitle: (props) =>
+                    //     <View style={{backgroundColor: 'red', opacity: 0.5, width: Layout.window.width * 0.7, alignSelf: 'flex-end'}}>
+                    //         <TextInput/>
+                    //     </View>
+
+                    headerTitle: '식품 추가',
+                    headerLeft: () =>
+                        <TouchableOpacity onPress={() => {
+                            navigation.goBack()
+                        }}>
+                            <Feather
+                                name="x" size={28} color="black"
+                                // @ts-ignore
+                                backgroundColor="transparent" style={{marginLeft: 10}}/>
+                        </TouchableOpacity>,
+                    headerRight: () =>
+                        <TouchableOpacity onPress={() => {
+                            const userItems: Array<Item> = basket.filter(item => {
+                                const date = new Date();
+                                date.setDate(date.getDate() + 7);
+
+                                return {
+                                    id: uuidv4(),
+                                    name: item.name,
+                                    expiredAt: Date(), // | Date;
+                                    storage: Storage.FRIDGE,
+                                    category: item.category,
+                                }
+                            })
+                            containerDispatch({type: 'addFridgeItems', value: userItems})
+                            navigation.navigate('ListItems')
+                        }}>
+                            <AntDesign name={"arrowright"} size={28} color="black"
+                                       style={{marginRight: 20}}/>
+                        </TouchableOpacity>
+                }}
             />
             <FridgeStack.Screen
                 name="CaptureItems"

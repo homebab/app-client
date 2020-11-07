@@ -4,24 +4,24 @@ import {useNavigation} from "@react-navigation/native";
 import ItemNavigator from "../../navigators/ItemNavigator";
 import {TouchableOpacity} from "react-native-gesture-handler";
 import {AntDesign} from "@expo/vector-icons";
-import {Item, useAccountContext} from "../../contexts/Account";
 import DeleteModal from "../../components/DeleteItemModal";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import Grid from "../../components/Grid";
+import {Item, useContainerContext} from "../../contexts/Container";
 
 const ItemsGrid = () => {
 
-    const {accountState} = useAccountContext();
-    const {container} = accountState;
-
+    const {containerState} = useContainerContext();
+    const {fridge} = containerState;
+    console.log(fridge)
     const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
-    const itemCards = container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
+    const itemCards = fridge // .sort((l: Item, r: Item) => l.expiredAt!.getTime() - r.expiredAt!.getTime())
         .map((item: Item, key: number) => (
             <View key={key}>
-                <DeleteModal item={item} visible={visibleDeleteModal}
-                             hideModal={() => setVisibleDeleteModal(false)}/>
+                {/*<DeleteModal item={item} visible={visibleDeleteModal}*/}
+                {/*             hideModal={() => setVisibleDeleteModal(false)}/>*/}
                 <ItemCard label={item.name}
                     // showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}
                 />

@@ -64,15 +64,31 @@ const ContainerController: React.FC = ({children}) => {
         switch (action.type) {
             case 'flush':
                 return initialContainer;
+            case 'flushBasket':
+                return {
+                    ...state,
+                    basket: []
+                }
+            case 'flushFridge':
+                return {
+                    ...state,
+                    fridge: []
+                }
+            case 'addFridgeItems':
+                // console.log(action.value)
+                return {
+                    ...state,
+                    fridge: state.fridge.concat(action.value)
+                };
+            case 'deleteFridgeItem':
+                return {
+                    ...state,
+                    container: state.fridge.filter(item => item.id !== action.value.id)
+                };
             case 'updateBasket':
                 return {
                     ...state,
                     basket: action.value.basket
-                }
-            case 'putInBasket':
-                return {
-                    ...state,
-                    basket: state.basket.concat([action.value.item])
                 }
             default:
                 return state;

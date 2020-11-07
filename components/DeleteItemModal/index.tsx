@@ -1,6 +1,7 @@
 // import {Modal, Text} from 'react-native-paper';
 import * as React from 'react';
 import {Modal, Text, TouchableHighlight, View} from 'react-native';
+// TODO: use react-native-elements
 import {RadioButton} from 'react-native-paper';
 import {Feather} from '@expo/vector-icons';
 import {Item, useAccountContext} from "../../contexts/Account";
