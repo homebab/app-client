@@ -33,7 +33,7 @@ const AddItems = () => {
 
     return (
         <>
-            <ItemNavigator Component={AddItemsGrid} container={ingredients}/>
+            <ItemNavigator component={AddItemsGrid} container={ingredients}/>
         </>
     )
 }

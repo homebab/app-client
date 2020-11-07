@@ -47,7 +47,7 @@ console.debug('[omtm]: update AWS amplify config ' + JSON.stringify(updatedAwsCo
 
 Amplify.configure(updatedAwsConfig)
 
-const App = () => {
+const App: React.FC = () => {
 
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();

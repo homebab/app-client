@@ -8,7 +8,7 @@ import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
-import StorageNavigator from "../../navigators/StorageNavigator";
+import StorageNavigator, {HOCStorageNavigator} from "../../navigators/StorageNavigator";
 
 const ListItemsGrid = (container: Array<Item>) => {
     const itemCards = container // .sort((l: Item, r: Item) => l.expiredAt!.getTime() - r.expiredAt!.getTime())
@@ -27,7 +27,7 @@ const ListItemsGrid = (container: Array<Item>) => {
     )
 }
 
-const ListItems = () => {
+const ListItems: React.FC = () => {
 
     const navigation = useNavigation()
 
@@ -38,7 +38,7 @@ const ListItems = () => {
 
     return (
         <>
-            <StorageNavigator Component={ListItemsGrid} container={fridge}/>
+            <ItemNavigator component={HOCStorageNavigator(ListItemsGrid)} container={fridge}/>
 
             <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
