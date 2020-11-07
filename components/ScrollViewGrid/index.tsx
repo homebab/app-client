@@ -1,25 +1,17 @@
-import {Item} from "../../contexts/Account";
+
 import {ScrollView, View} from "react-native";
 import {styles} from "../../screens/ListItems/styles";
 import React, {useState} from "react";
 import DeleteModal from "../DeleteItemModal";
 import ItemCard from "../ItemCard";
 import Grid from "../Grid";
+import { Item } from "../../contexts/Container";
 
-const ItemsGrid = (container: Array<Item>) => {
-
-    const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
-
-    const itemCards = container.sort((l: Item, r: Item) => l.expiredAt.getTime() - r.expiredAt.getTime())
-        .map((item: Item, key: number) => (
-            <View key={key}>
-                <DeleteModal item={item} visible={visibleDeleteModal}
-                             hideModal={() => setVisibleDeleteModal(false)}/>
-                <ItemCard label={item.name}
-                    // showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}
-                />
-            </View>
-        ))
+type Props = {
+    container: Array<any>
+}
+const ScrollViewGrid = (props: Props) => {
+    const {container} = props;
 
     return (
         <View style={styles.container}>
@@ -33,13 +25,13 @@ const ItemsGrid = (container: Array<Item>) => {
                 //         }
             >
 
-                <Grid container={itemCards}/>
+                <Grid container={container}/>
             </ScrollView>
         </View>
     )
 }
 
-export default ItemsGrid
+export default ScrollViewGrid
 
 
 // const [refreshing, setRefreshing] = useState<boolean>(false);

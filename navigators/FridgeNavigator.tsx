@@ -1,6 +1,6 @@
 // Each tab has its own navigators stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-import {createStackNavigator} from "@react-navigation/stack";
+import {createStackNavigator, StackNavigationProp} from "@react-navigation/stack";
 import {FridgeNaviParamList} from "../types";
 import {TextInput, TouchableOpacity, View} from "react-native";
 import {AntDesign, Feather, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
@@ -19,7 +19,7 @@ const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
 export default function FridgeNavigator() {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'AddItems'>>();
 
     const {containerState, containerDispatch} = useContainerContext();
     const {basket} = containerState;
@@ -86,7 +86,7 @@ export default function FridgeNavigator() {
                                 }
                             })
                             containerDispatch({type: 'addFridgeItems', value: userItems})
-                            navigation.navigate('ListItems')
+                            navigation.pop()
                         }}>
                             <AntDesign name={"arrowright"} size={28} color="black"
                                        style={{marginRight: 20}}/>
