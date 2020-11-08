@@ -24,6 +24,8 @@ const AddFridgeItems = () => {
             return {
                 id: uuidv4(),
                 name: item.name,
+                createdAt: new Date(),
+                updatedAt: new Date(),
                 expiredAt: date, // | Date;
                 storage: Storage.FRIDGE,
                 category: item.category,

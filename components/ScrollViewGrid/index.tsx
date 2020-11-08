@@ -2,7 +2,7 @@
 import {ScrollView, View} from "react-native";
 import {styles} from "../../screens/ListItems/styles";
 import React, {useState} from "react";
-import DeleteModal from "../DeleteItemModal";
+import DeleteModal from "../DeleteItem";
 import ItemCard from "../ItemCard";
 import Grid from "../Grid";
 import { Item } from "../../contexts/Container";

@@ -1,27 +1,23 @@
 // import {Modal, Text} from 'react-native-paper';
 import * as React from 'react';
-import {Modal, Text, TouchableHighlight, View} from 'react-native';
+import {useState} from 'react';
+import {Modal, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 // TODO: use react-native-elements
 import {RadioButton} from 'react-native-paper';
 import {Feather} from '@expo/vector-icons';
-import {useAccountContext} from "../../contexts/Account";
 import {styles} from "./style"
-import { Item } from '../../contexts/Container';
+import {Item, useContainerContext} from '../../contexts/Container';
 
 type Props = {
-    item: Item,
     visible: boolean,
-    hideModal: () => void
+    handleConfirm: () => void,
+    handleCancel: () => void
 }
 
 const DeleteModal = (props: Props) => {
-    const {item, visible, hideModal} = props
-    const {id} = item;
-    const {accountDispatch} = useAccountContext();
+    const {visible, handleCancel, handleConfirm} = props
 
     const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
-
-    const handleSubmit = () => accountDispatch({type: 'deleteItem', value: {id: id}})
 
     return (
         <Modal visible={visible} animationType={"fade"} transparent={true}>
@@ -41,14 +37,14 @@ const DeleteModal = (props: Props) => {
                         <TouchableHighlight
                             underlayColor={'rgba(0,0,0,0.3)'}
                             style={{...styles.openButton, backgroundColor: "transparent"}}
-                            onPress={hideModal}
+                            onPress={handleCancel}
                         >
                             <Text style={{...styles.textStyle, color: '#f50057'}}>취소</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                             underlayColor={'rgba(0,0,0,0.3)'}
                             style={{...styles.openButton, backgroundColor: "transparent"}}
-                            onPress={handleSubmit}
+                            onPress={handleConfirm}
                         >
                             <Text style={{...styles.textStyle, color: '#2196f3'}}>제출</Text>
                         </TouchableHighlight>
@@ -60,5 +56,28 @@ const DeleteModal = (props: Props) => {
     );
 };
 
+const DeleteItem = ({item}: { item: Item }) => {
 
-export default DeleteModal;
+    const [isVisible, setIsVisible] = useState(false);
+
+    const {containerDispatch} = useContainerContext();
+
+    return (
+        <View>
+            <DeleteModal
+                visible={isVisible}
+                handleCancel={() => setIsVisible(false)}
+                handleConfirm={() => {
+                    containerDispatch({type: 'deleteFridgeItem', value: {id: item.id}});
+                    setIsVisible(false);
+                }}/>
+            <TouchableOpacity style={{width: '100%', padding: 16, backgroundColor: '#f44336'}}
+            onPress={() => setIsVisible(true)}>
+                <Text style={{color: 'white', fontSize: 18}}>버리기</Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+
+export default DeleteItem;

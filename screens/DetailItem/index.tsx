@@ -1,48 +1,78 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
-import {Modal, Text, TouchableOpacity, View} from "react-native";
+import React, {Dispatch, SetStateAction} from "react";
+import {Text, View} from "react-native";
 import Avatar from "../../components/Avatar";
 import Assets from "../../constants/Assets";
 import {ListItem} from "react-native-elements";
+import {Item, useContainerContext} from "../../contexts/Container";
+import DeleteItem from "../../components/DeleteItem";
 
 type Props = {
-    isVisible: boolean,
-    setIsVisible: Dispatch<SetStateAction<boolean>>
+    item: Item
+    navigatePop: () => void
 }
 
 const DetailItem = (props: Props) => {
-    const {isVisible, setIsVisible} = props;
+    const {item, navigatePop} = props;
+
+    const {containerDispatch} = useContainerContext();
 
     const list = [
         {title: 'List Item 1'},
         {title: 'List Item 2'},
         {
-            title: 'Cancel',
-            containerStyle: {backgroundColor: 'red'},
+            title: '버리기',
+            containerStyle: {backgroundColor: '#f44336'},
             titleStyle: {color: 'white'},
-            onPress: () => setIsVisible(false),
+            onPress: () => {
+                containerDispatch({
+                    type: "deleteFridgeItem",
+                    value: {id: item.id}
+                })
+
+                console.debug(`[omtm]: success to delete item, ${item.id}`)
+                navigatePop();
+            },
         },
     ];
 
+    const rowItemInfoList = [
+        {label: "보관상태", value: item.storage},
+        {label: "등록일", value: item.createdAt},
+        // {label: "보관일수", value: new Date().getDay() - item.createdAt?.getDay()}
+    ]
+
     return (
-        <Modal visible={isVisible} animationType={"slide"} transparent={true}>
-            <TouchableOpacity style={{
-                flex: 1, justifyContent: "flex-end", alignItems: "center", backgroundColor: 'rgba(0,0,0,0.4)'
-            }} onPressOut={() => setIsVisible(false)}>
-                <View style={{flex: 0.6, backgroundColor: 'white', width: '100%'}}>
-                    <Avatar style={{alignSelf: "center"}} source={Assets.Image.ingredients} size={32}/>
-                    <View>
-                        <Text>hi</Text>
-                        {list.map((l, i) => (
-                            <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
-                                <ListItem.Content>
-                                    <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-                                </ListItem.Content>
-                            </ListItem>
-                        ))}
-                    </View>
+
+        <View>
+            <Avatar style={{alignSelf: "center"}} source={Assets.Image.ingredients} size={32}/>
+            <Text>{item.name}</Text>
+
+            <View style={{flexDirection: "row"}}>
+                <View>
+                    <Text>보관상태</Text>
+                    <Text>{item.storage}</Text>
                 </View>
-            </TouchableOpacity>
-        </Modal>
+                <View>
+                    <Text>보관상태</Text>
+                    <Text>{item.storage}</Text>
+                </View>
+                <View>
+                    <Text>보관상태</Text>
+                    <Text>{item.storage}</Text>
+                </View>
+            </View>
+
+            <View>
+                {list.map((l, i) => (
+                    <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+                        <ListItem.Content>
+                            <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+                        </ListItem.Content>
+                    </ListItem>
+                ))}
+            </View>
+            <DeleteItem item={item}/>
+        </View>
     )
 }
 

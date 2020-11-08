@@ -6,9 +6,10 @@ import {styles} from "./styles";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {FridgeNaviParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {Item, Storage, useAccountContext} from "../../contexts/Account";
+import {Storage, useAccountContext} from "../../contexts/Account";
 import {formatDate, formatTag} from "../../validators/format";
 import {v4 as uuidv4} from "uuid"
+import {Item} from "../../contexts/Container";
 
 const AddItem = () => {
 
@@ -16,7 +17,7 @@ const AddItem = () => {
     const route = useRoute<RouteProp<FridgeNaviParamList, 'AddItems'>>();
 
     const {accountState, accountDispatch} = useAccountContext();
-    const {profile, container} = accountState;
+    const {profile} = accountState;
     const {id} = profile;
 
     const [name, setName] = useState<string>('');
@@ -31,7 +32,7 @@ const AddItem = () => {
         if ((name).length == 0 || (expiredAt).split('-').length < 3) alert("옳바르지 않은 형식입니다.")
         else {
             // store userItem on Account Context
-            const userItem: Item = {
+            const userItem: any = {
                 id: uuidv4(),
                 name: name,
                 expiredAt: expiredDate,

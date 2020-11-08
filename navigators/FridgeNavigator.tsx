@@ -5,7 +5,7 @@ import {FridgeNaviParamList} from "../types";
 import {View} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import AddItems from "../screens/AddItems";
-import CaptureItem from "../screens/CaptureItem";
+import CaptureItem from "../screens/CaptureItemV0";
 import * as React from "react";
 import ListItems from "../screens/ListItems";
 import AddFridgeItems from "../components/AddFridgeItems";

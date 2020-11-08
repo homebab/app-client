@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Modal, Text, TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import CategoryNavigator from "../../navigators/CategoryNavigator";
 import {AntDesign} from "@expo/vector-icons";
@@ -10,10 +10,8 @@ import ScrollViewGrid from "../../components/ScrollViewGrid";
 import {HOCStorageNavigator} from "../../navigators/StorageNavigator";
 import LocalStorage from "../../constants/LocalStorage";
 import AsyncStorage from "@react-native-community/async-storage";
-import {ListItem} from "react-native-elements";
-import Avatar from "../../components/Avatar";
-import Assets from "../../constants/Assets";
 import DetailItem from "../DetailItem";
+import BottomModal from "../../components/BottomModal";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -21,7 +19,11 @@ const ListItemCard = ({item}: { item: Item }) => {
 
     return (
         <View>
-            <DetailItem isVisible={isVisible} setIsVisible={setIsVisible}/>
+            <BottomModal
+                style={{flex: 0.6, backgroundColor: 'white', width: '100%', borderRadius: 24, padding: 16}}
+                visible={isVisible} handlePress={() => setIsVisible(false)}>
+                <DetailItem item={item} navigatePop={() => setIsVisible(false)}/>
+            </BottomModal>
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
                 {/*<DeleteModal item={item} visible={visibleDeleteModal}*/}

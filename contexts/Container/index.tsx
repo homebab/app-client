@@ -6,6 +6,8 @@ export type Item = {
     id?: string;
     name: string;
     category: string;
+    createdAt?: Date;
+    updatedAt?: Date;
     expiredAt?: Date; // | Date;
     storage?: Storage;
     tag?: string;
@@ -88,7 +90,7 @@ const ContainerController: React.FC = ({children}) => {
             case 'deleteFridgeItem':
                 return {
                     ...state,
-                    container: state.fridge.filter(item => item.id !== action.value.id)
+                    fridge: state.fridge.filter(item => item.id !== action.value.id)
                 };
             case 'updateBasket':
                 return {
