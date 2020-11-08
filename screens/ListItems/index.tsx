@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {View} from "react-native";
+import {Modal, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import CategoryNavigator from "../../navigators/CategoryNavigator";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {AntDesign, Ionicons} from "@expo/vector-icons";
+import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import {Item, useContainerContext} from "../../contexts/Container";
@@ -11,21 +10,34 @@ import ScrollViewGrid from "../../components/ScrollViewGrid";
 import {HOCStorageNavigator} from "../../navigators/StorageNavigator";
 import LocalStorage from "../../constants/LocalStorage";
 import AsyncStorage from "@react-native-community/async-storage";
+import {ListItem} from "react-native-elements";
+import Avatar from "../../components/Avatar";
+import Assets from "../../constants/Assets";
+import DetailItem from "../DetailItem";
 
-const ListItemsGrid = (container: Array<Item>) => {
-    const itemCards = container // .sort((l: Item, r: Item) => l.expiredAt!.getTime() - r.expiredAt!.getTime())
-        .map((item: Item, key: number) => (
-            <View key={key}>
+const ListItemCard = ({item}: { item: Item }) => {
+
+    const [isVisible, setIsVisible] = useState(false);
+
+    return (
+        <View>
+            <DetailItem isVisible={isVisible} setIsVisible={setIsVisible}/>
+
+            <TouchableOpacity onPress={() => setIsVisible(true)}>
                 {/*<DeleteModal item={item} visible={visibleDeleteModal}*/}
                 {/*             hideModal={() => setVisibleDeleteModal(false)}/>*/}
                 <ItemCard item={item}
                     // showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}
                 />
-            </View>
-        ))
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+const ItemsGrid = (container: Array<Item>) => {
 
     return (
-        <ScrollViewGrid container={itemCards}/>
+        <ScrollViewGrid container={container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)}/>
     )
 }
 
@@ -49,7 +61,7 @@ const ListItems: React.FC = () => {
     return (
         <>
             {/*<StorageNavigator component={ListItemsGrid} container={fridge}/>*/}
-            <CategoryNavigator component={HOCStorageNavigator(ListItemsGrid)} container={fridge}/>
+            <CategoryNavigator component={HOCStorageNavigator(ItemsGrid)} container={fridge}/>
 
             <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>

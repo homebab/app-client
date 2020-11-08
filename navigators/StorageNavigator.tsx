@@ -6,7 +6,7 @@ import {Storage} from '../types/Storage'
 const TopTab = createMaterialTopTabNavigator();
 
 type Props = {
-    component: any
+    component: React.FC<Array<Item>>,
     container: Array<Item>
 }
 
@@ -36,6 +36,6 @@ function StorageNavigator(props: Props) {
 
 export default StorageNavigator;
 
-export const HOCStorageNavigator = (component: any) => (container: Array<Item>) => {
+export const HOCStorageNavigator = (component: React.FC<Array<Item>>) => (container: Array<Item>) => {
     return <StorageNavigator component={component} container={container}/>
 }

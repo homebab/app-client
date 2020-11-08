@@ -1,12 +1,12 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import React, {FunctionComponent, PropsWithChildren} from "react";
+import React, {FC, FunctionComponent, PropsWithChildren} from "react";
 import {Item} from '../contexts/Container';
 import {Category} from "../types/Category";
 
 const TopTab = createMaterialTopTabNavigator();
 
 type Props = {
-    component: any
+    component: React.FC<Array<Item>>
     container: Array<Item>
 }
 
@@ -37,6 +37,6 @@ const CategoryNavigator: React.FC<Props> = (props: Props) => {
 
 export default CategoryNavigator;
 
-export const HOCCategoryNavigator = (component: any) => (container: Array<Item>) => {
+export const HOCCategoryNavigator = (component: React.FC<Array<Item>>) => (container: Array<Item>) => {
     return <CategoryNavigator component={component} container={container}/>
 }

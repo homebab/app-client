@@ -4,8 +4,9 @@ import {Modal, Text, TouchableHighlight, View} from 'react-native';
 // TODO: use react-native-elements
 import {RadioButton} from 'react-native-paper';
 import {Feather} from '@expo/vector-icons';
-import {Item, useAccountContext} from "../../contexts/Account";
+import {useAccountContext} from "../../contexts/Account";
 import {styles} from "./style"
+import { Item } from '../../contexts/Container';
 
 type Props = {
     item: Item,
