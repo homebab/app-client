@@ -26,11 +26,7 @@ const ListItemCard = ({item}: { item: Item }) => {
             </BottomModal>
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
-                {/*<DeleteModal item={item} visible={visibleDeleteModal}*/}
-                {/*             hideModal={() => setVisibleDeleteModal(false)}/>*/}
-                <ItemCard item={item}
-                    // showModal={(_: GestureResponderEvent) => setVisibleDeleteModal(true)}
-                />
+                <ItemCard item={item}/>
             </TouchableOpacity>
         </View>
     )
@@ -49,7 +45,6 @@ const ListItems: React.FC = () => {
 
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
-    const [visibleDeleteModal, setVisibleDeleteModal] = useState<boolean>(false);
 
     useEffect(() => {
         AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(fridge))

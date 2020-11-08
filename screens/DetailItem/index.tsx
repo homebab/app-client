@@ -1,10 +1,10 @@
-import React, {Dispatch, SetStateAction} from "react";
-import {Text, View} from "react-native";
+import React from "react";
+import {Text, View, ViewStyle} from "react-native";
 import Avatar from "../../components/Avatar";
 import Assets from "../../constants/Assets";
 import {ListItem} from "react-native-elements";
 import {Item, useContainerContext} from "../../contexts/Container";
-import DeleteItem from "../../components/DeleteItem";
+import {convertDateFormat} from "../../utils/convert";
 
 type Props = {
     item: Item
@@ -24,21 +24,41 @@ const DetailItem = (props: Props) => {
             containerStyle: {backgroundColor: '#f44336'},
             titleStyle: {color: 'white'},
             onPress: () => {
-                containerDispatch({
-                    type: "deleteFridgeItem",
-                    value: {id: item.id}
-                })
+                containerDispatch({type: "deleteFridgeItem", value: {id: item.id}})
 
                 console.debug(`[omtm]: success to delete item, ${item.id}`)
                 navigatePop();
             },
         },
     ];
-
+    console.log(typeof item.createdAt)
+    // console.log(item.createdAt?.getDate())
     const rowItemInfoList = [
-        {label: "보관상태", value: item.storage},
-        {label: "등록일", value: item.createdAt},
-        // {label: "보관일수", value: new Date().getDay() - item.createdAt?.getDay()}
+        {
+            label: "보관상태",
+            containerStyle: {
+                flex: 1,
+                alignItems: 'center',
+                borderRightColor: 'rgba(160,169,179,0.8)',
+                borderRightWidth: 0.3
+            },
+            value: item.storage
+        },
+        {
+            label: "등록일",
+            containerStyle: {
+                flex: 1,
+                alignItems: 'center',
+                borderRightColor: 'rgba(160,169,179,0.8)',
+                borderRightWidth: 0.3
+            },
+            value: convertDateFormat(item.createdAt!)
+        },
+        {
+            label: "보관일수",
+            containerStyle: {flex: 1, alignItems: 'center'},
+            value: new Date().getDate() - item.createdAt!.getDate() + 1
+        }
     ]
 
     return (
@@ -47,19 +67,16 @@ const DetailItem = (props: Props) => {
             <Avatar style={{alignSelf: "center"}} source={Assets.Image.ingredients} size={32}/>
             <Text>{item.name}</Text>
 
-            <View style={{flexDirection: "row"}}>
-                <View>
-                    <Text>보관상태</Text>
-                    <Text>{item.storage}</Text>
-                </View>
-                <View>
-                    <Text>보관상태</Text>
-                    <Text>{item.storage}</Text>
-                </View>
-                <View>
-                    <Text>보관상태</Text>
-                    <Text>{item.storage}</Text>
-                </View>
+            <View style={{flexDirection: "row", width: '100%'}}>
+                {rowItemInfoList.map((item, key) => {
+                    return (
+                        <View key={key} style={item.containerStyle as ViewStyle}>
+                            <Text>{item.label}</Text>
+                            <Text>{item.value}</Text>
+                        </View>
+                    )
+                })}
+
             </View>
 
             <View>
@@ -71,7 +88,7 @@ const DetailItem = (props: Props) => {
                     </ListItem>
                 ))}
             </View>
-            <DeleteItem item={item}/>
+            {/*<DeleteItem item={item}/>*/}
         </View>
     )
 }

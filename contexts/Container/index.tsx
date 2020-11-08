@@ -120,6 +120,8 @@ export const convertContainer = (container: Array<Item>) =>
     container.map(item => {
         return {
             ...item,
-            expiredAt: new Date(item.expiredAt!)
+            expiredAt: new Date(item.expiredAt!),
+            createdAt: new Date(item.createdAt!),
+            updatedAt: new Date(item.updatedAt!)
         }
     });

@@ -20,7 +20,7 @@ const AddFridgeItems = () => {
         const userItems: Array<Item> = basket.map(item => {
             const date = new Date();
             date.setDate(date.getDate() + 7);
-
+            
             return {
                 id: uuidv4(),
                 name: item.name,

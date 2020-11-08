@@ -4,7 +4,7 @@ export function* chunk(collection: Array<any>, size: number): Generator<any[], v
     }
 }
 
-export function chunkArray<T>(myArray: Array<T>, chunk_size: number): T[][]{
+export function chunkArray<T>(myArray: Array<T>, chunk_size: number): T[][] {
     const chunked = [];
 
     while (myArray.length) {
@@ -13,4 +13,3 @@ export function chunkArray<T>(myArray: Array<T>, chunk_size: number): T[][]{
 
     return chunked;
 }
-
