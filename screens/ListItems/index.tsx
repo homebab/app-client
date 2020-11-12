@@ -20,7 +20,7 @@ const ListItemCard = ({item}: { item: Item }) => {
     return (
         <View>
             <BottomModal
-                style={{flex: 0.6, backgroundColor: 'white', width: '100%', borderRadius: 24, padding: 16}}
+                style={{flex: 0.5, backgroundColor: 'white', alignItems: 'center',  width: '100%', borderTopEndRadius: 32, borderTopLeftRadius: 32}}
                 visible={isVisible} handlePress={() => setIsVisible(false)}>
                 <DetailItem item={item} navigatePop={() => setIsVisible(false)}/>
             </BottomModal>

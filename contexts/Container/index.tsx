@@ -92,6 +92,13 @@ const ContainerController: React.FC = ({children}) => {
                     ...state,
                     fridge: state.fridge.filter(item => item.id !== action.value.id)
                 };
+            case 'updateFridgeItem':
+                const updatedItem: Item = action.value.item
+                console.log(updatedItem)
+                return {
+                    ...state,
+                    fridge: state.fridge.filter(item => item.id !== updatedItem.id).concat(updatedItem)
+                }
             case 'updateBasket':
                 return {
                     ...state,

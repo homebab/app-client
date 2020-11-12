@@ -13,10 +13,10 @@ const BottomModal = (props: PropsWithChildren<Props>) => {
     return (
         <Modal visible={visible} animationType={"slide"} transparent={true}>
             <TouchableOpacity style={{
-                flex: 1,  backgroundColor: 'rgba(0,0,0,0.4)'
+                flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end'
             }} onPress={handlePress}>
-                <TouchableWithoutFeedback style={{flex: 1}}>
-                    <View style={[{position: "absolute", bottom: 0}, style]}>
+                <TouchableWithoutFeedback>
+                    <View style={style}>
                         {children}
                     </View>
                 </TouchableWithoutFeedback>

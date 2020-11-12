@@ -16,7 +16,7 @@ const ItemCard = (props: Props) => {
 
     return (
         <View style={[styles.container, style ? style : null]}>
-            <Avatar source={Assets.Image.ingredients} size={32}/>
+            <Avatar style={{bottom: 8}} source={Assets.Image.ingredients} size={48}/>
             <Text>{item.name}</Text>
         </View>
     );

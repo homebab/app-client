@@ -23,7 +23,7 @@ const AddItemCard = ({item}: {item: Item}) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard style={isContained? {opacity: 0.5}: {opacity: 1}} item={item}/>
+            <ItemCard style={isContained? {opacity: 0.3}: {opacity: 1}} item={item}/>
         </TouchableOpacity>);
 }
 

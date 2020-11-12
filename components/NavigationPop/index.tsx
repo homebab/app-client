@@ -12,7 +12,7 @@ const NavigationPop = () => {
 
     return (
         <TouchableOpacity onPress={() => {
-            navigation.pop()
+            navigation.goBack();
         }}>
             <Feather
                 name="x" size={28} color="black"

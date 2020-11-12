@@ -17,7 +17,7 @@ const Avatar = (props: Props) => {
             <Image
                 source={source}
                 fadeDuration={0}
-                style={{width: size ? size : 32, height: size ? size : 32}}
+                style={{width: size! - 16, height: size! - 16}}
             />
         </View>
     )
