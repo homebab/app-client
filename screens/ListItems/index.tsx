@@ -47,7 +47,7 @@ const ListItems: React.FC = () => {
     const {fridge} = containerState;
 
     useEffect(() => {
-        AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(fridge))
+        AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
             .then(_ => {
                 console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
                 // setVisibleDeleteModal(false);
@@ -58,7 +58,7 @@ const ListItems: React.FC = () => {
     return (
         <>
             {/*<StorageNavigator component={ListItemsGrid} container={fridge}/>*/}
-            <CategoryNavigator component={HOCStorageNavigator(ItemsGrid)} container={fridge}/>
+            <CategoryNavigator component={HOCStorageNavigator(ItemsGrid)} container={Array.from(fridge.values())}/>
 
             <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>

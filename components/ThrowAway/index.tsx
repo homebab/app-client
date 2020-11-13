@@ -1,6 +1,7 @@
 import {StyleProp, TouchableOpacity, ViewStyle} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import * as React from "react";
+import {useContainerContext} from "../../contexts/Container";
 
 type Props = {
     style: StyleProp<ViewStyle>
@@ -8,12 +9,14 @@ type Props = {
 
 const ThrowAway = (props:Props) => {
 
-    const PressHandler = () => {
+    const {containerDispatch} = useContainerContext();
 
+    const onPressHandler = () => {
+        containerDispatch({type: 'flush', value: null})
     }
 
     return (
-        <TouchableOpacity style={props.style} onPress={() => alert("search")}>
+        <TouchableOpacity style={props.style} onPress={onPressHandler}>
             <Ionicons
                 name="ios-trash"
                 size={32}

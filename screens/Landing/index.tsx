@@ -9,7 +9,7 @@ import SignIn from '../../components/SignIn';
 import AsyncStorage from "@react-native-community/async-storage";
 import LocalStorage from '../../constants/LocalStorage';
 import {CognitoUser} from "amazon-cognito-identity-js";
-import {convertContainer, Item, useContainerContext} from "../../contexts/Container";
+import {convertContainer, Item, useContainerContext, UUID} from "../../contexts/Container";
 
 
 const Landing = () => {
@@ -20,8 +20,8 @@ const Landing = () => {
     const {accountDispatch} = useAccountContext();
     const {containerDispatch} = useContainerContext();
 
-    const initializeContext = (cachedUser: CachedUser, userItems: Array<Item>) => {
-        console.log(userItems)
+    const initializeContext = (cachedUser: CachedUser, userItems: string | null) => {
+
         accountDispatch({
             type: 'setAccount',
             value: {
@@ -34,7 +34,7 @@ const Landing = () => {
         containerDispatch({
             type: 'setFridge',
             value: {
-                fridge: userItems,
+                fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map(),
             }
         });
     }
@@ -49,7 +49,7 @@ const Landing = () => {
                     // retrieve cached userItems
                     const userItems = await AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
 
-                    initializeContext(cognitoUser, userItems ? convertContainer(JSON.parse(userItems)) : []);
+                    initializeContext(cognitoUser, userItems);
                     break;
             }
         });
@@ -60,10 +60,12 @@ const Landing = () => {
                 // retrieve userItems
                 AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
                     .then(userItems => {
-                        initializeContext(cachedUser, userItems ? convertContainer(JSON.parse(userItems)) : []);
+                        initializeContext(cachedUser, userItems);
                         console.debug("[omtm]: success to signIn for", cachedUser.getUsername());
                     })
-                    .catch(err => alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`))
+                    .catch(err => {
+                        alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`);
+                    })
             })
             .catch(err => console.log(`[omtm]: ${err}`));
 

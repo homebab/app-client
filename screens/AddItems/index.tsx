@@ -6,6 +6,7 @@ import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
 import {GestureResponderEvent, TouchableOpacity} from "react-native";
+import {v4 as uuidv4} from 'uuid';
 
 const AddItemCard = ({item}: {item: Item}) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -17,7 +18,7 @@ const AddItemCard = ({item}: {item: Item}) => {
         // isContain ? deleteItem : addItem
         const updatedBasket = isContained ?
             basket.filter(i => i.name != item.name) :
-            [...basket, {name: item.name, category: item.category}];
+            [...basket, {id: uuidv4(), name: item.name, category: item.category}];
         containerDispatch({type: "updateBasket", value: {basket: updatedBasket}});
     };
 
@@ -40,7 +41,6 @@ const ItemsGrid: React.FC<Array<Item>> = (container: Array<Item>) => {
 const AddItems = () => {
 
     const {containerDispatch} = useContainerContext()
-    const route = useRoute();
 
     useEffect(() => {
         containerDispatch({type: 'flushBasket', value: null})
@@ -48,7 +48,8 @@ const AddItems = () => {
 
     const ingredients = Object.keys(Ingredients)
         .map(key => Ingredients[key as keyof Ingredients].map(name => {
-                return {name: name, category: key}
+                // Dummy id
+                return {id: '', name: name, category: key}
             })
         )
         .reduce((acc, val) => acc.concat(val));

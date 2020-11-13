@@ -5,7 +5,7 @@ import {Actions} from "..";
 export type UUID = string;
 
 export type Item = {
-    id?: UUID;
+    id: UUID;
     name: string;
     category: string;
     createdAt?: Date;
@@ -18,25 +18,24 @@ export type Item = {
 }
 
 export type Container = {
-    container: Map<UUID, Item>,
-    fridge: Array<Item>,
+    fridge: Map<UUID, Item>,
     // temporary container: basket
     basket: Array<Item>,
 }
 
 export const initialContainer: Container = {
-    container: new Map(),
-    fridge: [
-        // {
-        //     id: '',
-        //     name: '돼지고기',
-        //     expiredAt: new Date('2022-1-23'),
-        //     storage: Storage.FRIDGE,
-        //     tag: '육류',
-        //     memo: '냉동',
-        //     imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
-        // }
-    ],
+    fridge: new Map(),
+    // [
+    //     {
+    //         id: '',
+    //         name: '돼지고기',
+    //         expiredAt: new Date('2022-1-23'),
+    //         storage: Storage.FRIDGE,
+    //         tag: '육류',
+    //         memo: '냉동',
+    //         imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
+    //     }
+    // ],
     basket: []
 }
 
@@ -78,7 +77,7 @@ const ContainerController: React.FC = ({children}) => {
             case 'flushFridge':
                 return {
                     ...state,
-                    fridge: []
+                    fridge: new Map()
                 }
             case 'setFridge':
                 return {
@@ -86,22 +85,29 @@ const ContainerController: React.FC = ({children}) => {
                     fridge: action.value.fridge
                 }
             case 'addFridgeItems':
-                // console.log(action.value)
+                console.log(action.value)
+                const items: Array<Item> = action.value.items;
+
                 return {
                     ...state,
-                    fridge: state.fridge.concat(action.value)
+                    fridge: new Map(
+                        Array.from(state.fridge.entries())
+                            .concat(items.map(item => [item.id, item]))
+                            .sort())
                 };
             case 'deleteFridgeItem':
+                state.fridge.delete(action.value.id)
+
                 return {
                     ...state,
-                    fridge: state.fridge.filter(item => item.id !== action.value.id)
+                    fridge: state.fridge
                 };
             case 'updateFridgeItem':
                 const updatedItem: Item = action.value.item
 
                 return {
                     ...state,
-                    fridge: state.fridge.filter(item => item.id !== updatedItem.id).concat(updatedItem)
+                    fridge: state.fridge.set(updatedItem.id, updatedItem)
                 }
             case 'updateBasket':
                 return {
@@ -127,12 +133,13 @@ export default ContainerController;
     expiredAt: string -> Date
  */
 
-export const convertContainer = (container: Array<Item>) =>
-    container.map(item => {
-        return {
-            ...item,
-            expiredAt: new Date(item.expiredAt!),
-            createdAt: new Date(item.createdAt!),
-            updatedAt: new Date(item.updatedAt!)
-        }
-    });
+export const convertContainer = (container: Map<UUID, Item>) =>
+    new Map(Array.from(container.values())
+        .map(item => {
+            return [item.id, {
+                ...item,
+                expiredAt: new Date(item.expiredAt!),
+                createdAt: new Date(item.createdAt!),
+                updatedAt: new Date(item.updatedAt!)
+            }]
+        }));

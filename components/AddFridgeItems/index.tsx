@@ -22,7 +22,7 @@ const AddFridgeItems = () => {
             date.setDate(date.getDate() + 7);
             
             return {
-                id: uuidv4(),
+                id: item.id,
                 name: item.name,
                 createdAt: new Date(),
                 updatedAt: new Date(),
@@ -31,7 +31,7 @@ const AddFridgeItems = () => {
                 category: item.category,
             }
         })
-        containerDispatch({type: 'addFridgeItems', value: userItems})
+        containerDispatch({type: 'addFridgeItems', value: {items: userItems}})
         navigation.pop()
     }
 
