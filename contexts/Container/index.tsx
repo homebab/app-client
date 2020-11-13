@@ -2,8 +2,10 @@ import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "r
 import {Storage} from "../../types/Storage"
 import {Actions} from "..";
 
+export type UUID = string;
+
 export type Item = {
-    id?: string;
+    id?: UUID;
     name: string;
     category: string;
     createdAt?: Date;
@@ -16,12 +18,14 @@ export type Item = {
 }
 
 export type Container = {
+    container: Map<UUID, Item>,
     fridge: Array<Item>,
     // temporary container: basket
     basket: Array<Item>,
 }
 
 export const initialContainer: Container = {
+    container: new Map(),
     fridge: [
         // {
         //     id: '',
@@ -94,7 +98,7 @@ const ContainerController: React.FC = ({children}) => {
                 };
             case 'updateFridgeItem':
                 const updatedItem: Item = action.value.item
-                console.log(updatedItem)
+
                 return {
                     ...state,
                     fridge: state.fridge.filter(item => item.id !== updatedItem.id).concat(updatedItem)

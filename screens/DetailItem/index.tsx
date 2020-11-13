@@ -5,11 +5,7 @@ import Assets from "../../constants/Assets";
 import {Item, useContainerContext} from "../../contexts/Container";
 import {convertDateFormat} from "../../utils/convert";
 import {EvilIcons} from "@expo/vector-icons";
-
-type Props = {
-    item: Item
-    navigatePop: () => void
-}
+import {formatMemo} from "../../validators/format";
 
 const RowItemInfo = ({item}: { item: Item }) => {
 
@@ -50,12 +46,37 @@ const RowItemInfo = ({item}: { item: Item }) => {
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
 
     return (
-        <View style={containerStyle}>
-            <TextInput style={{padding: 20}} keyboardType={"default"} placeholder={"메모 영역 (100자 이하)"}
-                       value={value} onChangeText={onChangeHandler} editable={active}/>
+        <View style={{flex:1, padding: 20, paddingTop: 16, paddingBottom: 16, backgroundColor: 'rgba(208,200,192,0.2)'}}>
+            <TextInput style={[containerStyle]} keyboardType={"default"} placeholder={"메모 영역 (100자 이하)"}
+                       value={value} onChangeText={onChangeHandler} editable={active} multiline={true}/>
         </View>
     )
 }
+
+
+const ButtonWithIcon = ({onPressHandler}: { onPressHandler: () => void }) => {
+
+    return (
+        <TouchableOpacity
+            style={{
+                flexDirection: "row",
+                alignSelf: "center", alignItems: 'center', justifyContent: 'center',
+                width: '100%', borderWidth: 1, borderColor: 'rgba(208,200,192,0.5)'
+            }}
+            onPress={onPressHandler}
+        >
+            <EvilIcons name={"trash"} color={'#d32f2f'} size={32}/>
+            <Text style={{paddingTop: 16, paddingBottom: 16, fontSize: 16}}> 버리기</Text>
+        </TouchableOpacity>
+    )
+}
+
+
+type Props = {
+    item: Item
+    navigatePop: () => void
+}
+
 
 const DetailItem = (props: Props) => {
     const {item, navigatePop} = props;
@@ -68,7 +89,8 @@ const DetailItem = (props: Props) => {
     return (
         <View style={{flex: 1, width: "92%"}}>
             <View style={{alignItems: 'center', marginBottom: 24}}>
-                <Avatar style={{position: "absolute", top: -26}} source={Assets.Image.ingredients} size={52}/>
+                <Avatar style={{position: "absolute", top: -26, padding: 10}} source={Assets.Image.ingredients}
+                        size={52}/>
                 <Text style={{marginTop: 36, fontSize: 18}}>{item.name}</Text>
                 <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
                     <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>
@@ -80,18 +102,21 @@ const DetailItem = (props: Props) => {
 
             <View style={{flex: 0.5, marginBottom: 20}}>
                 <TextInputBox containerStyle={{
-                    flex: 1, width: '100%', backgroundColor: 'rgba(208,200,192,0.2)',
+                    flex: 1, width: '100%',
                     borderRadius: 8
-                }} value={memo} onChangeHandler={text => setMemo(text)} active={active}/>
+                }} value={memo} onChangeHandler={text => setMemo(formatMemo(text))} active={active}/>
                 <TouchableOpacity style={{position: "absolute", right: "5%", bottom: "10%"}}
                                   onPress={() => {
-                                      if(active) {
+                                      if (active) {
                                           setActive(false)
 
-                                          console.log({...item, memo: memo})
-                                          containerDispatch({type: "updateFridgeItem", value:{item: {...item, memo: memo}}})
-                                      }
-                                      else setActive(true)
+                                          containerDispatch({
+                                              type: "updateFridgeItem",
+                                              value: {item: {...item, updatedAt: new Date(), memo: memo}}
+                                          })
+
+                                          console.debug(`[omtm]: success to update item, ${item.id}`)
+                                      } else setActive(true)
                                   }}>
                     <Text>{active ? "저장" : "수정"}</Text>
                 </TouchableOpacity>
@@ -99,22 +124,12 @@ const DetailItem = (props: Props) => {
 
             {/*<DatePicker/>*/}
 
-            <TouchableOpacity
-                style={{
-                    flexDirection: "row",
-                    alignSelf: "center", alignItems: 'center', justifyContent: 'center',
-                    width: '100%', borderWidth: 1, borderColor: 'rgba(208,200,192,0.5)'
-                }}
-                onPress={() => {
-                    containerDispatch({type: "deleteFridgeItem", value: {id: item.id}})
+            <ButtonWithIcon onPressHandler={() => {
+                containerDispatch({type: "deleteFridgeItem", value: {id: item.id}})
 
-                    console.debug(`[omtm]: success to delete item, ${item.id}`)
-                    navigatePop();
-                }}
-            >
-                <EvilIcons name={"trash"} color={'#d32f2f'} size={32}/>
-                <Text style={{padding: 16, fontSize: 16}}> 버리기</Text>
-            </TouchableOpacity>
+                console.debug(`[omtm]: success to delete item, ${item.id}`)
+                navigatePop();
+            }}/>
         </View>
     )
 }

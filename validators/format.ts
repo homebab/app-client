@@ -48,8 +48,9 @@ export const formatTag = (text: string) => {
 }
 
 export const formatMemo = (text: string) => {
-    if (text.length > 20) {
-        alert("20자 이내로 입력하시오.")
-        return text.slice(0, 29)
+    if (text.length > 100) {
+
+        alert("100자 이내로 입력하시오.")
+        return text.slice(0, 100)
     } else return text
 }
