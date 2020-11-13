@@ -96,18 +96,19 @@ const ContainerController: React.FC = ({children}) => {
                             .sort())
                 };
             case 'deleteFridgeItem':
-                state.fridge.delete(action.value.id)
+                state.fridge.delete(action.value.id);
 
                 return {
                     ...state,
-                    fridge: state.fridge
+                    fridge: new Map(state.fridge)
                 };
             case 'updateFridgeItem':
-                const updatedItem: Item = action.value.item
+                const updatedItem: Item = action.value.item;
+                state.fridge.set(updatedItem.id, updatedItem);
 
                 return {
                     ...state,
-                    fridge: state.fridge.set(updatedItem.id, updatedItem)
+                    fridge: new Map(state.fridge)
                 }
             case 'updateBasket':
                 return {
