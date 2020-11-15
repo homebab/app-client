@@ -28,8 +28,8 @@ export default function FridgeNavigator() {
                                                               style={{marginLeft: 16}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            {/*<Search style={{marginRight: 28}}/>*/}
-                            <ThrowAway style={{marginRight: 16}}/>
+                            <Search style={{marginRight: 16}}/>
+                            {/*<ThrowAway style={{marginRight: 16}}/>*/}
                         </View>
                 }}
             />
@@ -37,13 +37,6 @@ export default function FridgeNavigator() {
                 name="AddItems"
                 component={AddItems}
                 options={{
-                    // TODO: searchbar
-                    // @ts-ignore
-                    // headerTitle: (props) =>
-                    //     <View style={{backgroundColor: 'red', opacity: 0.5, width: Layout.window.width * 0.7, alignSelf: 'flex-end'}}>
-                    //         <TextInput/>
-                    //     </View>
-
                     headerTitle: '식품 추가',
                     headerLeft: () => <NavigationPop/>,
                     headerRight: () => <AddFridgeItems/>

@@ -1,15 +1,17 @@
-import React, {FC, useEffect} from "react";
+import React, {useEffect} from "react";
 import CategoryNavigator from "../../navigators/CategoryNavigator";
-import {useRoute} from "@react-navigation/native";
 import {Ingredients} from "../../constants/Ingredients";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
-import {GestureResponderEvent, TouchableOpacity} from "react-native";
+import {GestureResponderEvent, TextInput, TouchableOpacity, View} from "react-native";
 import {v4 as uuidv4} from 'uuid';
 import Layout from "../../constants/Layout";
+import Search from "../../components/Search";
+import {Ionicons} from "@expo/vector-icons";
+import SearchBar from "../../components/SearchBar";
 
-const AddItemCard = ({item}: {item: Item}) => {
+const AddItemCard = ({item}: { item: Item }) => {
     const {containerState, containerDispatch} = useContainerContext();
     const {basket} = containerState;
 
@@ -25,7 +27,8 @@ const AddItemCard = ({item}: {item: Item}) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard style={[isContained? {opacity: 0.3}: {opacity: 1}, {width: Layout.window.width * 0.8 / 4}]} item={item}/>
+            <ItemCard style={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.8 / 4}]}
+                      item={item}/>
         </TouchableOpacity>);
 }
 
@@ -57,6 +60,7 @@ const AddItems = () => {
 
     return (
         <>
+            <SearchBar/>
             <CategoryNavigator component={ItemsGrid} container={ingredients}/>
         </>
     )

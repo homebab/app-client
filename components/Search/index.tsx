@@ -3,7 +3,7 @@ import {StyleProp, TouchableOpacity, ViewStyle} from "react-native";
 import * as React from "react";
 
 type Props = {
-    style: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
 }
 const Search = (props: Props) => {
 
