@@ -3,15 +3,14 @@ import {chunkArray} from "../../utils/functions";
 import React from "react";
 
 type Props = {
-    container: Array<any>
+    container: Array<any>,
+    chunkSize?: number
 }
 
 const Grid = (props: Props) => {
-    const {container} = props;
+    const {container, chunkSize} = props;
 
-    const chunk_size = 4
-
-    const chunked = chunkArray(container, chunk_size);
+    const chunked = chunkArray(container, chunkSize? chunkSize: 4);
 
     return (
         <View style={{backgroundColor: "#f2f2f2", padding: "5%"}}>

@@ -8,10 +8,11 @@ import Grid from "../Grid";
 import { Item } from "../../contexts/Container";
 
 type Props = {
-    container: Array<any>
+    container: Array<any>,
+    chunkSize?: number
 }
 const ScrollViewGrid = (props: Props) => {
-    const {container} = props;
+    const {container, chunkSize} = props;
 
     return (
         <View style={styles.container}>
@@ -25,7 +26,7 @@ const ScrollViewGrid = (props: Props) => {
                 //         }
             >
 
-                <Grid container={container}/>
+                <Grid container={container} chunkSize={chunkSize}/>
             </ScrollView>
         </View>
     )

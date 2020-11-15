@@ -7,6 +7,7 @@ import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
 import {GestureResponderEvent, TouchableOpacity} from "react-native";
 import {v4 as uuidv4} from 'uuid';
+import Layout from "../../constants/Layout";
 
 const AddItemCard = ({item}: {item: Item}) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -24,7 +25,7 @@ const AddItemCard = ({item}: {item: Item}) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard style={isContained? {opacity: 0.3}: {opacity: 1}} item={item}/>
+            <ItemCard style={[isContained? {opacity: 0.3}: {opacity: 1}, {width: Layout.window.width * 0.8 / 4}]} item={item}/>
         </TouchableOpacity>);
 }
 
@@ -34,7 +35,7 @@ const ItemsGrid: React.FC<Array<Item>> = (container: Array<Item>) => {
         <ScrollViewGrid container={container ?
             container.map((item: Item, key: number) => <AddItemCard key={key} item={item}/>)
             : []
-        }/>
+        } chunkSize={4}/>
     )
 }
 

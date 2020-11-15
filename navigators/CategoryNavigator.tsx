@@ -24,9 +24,8 @@ const CategoryNavigator: React.FC<Props> = (props: Props) => {
                         <TopTab.Screen key={key} name={category}>
                             {
                                 _ => component(
-                                    container.filter((item: Item) => category === "전체" ? true : item.category === category)
+                                    container.filter((item: Item) => item.category === category)
                                 )
-                                // (_) => ScrollViewGrid(container.filter((item: Item) => category === "전체" ? true : item.category === category))
                             }
                         </TopTab.Screen>)
                 })

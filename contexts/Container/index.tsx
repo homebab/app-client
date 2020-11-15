@@ -25,17 +25,6 @@ export type Container = {
 
 export const initialContainer: Container = {
     fridge: new Map(),
-    // [
-    //     {
-    //         id: '',
-    //         name: '돼지고기',
-    //         expiredAt: new Date('2022-1-23'),
-    //         storage: Storage.FRIDGE,
-    //         tag: '육류',
-    //         memo: '냉동',
-    //         imageUrl: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/foods/pork.jpg',
-    //     }
-    // ],
     basket: []
 }
 
