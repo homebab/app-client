@@ -7,15 +7,17 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import AddItems from "../screens/AddItems";
 import CaptureItem from "../screens/CaptureItemV0";
 import * as React from "react";
+import {useState} from "react";
 import ListItems from "../screens/ListItems";
 import AddFridgeItems from "../components/AddFridgeItems";
 import NavigationPop from "../components/NavigationPop";
-import ThrowAway from "../components/ThrowAway";
 import Search from "../components/Search";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
 export default function FridgeNavigator() {
+
+    const [search, setSearch] = useState(false);
 
     return (
         <FridgeStack.Navigator>
@@ -28,7 +30,7 @@ export default function FridgeNavigator() {
                                                               style={{marginLeft: 16}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Search style={{marginRight: 16}}/>
+                            <Search containerStyle={{marginRight: 16}}/>
                             {/*<ThrowAway style={{marginRight: 16}}/>*/}
                         </View>
                 }}
@@ -38,8 +40,9 @@ export default function FridgeNavigator() {
                 component={AddItems}
                 options={{
                     headerTitle: '식품 추가',
-                    headerLeft: () => <NavigationPop/>,
-                    headerRight: () => <AddFridgeItems/>
+                    headerLeft: () => <NavigationPop containerStyle={{marginLeft: 16}} size={28}/>,
+                    headerRight: () => <AddFridgeItems containerStyle={{marginRight: 16}} size={28}/>
+
                 }}
             />
             <FridgeStack.Screen

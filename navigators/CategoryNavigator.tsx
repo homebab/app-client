@@ -11,8 +11,8 @@ type Props = {
 }
 
 // refer to https://reactnavigation.org/docs/material-top-tab-navigator/
-const CategoryNavigator: React.FC<Props> = (props: Props) => {
-    const {component, container} = props
+const CategoryNavigator: React.FC<Props> = (props: PropsWithChildren<Props>) => {
+    const {component, container, children} = props
 
     const categories = Object.values(Category)
 

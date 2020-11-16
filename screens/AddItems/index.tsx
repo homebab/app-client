@@ -1,14 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import CategoryNavigator from "../../navigators/CategoryNavigator";
 import {Ingredients} from "../../constants/Ingredients";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
-import {GestureResponderEvent, TextInput, TouchableOpacity, View} from "react-native";
+import {GestureResponderEvent, TouchableOpacity} from "react-native";
 import {v4 as uuidv4} from 'uuid';
 import Layout from "../../constants/Layout";
-import Search from "../../components/Search";
-import {Ionicons} from "@expo/vector-icons";
+import {useNavigation} from "@react-navigation/native";
 import SearchBar from "../../components/SearchBar";
 
 const AddItemCard = ({item}: { item: Item }) => {
@@ -27,7 +26,7 @@ const AddItemCard = ({item}: { item: Item }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard style={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.8 / 4}]}
+            <ItemCard style={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
                       item={item}/>
         </TouchableOpacity>);
 }
@@ -44,7 +43,22 @@ const ItemsGrid: React.FC<Array<Item>> = (container: Array<Item>) => {
 
 const AddItems = () => {
 
-    const {containerDispatch} = useContainerContext()
+    const {containerDispatch} = useContainerContext();
+    const navigation = useNavigation();
+
+    const [isSearching, setIsSearching] = useState(false)
+    const [searchWord, setSearchWord] = useState('');
+
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         headerRight: () =>
+    //             <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    //                 <Search containerStyle={{marginRight: 28}} size={28}
+    //                         onPressHandler={() => setIsSearching(true)}/>
+    //                 <AddFridgeItems containerStyle={{marginRight: 16}} size={28}/>
+    //             </View>
+    //     });
+    // }, [navigation]);
 
     useEffect(() => {
         containerDispatch({type: 'flushBasket', value: null})
@@ -60,8 +74,21 @@ const AddItems = () => {
 
     return (
         <>
-            <SearchBar/>
-            <CategoryNavigator component={ItemsGrid} container={ingredients}/>
+            {/*<Modal visible={search}>*/}
+            {/*    <View style={{position: "absolute", flex: 1, backgroundColor: "pink"}}>*/}
+            {/*        <SearchItems/>*/}
+            {/*    </View>*/}
+            {/*</Modal>*/}
+            <SearchBar
+                placeholder={"식품을 직접 입력해주세요."} value={searchWord}
+                onChangeText={text => setSearchWord(text)}
+                onStartEditing={() => setIsSearching(true)}
+                onEndEditing={() => setIsSearching(false)}
+            />
+            {isSearching ?
+                ItemsGrid(ingredients)
+                : <CategoryNavigator component={ItemsGrid} container={ingredients}/>}
+
         </>
     )
 }

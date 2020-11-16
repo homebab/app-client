@@ -1,17 +1,21 @@
 import {Ionicons} from "@expo/vector-icons";
-import {StyleProp, TouchableOpacity, ViewStyle} from "react-native";
+import {GestureResponderEvent, StyleProp, TouchableOpacity, ViewStyle} from "react-native";
 import * as React from "react";
 
 type Props = {
-    style?: StyleProp<ViewStyle>
+    containerStyle?: StyleProp<ViewStyle>,
+    size?: number,
+    onPressHandler: (event: GestureResponderEvent) => void,
 }
 const Search = (props: Props) => {
 
+    const {containerStyle, size, onPressHandler} = props;
+
     return (
-        <TouchableOpacity style={props.style} onPress={() => alert("search")}>
+        <TouchableOpacity style={containerStyle} onPress={onPressHandler}>
             <Ionicons
-                name="md-search"
-                size={32}
+                name="ios-search"
+                size={size? size: 28}
                 color="black"
                 // @ts-ignore, TODO: how to fix it without @ts-ignore
                 borderRadius={32}
