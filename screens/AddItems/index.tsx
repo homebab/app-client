@@ -10,7 +10,7 @@ import Layout from "../../constants/Layout";
 import {useNavigation} from "@react-navigation/native";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
-import HorizontalTypesScrollView from "../../components/HorizontalTypesScrollView";
+import HorizontalTypesView from "../../components/HorizontalTypesView";
 
 const AddItemCard = ({item}: { item: Item }) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -58,7 +58,6 @@ const AddItems = () => {
             console.log('다시 계산1')
             return Object.keys(Ingredients)
                 .map(key => Ingredients[key as keyof Ingredients].map(name => {
-
                         // Dummy id
                         return {id: '', name: name, category: key}
                     })
@@ -67,8 +66,8 @@ const AddItems = () => {
         }, [Ingredients]
     );
 
-    const categories = Object.values(Category)
-    const [category, setCategory] = useState<string>(categories[0]);
+    const categories = Object.values(Category);
+    const [category, setCategory] = useState<Category>(categories[0]);
 
     return (
         <>
@@ -81,7 +80,7 @@ const AddItems = () => {
             {isSearching ?
                 ItemsGrid(ingredients.filter(ingredient => searchWord? ingredient.name.includes(searchWord): false)) :
                 <>
-                    <HorizontalTypesScrollView types={categories} pressedType={category} onPressHandler={(c: string) => setCategory(c)}/>
+                    <HorizontalTypesView types={categories} pressedType={category} onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
                     {ItemsGrid(ingredients.filter(ingredient => ingredient.category == category))}
                 </>
             }
