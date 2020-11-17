@@ -8,17 +8,15 @@ import {FridgeNaviParamList} from "../../types";
 type Props = {
     containerStyle?: ViewStyle,
     size?: number,
+    onPressHandler: () => void
 }
 
-const NavigationPop = (props: Props) => {
+const CrossIconButton = (props: Props) => {
 
-    const {containerStyle, size} = props;
-    const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'AddItems'>>();
+    const {containerStyle, size, onPressHandler} = props;
 
     return (
-        <TouchableOpacity style={containerStyle} onPress={() => {
-            navigation.goBack();
-        }}>
+        <TouchableOpacity style={containerStyle} onPress={onPressHandler}>
             <Feather
                 name="x" size={size? size: 28} color="black"
                 // @ts-ignore
@@ -27,4 +25,4 @@ const NavigationPop = (props: Props) => {
     )
 }
 
-export default NavigationPop;
+export default CrossIconButton;

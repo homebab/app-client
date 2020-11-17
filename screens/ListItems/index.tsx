@@ -15,6 +15,7 @@ import HorizontalTypesView from "../../components/HorizontalTypesView";
 import {Category} from "../../types/Category";
 import SearchBar from "../../components/SearchBar";
 import Search from "../../components/Search";
+import CrossIconButton from "../../components/CrossIconButton";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -62,12 +63,17 @@ const ListItems: React.FC = () => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Search containerStyle={{marginRight: 16}} size={28}
-                            onPressHandler={() => setIsSearching(true)}/>
-                </View>
+                isSearching ?
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <CrossIconButton containerStyle={{marginRight: 16}} size={28}
+                                         onPressHandler={() => setIsSearching(false)}/>
+                    </View> :
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Search containerStyle={{marginRight: 16}} size={28}
+                                onPressHandler={() => setIsSearching(true)}/>
+                    </View>
         });
-    }, [navigation]);
+    }, [isSearching, navigation]);
 
     useEffect(() => {
         AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))

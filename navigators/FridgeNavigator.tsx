@@ -10,14 +10,15 @@ import * as React from "react";
 import {useState} from "react";
 import ListItems from "../screens/ListItems";
 import AddFridgeItems from "../components/AddFridgeItems";
-import NavigationPop from "../components/NavigationPop";
+import CrossIconButton from "../components/CrossIconButton";
 import Search from "../components/Search";
+import { useNavigation } from "@react-navigation/native";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
 export default function FridgeNavigator() {
 
-    const [search, setSearch] = useState(false);
+    const navigation = useNavigation();
 
     return (
         <FridgeStack.Navigator>
@@ -40,7 +41,7 @@ export default function FridgeNavigator() {
                 component={AddItems}
                 options={{
                     headerTitle: '식품 추가',
-                    headerLeft: () => <NavigationPop containerStyle={{marginLeft: 16}} size={28}/>,
+                    headerLeft: () => <CrossIconButton containerStyle={{marginLeft: 16}} size={28} onPressHandler={() => navigation.navigate("ListItems")}/>,
                     headerRight: () => <AddFridgeItems containerStyle={{marginRight: 16}} size={28}/>
 
                 }}
