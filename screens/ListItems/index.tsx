@@ -21,13 +21,13 @@ const ListItemCard = ({item}: { item: Item }) => {
     return (
         <View>
             <BottomModal
-                containerStyle={{flex: 0.5, backgroundColor: 'white', alignItems: 'center',  width: '100%', borderTopEndRadius: 32, borderTopLeftRadius: 32}}
+                containerStyle={{flex: 0.6, backgroundColor: 'white', alignItems: 'center',  width: '100%', borderTopEndRadius: 32, borderTopLeftRadius: 32}}
                 visible={isVisible} handlePress={() => setIsVisible(false)}>
                 <DetailItem item={item} navigatePop={() => setIsVisible(false)}/>
             </BottomModal>
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
-                <ItemCard item={item}/>
+                <ItemCard item={item} avatarSize={64}/>
             </TouchableOpacity>
         </View>
     )
@@ -64,13 +64,13 @@ const ListItems: React.FC = () => {
 
     const filteredItems = useMemo(() => {
         const filteredByStorage = storage === Storage.TOTAL? Array.from(fridge.values()): Array.from(fridge.values()).filter(item => item.storage === storage);
-        return filteredByStorage.filter(ingredient => ingredient.category == category);
-    }, [category, storage]);
+        return category === Category.TOTAL? filteredByStorage: filteredByStorage.filter(ingredient => ingredient.category == category);
+    }, [category, storage, fridge]);
 
     return (
         <>
             <HorizontalTypesView types={categories} pressedType={category} onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
-            <HorizontalTypesView types={storages} pressedType={storage} onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false} containerStyle={{padding: '8%'}}/>
+            <HorizontalTypesView types={storages} pressedType={storage} onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false} containerStyle={{padding: '8%', paddingBottom: '4%'}}/>
             {ItemsGrid(filteredItems)}
             {/*<CategoryNavigator component={HOCStorageNavigator(ItemsGrid)} container={Array.from(fridge.values())}/>*/}
 

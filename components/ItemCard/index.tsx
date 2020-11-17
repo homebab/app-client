@@ -7,16 +7,18 @@ import Avatar from "../Avatar";
 
 type Props = {
     item: Item,
-    style?: StyleProp<ViewStyle>
+    containerStyle?: StyleProp<ViewStyle>,
+    avatarStyle?: StyleProp<ViewStyle>,
+    avatarSize: number,
     // handlePress?: (e: GestureResponderEvent) => void
 }
 
 const ItemCard = (props: Props) => {
-    const {item, style} = props;
+    const {item, containerStyle, avatarStyle, avatarSize} = props;
 
     return (
-        <View style={[styles.container, style ? style : null]}>
-            <Avatar style={{bottom: 8}} source={Assets.Image.ingredients} size={48}/>
+        <View style={[styles.container, containerStyle]}>
+            <Avatar style={[{bottom: 8, padding: 2}, avatarStyle]} source={Assets.Image.ingredients} size={avatarSize}/>
             <Text>{item.name}</Text>
         </View>
     );

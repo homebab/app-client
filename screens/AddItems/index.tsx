@@ -1,13 +1,11 @@
 import React, {useEffect, useMemo, useState} from "react";
-import CategoryNavigator from "../../navigators/CategoryNavigator";
 import {Ingredients} from "../../constants/Ingredients";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
-import {GestureResponderEvent, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {GestureResponderEvent, TouchableOpacity} from "react-native";
 import {v4 as uuidv4} from 'uuid';
 import Layout from "../../constants/Layout";
-import {useNavigation} from "@react-navigation/native";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
@@ -28,8 +26,8 @@ const AddItemCard = ({item}: { item: Item }) => {
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard style={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
-                      item={item}/>
+            <ItemCard containerStyle={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
+                      avatarSize={64} item={item}/>
         </TouchableOpacity>);
 }
 
@@ -81,7 +79,7 @@ const AddItems = () => {
                 ItemsGrid(ingredients.filter(ingredient => searchWord? ingredient.name.includes(searchWord): false)) :
                 <>
                     <HorizontalTypesView types={categories} pressedType={category} onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
-                    {ItemsGrid(ingredients.filter(ingredient => ingredient.category == category))}
+                    {ItemsGrid(category === Category.TOTAL? ingredients: ingredients.filter(ingredient => ingredient.category == category))}
                 </>
             }
 

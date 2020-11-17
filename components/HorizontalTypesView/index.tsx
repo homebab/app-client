@@ -36,7 +36,7 @@ const HorizontalTypesView = (props: Props) => {
                                 onPress={() => onPressHandler(type)}
                             >
                                 <Text style={[
-                                    {padding: 14, color: '#949494'},
+                                    {padding: 16, color: '#949494'},
                                     isPressed && {color: '#0e0e0e'}]}>{type}</Text>
                             </TouchableOpacity>
                         )
