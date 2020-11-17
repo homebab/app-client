@@ -8,6 +8,7 @@ import {EvilIcons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {formatMemo} from "../../validators/format";
 import {Storage} from "../../types/Storage";
 import DeleteItemModal from "../../components/DeleteItemModal";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const ColumnItemInfo = ({item}: { item: Item }) => {
 
@@ -67,9 +68,12 @@ const DetailItem = (props: Props) => {
 
     const {containerDispatch} = useContainerContext();
 
-    const [memo, setMemo] = useState<string>(item.memo ? item.memo : "");
-    const [editing, setEditing] = useState<boolean>(false);
-    const [throwing, setThrowing] = useState(false);
+    const [memo, setMemo] = useState<string>(item.memo!);
+    const [expiredAt, setExpiredAt] = useState<Date>(item.expiredAt!)
+
+    const [editingMemo, setEditingMemo] = useState<boolean>(false);
+    const [editingExpiredAt, setEditingExpiredAt] = useState<boolean>(false);
+    const [throwing, setThrowing] = useState<boolean>(false);
 
     const RowItemButton = () => {
 
@@ -83,7 +87,7 @@ const DetailItem = (props: Props) => {
                     icon: <MaterialCommunityIcons name={"restore"} color={'#000000'} size={24}
                                                   style={{position: "absolute", left: 32}}/>,
                     onPressHandler: () => {
-                        containerDispatch({type: "updateFridgeItem", value: {item: {...item, storage: s}}});
+                        containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, storage: s}});
                         console.debug(`[omtm]: success to change item storageType to ${s}, ${item.id}`)
                         navigatePop();
                     }
@@ -141,21 +145,21 @@ const DetailItem = (props: Props) => {
                 <TextInputBox containerStyle={{
                     width: '100%',
                     borderRadius: 8
-                }} value={memo} onChangeHandler={text => setMemo(formatMemo(text))} active={editing}/>
+                }} value={memo} onChangeHandler={text => setMemo(formatMemo(text))} active={editingMemo}/>
                 <TouchableOpacity style={{position: "absolute", right: "5%", bottom: "10%"}}
                                   onPress={() => {
-                                      if (editing) {
-                                          setEditing(false)
+                                      if (editingMemo) {
+                                          setEditingMemo(false)
 
                                           containerDispatch({
-                                              type: "updateFridgeItem",
-                                              value: {item: {...item, updatedAt: new Date(), memo: memo}}
+                                              type: "UPDATE_FRIDGE_ITEM",
+                                              item: {...item, updatedAt: new Date(), memo: memo}
                                           })
 
                                           console.debug(`[omtm]: success to update item, ${item.id}`)
-                                      } else setEditing(true)
+                                      } else setEditingMemo(true)
                                   }}>
-                    <Text>{editing ? "저장" : "수정"}</Text>
+                    <Text>{editingMemo ? "저장" : "수정"}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -164,11 +168,16 @@ const DetailItem = (props: Props) => {
             <RowItemButton/>
             <DeleteItemModal
                 visible={throwing}
-                handleCancel={() => setThrowing(false)}
-                handleConfirm={() => {
-                    containerDispatch({type: 'deleteFridgeItem', value: {id: item.id}});
+                onCancel={() => setThrowing(false)}
+                onConfirm={() => {
+                    containerDispatch({type: 'DELETE_FRIDGE_ITEM', id: item.id});
                     setThrowing(false);
                     navigatePop();
+                }}/>
+            <DateTimePickerModal
+                onCancel={() => setEditingExpiredAt(false)}
+                onConfirm={() => {
+
                 }}/>
         </View>
     )

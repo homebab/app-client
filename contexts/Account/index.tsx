@@ -1,10 +1,5 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
-import {Actions} from "..";
 import {CognitoUser} from "amazon-cognito-identity-js";
-
-export enum Storage {
-    FRIDGE = "냉장", FREEZER = "냉동", ROOM = "실온"
-}
 
 export type Profile = {
     // TODO: strengthen security
@@ -20,29 +15,29 @@ export type Profile = {
 export type CachedUser = CognitoUser;
 
 export type Account = {
-    profile: Profile,
-    cachedUser?: CachedUser,
+    profile?: Profile,
+    cachedUser: CachedUser | undefined,
     isAuthenticated?: boolean
 }
 
-export const initialAccount: Account = {
-    profile: {
-        id: -1,
-        email: 'meow@gmail.com',
-        name: 'meow',
-    },
-
-    isAuthenticated: false,
-}
+export type Action =
+    | {type: "FLUSH"}
+    | {type: "SET_ACCOUNT", account: Account}
+    | {type: "DEAUTHENTICATE"}
 
 type Props = {
-    reducer: Reducer<Account, Actions>;
+    reducer: Reducer<Account, Action>;
     initState: Account;
 }
 
 type ContextProps = {
     accountState: Account;
-    accountDispatch: Dispatch<Actions>;
+    accountDispatch: Dispatch<Action>;
+}
+
+export const initialAccount: Account = {
+    cachedUser: undefined,
+    isAuthenticated: false,
 }
 
 export const AccountContext: React.Context<ContextProps> = createContext({} as ContextProps);
@@ -61,16 +56,16 @@ export const AccountProvider: React.FC<Props> =
 export const useAccountContext = () => useContext(AccountContext);
 
 const AccountController: React.FC = ({children}) => {
-    const reducer: Reducer<Account, Actions> = (state, action) => {
+    const reducer: Reducer<Account, Action> = (state, action) => {
         switch (action.type) {
-            case 'flush':
+            case 'FLUSH':
                 return initialAccount;
-            case 'setAccount':
+            case 'SET_ACCOUNT':
                 return {
                     ...state,
-                    ...action.value
+                    ...action.account
                 };
-            case 'deauthenticate':
+            case 'DEAUTHENTICATE':
                 return {
                   ...state,
                   isAuthenticated: false

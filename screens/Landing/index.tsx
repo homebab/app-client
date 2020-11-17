@@ -13,29 +13,22 @@ import {convertContainer, Item, useContainerContext, UUID} from "../../contexts/
 
 
 const Landing = () => {
-
-    // const navigation = useNavigation();
-    // const cachedUser: CachedUser | undefined = useCachedUser();
-
     const {accountDispatch} = useAccountContext();
     const {containerDispatch} = useContainerContext();
 
     const initializeContext = (cachedUser: CachedUser, userItems: string | null) => {
 
         accountDispatch({
-            type: 'setAccount',
-            value: {
+            type: 'SET_ACCOUNT',
+            account: {
                 cachedUser: cachedUser,
-                // profile: cachedUser,
                 isAuthenticated: true
             }
         });
 
         containerDispatch({
-            type: 'setFridge',
-            value: {
-                fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map(),
-            }
+            type: 'SET_FRIDGE',
+            fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map()
         });
     }
 

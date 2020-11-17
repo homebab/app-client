@@ -36,7 +36,7 @@ const AddFridgeItems = (props: Props) => {
                 category: item.category,
             }
         })
-        containerDispatch({type: 'addFridgeItems', value: {items: userItems}})
+        containerDispatch({type: 'ADD_FRIDGE_ITEMS', items: userItems})
         navigation.pop()
     }
 

@@ -10,19 +10,18 @@ import {Item, useContainerContext} from '../../contexts/Container';
 
 type Props = {
     visible: boolean,
-    handleConfirm: () => void,
-    handleCancel: () => void,
-    onRequestClose?: () => void,
+    onConfirm: () => void,
+    onCancel: () => void
 }
 
 const DeleteItemModal = (props: Props) => {
-    const {visible, handleCancel, handleConfirm, onRequestClose} = props
+    const {visible, onCancel, onConfirm} = props
 
     const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
 
     return (
-        <Modal visible={visible} animationType={"slide"} transparent={true} onRequestClose={handleCancel}>
-            <View style={styles.centeredView}>
+        <Modal visible={visible} animationType={"fade"} transparent={true} onRequestClose={onCancel}>
+            <TouchableOpacity style={styles.centeredView} onPress={onCancel}>
                 <View style={styles.modalView}>
                     <View style={styles.modalHeader}>
                         <Feather name="trash-2" size={24} color="black" style={{marginRight: 12}}/><Text
@@ -38,20 +37,20 @@ const DeleteItemModal = (props: Props) => {
                         <TouchableHighlight
                             underlayColor={'rgba(0,0,0,0.3)'}
                             style={{...styles.openButton, backgroundColor: "transparent"}}
-                            onPress={handleCancel}
+                            onPress={onCancel}
                         >
                             <Text style={{...styles.textStyle, color: '#f50057'}}>취소</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                             underlayColor={'rgba(0,0,0,0.3)'}
                             style={{...styles.openButton, backgroundColor: "transparent"}}
-                            onPress={handleConfirm}
+                            onPress={onConfirm}
                         >
                             <Text style={{...styles.textStyle, color: '#2196f3'}}>제출</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
 
         </Modal>
     );

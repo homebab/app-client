@@ -1,6 +1,5 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
 import {Storage} from "../../types/Storage"
-import {Actions} from "..";
 
 export type UUID = string;
 
@@ -23,19 +22,30 @@ export type Container = {
     basket: Array<Item>,
 }
 
-export const initialContainer: Container = {
-    fridge: new Map(),
-    basket: []
-}
+export type Action =
+    | {type: "FLUSH"}
+    | {type: "FLUSH_BASKET"}
+    | {type: "FLUSH_FRIDGE"}
+    | {type: "SET_FRIDGE", fridge: Map<UUID, Item>}
+    | {type: "SET_BASKET", basket: Array<Item>}
+    | {type: "ADD_FRIDGE_ITEMS", items: Array<Item>}
+    | {type: "DELETE_FRIDGE_ITEM", id: UUID}
+    | {type: "UPDATE_FRIDGE_ITEM", item: Item}
+
 
 type Props = {
-    reducer: Reducer<Container, Actions>;
+    reducer: Reducer<Container, Action>;
     initState: Container;
 }
 
 type ContextProps = {
     containerState: Container;
-    containerDispatch: Dispatch<Actions>;
+    containerDispatch: Dispatch<Action>;
+}
+
+const initialContainer: Container = {
+    fridge: new Map(),
+    basket: []
 }
 
 export const ContainerContext: React.Context<ContextProps> = createContext({} as ContextProps);
@@ -54,28 +64,32 @@ export const ContainerProvider: React.FC<Props> =
 export const useContainerContext = () => useContext(ContainerContext);
 
 const ContainerController: React.FC = ({children}) => {
-    const reducer: Reducer<Container, Actions> = (state, action) => {
+    const reducer: Reducer<Container, Action> = (state, action) => {
         switch (action.type) {
-            case 'flush':
+            case 'FLUSH':
                 return initialContainer;
-            case 'flushBasket':
+            case 'FLUSH_BASKET':
                 return {
                     ...state,
                     basket: []
                 }
-            case 'flushFridge':
+            case 'SET_BASKET':
+                return {
+                    ...state,
+                    basket: action.basket
+                }
+            case 'FLUSH_FRIDGE':
                 return {
                     ...state,
                     fridge: new Map()
                 }
-            case 'setFridge':
+            case 'SET_FRIDGE':
                 return {
                     ...state,
-                    fridge: action.value.fridge
+                    fridge: action.fridge
                 }
-            case 'addFridgeItems':
-                console.log(action.value)
-                const items: Array<Item> = action.value.items;
+            case 'ADD_FRIDGE_ITEMS':
+                const items: Array<Item> = action.items;
 
                 return {
                     ...state,
@@ -84,25 +98,20 @@ const ContainerController: React.FC = ({children}) => {
                             .concat(items.map(item => [item.id, item]))
                             .sort())
                 };
-            case 'deleteFridgeItem':
-                state.fridge.delete(action.value.id);
+            case 'DELETE_FRIDGE_ITEM':
+                state.fridge.delete(action.id);
 
                 return {
                     ...state,
                     fridge: new Map(state.fridge)
                 };
-            case 'updateFridgeItem':
-                const updatedItem: Item = action.value.item;
+            case 'UPDATE_FRIDGE_ITEM':
+                const updatedItem: Item = action.item;
                 state.fridge.set(updatedItem.id, updatedItem);
 
                 return {
                     ...state,
                     fridge: new Map(state.fridge)
-                }
-            case 'updateBasket':
-                return {
-                    ...state,
-                    basket: action.value.basket
                 }
             default:
                 return state;

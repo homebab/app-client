@@ -12,7 +12,7 @@ const ThrowAway = (props:Props) => {
     const {containerDispatch} = useContainerContext();
 
     const onPressHandler = () => {
-        containerDispatch({type: 'flush', value: null})
+        containerDispatch({type: 'FLUSH'})
     }
 
     return (
