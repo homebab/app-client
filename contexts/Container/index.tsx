@@ -106,7 +106,10 @@ const ContainerController: React.FC = ({children}) => {
                     fridge: new Map(state.fridge)
                 };
             case 'UPDATE_FRIDGE_ITEM':
-                const updatedItem: Item = action.item;
+                const updatedItem: Item = {
+                    ...action.item,
+                    updatedAt: new Date()
+                };
                 state.fridge.set(updatedItem.id, updatedItem);
 
                 return {

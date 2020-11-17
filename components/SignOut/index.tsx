@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-community/async-storage";
 // @ts-ignore
 import {IOAuthProps, withOAuth} from "aws-amplify-react-native"
-import {TouchableOpacity, Text} from "react-native";
+import {Text, TouchableOpacity} from "react-native";
 import * as React from "react";
 import {useAccountContext} from "../../contexts/Account";
-import {AntDesign, MaterialCommunityIcons} from "@expo/vector-icons";
-import { Auth } from "aws-amplify";
+import {AntDesign} from "@expo/vector-icons";
+import {Auth} from "aws-amplify";
 
 type Props = IOAuthProps & {}
 
@@ -18,11 +18,11 @@ const SignOut = (props: Props) => {
                           onPress={() => AsyncStorage.removeItem('user').then(_ => {
                               Auth.signOut()
                                   .then(res => {
-                                      accountDispatch({type: 'deauthenticate', value: {}});
+                                      accountDispatch({type: 'DEAUTHENTICATE'});
                                       console.debug("[omtm]: success to sign out")
                                   })
                                   .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
-                              })}>
+                          })}>
             <AntDesign
                 name="logout"
                 size={96}

@@ -10,41 +10,6 @@ import {Storage} from "../../types/Storage";
 import DeleteItemModal from "../../components/DeleteItemModal";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const ColumnItemInfo = ({item}: { item: Item }) => {
-
-    const columnItemInfoList = [
-        {
-            label: "보관상태", value: item.storage,
-            containerStyle: {flex: 1, alignItems: 'center'},
-            onPressHandler: () => {
-            }
-        },
-        {
-            label: "유통기한", value: convertDateFormat(item.expiredAt!),
-            containerStyle: {
-                flex: 1, alignItems: 'center',
-                borderColor: 'rgba(110,115,121,0.8)',
-                borderRightWidth: 0.3, borderLeftWidth: 0.3
-            },
-        },
-        {
-            label: "보관일수", value: new Date().getDate() - item.createdAt!.getDate() + 1,
-            containerStyle: {flex: 1, alignItems: 'center'},
-
-        }
-    ]
-
-    return (
-        <View style={{flexDirection: "row", width: '100%', marginBottom: 24}}>
-            {columnItemInfoList.map((info, key) =>
-                <TouchableOpacity disabled={true} key={key} style={info.containerStyle as ViewStyle}>
-                    <Text style={{marginBottom: 8, color: 'rgb(100,102,110)'}}>{info.label}</Text>
-                    <Text style={{fontWeight: "bold"}}>{info.value}</Text>
-                </TouchableOpacity>
-            )}
-        </View>
-    )
-}
 
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
 
@@ -57,7 +22,6 @@ const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active
     )
 }
 
-
 type Props = {
     item: Item
     navigatePop: () => void
@@ -69,19 +33,54 @@ const DetailItem = (props: Props) => {
     const {containerDispatch} = useContainerContext();
 
     const [memo, setMemo] = useState<string>(item.memo!);
-    const [expiredAt, setExpiredAt] = useState<Date>(item.expiredAt!)
 
     const [editingMemo, setEditingMemo] = useState<boolean>(false);
     const [editingExpiredAt, setEditingExpiredAt] = useState<boolean>(false);
     const [throwing, setThrowing] = useState<boolean>(false);
 
+    const ColumnItemInfo = () => {
+
+        const columnItemInfoList = [
+            {
+                label: "보관상태", value: item.storage,
+                containerStyle: {flex: 1, alignItems: 'center'},
+                pressable: false
+            },
+            {
+                label: "유통기한", value: convertDateFormat(item.expiredAt!),
+                containerStyle: {
+                    flex: 1, alignItems: 'center',
+                    borderColor: 'rgba(110,115,121,0.8)',
+                    borderRightWidth: 0.3, borderLeftWidth: 0.3
+                },
+                pressable: true,
+                onPressHandler: () => setEditingExpiredAt(true)
+            },
+            {
+                label: "보관일수", value: new Date().getDate() - item.createdAt!.getDate() + 1,
+                containerStyle: {flex: 1, alignItems: 'center'},
+                pressable: false,
+            }
+        ]
+
+        return (
+            <View style={{flexDirection: "row", width: '100%', marginBottom: 24}}>
+                {columnItemInfoList.map((info, key) =>
+                    <TouchableOpacity disabled={!info.pressable} key={key} style={info.containerStyle as ViewStyle}
+                                      onPress={info.onPressHandler}>
+                        <Text style={{marginBottom: 8, color: 'rgb(100,102,110)'}}>{info.label}</Text>
+                        <Text style={{fontWeight: "bold"}}>{info.value}</Text>
+                    </TouchableOpacity>
+                )}
+            </View>
+        )
+    }
     const RowItemButton = () => {
 
         const storages = Object.values(Storage).filter(s => !(s === item.storage || s === Storage.TOTAL));
 
         const rowItemsButtonList = [
             ...storages.map(s => {
-                console.log(s)
                 return {
                     label: `${s} 보관하기`,
                     icon: <MaterialCommunityIcons name={"restore"} color={'#000000'} size={24}
@@ -139,7 +138,7 @@ const DetailItem = (props: Props) => {
         <View style={{flex: 1, width: "92%"}}>
             {ItemAvatar(item.name)}
 
-            <ColumnItemInfo item={item}/>
+            <ColumnItemInfo/>
 
             <View style={{height: 120, marginBottom: 20}}>
                 <TextInputBox containerStyle={{
@@ -150,12 +149,7 @@ const DetailItem = (props: Props) => {
                                   onPress={() => {
                                       if (editingMemo) {
                                           setEditingMemo(false)
-
-                                          containerDispatch({
-                                              type: "UPDATE_FRIDGE_ITEM",
-                                              item: {...item, updatedAt: new Date(), memo: memo}
-                                          })
-
+                                          containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, memo: memo}})
                                           console.debug(`[omtm]: success to update item, ${item.id}`)
                                       } else setEditingMemo(true)
                                   }}>
@@ -175,9 +169,11 @@ const DetailItem = (props: Props) => {
                     navigatePop();
                 }}/>
             <DateTimePickerModal
+                isVisible={editingExpiredAt}
                 onCancel={() => setEditingExpiredAt(false)}
-                onConfirm={() => {
-
+                onConfirm={(date: Date) => {
+                    containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, expiredAt: date}});
+                    console.debug(`[omtm]: success to update item, ${item.id}`);
                 }}/>
         </View>
     )
