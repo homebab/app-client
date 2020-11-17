@@ -1,15 +1,14 @@
-import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Ingredients} from "../../constants/Ingredients";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
-import {GestureResponderEvent, TouchableOpacity, View} from "react-native";
+import {GestureResponderEvent, TouchableOpacity} from "react-native";
 import {v4 as uuidv4} from 'uuid';
 import Layout from "../../constants/Layout";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
-import { useNavigation } from "@react-navigation/native";
 
 const AddItemCard = ({item}: { item: Item }) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -22,13 +21,14 @@ const AddItemCard = ({item}: { item: Item }) => {
         const updatedBasket = isContained ?
             basket.filter(i => i.name != item.name) :
             [...basket, {id: uuidv4(), name: item.name, category: item.category}];
-        containerDispatch({type: "updateBasket", value: {basket: updatedBasket}});
+        containerDispatch({type: "SET_BASKET", basket: updatedBasket});
     };
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard containerStyle={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
-                      avatarSize={64} item={item}/>
+            <ItemCard
+                containerStyle={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
+                avatarSize={64} item={item}/>
         </TouchableOpacity>);
 }
 
@@ -45,13 +45,12 @@ const ItemsGrid: React.FC<Array<Item>> = (container: Array<Item>) => {
 const AddItems = () => {
 
     const {containerDispatch} = useContainerContext();
-    const navigation = useNavigation();
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');
 
     useEffect(() => {
-        containerDispatch({type: 'flushBasket', value: null})
+        containerDispatch({type: 'FLUSH_BASKET'})
     }, [])
 
     const ingredients = useMemo(() => {
@@ -79,10 +78,11 @@ const AddItems = () => {
                 containerStyle={{paddingBottom: 8}}
             />
             {isSearching ?
-                ItemsGrid(ingredients.filter(ingredient => searchWord? ingredient.name.includes(searchWord): false)) :
+                ItemsGrid(ingredients.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)) :
                 <>
-                    <HorizontalTypesView types={categories} pressedType={category} onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
-                    {ItemsGrid(category === Category.TOTAL? ingredients: ingredients.filter(ingredient => ingredient.category == category))}
+                    <HorizontalTypesView types={categories} pressedType={category}
+                                         onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
+                    {ItemsGrid(category === Category.TOTAL ? ingredients : ingredients.filter(ingredient => ingredient.category == category))}
                 </>
             }
         </>
