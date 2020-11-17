@@ -1,14 +1,16 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
 import {Ingredients} from "../../constants/Ingredients";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
-import {GestureResponderEvent, TouchableOpacity} from "react-native";
+import {GestureResponderEvent, TouchableOpacity, View} from "react-native";
 import {v4 as uuidv4} from 'uuid';
 import Layout from "../../constants/Layout";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
+import { useNavigation } from "@react-navigation/native";
+import Search from "../../components/Search";
 
 const AddItemCard = ({item}: { item: Item }) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -44,6 +46,7 @@ const ItemsGrid: React.FC<Array<Item>> = (container: Array<Item>) => {
 const AddItems = () => {
 
     const {containerDispatch} = useContainerContext();
+    const navigation = useNavigation();
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');

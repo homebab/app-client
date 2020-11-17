@@ -17,7 +17,6 @@ export default function BaseNavigator() {
     const colorScheme = useColorScheme();
 
     return (
-
         <BottomTab.Navigator
             initialRouteName="Fridge"
             tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>

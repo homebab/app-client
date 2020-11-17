@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
 import {TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign} from "@expo/vector-icons";
@@ -13,6 +13,8 @@ import BottomModal from "../../components/BottomModal";
 import {Storage} from "../../types/Storage";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
 import {Category} from "../../types/Category";
+import SearchBar from "../../components/SearchBar";
+import Search from "../../components/Search";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -21,7 +23,14 @@ const ListItemCard = ({item}: { item: Item }) => {
     return (
         <View>
             <BottomModal
-                containerStyle={{flex: 0.6, backgroundColor: 'white', alignItems: 'center',  width: '100%', borderTopEndRadius: 32, borderTopLeftRadius: 32}}
+                containerStyle={{
+                    flex: 0.6,
+                    backgroundColor: 'white',
+                    alignItems: 'center',
+                    width: '100%',
+                    borderTopEndRadius: 32,
+                    borderTopLeftRadius: 32
+                }}
                 visible={isVisible} handlePress={() => setIsVisible(false)}>
                 <DetailItem item={item} navigatePop={() => setIsVisible(false)}/>
             </BottomModal>
@@ -47,6 +56,19 @@ const ListItems: React.FC = () => {
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
 
+    const [isSearching, setIsSearching] = useState(false)
+    const [searchWord, setSearchWord] = useState('');
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () =>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Search containerStyle={{marginRight: 16}} size={28}
+                            onPressHandler={() => setIsSearching(true)}/>
+                </View>
+        });
+    }, [navigation]);
+
     useEffect(() => {
         AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
             .then(_ => {
@@ -63,15 +85,35 @@ const ListItems: React.FC = () => {
     const [category, setCategory] = useState<Category>(categories[0]);
 
     const filteredItems = useMemo(() => {
-        const filteredByStorage = storage === Storage.TOTAL? Array.from(fridge.values()): Array.from(fridge.values()).filter(item => item.storage === storage);
-        return category === Category.TOTAL? filteredByStorage: filteredByStorage.filter(ingredient => ingredient.category == category);
+        const filteredByStorage = storage === Storage.TOTAL ? Array.from(fridge.values()) : Array.from(fridge.values()).filter(item => item.storage === storage);
+        return category === Category.TOTAL ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
     }, [category, storage, fridge]);
 
     return (
         <>
-            <HorizontalTypesView types={categories} pressedType={category} onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
-            <HorizontalTypesView types={storages} pressedType={storage} onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false} containerStyle={{padding: '8%', paddingBottom: '4%'}}/>
-            {ItemsGrid(filteredItems)}
+            {
+                isSearching ?
+                    <>
+                        <SearchBar
+                            placeholder={"식품을 직접 입력해주세요."} value={searchWord}
+                            onChangeText={text => setSearchWord(text)}
+                            onStartEditing={() => setIsSearching(true)}
+                            onEndEditing={() => setIsSearching(false)}
+                        />
+                        {ItemsGrid(filteredItems.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false))}
+                    </> :
+                    <>
+                        <HorizontalTypesView types={categories} pressedType={category}
+                                             onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
+                        <HorizontalTypesView types={storages} pressedType={storage}
+                                             onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
+                                             containerStyle={{padding: '8%', paddingTop: '6%', paddingBottom: '4%'}}/>
+                        {ItemsGrid(filteredItems)}
+                    </>
+
+            }
+
+
             {/*<CategoryNavigator component={HOCStorageNavigator(ItemsGrid)} container={Array.from(fridge.values())}/>*/}
 
             <View style={styles.plusButton}>
