@@ -46,7 +46,6 @@ const ItemsGrid: React.FC<Array<Item>> = (container: Array<Item>) => {
 const AddItems = () => {
 
     const {containerDispatch} = useContainerContext();
-    const navigation = useNavigation();
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');
@@ -68,17 +67,11 @@ const AddItems = () => {
         }, [Ingredients]
     );
 
-    const a = useMemo(() => <CategoryNavigator component={ItemsGrid} container={ingredients}/>, [ingredients])
     const categories = Object.values(Category)
     const [category, setCategory] = useState<string>(categories[0]);
 
     return (
         <>
-            {/*<Modal visible={search}>*/}
-            {/*    <View style={{position: "absolute", flex: 1, backgroundColor: "pink"}}>*/}
-            {/*        <SearchItems/>*/}
-            {/*    </View>*/}
-            {/*</Modal>*/}
             <SearchBar
                 placeholder={"식품을 직접 입력해주세요."} value={searchWord}
                 onChangeText={text => setSearchWord(text)}
@@ -86,10 +79,10 @@ const AddItems = () => {
                 onEndEditing={() => setIsSearching(false)}
             />
             {isSearching ?
-                ItemsGrid(ingredients) :
+                ItemsGrid(ingredients.filter(ingredient => searchWord? ingredient.name.includes(searchWord): false)) :
                 <>
                     <HorizontalTypesScrollView types={categories} pressedType={category} onPressHandler={(c: string) => setCategory(c)}/>
-                    {ItemsGrid(ingredients)}
+                    {ItemsGrid(ingredients.filter(ingredient => ingredient.category == category))}
                 </>
             }
 

@@ -21,14 +21,14 @@ const HorizontalTypesScrollView = (props: Props) => {
                         return (
                             <TouchableOpacity
                                 key={key}
-                                style={[{
-                                    flex: 1,
-                                    justifyContent: "center",
-                                    alignItems: "center"
-                                }, isPressed && {borderBottomColor: 'black', borderBottomWidth: 1}]}
+                                style={[
+                                    {flex: 1, justifyContent: "center", alignItems: "center"},
+                                    isPressed && {borderBottomColor: '#949494', borderBottomWidth: 2}]}
                                 onPress={() => onPressHandler(type)}
                             >
-                                <Text style={[{padding: 13, color: '#949494'}, isPressed && {color: 'black'}]}>{type}</Text>
+                                <Text style={[
+                                    {padding: 13, color: '#949494'},
+                                    isPressed && {color: '#0e0e0e'}]}>{type}</Text>
                             </TouchableOpacity>
                         )
                     })}
