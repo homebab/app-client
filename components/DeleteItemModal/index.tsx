@@ -11,16 +11,17 @@ import {Item, useContainerContext} from '../../contexts/Container';
 type Props = {
     visible: boolean,
     handleConfirm: () => void,
-    handleCancel: () => void
+    handleCancel: () => void,
+    onRequestClose?: () => void,
 }
 
 const DeleteItemModal = (props: Props) => {
-    const {visible, handleCancel, handleConfirm} = props
+    const {visible, handleCancel, handleConfirm, onRequestClose} = props
 
     const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
 
     return (
-        <Modal visible={visible} animationType={"slide"} transparent={true}>
+        <Modal visible={visible} animationType={"slide"} transparent={true} onRequestClose={handleCancel}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <View style={styles.modalHeader}>
