@@ -5,7 +5,7 @@ import * as React from "react";
 type Props = {
     containerStyle?: StyleProp<ViewStyle>,
     size?: number,
-    onPressHandler: (event: GestureResponderEvent) => void,
+    onPressHandler?: (event: GestureResponderEvent) => void,
 }
 const Search = (props: Props) => {
 
