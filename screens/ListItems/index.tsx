@@ -25,7 +25,7 @@ const ListItemCard = ({item}: { item: Item }) => {
         <View>
             <BottomModal
                 containerStyle={{
-                    flex: 0.6,
+                    flex: 0.7,
                     backgroundColor: 'white',
                     alignItems: 'center',
                     width: '100%',
@@ -116,17 +116,13 @@ const ListItems: React.FC = () => {
                                              containerStyle={{padding: '8%', paddingTop: '6%', paddingBottom: '4%'}}/>
                         {ItemsGrid(filteredItems)}
                     </>
-
             }
 
-
-            {/*<CategoryNavigator component={HOCStorageNavigator(ItemsGrid)} container={Array.from(fridge.values())}/>*/}
-
-            <View style={styles.plusButton}>
+            {!isSearching && <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
                     <AntDesign name="plus" size={20} color='white'/>
                 </TouchableOpacity>
-            </View>
+            </View>}
         </>
     )
 }

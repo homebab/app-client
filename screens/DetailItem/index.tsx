@@ -4,9 +4,10 @@ import Avatar from "../../components/Avatar";
 import Assets from "../../constants/Assets";
 import {Item, useContainerContext} from "../../contexts/Container";
 import {convertDateFormat} from "../../utils/convert";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {EvilIcons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {formatMemo} from "../../validators/format";
 import {Storage} from "../../types/Storage";
+import DeleteItemModal from "../../components/DeleteItemModal";
 
 const ColumnItemInfo = ({item}: { item: Item }) => {
 
@@ -67,13 +68,12 @@ const DetailItem = (props: Props) => {
     const {containerDispatch} = useContainerContext();
 
     const [memo, setMemo] = useState<string>(item.memo ? item.memo : "");
-    const [active, setActive] = useState<boolean>(false);
-
+    const [editing, setEditing] = useState<boolean>(false);
+    const [throwing, setThrowing] = useState(false);
 
     const RowItemButton = () => {
 
         const storages = Object.values(Storage).filter(s => !(s === item.storage || s === Storage.TOTAL));
-
 
         const rowItemsButtonList = [
             ...storages.map(s => {
@@ -91,13 +91,9 @@ const DetailItem = (props: Props) => {
             }),
             {
                 label: "버리기",
-                icon: <MaterialCommunityIcons name="trash-can-outline" color={'black'} size={24}
-                                              style={{position: "absolute", left: 32}}/>,
-                onPressHandler: () => {
-                    containerDispatch({type: "deleteFridgeItem", value: {id: item.id}})
-                    console.debug(`[omtm]: success to delete item, ${item.id}`)
-                    navigatePop();
-                }
+                icon: <EvilIcons name="trash" color={'black'} size={32}
+                                 style={{position: "absolute", left: 28}}/>,
+                onPressHandler: () => setThrowing(true)
             }
         ]
 
@@ -141,15 +137,15 @@ const DetailItem = (props: Props) => {
 
             <ColumnItemInfo item={item}/>
 
-            <View style={{flex: 0.5, marginBottom: 20}}>
+            <View style={{height: 120, marginBottom: 20}}>
                 <TextInputBox containerStyle={{
-                    flex: 1, width: '100%',
+                    width: '100%',
                     borderRadius: 8
-                }} value={memo} onChangeHandler={text => setMemo(formatMemo(text))} active={active}/>
+                }} value={memo} onChangeHandler={text => setMemo(formatMemo(text))} active={editing}/>
                 <TouchableOpacity style={{position: "absolute", right: "5%", bottom: "10%"}}
                                   onPress={() => {
-                                      if (active) {
-                                          setActive(false)
+                                      if (editing) {
+                                          setEditing(false)
 
                                           containerDispatch({
                                               type: "updateFridgeItem",
@@ -157,16 +153,23 @@ const DetailItem = (props: Props) => {
                                           })
 
                                           console.debug(`[omtm]: success to update item, ${item.id}`)
-                                      } else setActive(true)
+                                      } else setEditing(true)
                                   }}>
-                    <Text>{active ? "저장" : "수정"}</Text>
+                    <Text>{editing ? "저장" : "수정"}</Text>
                 </TouchableOpacity>
             </View>
 
             {/*<DatePicker/>*/}
-            <View style={{flex: 1}}>
-                <RowItemButton/>
-            </View>
+
+            <RowItemButton/>
+            <DeleteItemModal
+                visible={throwing}
+                handleCancel={() => setThrowing(false)}
+                handleConfirm={() => {
+                    containerDispatch({type: 'deleteFridgeItem', value: {id: item.id}});
+                    setThrowing(false);
+                    navigatePop();
+                }}/>
         </View>
     )
 }

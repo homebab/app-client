@@ -10,7 +10,6 @@ import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
 import { useNavigation } from "@react-navigation/native";
-import Search from "../../components/Search";
 
 const AddItemCard = ({item}: { item: Item }) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -67,7 +66,7 @@ const AddItems = () => {
         }, [Ingredients]
     );
 
-    const categories = Object.values(Category);
+    const categories = Object.values(Category).filter(c => c != Category.TOTAL);
     const [category, setCategory] = useState<Category>(categories[0]);
 
     return (
@@ -77,6 +76,7 @@ const AddItems = () => {
                 onChangeText={text => setSearchWord(text)}
                 onStartEditing={() => setIsSearching(true)}
                 onEndEditing={() => setIsSearching(false)}
+                containerStyle={{paddingBottom: 8}}
             />
             {isSearching ?
                 ItemsGrid(ingredients.filter(ingredient => searchWord? ingredient.name.includes(searchWord): false)) :
@@ -85,7 +85,6 @@ const AddItems = () => {
                     {ItemsGrid(category === Category.TOTAL? ingredients: ingredients.filter(ingredient => ingredient.category == category))}
                 </>
             }
-
         </>
     )
 }

@@ -18,9 +18,10 @@ const SearchBar = (props: Props) => {
     const [editing, setEditing] = useState(false);
 
     return (
-        <View style={[{backgroundColor: 'white', padding: 12, paddingLeft: 20, paddingRight: 20}, containerStyle]}>
+        <View style={[{backgroundColor: 'white', padding: 20}, containerStyle]}>
             <View style={{
                 flexDirection: "row",
+                alignItems: "center",
                 justifyContent: "space-between",
                 backgroundColor: '#f2f2f2',
                 padding: 10,

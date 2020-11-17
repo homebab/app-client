@@ -14,13 +14,13 @@ type Props = {
     handleCancel: () => void
 }
 
-const DeleteModal = (props: Props) => {
+const DeleteItemModal = (props: Props) => {
     const {visible, handleCancel, handleConfirm} = props
 
     const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
 
     return (
-        <Modal visible={visible} animationType={"fade"} transparent={true}>
+        <Modal visible={visible} animationType={"slide"} transparent={true}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <View style={styles.modalHeader}>
@@ -56,28 +56,4 @@ const DeleteModal = (props: Props) => {
     );
 };
 
-const DeleteItem = ({item}: { item: Item }) => {
-
-    const [isVisible, setIsVisible] = useState(false);
-
-    const {containerDispatch} = useContainerContext();
-
-    return (
-        <View>
-            <DeleteModal
-                visible={isVisible}
-                handleCancel={() => setIsVisible(false)}
-                handleConfirm={() => {
-                    containerDispatch({type: 'deleteFridgeItem', value: {id: item.id}});
-                    setIsVisible(false);
-                }}/>
-            <TouchableOpacity style={{width: '100%', padding: 16, backgroundColor: '#f44336'}}
-            onPress={() => setIsVisible(true)}>
-                <Text style={{color: 'white', fontSize: 18}}>버리기</Text>
-            </TouchableOpacity>
-        </View>
-    )
-}
-
-
-export default DeleteItem;
+export default DeleteItemModal;

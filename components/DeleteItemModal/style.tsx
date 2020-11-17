@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
     },
     modalView: {
         width: '80%',
+        position: "absolute",
+        bottom: '10%',
         backgroundColor: "white",
         borderRadius: 20,
         padding: 24,

@@ -1,11 +1,7 @@
-
 import {ScrollView, View} from "react-native";
 import {styles} from "../../screens/ListItems/styles";
-import React, {useState} from "react";
-import DeleteModal from "../DeleteItem";
-import ItemCard from "../ItemCard";
+import React from "react";
 import Grid from "../Grid";
-import { Item } from "../../contexts/Container";
 
 type Props = {
     container: Array<any>,
