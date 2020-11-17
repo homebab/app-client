@@ -30,7 +30,7 @@ export default function BaseNavigator() {
             />
             <BottomTab.Screen
                 name="Recipe"
-                component={RecipeNavigator}
+                component={ListRecipes}
                 options={{
                     tabBarLabel: "레시피",
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="chef-hat" size={24}

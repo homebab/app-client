@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-community/async-storage";
 // @ts-ignore
 import {IOAuthProps, withOAuth} from "aws-amplify-react-native"
-import {TouchableOpacity} from "react-native";
+import {TouchableOpacity, Text} from "react-native";
 import * as React from "react";
 import {useAccountContext} from "../../contexts/Account";
 import {AntDesign, MaterialCommunityIcons} from "@expo/vector-icons";
@@ -25,11 +25,12 @@ const SignOut = (props: Props) => {
                               })}>
             <AntDesign
                 name="logout"
-                size={52}
+                size={96}
                 color="black"
                 // @ts-ignore
                 backgroundColor="transparent"
             />
+            <Text style={{marginTop: 8, fontSize: 28, alignSelf: 'center'}}>Logout</Text>
         </TouchableOpacity>
     )
 }

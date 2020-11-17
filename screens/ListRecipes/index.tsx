@@ -15,21 +15,23 @@ export default function ListRecipes() {
 
     return (
         <View style={styles.container}>
-            <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={() => {
-                                    setRefreshing(true)
-                                    setRefreshing(false)
-                                }}
-                            />
-                        }
-            >
-                {videoIds.map((id, key) => {
-                    return (<RecipeCard key={key} id={id}/>)
-                })}
-            </ScrollView>
+            {/*<ScrollView style={{backgroundColor: "#f2f2f2"}}*/}
+            {/*            refreshControl={*/}
+            {/*                <RefreshControl*/}
+            {/*                    refreshing={refreshing}*/}
+            {/*                    onRefresh={() => {*/}
+            {/*                        setRefreshing(true)*/}
+            {/*                        setRefreshing(false)*/}
+            {/*                    }}*/}
+            {/*                />*/}
+            {/*            }*/}
+            {/*>*/}
+            {/*    {videoIds.map((id, key) => {*/}
+            {/*        return (<RecipeCard key={key} id={id}/>)*/}
+            {/*    })}*/}
+            {/*</ScrollView>*/}
+            <MaterialCommunityIcons name="chef-hat" size={100} color="black" />
+            <Text style={{marginTop: 8, fontSize: 28}}>Coming Soon</Text>
         </View>
     );
 }
@@ -39,7 +41,9 @@ const videoHeight = Layout.window.width * 9 / 16
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
         fontSize: 20,

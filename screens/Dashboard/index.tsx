@@ -7,8 +7,8 @@ const Dashboard = () => {
 
     return (
         <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-            <MaterialCommunityIcons name="file-chart" size={52} color={"black"}/>
-            <Text style={{marginTop: 10}}>Dashboard</Text>
+            <MaterialCommunityIcons name="file-chart" size={100} color={"black"}/>
+            <Text style={{marginTop: 8, fontSize: 28}}>Dashboard</Text>
         </View>
     )
 }
