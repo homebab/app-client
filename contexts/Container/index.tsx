@@ -24,14 +24,14 @@ export type Container = {
 }
 
 export type Action =
-    | {type: "FLUSH"}
-    | {type: "FLUSH_BASKET"}
-    | {type: "FLUSH_FRIDGE"}
-    | {type: "SET_FRIDGE", fridge: Map<UUID, Item>}
-    | {type: "SET_BASKET", basket: Array<Item>}
-    | {type: "MOVE_BASKET_TO_FRIDGE"}
-    | {type: "DELETE_FRIDGE_ITEM", id: UUID, amount?: number}
-    | {type: "UPDATE_FRIDGE_ITEM", item: Item}
+    | { type: "FLUSH" }
+    | { type: "FLUSH_BASKET" }
+    | { type: "FLUSH_FRIDGE" }
+    | { type: "SET_FRIDGE", fridge: Map<UUID, Item> }
+    | { type: "SET_BASKET", basket: Array<Item> }
+    | { type: "MOVE_BASKET_TO_FRIDGE" }
+    | { type: "DELETE_FRIDGE_ITEM", id: UUID, amount?: number }
+    | { type: "UPDATE_FRIDGE_ITEM", item: Item }
 
 
 type Props = {
@@ -106,11 +106,11 @@ const ContainerController: React.FC = ({children}) => {
                 })
 
                 Analytics.record({
-                    name: 'addFridgeItems',
-                    attributes: {items: items}
+                    name: 'ADD_FRIDGE_ITEMS',
+                    attributes: {"ITEM_IDS": items.map(i => i.id)}
                 })
-                    .then(res => console.debug(`[omtm]: success to record the event, ${res}`))
-                    .catch(err => console.warn(`[omtm]: fail to record the event, ${err}`))
+                    .then(res => console.debug(`[omtm]: success to record 'addFridgeItems' event, ${JSON.stringify(res)}`))
+                    .catch(err => console.warn(`[omtm]: fail to record 'addFridgeItems' event, ${JSON.stringify(err)}`))
 
                 return {
                     ...state,
@@ -120,13 +120,16 @@ const ContainerController: React.FC = ({children}) => {
                             .sort())
                 };
             case 'DELETE_FRIDGE_ITEM':
+                const item: Item | undefined = state.fridge.get(action.id);
 
                 Analytics.record({
-                    name: 'deleteFridgeItem',
-                    attributes: {item: state.fridge.get(action.id)}
+                    name: 'DELETE_FRIDGE_ITEM',
+                    // customize spreading Object
+                    attributes: {...item},
+                    metrics: {'WASTE_AMOUNT': action.amount}
                 })
-                    .then(res => console.debug(`[omtm]: success to record the event, ${res}`))
-                    .catch(err => console.warn(`[omtm]: fail to record the event, ${err}`))
+                    .then(res => console.debug(`[omtm]: success to record 'deleteFridgeItem' event, ${JSON.stringify(res)}`))
+                    .catch(err => console.warn(`[omtm]: fail to record 'deleteFridgeItem' event, ${JSON.stringify(err)}`))
 
                 state.fridge.delete(action.id);
                 return {
@@ -156,7 +159,6 @@ const ContainerController: React.FC = ({children}) => {
 }
 
 export default ContainerController;
-
 
 
 /*

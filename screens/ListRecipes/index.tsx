@@ -1,17 +1,26 @@
 import * as React from 'react';
-import {useState} from 'react';
-import {Image, RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
-import EmbedVideo from "../../components/EmbedVideo";
+import {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import Layout from "../../constants/Layout";
 import Mocks from "../../constants/Mocks";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
-import RecipeCard from "../../components/RecipeCard";
+import { Analytics } from 'aws-amplify';
 
 export default function ListRecipes() {
     const [refreshing, setRefreshing] = useState<boolean>(false)
 
     // Not constant, fetch api
     const videoIds = Mocks.SearchedRecipesInfo.eggplant;
+
+    useEffect(() => {
+        console.debug('[omtm]: test to record an event to AWS pinpoint');
+        Analytics.record({
+            name: 'pageView',
+            attributes: {pageType: 'ListRecipes'}
+        })
+            .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
+            .catch(err => console.warn("[omtm]: fail to record with " + err))
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -30,7 +39,7 @@ export default function ListRecipes() {
             {/*        return (<RecipeCard key={key} id={id}/>)*/}
             {/*    })}*/}
             {/*</ScrollView>*/}
-            <MaterialCommunityIcons name="chef-hat" size={100} color="black" />
+            <MaterialCommunityIcons name="chef-hat" size={100} color="black"/>
             <Text style={{marginTop: 8, fontSize: 28}}>Coming Soon</Text>
         </View>
     );

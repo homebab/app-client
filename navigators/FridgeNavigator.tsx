@@ -46,7 +46,7 @@ export default function FridgeNavigator() {
                                                        onPress={() => navigation.navigate("ListItems")}/>,
                     headerRight: () => <NextIconButton containerStyle={{marginRight: 16}} size={28} onPress={() => {
                         containerDispatch({type: 'MOVE_BASKET_TO_FRIDGE'});
-                        navigation.goBack();
+                        navigation.navigate('ListItems');
                     }}/>
                 }}
             />
