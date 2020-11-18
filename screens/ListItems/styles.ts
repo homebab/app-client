@@ -24,10 +24,10 @@ export const styles = StyleSheet.create({
     },
     plusButton: {
         position: "absolute",
-        padding: 20,
+        padding: 16,
         borderRadius: 50,
         bottom: '8%',
-        right: '8%',
-        backgroundColor: "black"
+        right: '10%',
+        backgroundColor: 'black'
     }
 });

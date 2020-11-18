@@ -1,5 +1,5 @@
 import {CameraCapturedPicture} from "expo-camera";
-import {Profile} from "./contexts/Account";
+import {Profile} from "../contexts/Account";
 
 // AsyncStorage
 export type CachedUser = {

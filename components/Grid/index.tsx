@@ -21,6 +21,7 @@ const Grid = (props: Props) => {
                     </View>
                 ))
             }
+            <View style={{height: 100}}/>
         </View>
     );
 }

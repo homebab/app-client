@@ -8,15 +8,15 @@ import {FridgeNaviParamList} from "../../types";
 type Props = {
     containerStyle?: ViewStyle,
     size?: number,
-    onPressHandler: () => void
+    onPress: () => void
 }
 
 const CrossIconButton = (props: Props) => {
 
-    const {containerStyle, size, onPressHandler} = props;
+    const {containerStyle, size, onPress} = props;
 
     return (
-        <TouchableOpacity style={containerStyle} onPress={onPressHandler}>
+        <TouchableOpacity style={containerStyle} onPress={onPress}>
             <Feather
                 name="x" size={size? size: 28} color="black"
                 // @ts-ignore

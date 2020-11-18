@@ -1,5 +1,6 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
 import {Storage} from "../../types/Storage"
+import {Analytics} from "aws-amplify";
 
 export type UUID = string;
 
@@ -28,8 +29,8 @@ export type Action =
     | {type: "FLUSH_FRIDGE"}
     | {type: "SET_FRIDGE", fridge: Map<UUID, Item>}
     | {type: "SET_BASKET", basket: Array<Item>}
-    | {type: "ADD_FRIDGE_ITEMS", items: Array<Item>}
-    | {type: "DELETE_FRIDGE_ITEM", id: UUID}
+    | {type: "MOVE_BASKET_TO_FRIDGE"}
+    | {type: "DELETE_FRIDGE_ITEM", id: UUID, amount?: number}
     | {type: "UPDATE_FRIDGE_ITEM", item: Item}
 
 
@@ -88,8 +89,28 @@ const ContainerController: React.FC = ({children}) => {
                     ...state,
                     fridge: action.fridge
                 }
-            case 'ADD_FRIDGE_ITEMS':
-                const items: Array<Item> = action.items;
+            case 'MOVE_BASKET_TO_FRIDGE':
+                const items: Array<Item> = state.basket.map(item => {
+                    const date = new Date();
+                    date.setDate(date.getDate() + 7);
+
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        expiredAt: date, // | Date;
+                        storage: Storage.FRIDGE,
+                        category: item.category,
+                    }
+                })
+
+                Analytics.record({
+                    name: 'addFridgeItems',
+                    attributes: {items: items}
+                })
+                    .then(res => console.debug(`[omtm]: success to record the event, ${res}`))
+                    .catch(err => console.warn(`[omtm]: fail to record the event, ${err}`))
 
                 return {
                     ...state,
@@ -99,8 +120,15 @@ const ContainerController: React.FC = ({children}) => {
                             .sort())
                 };
             case 'DELETE_FRIDGE_ITEM':
-                state.fridge.delete(action.id);
 
+                Analytics.record({
+                    name: 'deleteFridgeItem',
+                    attributes: {item: state.fridge.get(action.id)}
+                })
+                    .then(res => console.debug(`[omtm]: success to record the event, ${res}`))
+                    .catch(err => console.warn(`[omtm]: fail to record the event, ${err}`))
+
+                state.fridge.delete(action.id);
                 return {
                     ...state,
                     fridge: new Map(state.fridge)

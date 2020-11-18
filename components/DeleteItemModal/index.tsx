@@ -17,7 +17,7 @@ type Props = {
 const DeleteItemModal = (props: Props) => {
     const {visible, onCancel, onConfirm} = props
 
-    const [value, setValue] = React.useState<'empty' | 'remain'>("empty");
+    const [amount, setAmount] = React.useState<string>('0');
 
     return (
         <Modal visible={visible} animationType={"fade"} transparent={true} onRequestClose={onCancel}>
@@ -28,9 +28,15 @@ const DeleteItemModal = (props: Props) => {
                         style={styles.modalText}>얼만큼 버리셨나요?</Text>
                     </View>
 
-                    <RadioButton.Group onValueChange={value => setValue(value as 'empty' | 'remain')} value={value}>
-                        <RadioButton.Item label="조금 버렸습니다" value="empty" labelStyle={{fontSize: 18}}/>
-                        <RadioButton.Item label="많이 버렸습니다" value="remain" labelStyle={{fontSize: 18}}/>
+                    <RadioButton.Group onValueChange={value => setAmount(value)} value={amount}>
+                        <View style={{flexDirection: "row"}}>
+                        <RadioButton.Item label="전부 먹음" value="0" labelStyle={{fontSize: 18}}/>
+                        <RadioButton.Item label="조금 버림" value="1" labelStyle={{fontSize: 18}}/>
+                        </View>
+                        <View style={{flexDirection: "row"}}>
+                        <RadioButton.Item label="많이 버림" value="2" labelStyle={{fontSize: 18}}/>
+                        <RadioButton.Item label="전부 버림" value="3" labelStyle={{fontSize: 18}}/>
+                        </View>
                     </RadioButton.Group>
 
                     <View style={styles.modalFooter}>

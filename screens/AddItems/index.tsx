@@ -54,7 +54,6 @@ const AddItems = () => {
     }, [])
 
     const ingredients = useMemo(() => {
-            console.log('다시 계산1')
             return Object.keys(Ingredients)
                 .map(key => Ingredients[key as keyof Ingredients].map(name => {
                         // Dummy id

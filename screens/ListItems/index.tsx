@@ -66,7 +66,7 @@ const ListItems: React.FC = () => {
                 isSearching ?
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <CrossIconButton containerStyle={{marginRight: 16}} size={28}
-                                         onPressHandler={() => setIsSearching(false)}/>
+                                         onPress={() => setIsSearching(false)}/>
                     </View> :
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Search containerStyle={{marginRight: 16}} size={28}
@@ -120,7 +120,7 @@ const ListItems: React.FC = () => {
 
             {!isSearching && <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                    <AntDesign name="plus" size={20} color='white'/>
+                    <AntDesign name="plus" size={20} color='white' style={{backgroundColor:'black'}}/>
                 </TouchableOpacity>
             </View>}
         </>

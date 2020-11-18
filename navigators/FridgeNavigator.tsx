@@ -1,24 +1,25 @@
 // Each tab has its own navigators stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-import {createStackNavigator} from "@react-navigation/stack";
+import {createStackNavigator, StackNavigationProp} from "@react-navigation/stack";
 import {FridgeNaviParamList} from "../types";
 import {View} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import AddItems from "../screens/AddItems";
 import CaptureItem from "../screens/CaptureItemV0";
 import * as React from "react";
-import {useState} from "react";
 import ListItems from "../screens/ListItems";
-import AddFridgeItems from "../components/AddFridgeItems";
+import NextIconButton from "../components/NextIconButton";
 import CrossIconButton from "../components/CrossIconButton";
 import Search from "../components/Search";
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
+import {useContainerContext} from "../contexts/Container";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
 export default function FridgeNavigator() {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'AddItems'>>();
+    const {containerDispatch} = useContainerContext();
 
     return (
         <FridgeStack.Navigator>
@@ -41,9 +42,12 @@ export default function FridgeNavigator() {
                 component={AddItems}
                 options={{
                     headerTitle: '식품 추가',
-                    headerLeft: () => <CrossIconButton containerStyle={{marginLeft: 16}} size={28} onPressHandler={() => navigation.navigate("ListItems")}/>,
-                    headerRight: () => <AddFridgeItems containerStyle={{marginRight: 16}} size={28}/>
-
+                    headerLeft: () => <CrossIconButton containerStyle={{marginLeft: 16}} size={28}
+                                                       onPress={() => navigation.navigate("ListItems")}/>,
+                    headerRight: () => <NextIconButton containerStyle={{marginRight: 16}} size={28} onPress={() => {
+                        containerDispatch({type: 'MOVE_BASKET_TO_FRIDGE'});
+                        navigation.goBack();
+                    }}/>
                 }}
             />
             <FridgeStack.Screen

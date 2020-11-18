@@ -45,6 +45,7 @@ $ amplify status
 - [pinpoint stream to Amazon Kinesis](https://docs.amplify.aws/lib/analytics/storing/q/platform/js)
 
 ## Screenshots
+### V0
 - itemList, RecipeList, RecipeDetail, AddItem
 <div>
   <img src="https://user-images.githubusercontent.com/40639955/82827118-4fb43480-9ee9-11ea-8e32-743e40684db0.png" width="200"></img>
