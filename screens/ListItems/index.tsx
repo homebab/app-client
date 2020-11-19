@@ -1,7 +1,7 @@
 import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
-import {TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, View, Text} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import {AntDesign} from "@expo/vector-icons";
+import {AntDesign, EvilIcons} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import {Item, useContainerContext} from "../../contexts/Container";
@@ -120,7 +120,7 @@ const ListItems: React.FC = () => {
 
             {!isSearching && <View style={styles.plusButton}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                    <AntDesign name="plus" size={20} color='white' style={{backgroundColor:'black'}}/>
+                    <AntDesign name="plus" size={20} color='white' style={{backgroundColor: 'black'}}/>
                 </TouchableOpacity>
             </View>}
         </>

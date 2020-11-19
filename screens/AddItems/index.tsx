@@ -4,30 +4,30 @@ import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
 import ItemCard from "../../components/ItemCard";
 import {GestureResponderEvent, TouchableOpacity} from "react-native";
-import {v4 as uuidv4} from 'uuid';
 import Layout from "../../constants/Layout";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
 
 const AddItemCard = ({item}: { item: Item }) => {
-    const {containerState, containerDispatch} = useContainerContext();
-    const {basket} = containerState;
+    const {containerDispatch} = useContainerContext();
 
-    const isContained = basket.filter(i => i.name == item.name).length > 0;
+    const [pressed, setPressed] = useState(false);
 
     const handlePress = (_: GestureResponderEvent) => {
-        // isContain ? deleteItem : addItem
-        const updatedBasket = isContained ?
-            basket.filter(i => i.name != item.name) :
-            [...basket, {id: uuidv4(), name: item.name, category: item.category}];
-        containerDispatch({type: "SET_BASKET", basket: updatedBasket});
+        if (pressed) {
+            containerDispatch({type: "DELETE_BASKET_ITEM", name: item.name})
+            setPressed(false);
+        } else {
+            containerDispatch({type: "ADD_BASKET_ITEM", item: item});
+            setPressed(true);
+        }
     };
 
     return (
         <TouchableOpacity onPress={handlePress}>
             <ItemCard
-                containerStyle={[isContained ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
+                containerStyle={[pressed ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
                 avatarSize={64} item={item}/>
         </TouchableOpacity>);
 }
