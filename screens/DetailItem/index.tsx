@@ -161,10 +161,10 @@ const DetailItem = (props: Props) => {
 
             <RowItemButton/>
             <DeleteItemModal
+                item={item}
                 visible={throwing}
                 onCancel={() => setThrowing(false)}
                 onConfirm={() => {
-                    containerDispatch({type: 'DELETE_FRIDGE_ITEM', id: item.id});
                     setThrowing(false);
                     navigatePop();
                 }}/>

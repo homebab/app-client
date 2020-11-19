@@ -1,23 +1,26 @@
 // import {Modal, Text} from 'react-native-paper';
 import * as React from 'react';
-import {useState} from 'react';
 import {Modal, Text, TouchableHighlight, TouchableOpacity, View} from 'react-native';
 // TODO: use react-native-elements
 import {RadioButton} from 'react-native-paper';
 import {Feather} from '@expo/vector-icons';
 import {styles} from "./style"
-import {Item, useContainerContext} from '../../contexts/Container';
+import useWasteAmount from "../../hooks/useWasteAmount";
+import {Item, useContainerContext} from "../../contexts/Container";
 
 type Props = {
+    item: Item
     visible: boolean,
     onConfirm: () => void,
     onCancel: () => void
 }
 
 const DeleteItemModal = (props: Props) => {
-    const {visible, onCancel, onConfirm} = props
+    const {item, visible, onCancel, onConfirm} = props
 
-    const [amount, setAmount] = React.useState<string>('0');
+    const {containerDispatch} = useContainerContext();
+    const [amount, setAmount] = React.useState<number>(0);
+
 
     return (
         <Modal visible={visible} animationType={"fade"} transparent={true} onRequestClose={onCancel}>
@@ -25,17 +28,19 @@ const DeleteItemModal = (props: Props) => {
                 <View style={styles.modalView}>
                     <View style={styles.modalHeader}>
                         <Feather name="trash-2" size={24} color="black" style={{marginRight: 12}}/><Text
-                        style={styles.modalText}>얼만큼 버리셨나요?</Text>
+                        style={styles.modalText}>음식물을 얼만큼 버리셨나요?</Text>
                     </View>
 
-                    <RadioButton.Group onValueChange={value => setAmount(value)} value={amount}>
-                        <View style={{flexDirection: "row"}}>
-                        <RadioButton.Item label="전부 먹음" value="0" labelStyle={{fontSize: 18}}/>
-                        <RadioButton.Item label="조금 버림" value="1" labelStyle={{fontSize: 18}}/>
-                        </View>
-                        <View style={{flexDirection: "row"}}>
-                        <RadioButton.Item label="많이 버림" value="2" labelStyle={{fontSize: 18}}/>
-                        <RadioButton.Item label="전부 버림" value="3" labelStyle={{fontSize: 18}}/>
+                    <RadioButton.Group onValueChange={value => setAmount(parseInt(value))} value={amount.toString()}>
+                        <View style={{
+                            width: '100%', flexDirection: "row", justifyContent: "center", alignItems: "center"
+                        }}>
+                            {
+                                Array.from(Array(4).keys()).map((i, k) =>
+                                    <RadioButton.Item
+                                        key={k} style={{flexDirection: "column"}}
+                                        label={i.toString()} value={i.toString()} labelStyle={{fontSize: 18}}/>)
+                            }
                         </View>
                     </RadioButton.Group>
 
@@ -50,7 +55,10 @@ const DeleteItemModal = (props: Props) => {
                         <TouchableHighlight
                             underlayColor={'rgba(0,0,0,0.3)'}
                             style={{...styles.openButton, backgroundColor: "transparent"}}
-                            onPress={onConfirm}
+                            onPress={() => {
+                                containerDispatch({type: "DELETE_FRIDGE_ITEM", id: item.id, amount: amount})
+                                onConfirm();
+                            }}
                         >
                             <Text style={{...styles.textStyle, color: '#2196f3'}}>제출</Text>
                         </TouchableHighlight>
