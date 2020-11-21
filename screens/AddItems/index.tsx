@@ -8,6 +8,7 @@ import Layout from "../../constants/Layout";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
+import {v4 as uuidv4} from 'uuid';
 
 const AddItemCard = ({item}: { item: Item }) => {
     const {containerDispatch} = useContainerContext();
@@ -19,16 +20,14 @@ const AddItemCard = ({item}: { item: Item }) => {
             containerDispatch({type: "DELETE_BASKET_ITEM", name: item.name})
             setPressed(false);
         } else {
-            containerDispatch({type: "ADD_BASKET_ITEM", item: item});
+            containerDispatch({type: "ADD_BASKET_ITEM", item: {...item, id: uuidv4()}});
             setPressed(true);
         }
     };
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard
-                containerStyle={[pressed ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
-                avatarSize={64} item={item}/>
+            <ItemCard containerStyle={[pressed ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]} item={item}/>
         </TouchableOpacity>);
 }
 

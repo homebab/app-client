@@ -8,7 +8,17 @@ const Image = {
     delete: require('../../app-client/assets/images/header/delete.png'),
     advertise: require('../../app-client/assets/images/advertisement.jpg'),// {uri: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/advertisement.jpg'},
     addItem: require('../../app-client/assets/images/addItem.png'),
-    ingredients: require('../../app-client/assets/images/food/apple.png')
+
+    ingredients: require('../../app-client/assets/images/ingredients.png'),
+    사과: require('../../app-client/assets/images/food/사과.png'),
+    감자: require('../../app-client/assets/images/food/감자.png'),
+    새우: require('../../app-client/assets/images/food/새우.png'),
+    토마토: require('../../app-client/assets/images/food/토마토.png'),
+    애호박: require('../../app-client/assets/images/food/애호박.png'),
+    케찹: require('../../app-client/assets/images/food/케찹.png'),
+
+
+
 };
 
 const Assets = {

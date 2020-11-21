@@ -1,23 +1,25 @@
-import {Image, StyleProp, View, ViewStyle} from "react-native";
-import React from "react";
+import {Image, ImageSourcePropType, StyleProp, View, ViewStyle} from "react-native";
+import React, {useState} from "react";
 
 type Props = {
-    source: any,
+    source: ImageSourcePropType,
+    onError?: () => void,
     size?: number,
-    style?: StyleProp<ViewStyle>
+    containerStyle?: StyleProp<ViewStyle>
 }
 
 const Avatar = (props: Props) => {
-    const {source, size, style} = props;
+    const {source, onError, size, containerStyle} = props;
 
     return (
         <View style={[{
             padding: 8, borderRadius: 50, aspectRatio: 1, backgroundColor: "white"
-        }, style ? style : null]}>
+        }, containerStyle ? containerStyle : null]}>
             <Image
                 source={source}
+                onError={onError}
                 fadeDuration={0}
-                style={{width: size! - 16, height: size! - 16}}
+                style={{width: size, height: size}}
             />
         </View>
     )

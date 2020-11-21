@@ -1,7 +1,7 @@
 import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
-import {TouchableOpacity, View, Text} from "react-native";
+import {TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import {AntDesign, EvilIcons} from "@expo/vector-icons";
+import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import {Item, useContainerContext} from "../../contexts/Container";
@@ -37,7 +37,7 @@ const ListItemCard = ({item}: { item: Item }) => {
             </BottomModal>
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
-                <ItemCard item={item} avatarSize={64}/>
+                <ItemCard item={item}/>
             </TouchableOpacity>
         </View>
     )

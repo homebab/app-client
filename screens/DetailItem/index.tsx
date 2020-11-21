@@ -122,9 +122,11 @@ const DetailItem = (props: Props) => {
 
         return (
             <View style={{alignItems: 'center', marginBottom: 24}}>
-                <Avatar style={{position: "absolute", top: -32, padding: 4}} source={Assets.Image.ingredients}
-                        size={76}/>
-                <Text style={{marginTop: 40, fontSize: 18}}>{label}</Text>
+                <Avatar containerStyle={{position: "absolute", top: -40, padding: 14}}
+                    // @ts-ignore
+                        source={['감자', '애호박', '새우', '사과', '케찹', '토마토'].includes(item.name) ? Assets.Image[item.name] : Assets.Image.토마토}
+                        size={58}/>
+                <Text style={{marginTop: 52, fontSize: 18}}>{label}</Text>
 
                 <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
                     <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>

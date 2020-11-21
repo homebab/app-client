@@ -86,6 +86,11 @@ const ContainerController: React.FC = ({children}) => {
                     ...state,
                     basket: state.basket.concat(action.item)
                 }
+            case 'DELETE_BASKET_ITEM':
+                return {
+                    ...state,
+                    basket: state.basket.filter(i => i.name !== action.name)
+                }
             case 'FLUSH_FRIDGE':
                 return {
                     ...state,

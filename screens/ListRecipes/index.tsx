@@ -15,7 +15,7 @@ export default function ListRecipes() {
     useEffect(() => {
         console.debug('[omtm]: test to record an event to AWS pinpoint');
         Analytics.record({
-            name: 'pageView',
+            name: 'PAGE_VIEW',
             attributes: {pageType: 'ListRecipes'}
         })
             .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
