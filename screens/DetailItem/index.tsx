@@ -9,6 +9,7 @@ import {formatMemo} from "../../validators/format";
 import {Storage} from "../../types/Storage";
 import DeleteItemModal from "../../components/DeleteItemModal";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { imageKeys } from "../../constants/Ingredients";
 
 
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
@@ -118,15 +119,16 @@ const DetailItem = (props: Props) => {
         )
     }
 
-    const ItemAvatar = (label: string) => {
+    const ItemAvatar = () => {
+        const key = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
 
         return (
             <View style={{alignItems: 'center', marginBottom: 24}}>
                 <Avatar containerStyle={{position: "absolute", top: -40, padding: 14}}
                     // @ts-ignore
-                        source={['감자', '애호박', '새우', '사과', '케찹', '토마토'].includes(item.name) ? Assets.Image[item.name] : Assets.Image.토마토}
+                        source={Assets.Image[key? key: '토마토']}
                         size={58}/>
-                <Text style={{marginTop: 52, fontSize: 18}}>{label}</Text>
+                <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
 
                 <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
                     <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>
@@ -138,7 +140,7 @@ const DetailItem = (props: Props) => {
 
     return (
         <View style={{flex: 1, width: "92%"}}>
-            {ItemAvatar(item.name)}
+            {ItemAvatar()}
 
             <ColumnItemInfo/>
 

@@ -9,6 +9,8 @@ export interface Ingredients {
     기타: string[],
 }
 
+export const imageKeys = ['고구마', '감자', '애호박', '새우', '고등어', '사과', '케찹', '토마토']
+
 export const Ingredients: Ingredients = {
     채소: [
         // 잎채소

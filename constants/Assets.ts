@@ -12,10 +12,13 @@ const Image = {
     ingredients: require('../../app-client/assets/images/ingredients.png'),
     사과: require('../../app-client/assets/images/food/사과.png'),
     감자: require('../../app-client/assets/images/food/감자.png'),
+    고구마: require('../../app-client/assets/images/food/고구마.png'),
+    고등어: require('../../app-client/assets/images/food/고등어.png'),
     새우: require('../../app-client/assets/images/food/새우.png'),
     토마토: require('../../app-client/assets/images/food/토마토.png'),
     애호박: require('../../app-client/assets/images/food/애호박.png'),
     케찹: require('../../app-client/assets/images/food/케찹.png'),
+
 
 
 
