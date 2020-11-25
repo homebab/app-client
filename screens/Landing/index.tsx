@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import LocalStorage from '../../constants/LocalStorage';
 import {CognitoUser} from "amazon-cognito-identity-js";
 import {convertContainer, Item, useContainerContext, UUID} from "../../contexts/Container";
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const Landing = () => {
@@ -17,6 +18,10 @@ const Landing = () => {
     const {containerDispatch} = useContainerContext();
 
     const initializeContext = (cachedUser: CachedUser, userItems: string | null) => {
+        containerDispatch({
+            type: 'SET_FRIDGE',
+            fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map()
+        });
 
         accountDispatch({
             type: 'SET_ACCOUNT',
@@ -24,11 +29,6 @@ const Landing = () => {
                 cachedUser: cachedUser,
                 isAuthenticated: true
             }
-        });
-
-        containerDispatch({
-            type: 'SET_FRIDGE',
-            fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map()
         });
     }
 
@@ -54,14 +54,14 @@ const Landing = () => {
                 AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
                     .then(userItems => {
                         initializeContext(cachedUser, userItems);
-                        console.debug("[omtm]: success to signIn for", cachedUser.getUsername());
+                        console.debug("[omtm]: success to retrieve ", cachedUser.getUsername());
                     })
                     .catch(err => {
                         alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`);
                     })
             })
-            .catch(err => console.log(`[omtm]: ${err}`));
-
+            .catch(err => console.debug(`[omtm]: ${err}`));
+        return () => console.log('UNMOUNTED on Landing');
     }, []);
 
     return (
