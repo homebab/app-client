@@ -1,16 +1,13 @@
 import AsyncStorage from "@react-native-community/async-storage";
-// @ts-ignore
-import {IOAuthProps, withOAuth} from "aws-amplify-react-native"
 import {Text, TouchableOpacity} from "react-native";
 import * as React from "react";
 import {useAccountContext} from "../../contexts/Account";
 import {AntDesign} from "@expo/vector-icons";
 import {Auth} from "aws-amplify";
 
-type Props = IOAuthProps & {}
+type Props = {}
 
 const SignOut = (props: Props) => {
-    const {signOut} = props;
     const {accountDispatch} = useAccountContext();
 
     return (
@@ -35,5 +32,11 @@ const SignOut = (props: Props) => {
     )
 }
 
+/*
+    withOAuth Higher-Order Component (HOC)
+    refer to doc `https://docs.amplify.aws/lib/auth/social/q/platform/js`
 
-export default withOAuth(SignOut);
+    With React Native & Expo, you can also use the withOAuth HOC to launch the Cognito Hosted UI experience.
+    Just wrap your app’s main component with our HOC. Doing so, will pass the following props available to your component:
+*/
+export default SignOut;
