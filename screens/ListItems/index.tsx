@@ -82,7 +82,9 @@ const ListItems: React.FC = () => {
                 // setVisibleDeleteModal(false);
             })
             .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
-    }, [fridge])
+
+        return () => console.log('UNMOUNTED on ListItems');
+    }, [])
 
     const storages = Object.values(Storage);
     const [storage, setStorage] = useState<Storage>(storages[0]);
