@@ -2,15 +2,15 @@ import {Ionicons} from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
+import {Asset} from "expo-asset";
+import Assets from '../constants/Assets';
 
 export default function useCachedResources() {
     const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 
-    // const {accountDispatch} = useAccountContext();
-
     async function loadResourcesAndDataAsync() {
         try {
-            SplashScreen.preventAutoHideAsync();
+            SplashScreen.preventAutoHideAsync().then();
 
             // Load fonts
             await Font.loadAsync({
@@ -19,6 +19,11 @@ export default function useCachedResources() {
                 'nanum-square-round': require('../assets/fonts/NanumSquareRoundR.ttf')
                 ,
             });
+
+            // Load Images
+            await Asset.loadAsync([
+                ...Object.values(Assets.Image)
+            ]);
 
         } catch (e) {
             // We might want to provide this error information to an error reporting service
