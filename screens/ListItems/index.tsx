@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
 import {TouchableOpacity, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import {useNavigation, useNavigationState} from "@react-navigation/native";
 import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
@@ -77,22 +77,20 @@ const ListItems: React.FC = () => {
 
     useEffect(() => {
         AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
-            .then(_ => {
-                console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
-                // setVisibleDeleteModal(false);
-            })
+            .then(_ => console.log(`[omtm]: success to sync Account Context with AsyncStorage`))
             .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
 
         return () => console.log('UNMOUNTED on ListItems');
-    }, [])
+    }, [fridge])
 
     const storages = Object.values(Storage);
     const [storage, setStorage] = useState<Storage>(storages[0]);
 
     const categories = Object.values(Category);
     const [category, setCategory] = useState<Category>(categories[0]);
-
+    console.log("메모밖")
     const filteredItems = useMemo(() => {
+        console.log("메모")
         const filteredByStorage = storage === Storage.TOTAL ? Array.from(fridge.values()) : Array.from(fridge.values()).filter(item => item.storage === storage);
         return category === Category.TOTAL ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
     }, [category, storage, fridge]);

@@ -4,6 +4,7 @@ import * as React from "react";
 import {useAccountContext} from "../../contexts/Account";
 import {AntDesign} from "@expo/vector-icons";
 import {Auth} from "aws-amplify";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {}
 

@@ -13,6 +13,7 @@ import CrossIconButton from "../components/CrossIconButton";
 import Search from "../components/Search";
 import {useNavigation} from "@react-navigation/native";
 import {useContainerContext} from "../contexts/Container";
+import {useEffect} from "react";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 

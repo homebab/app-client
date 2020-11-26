@@ -6,19 +6,18 @@ import {styles} from "./styles";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import {FridgeNaviParamList, TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {Storage, useAccountContext} from "../../contexts/Account";
+import {useAccountContext} from "../../contexts/Account";
 import {formatDate, formatTag} from "../../validators/format";
 import {v4 as uuidv4} from "uuid"
 import {Item} from "../../contexts/Container";
+import {Storage} from "../../types/Storage";
 
 const AddItem = () => {
 
     const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'AddItems'>>();
     const route = useRoute<RouteProp<FridgeNaviParamList, 'AddItems'>>();
 
-    const {accountState, accountDispatch} = useAccountContext();
-    const {profile} = accountState;
-    const {id} = profile;
+    const {accountDispatch} = useAccountContext();
 
     const [name, setName] = useState<string>('');
     const [expiredAt, setExpiredAt] = useState<string>('');
@@ -41,7 +40,8 @@ const AddItem = () => {
                 memo: memo
             }
 
-            accountDispatch({type: "addItem", value: {item: userItem}})
+            // TODO: type "addItem" is deprecated
+            // accountDispatch({type: "addItem", value: {item: userItem}})
             navigation.pop()
         }
     }

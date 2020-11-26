@@ -12,15 +12,15 @@ export default function ListRecipes() {
     // Not constant, fetch api
     const videoIds = Mocks.SearchedRecipesInfo.eggplant;
 
-    useEffect(() => {
-        console.debug('[omtm]: test to record an event to AWS pinpoint');
-        Analytics.record({
-            name: 'PAGE_VIEW',
-            attributes: {pageType: 'ListRecipes'}
-        })
-            .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
-            .catch(err => console.warn("[omtm]: fail to record with " + err))
-    }, []);
+    // useEffect(() => {
+    //     console.debug('[omtm]: test to record an event to AWS pinpoint');
+    //     Analytics.record({
+    //         name: 'PAGE_VIEW',
+    //         attributes: {pageType: 'ListRecipes'}
+    //     })
+    //         .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
+    //         .catch(err => console.warn("[omtm]: fail to record with " + err))
+    // }, []);
 
     return (
         <View style={styles.container}>

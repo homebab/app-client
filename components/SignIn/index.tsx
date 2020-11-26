@@ -21,7 +21,7 @@ const SignIn = () => {
             {/*</TouchableOpacity>*/}
             <TouchableOpacity style={[styles.button, styles.google]}
                               onPress={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google})
-                                  .then(res => console.debug("[omtm]: success to google signIn with ", res))
+                                  .then(res => console.debug("[omtm]: success to google signIn with", res))
                                   .catch(err => console.warn(`[omtm]: fail to google signIn with ${Linking.makeUrl()} and ${err}`))}>
                 <Entypo style={styles.icon} name="google-" size={30} color="white"/>
                 <Text style={styles.text}>
@@ -30,7 +30,7 @@ const SignIn = () => {
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.facebook]}
                               onPress={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook})
-                                  .then(res => console.debug("[omtm]: success to facebook signIn with ", res))
+                                  .then(res => console.debug("[omtm]: success to facebook signIn with", res))
                                   .catch(err => console.warn(`[omtm]: fail to facebook signIn with ${Linking.makeUrl()} and ${err}`))}>
                 <Entypo style={styles.icon} name="facebook" size={30} color="white"/>
                 <Text style={styles.text}>
