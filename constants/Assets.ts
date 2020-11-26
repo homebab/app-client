@@ -18,6 +18,8 @@ const Image = {
     토마토: require('../../app-client/assets/images/food/토마토.png'),
     애호박: require('../../app-client/assets/images/food/애호박.png'),
     케찹: require('../../app-client/assets/images/food/케찹.png'),
+    바나나: require('../../app-client/assets/images/food/바나나.png'),
+    김치: require('../../app-client/assets/images/food/김치.png')
 
 
 

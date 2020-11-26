@@ -8,8 +8,9 @@ import useColorScheme from '../hooks/useColorScheme';
 import ListRecipes from '../screens/ListRecipes';
 import {BaseNaviParamList, RecipeNaviParamList} from '../types';
 import FridgeNavigator from "./FridgeNavigator";
-import Dashboard from "../screens/Dashboard";
+import GeneralAnalytics from "../screens/GeneralAnalytics";
 import Settings from "../screens/Settings";
+import AnalyticsNavigator from "./AnalyticsNavigator";
 
 const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
@@ -38,10 +39,10 @@ export default function BaseNavigator() {
                 }}
             />
             <BottomTab.Screen
-                name="Dashboard"
-                component={Dashboard}
+                name="Analytics"
+                component={AnalyticsNavigator}
                 options={{
-                    tabBarLabel: "식습관",
+                    tabBarLabel: "종합분석",
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="file-chart" size={24}
                                                                      color={color}/>,
                 }}

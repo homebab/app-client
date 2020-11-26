@@ -16,6 +16,7 @@ import {Category} from "../../types/Category";
 import SearchBar from "../../components/SearchBar";
 import Search from "../../components/Search";
 import CrossIconButton from "../../components/CrossIconButton";
+import {useAccountContext} from "../../contexts/Account";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -75,7 +76,9 @@ const ListItems: React.FC = () => {
         });
     }, [isSearching, navigation]);
 
+    const {accountState} = useAccountContext()
     useEffect(() => {
+        console.log(accountState.cachedUser)
         AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
             .then(_ => console.log(`[omtm]: success to sync Account Context with AsyncStorage`))
             .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
@@ -88,9 +91,8 @@ const ListItems: React.FC = () => {
 
     const categories = Object.values(Category);
     const [category, setCategory] = useState<Category>(categories[0]);
-    console.log("메모밖")
+
     const filteredItems = useMemo(() => {
-        console.log("메모")
         const filteredByStorage = storage === Storage.TOTAL ? Array.from(fridge.values()) : Array.from(fridge.values()).filter(item => item.storage === storage);
         return category === Category.TOTAL ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
     }, [category, storage, fridge]);
@@ -115,14 +117,14 @@ const ListItems: React.FC = () => {
                                              onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
                                              containerStyle={{padding: '8%', paddingTop: '6%', paddingBottom: '4%'}}/>
                         {ItemsGrid(filteredItems)}
+
+                        <View style={styles.plusButton}>
+                            <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
+                                <AntDesign name="plus" size={20} color='white' style={{backgroundColor: 'black'}}/>
+                            </TouchableOpacity>
+                        </View>
                     </>
             }
-
-            {!isSearching && <View style={styles.plusButton}>
-                <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                    <AntDesign name="plus" size={20} color='white' style={{backgroundColor: 'black'}}/>
-                </TouchableOpacity>
-            </View>}
         </>
     )
 }
