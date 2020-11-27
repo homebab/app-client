@@ -1,48 +1,81 @@
-import {BarChart, Grid} from 'react-native-svg-charts'
+import {BarChart, Grid, XAxis} from 'react-native-svg-charts'
 import React from 'react';
 import {ViewStyle} from "react-native";
 
+
 type Props = {
-    style: ViewStyle
+    style: ViewStyle,
+    dataset: Array<any>
 }
 
-const mockData = {
-
-}
 
 const CustomBarChart = (props: Props) => {
-    const {style} = props
+    const {style, dataset} = props
 
-    const data1 = [14, -1, 100, -95, -94, -24, -8, 85, -91, 35, -53, 53, -78, 66, 96, 33, -26, -32, 73, 8]
-        .map((value) => ({value}))
-    const data2 = [24, 28, 93, 77, -42, -62, 52, -87, 21, 53, -78, -62, -72, -6, 89, -70, -94, 10, 86, 84]
-        .map((value) => ({value}))
-
-    const barData = [
+    const data = [
         {
-            data: data1,
+            value: 50,
+        },
+        {
+            value: 10,
             svg: {
-                fill: 'rgb(134, 65, 244)',
+                fill: 'rgba(134, 65, 244, 0.5)',
             },
         },
         {
-            data: data2,
+            value: 40,
+            svg: {
+                stroke: 'purple',
+                strokeWidth: 2,
+                fill: 'white',
+                strokeDasharray: [4, 2],
+            },
+        },
+        {
+            value: 85,
+            svg: {
+                fill: 'green',
+            },
         },
     ]
 
+    // const Gradient = () => (
+    //     <Defs key={'gradient'}>
+    //         <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
+    //             <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'}/>
+    //             <Stop offset={'100%'} stopColor={'rgb(66, 194, 244)'}/>
+    //         </LinearGradient>
+    //     </Defs>
+    // )
+
+
     return (
-        <BarChart
-            style={style}
-            data={barData}
-            // @ts-ignore
-            yAccessor={({item}) => item.value}
-            svg={{
-                fill: 'green',
-            }}
-            contentInset={{top: 30, bottom: 30}}
-        >
-            <Grid/>
-        </BarChart>
+        <>
+            <BarChart
+                style={style}
+                data={dataset}
+                numberOfTicks={3}
+                // gridMin={10}
+                svg={{fill: 'rgba(0,0,0)'}}
+                yAccessor={({item}) => item.value}
+                contentInset={{top: 20, bottom: 20}}
+                spacingInner={0.8}
+
+            >
+                <Grid/>
+                {/*<Gradient/>*/}
+            </BarChart>
+            {/*<XAxis*/}
+            {/*    style={{ marginHorizontal: -10 }}*/}
+            {/*    data={dataset}*/}
+            {/*    // scale={scale.scaleBand}*/}
+            {/*    // @ts-ignore*/}
+            {/*    xAccessor={(_, index) => index}*/}
+            {/*    contentInset={{left: 10, right: 10}}*/}
+            {/*    formatLabel={(_, index) => dataset[index].label}*/}
+            {/*    svg={{ fontSize: 10, fill: 'black' }}*/}
+            {/*/>*/}
+        </>
     )
 }
 

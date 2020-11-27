@@ -173,11 +173,13 @@ const DetailItem = (props: Props) => {
                     navigatePop();
                 }}/>
             <DateTimePickerModal
+                date={item.expiredAt!}
                 isVisible={editingExpiredAt}
                 onCancel={() => setEditingExpiredAt(false)}
                 onConfirm={(date: Date) => {
                     containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, expiredAt: date}});
                     console.debug(`[omtm]: success to update item, ${item.id}`);
+                    setEditingExpiredAt(false);
                 }}/>
         </View>
     )

@@ -7,8 +7,8 @@ const Premium = () => {
 
     return (
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <MaterialCommunityIcons name="crown" size={24} color='#b1a510' />
-            <Text style={{marginLeft: 4, fontSize: 24, color: '#b1a510'}}>premium</Text>
+            <MaterialCommunityIcons name="crown" size={30} color='#b1a510' />
+            <Text style={{marginLeft: 4, fontSize: 28, color: '#b1a510'}}>premium</Text>
         </View>
     )
 }

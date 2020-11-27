@@ -1,5 +1,6 @@
 import {Item, useContainerContext} from "../contexts/Container";
 import {CautionColor} from "../types/CautionColor";
+import {useMemo} from "react";
 
 // @ts-ignore
 const leftDays = (date: Date) => Math.ceil(Math.abs(new Date() - date) / (1000 * 60 * 60 * 24));
@@ -27,21 +28,22 @@ export default function useShelfLifeAnalytics() {
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
 
-    var amountObj = Object.values(CautionDegree)
-        .map((degree: CautionDegree) => {return {[degree]: 0}})
-        .reduce((acc, val) => {return {...acc, ...val}}, {})
+    const shelfLifeAnalytics :ShelfLifeAnalytics = useMemo(() => {
+        var amountObj = Object.values(CautionDegree)
+            .map((degree: CautionDegree) => {return {[degree]: 0}})
+            .reduce((acc, val) => {return {...acc, ...val}}, {})
 
-    Array.from(fridge.values())
-        .map((item: Item) => leftDays(item.expiredAt!))
-        .forEach(days => {
-            console.log(days)
-            if (days < 7) amountObj[CautionDegree.IMMINENT] += 1
-            else if (7 <= days && days < 30) amountObj[CautionDegree.GENERAL] += 1
-            else if (30 < days) amountObj[CautionDegree.RELAXED] += 1
-        })
+        Array.from(fridge.values())
+            .map((item: Item) => leftDays(item.expiredAt!))
+            .forEach(days => {
+                if (days < 7) amountObj[CautionDegree.IMMINENT] += 1
+                else if (7 <= days && days < 30) amountObj[CautionDegree.GENERAL] += 1
+                else if (30 < days) amountObj[CautionDegree.RELAXED] += 1
+            })
 
-    const shelfLifeAnalytics :ShelfLifeAnalytics = Object.values(CautionDegree)
-        .map((degree: CautionDegree) => {return {label: degree, color: cautionMap.get(degree) as CautionColor, amount: amountObj[degree]}})
+        return Object.values(CautionDegree)
+            .map((degree: CautionDegree) => {return {label: degree, color: cautionMap.get(degree) as CautionColor, amount: amountObj[degree]}})
+    }, [fridge])
 
     return {shelfLifeAnalytics};
 }

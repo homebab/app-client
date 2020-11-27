@@ -78,7 +78,6 @@ const ListItems: React.FC = () => {
 
     const {accountState} = useAccountContext()
     useEffect(() => {
-        console.log(accountState.cachedUser)
         AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
             .then(_ => console.log(`[omtm]: success to sync Account Context with AsyncStorage`))
             .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
