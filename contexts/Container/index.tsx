@@ -104,7 +104,7 @@ const ContainerController: React.FC = ({children}) => {
             case 'MOVE_BASKET_TO_FRIDGE':
                 const items: Array<Item> = state.basket.map(item => {
                     const date = new Date();
-                    date.setDate(date.getDate() + 7);
+                    date.setDate(date.getDate() + 10);
 
                     return {
                         id: item.id,

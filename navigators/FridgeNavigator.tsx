@@ -13,7 +13,6 @@ import CrossIconButton from "../components/CrossIconButton";
 import Search from "../components/Search";
 import {useNavigation} from "@react-navigation/native";
 import {useContainerContext} from "../contexts/Container";
-import {useEffect} from "react";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
@@ -35,7 +34,10 @@ export default function FridgeNavigator() {
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Search containerStyle={{marginRight: 16}}/>
                             {/*<ThrowAway style={{marginRight: 16}}/>*/}
-                        </View>
+                        </View>,
+                    headerTitleStyle: {
+                        fontFamily: 'nanum-square-round-bold'
+                    }
                 }}
             />
             <FridgeStack.Screen
@@ -48,13 +50,21 @@ export default function FridgeNavigator() {
                     headerRight: () => <NextIconButton containerStyle={{marginRight: 16}} size={28} onPress={() => {
                         containerDispatch({type: 'MOVE_BASKET_TO_FRIDGE'});
                         navigation.navigate('ListItems');
-                    }}/>
+                    }}/>,
+                    headerTitleStyle: {
+                        fontFamily: 'nanum-square-round-bold'
+                    }
                 }}
             />
             <FridgeStack.Screen
                 name="CaptureItems"
                 component={CaptureItem}
-                options={{headerTitle: '식품 사진'}}
+                options={{
+                    headerTitle: '식품 사진',
+                    headerTitleStyle: {
+                        fontFamily: 'nanum-square-round-bold'
+                    }
+                }}
             />
         </FridgeStack.Navigator>
     );

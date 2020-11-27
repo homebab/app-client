@@ -72,7 +72,10 @@ function RecipeNavigator() {
                 options={{
                     headerTitle: '레시피',
                     headerLeft: () => <MaterialCommunityIcons name="chef-hat" size={32} color="black"
-                                                              style={{marginLeft: 20}}/>
+                                                              style={{marginLeft: 20}}/>,
+                    headerTitleStyle: {
+                        fontFamily: 'nanum-square-round-bold'
+                    }
                 }}
             />
         </RecipeStack.Navigator>

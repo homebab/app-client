@@ -1,9 +1,17 @@
 import {BarChart, Grid} from 'react-native-svg-charts'
 import React from 'react';
+import {ViewStyle} from "react-native";
 
-type Props = {}
+type Props = {
+    style: ViewStyle
+}
+
+const mockData = {
+
+}
 
 const CustomBarChart = (props: Props) => {
+    const {style} = props
 
     const data1 = [14, -1, 100, -95, -94, -24, -8, 85, -91, 35, -53, 53, -78, 66, 96, 33, -26, -32, 73, 8]
         .map((value) => ({value}))
@@ -24,7 +32,7 @@ const CustomBarChart = (props: Props) => {
 
     return (
         <BarChart
-            style={{width: 300, height: 200}}
+            style={style}
             data={barData}
             // @ts-ignore
             yAccessor={({item}) => item.value}

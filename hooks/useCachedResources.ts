@@ -16,7 +16,8 @@ export default function useCachedResources() {
             await Font.loadAsync({
                 ...Ionicons.font,
                 'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-                'nanum-square-round': require('../assets/fonts/NanumSquareRoundR.ttf')
+                'nanum-square-round': require('../assets/fonts/NanumSquareRoundR.ttf'),
+                'nanum-square-round-bold': require('../assets/fonts/NanumSquareRoundB.ttf')
                 ,
             });
 

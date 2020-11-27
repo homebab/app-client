@@ -1,7 +1,7 @@
 import {Image, Text, View} from "react-native";
 import React from 'react';
-import {Item} from "../../../contexts/Account";
 import {styles} from './styles'
+import {Item} from "../../../contexts/Container";
 
 type Props = {
     item: Item,
@@ -21,7 +21,7 @@ const ItemContent = (props: Props) => {
             </View>
 
             <View style={styles.content}>
-                <Text style={{fontSize: 12, color: "#737373"}}>{formatDate(expiredAt)}</Text>
+                <Text style={{fontSize: 12, color: "#737373"}}>{formatDate(expiredAt!)}</Text>
                 <Text style={{fontSize: 16}}>{name}</Text>
                 <Text style={{position: "absolute", fontSize: 12, bottom: 0, color: "#737373"}}>{memo}</Text>
                 <View style={{backgroundColor: "#f2f2f2", padding: 1, position: "absolute", right: 0, top: 0}}>

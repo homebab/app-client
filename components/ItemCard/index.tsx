@@ -26,7 +26,7 @@ const ItemCard = (props: Props) => {
                     source={Assets.Image[key? key: '토마토']}
                 // onError={() => setImage(require('../../../app-client/assets/images/ingredients.png'))}
                     size={iconSize ? iconSize : 44}/>
-            <Text>{item.name}</Text>
+            <Text style={{fontFamily: 'nanum-square-round'}}>{item.name}</Text>
         </View>
     );
 }

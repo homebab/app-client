@@ -1,8 +1,8 @@
 import {GestureResponderEvent, Text, TouchableOpacity, View} from "react-native";
 import {Entypo, MaterialCommunityIcons} from "@expo/vector-icons";
 import React from 'react';
-import {Item} from "../../../contexts/Account";
 import {styles} from "./styles";
+import { Item } from "../../../contexts/Container";
 
 enum Color {
     RED = "#ff3333", YELLOW = "#ffff1a", GREEN = "#47d147"
@@ -17,7 +17,7 @@ const ItemHeader = (props: Props) => {
     const {item, showModal} = props
     const {expiredAt} = item
 
-    const remainingDay = Math.round((expiredAt.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
+    const remainingDay = Math.round((expiredAt!.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
     const color = 7 > remainingDay && remainingDay > 3 ? Color.YELLOW : remainingDay >= 7 ? Color.GREEN : Color.RED
 
     return (
