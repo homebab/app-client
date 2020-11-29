@@ -8,26 +8,28 @@ import Layout from "../../constants/Layout";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
-import {v4 as uuidv4} from 'uuid';
 
 const AddItemCard = ({item}: { item: Item }) => {
-    const {containerDispatch} = useContainerContext();
+    const {containerState, containerDispatch} = useContainerContext();
+    const {basket} = containerState;
 
-    const [pressed, setPressed] = useState(false);
+    const pressed = useMemo(() =>
+            basket.filter(i => i.name == item.name).length > 0,
+        [basket, item]);
+    // const [pressed, setPressed] = useState(false);
 
     const handlePress = (_: GestureResponderEvent) => {
-        if (pressed) {
-            containerDispatch({type: "DELETE_BASKET_ITEM", name: item.name})
-            setPressed(false);
-        } else {
-            containerDispatch({type: "ADD_BASKET_ITEM", item: {...item, id: uuidv4()}});
-            setPressed(true);
-        }
+        const dispatchType = pressed ? "DELETE_BASKET_ITEM" : "ADD_BASKET_ITEM"
+        containerDispatch({type: dispatchType, item: item})
+        // setPressed(!pressed);
+
+        console.debug(`[omtm]: success to ${dispatchType}, ${item.name}`)
     };
 
     return (
         <TouchableOpacity onPress={handlePress}>
-            <ItemCard containerStyle={[pressed ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]} item={item}/>
+            <ItemCard containerStyle={[pressed ? {opacity: 0.3} : {opacity: 1}, {width: Layout.window.width * 0.9 / 4}]}
+                      item={item}/>
         </TouchableOpacity>);
 }
 
@@ -50,6 +52,7 @@ const AddItems = () => {
 
     useEffect(() => {
         containerDispatch({type: 'FLUSH_BASKET'})
+        console.debug("[omtm]: success to FLUSH_BASKET")
     }, [])
 
     const ingredients = useMemo(() => {

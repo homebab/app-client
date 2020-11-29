@@ -28,7 +28,7 @@ export type Action =
     | { type: "FLUSH_BASKET" }
     | { type: "SET_BASKET", basket: Array<Item> }
     | { type: "ADD_BASKET_ITEM", item: Item }
-    | { type: "DELETE_BASKET_ITEM", name: string}
+    | { type: "DELETE_BASKET_ITEM", item: Item}
     | { type: "FLUSH_FRIDGE" }
     | { type: "SET_FRIDGE", fridge: Map<UUID, Item> }
     | { type: "MOVE_BASKET_TO_FRIDGE" }
@@ -89,7 +89,7 @@ const ContainerController: React.FC = ({children}) => {
             case 'DELETE_BASKET_ITEM':
                 return {
                     ...state,
-                    basket: state.basket.filter(i => i.name !== action.name)
+                    basket: state.basket.filter(i => i.name !== action.item.name)
                 }
             case 'FLUSH_FRIDGE':
                 return {
