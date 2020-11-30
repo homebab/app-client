@@ -1,15 +1,30 @@
-import {ScrollView, View} from "react-native";
+import {ScrollView, View, Text} from "react-native";
 import React, {useCallback, useRef, useState} from "react";
 import Layout from "../../constants/Layout";
 import Premium from "../../components/Premium";
 import ShelfLifeAnalytics from "../../components/ShelfLifeAnalytics";
 import Pagination from "../../components/Pagination";
-import UsagePatternAnalytics from "../../components/UsagePatternAnalytics";
+import WasteAmountAnalytics from "../../components/WasteAmountAnalytics";
+import HorizontalAnalyticsLayout from "../../Layouts/HorizontalAnalyticsLayout";
+import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
+import VerticalAnalyticsLayout from "../../Layouts/VerticalAnalyticsLayout";
+import {useContainerContext} from "../../contexts/Container";
+import Assets from "../../constants/Assets";
+import Avatar from "../../components/Avatar";
+import {imageKeys} from "../../constants/Ingredients";
+import { BarChart, Grid } from "react-native-svg-charts";
+import UsageCycleAnalytics from "../../components/UsageCycleAnalytics";
 
 const horizontalAnalyticsList = [
-    {Component: () => <ShelfLifeAnalytics/>},
-    {Component: () => <Premium/>},
-    {Component: () => <Premium/>},
+    {Component: () => <HorizontalAnalyticsLayout title={'남은 유통기한'}><ShelfLifeAnalytics/></HorizontalAnalyticsLayout>},
+    {
+        Component: () => <HorizontalAnalyticsLayout title={'영양 상태'}><RelativeCenterLayout
+            containerStyle={{top: -8}}><Premium/></RelativeCenterLayout></HorizontalAnalyticsLayout>
+    },
+    {
+        Component: () => <HorizontalAnalyticsLayout title={'지출 보고서'}><RelativeCenterLayout
+            containerStyle={{top: -8}}><Premium/></RelativeCenterLayout></HorizontalAnalyticsLayout>
+    },
 ]
 
 const GeneralAnalytics = () => {
@@ -33,15 +48,18 @@ const GeneralAnalytics = () => {
         }
     }, []);
 
+    const {containerState} = useContainerContext();
+    const {fridge} = containerState;
+
     return (
         <View style={{flex: 1}}>
             {/*<MaterialCommunityIcons name="file-chart" size={100} color={"black"}/>*/}
             {/*<Text style={{marginTop: 8, fontSize: 28}}>Dashboard</Text>*/}
-            <View style={{height: Layout.window.height * 0.32}}>
+            <View style={{height: Layout.window.width * 0.68}}>
                 <ScrollView horizontal pagingEnabled centerContent
                             showsHorizontalScrollIndicator={false}
                             onScroll={onScroll}
-                            // control sensitivity
+                    // control sensitivity
                             scrollEventThrottle={400}
                             contentContainerStyle={{
                                 alignItems: 'center', justifyContent: 'center',
@@ -53,10 +71,12 @@ const GeneralAnalytics = () => {
                             <View key={i}
                                 // @ts-ignore
                                   style={{
-                                      backgroundColor: 'white', borderRadius: '15%',
-                                      height: '84%', width: Layout.window.width * 0.84,
+                                      backgroundColor: 'white', borderRadius: 16,
+                                      width: Layout.window.width * 0.84,
                                       alignItems: 'center', justifyContent: 'center',
-                                      margin: Layout.window.width * 0.08
+                                      margin: Layout.window.width * 0.08,
+                                      marginTop: Layout.window.width * 0.04,
+                                      marginBottom: 0,
                                   }}
                             >
                                 {v.Component()}
@@ -64,14 +84,17 @@ const GeneralAnalytics = () => {
                         )
                     }
                 </ScrollView>
-                <Pagination index={index} containerStyle={{bottom: '12%'}}/>
+                <Pagination index={index} containerStyle={{padding: '3.6%'}}/>
             </View>
-            <View style={{}}>
-                <ScrollView contentContainerStyle={{
-                    alignItems: 'center', paddingLeft: '8%', paddingRight: '8%', paddingTop: 50,
-                    backgroundColor: 'white', borderTopLeftRadius: 50, borderTopRightRadius: 50
+            <View style={{flex: 1, borderTopLeftRadius: 50, borderTopRightRadius: 50,
+                paddingTop: 30, backgroundColor: 'white'}}>
+                <ScrollView
+                    contentContainerStyle={{
+                    paddingLeft: '8%', paddingRight: '8%', paddingBottom: 500,
+                    borderTopLeftRadius: 50, borderTopRightRadius: 50
                 }}>
-                    <UsagePatternAnalytics/>
+                    <WasteAmountAnalytics/>
+                    <UsageCycleAnalytics/>
                 </ScrollView>
             </View>
         </View>

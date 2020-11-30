@@ -13,7 +13,8 @@ const Avatar = (props: Props) => {
 
     return (
         <View style={[{
-            padding: 8, borderRadius: 50, aspectRatio: 1, backgroundColor: "white"
+            alignItems: 'center', justifyContent: 'center', width: size! + 16,
+            padding: 8, borderRadius: 50, aspectRatio: 1
         }, containerStyle ? containerStyle : null]}>
             <Image
                 source={source}

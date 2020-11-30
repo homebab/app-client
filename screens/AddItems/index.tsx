@@ -8,6 +8,7 @@ import Layout from "../../constants/Layout";
 import SearchBar from "../../components/SearchBar";
 import {Category} from "../../types/Category";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
+import {v4 as uuidv4} from 'uuid'
 
 const AddItemCard = ({item}: { item: Item }) => {
     const {containerState, containerDispatch} = useContainerContext();
@@ -20,7 +21,7 @@ const AddItemCard = ({item}: { item: Item }) => {
 
     const handlePress = (_: GestureResponderEvent) => {
         const dispatchType = pressed ? "DELETE_BASKET_ITEM" : "ADD_BASKET_ITEM"
-        containerDispatch({type: dispatchType, item: item})
+        containerDispatch({type: dispatchType, item: pressed? item: {...item, id: uuidv4()}})
         // setPressed(!pressed);
 
         console.debug(`[omtm]: success to ${dispatchType}, ${item.name}`)

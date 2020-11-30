@@ -4,7 +4,7 @@ import {styles} from "./styles";
 
 type Props = {
     index: number,
-    containerStyle: ViewStyle
+    containerStyle?: ViewStyle
 }
 export default function Pagination(props: Props) {
     const {index, containerStyle} = props;

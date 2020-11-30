@@ -1,81 +1,83 @@
 import {BarChart, Grid, XAxis} from 'react-native-svg-charts'
-import React from 'react';
-import {ViewStyle} from "react-native";
+import {Text} from 'react-native-svg';
+import React, {useMemo} from 'react';
+import {StyleProp, View, ViewStyle} from "react-native";
+import {materialBlue} from "../../constants/Colors";
 
+type Data = { label: string, value: number }
 
 type Props = {
-    style: ViewStyle,
-    dataset: Array<any>
+    containerStyle: StyleProp<ViewStyle>,
+    dataset: Array<Data>
 }
 
-
 const CustomBarChart = (props: Props) => {
-    const {style, dataset} = props
+    const {containerStyle, dataset} = props
 
-    const data = [
-        {
-            value: 50,
-        },
-        {
-            value: 10,
-            svg: {
-                fill: 'rgba(134, 65, 244, 0.5)',
-            },
-        },
-        {
-            value: 40,
-            svg: {
-                stroke: 'purple',
-                strokeWidth: 2,
-                fill: 'white',
-                strokeDasharray: [4, 2],
-            },
-        },
-        {
-            value: 85,
-            svg: {
-                fill: 'green',
-            },
-        },
-    ]
 
-    // const Gradient = () => (
-    //     <Defs key={'gradient'}>
-    //         <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
-    //             <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'}/>
-    //             <Stop offset={'100%'} stopColor={'rgb(66, 194, 244)'}/>
-    //         </LinearGradient>
-    //     </Defs>
-    // )
+    const dataset2 = useMemo(() =>
+        ['10월', '11월', '12월'].map(m => ({label: m, value: parseFloat((Math.random() * 3).toFixed(1))})), []);
 
+    const gap = 12
+
+    const CUT_OFF = 20
+    const Labels = ({x, y, bandwidth, data}) => (
+        data.map((d, index) => {
+            const value = d.value;
+            return (
+                <Text
+                    key={index}
+                    x={x(index) + (bandwidth / 2)}
+                    y={value < CUT_OFF ? y(value) - 10 : y(value) + 15}
+                    fontSize={14}
+                    fill={value >= CUT_OFF ? 'white' : 'black'}
+                    alignmentBaseline={'middle'}
+                    textAnchor={'middle'}
+                >
+                    {`${value}`}
+                </Text>
+            )
+        }))
 
     return (
-        <>
+        <View style={containerStyle}>
+            {/*<YAxis*/}
+            {/*    style={{backgroundColor: 'pink', marginBottom: gap}}*/}
+            {/*    data={dataset.map(d => d.value)}*/}
+            {/*    contentInset={{top: 20, bottom: 32}}*/}
+            {/*    svg={{*/}
+            {/*        fill: 'black',*/}
+            {/*        fontSize: 14,*/}
+            {/*    }}*/}
+            {/*    numberOfTicks={3}*/}
+            {/*    formatLabel={(value, _) => `${value}`}*/}
+            {/*/>*/}
             <BarChart
-                style={style}
-                data={dataset}
-                numberOfTicks={3}
+                style={{flex: 1}}
+                data={dataset2}
+                numberOfTicks={4}
                 // gridMin={10}
-                svg={{fill: 'rgba(0,0,0)'}}
+                svg={{fill: materialBlue}}
                 yAccessor={({item}) => item.value}
                 contentInset={{top: 20, bottom: 20}}
                 spacingInner={0.8}
 
             >
-                <Grid/>
+                <Grid svg={{fill: "#f2f2f2"}} direction={Grid.Direction.HORIZONTAL}/>
+                <Labels/>
                 {/*<Gradient/>*/}
             </BarChart>
-            {/*<XAxis*/}
-            {/*    style={{ marginHorizontal: -10 }}*/}
-            {/*    data={dataset}*/}
-            {/*    // scale={scale.scaleBand}*/}
-            {/*    // @ts-ignore*/}
-            {/*    xAccessor={(_, index) => index}*/}
-            {/*    contentInset={{left: 10, right: 10}}*/}
-            {/*    formatLabel={(_, index) => dataset[index].label}*/}
-            {/*    svg={{ fontSize: 10, fill: 'black' }}*/}
-            {/*/>*/}
-        </>
+            <XAxis
+                style={{marginHorizontal: -10, marginTop: gap}}
+                data={dataset2}
+                // scale={scale.scaleBand}
+                // @ts-ignore
+                // xAccessor={(_, index) => index}
+                contentInset={{left: 20, right: 20,}}
+                formatLabel={(_, index) => dataset2[index].label}
+                svg={{fontSize: 14, fill: 'black'}}
+            />
+        </View>
     )
 }
 

@@ -26,7 +26,7 @@ const CustomPieChart = (props: Props) => {
             key: `${index}`,
         }))
 
-    return <PieChart style={style} data={pieData} outerRadius={'80%'} innerRadius={"70%"}/>
+    return <PieChart style={style} data={pieData} outerRadius={'75%'} innerRadius={"65%"}/>
 }
 
 export default CustomPieChart;

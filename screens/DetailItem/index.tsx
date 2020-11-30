@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Text, TextInput, TouchableOpacity, View, ViewStyle} from "react-native";
 import Avatar from "../../components/Avatar";
 import Assets from "../../constants/Assets";
@@ -10,6 +10,7 @@ import {Storage} from "../../types/Storage";
 import DeleteItemModal from "../../components/DeleteItemModal";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { imageKeys } from "../../constants/Ingredients";
+import { leftDays } from "../../hooks/useShelfLifeAnalytics";
 
 
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
@@ -58,7 +59,7 @@ const DetailItem = (props: Props) => {
                 onPressHandler: () => setEditingExpiredAt(true)
             },
             {
-                label: "보관일수", value: new Date().getDate() - item.createdAt!.getDate() + 1,
+                label: "보관일수", value: leftDays(item.createdAt!),
                 containerStyle: {flex: 1, alignItems: 'center'},
                 pressable: false,
             }

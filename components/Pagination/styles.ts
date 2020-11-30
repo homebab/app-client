@@ -3,7 +3,6 @@ import {StyleSheet} from "react-native";
 export const styles = StyleSheet.create({
 
     pagination: {
-        position: "absolute",
         width: "100%",
         justifyContent: "center",
         flexDirection: "row",

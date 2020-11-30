@@ -117,7 +117,7 @@ const ContainerController: React.FC = ({children}) => {
                     }
                 })
 
-                console.log()
+                console.log(state.basket)
                 Analytics.record({
                     name: 'ADD_FRIDGE_ITEMS',
                     deleteItem: {},
