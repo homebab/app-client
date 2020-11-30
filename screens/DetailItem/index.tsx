@@ -122,13 +122,14 @@ const DetailItem = (props: Props) => {
 
     const ItemAvatar = () => {
         const key = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
-
+        const avatarSize = 58;
+        const padding = 14;
         return (
             <View style={{alignItems: 'center', marginBottom: 24}}>
-                <Avatar containerStyle={{position: "absolute", top: -40, padding: 14}}
+                <Avatar containerStyle={{position: "absolute", top: -40, padding: padding, width: avatarSize + padding*2}}
                     // @ts-ignore
                         source={Assets.Image[key? key: '토마토']}
-                        size={58}/>
+                        size={avatarSize}/>
                 <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
 
                 <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
