@@ -35,8 +35,10 @@ const UsageCycleAnalytics = () => {
         ))
     )
 
+    if (fridge.size == 0) return null
+
     return (
-        <VerticalAnalyticsLayout title={'식품별 사용주기  ( 단위: 일 )'} containerStyle={{marginTop: 10, marginBottom: 10}}>
+        <VerticalAnalyticsLayout title={'식품별 사용주기  ( 단위: 일 )'} containerStyle={{borderBottomWidth: 0}}>
 
             {Array.from(fridge.values()).map((item, key) => {
                 const dataset = useMemo(() => [...Array(2)].map(_ => Math.round(Math.random() * 36)), [item])
@@ -62,11 +64,11 @@ const UsageCycleAnalytics = () => {
                                         fill: 'black',
                                         fontSize: 14,
                                     }}
-                                    yAccessor={({ index }) => index}
+                                    yAccessor={({index}) => index}
                                     numberOfTicks={1}
                                     contentInset={{top: 10, bottom: 10}}
                                     spacing={0.2}
-                                    formatLabel={(_, index) => index == 0? '총': '12월'}
+                                    formatLabel={(_, index) => index == 0 ? '총' : '12월'}
                                 />
                                 <BarChart
                                     style={{flex: 1, marginLeft: 8}}

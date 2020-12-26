@@ -52,7 +52,7 @@ const ItemsGrid = (container: Array<Item>) => {
         <>
             {
                 container.length == 0 ?
-                    <RelativeCenterLayout>
+                    <RelativeCenterLayout containerStyle={{marginBottom: '8%'}}>
                         <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
                                style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
                         <Text style={{fontFamily: 'nanum-square-round', fontSize: 20}}>{'냉장고가 텅 비었습니다'}</Text>
