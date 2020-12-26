@@ -1,7 +1,8 @@
 
 
 const SearchedRecipesInfo = {
-    eggplant: ['kpeQCq4mIXs', 'yOuhrzhJnCM', 'n0H5n7lEIrY', 'S9Umssy6O9s']
+    eggplant: ['kpeQCq4mIXs', 'yOuhrzhJnCM', 'n0H5n7lEIrY', 'S9Umssy6O9s'],
+    kimchi: ['j9NXZh0gX3w', '2qhM8DM9I3I', 'yoSumzKzHqQ', 'lyxPlcVgQqg']
 }
 
 interface Ingredient {

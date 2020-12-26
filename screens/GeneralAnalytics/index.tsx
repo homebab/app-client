@@ -1,4 +1,4 @@
-import {ScrollView, View, Text} from "react-native";
+import {ScrollView, View} from "react-native";
 import React, {useCallback, useRef, useState} from "react";
 import Layout from "../../constants/Layout";
 import Premium from "../../components/Premium";
@@ -7,12 +7,7 @@ import Pagination from "../../components/Pagination";
 import WasteAmountAnalytics from "../../components/WasteAmountAnalytics";
 import HorizontalAnalyticsLayout from "../../Layouts/HorizontalAnalyticsLayout";
 import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
-import VerticalAnalyticsLayout from "../../Layouts/VerticalAnalyticsLayout";
 import {useContainerContext} from "../../contexts/Container";
-import Assets from "../../constants/Assets";
-import Avatar from "../../components/Avatar";
-import {imageKeys} from "../../constants/Ingredients";
-import { BarChart, Grid } from "react-native-svg-charts";
 import UsageCycleAnalytics from "../../components/UsageCycleAnalytics";
 
 const horizontalAnalyticsList = [
@@ -86,13 +81,15 @@ const GeneralAnalytics = () => {
                 </ScrollView>
                 <Pagination index={index} containerStyle={{padding: '3.6%'}}/>
             </View>
-            <View style={{flex: 1, borderTopLeftRadius: 50, borderTopRightRadius: 50,
-                paddingTop: 30, backgroundColor: 'white'}}>
+            <View style={{
+                flex: 1, borderTopLeftRadius: 50, borderTopRightRadius: 50,
+                paddingTop: 30, backgroundColor: 'white'
+            }}>
                 <ScrollView
                     contentContainerStyle={{
-                    paddingLeft: '8%', paddingRight: '8%', paddingBottom: 500,
-                    borderTopLeftRadius: 50, borderTopRightRadius: 50
-                }}>
+                        paddingLeft: '8%', paddingRight: '8%', paddingBottom: 500,
+                        borderTopLeftRadius: 50, borderTopRightRadius: 50
+                    }}>
                     <WasteAmountAnalytics/>
                     <UsageCycleAnalytics/>
                 </ScrollView>
