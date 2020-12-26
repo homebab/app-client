@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
-import {TouchableOpacity, View} from "react-native";
-import {useNavigation, useNavigationState} from "@react-navigation/native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
+import {useNavigation} from "@react-navigation/native";
 import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
@@ -16,7 +16,9 @@ import {Category} from "../../types/Category";
 import SearchBar from "../../components/SearchBar";
 import Search from "../../components/Search";
 import CrossIconButton from "../../components/CrossIconButton";
-import {useAccountContext} from "../../contexts/Account";
+import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
+import Assets from "../../constants/Assets";
+import Layout from "../../constants/Layout";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -47,7 +49,18 @@ const ListItemCard = ({item}: { item: Item }) => {
 const ItemsGrid = (container: Array<Item>) => {
 
     return (
-        <ScrollViewGrid container={container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)}/>
+        <>
+            {
+                container.length == 0 ?
+                    <RelativeCenterLayout>
+                        <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
+                               style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
+                        <Text style={{fontFamily: 'nanum-square-round', fontSize: 20}}>{'냉장고가 텅 비었습니다'}</Text>
+                    </RelativeCenterLayout> :
+                    <ScrollViewGrid
+                        container={container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)}/>
+            }
+        </>
     )
 }
 

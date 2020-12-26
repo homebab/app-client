@@ -1,8 +1,7 @@
 import {createStackNavigator} from "@react-navigation/stack";
-import {AuthNaviParamList} from "../types";
-import Index from "../screens/ListRecipes";
 import * as React from "react";
 import Landing from "../screens/Landing";
+import {AuthNaviParamList} from "../types/Navigators";
 
 const AuthStack = createStackNavigator<AuthNaviParamList>();
 

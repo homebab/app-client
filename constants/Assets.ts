@@ -9,6 +9,8 @@ const Image = {
     advertise: require('../../app-client/assets/images/advertisement.jpg'),// {uri: 'https://fm-foodpicturebucket.s3.ap-northeast-2.amazonaws.com/frontend/advertisement.jpg'},
     addItem: require('../../app-client/assets/images/addItem.png'),
 
+    emptyFridge: require('../../app-client/assets/images/emptyFridge.png'),
+    emptyUser: require('../../app-client/assets/images/emptyUser.png'),
     ingredients: require('../../app-client/assets/images/ingredients.png'),
     사과: require('../../app-client/assets/images/food/사과.png'),
     감자: require('../../app-client/assets/images/food/감자.png'),

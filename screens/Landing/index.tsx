@@ -27,7 +27,7 @@ const Landing = () => {
             type: 'SET_ACCOUNT',
             account: {
                 cachedUser: cachedUser,
-                isAuthenticated: true
+                isAuthenticated: true,
             }
         });
     }

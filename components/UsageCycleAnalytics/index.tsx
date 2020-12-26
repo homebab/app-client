@@ -36,7 +36,7 @@ const UsageCycleAnalytics = () => {
     )
 
     return (
-        <VerticalAnalyticsLayout title={'식품별 사용주기  ( 단위: 일 )'}>
+        <VerticalAnalyticsLayout title={'식품별 사용주기  ( 단위: 일 )'} containerStyle={{marginTop: 10, marginBottom: 10}}>
 
             {Array.from(fridge.values()).map((item, key) => {
                 const dataset = useMemo(() => [...Array(2)].map(_ => Math.round(Math.random() * 36)), [item])

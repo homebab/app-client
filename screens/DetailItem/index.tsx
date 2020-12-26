@@ -11,6 +11,7 @@ import DeleteItemModal from "../../components/DeleteItemModal";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { imageKeys } from "../../constants/Ingredients";
 import { leftDays } from "../../hooks/useShelfLifeAnalytics";
+import ButtonList from "../../components/ButtonList";
 
 
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
@@ -87,7 +88,7 @@ const DetailItem = (props: Props) => {
                     label: `${s} 보관하기`,
                     icon: <MaterialCommunityIcons name={"restore"} color={'#000000'} size={24}
                                                   style={{position: "absolute", left: 32}}/>,
-                    onPressHandler: () => {
+                    onPress: () => {
                         containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, storage: s}});
                         console.debug(`[omtm]: success to change item storageType to ${s}, ${item.id}`)
                         navigatePop();
@@ -98,25 +99,12 @@ const DetailItem = (props: Props) => {
                 label: "버리기",
                 icon: <EvilIcons name="trash" color={'black'} size={32}
                                  style={{position: "absolute", left: 28}}/>,
-                onPressHandler: () => setThrowing(true)
+                onPress: () => setThrowing(true)
             }
         ]
 
         return (
-            <>
-                {rowItemsButtonList.map((v, k) =>
-                    <TouchableOpacity
-                        key={k} onPress={v.onPressHandler}
-                        style={{
-                            alignSelf: "center", alignItems: 'center', justifyContent: 'center', margin: 4,
-                            flexDirection: "row", width: '100%', borderWidth: 1, borderColor: 'rgba(208,200,192,0.5)'
-                        }}
-                    >
-                        {v.icon}
-                        <Text style={{padding: 8, paddingTop: 16, paddingBottom: 16, fontSize: 16}}>{v.label}</Text>
-                    </TouchableOpacity>
-                )}
-            </>
+            <ButtonList dataset={rowItemsButtonList} containerStyle={{borderTopColor: 'white', borderLeftColor: 'white'}}/>
         )
     }
 

@@ -1,5 +1,5 @@
 import useShelfLifeAnalytics from "../../hooks/useShelfLifeAnalytics";
-import {Text, View} from "react-native";
+import {Text, View, Image} from "react-native";
 import CustomPieChart from "../PieChart";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import React from "react";
@@ -9,11 +9,17 @@ import Assets from "../../constants/Assets";
 import {Item, useContainerContext} from "../../contexts/Container";
 import AbsoluteCenterLayout from "../../Layouts/AbsoluteCenterLayout";
 import HorizontalAnalyticsLayout from "../../Layouts/HorizontalAnalyticsLayout";
+import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
 
 const ShelfLifeAnalytics = () => {
 
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
+
+    if (fridge.size == 0) return <RelativeCenterLayout>
+        <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'} style={{height: 120, aspectRatio: 1}}/>
+        <Text>{'냉장고가 텅 비었습니다'}</Text>
+    </RelativeCenterLayout>
 
     const {shelfLifeStat, itemLeftDays} = useShelfLifeAnalytics();
 

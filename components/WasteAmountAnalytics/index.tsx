@@ -16,7 +16,7 @@ const WasteAmountAnalytics = () => {
     })), [fridge]);
 
     return (
-        <VerticalAnalyticsLayout title={'월별 식품 낭비량  ( 범위: 0 ~ 3 )'}>
+        <VerticalAnalyticsLayout title={'월별 식품 낭비량  ( 범위: 0 ~ 3 )'} containerStyle={{marginTop: 10, marginBottom: 10}}>
             <CustomBarChart dataset={dataset.slice(0, 6)}
                             containerStyle={{width: '80%', height: Layout.window.width * 0.68}}/>
         </VerticalAnalyticsLayout>

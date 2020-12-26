@@ -1,16 +1,17 @@
 import React, {PropsWithChildren} from "react";
-import {Text, View} from "react-native";
+import {Text, View, ViewStyle} from "react-native";
 import Layout from "../../constants/Layout";
 
 type Props = {
-    title: string
+    title: string,
+    containerStyle?: ViewStyle
 }
 
 const VerticalAnalyticsLayout = (props: PropsWithChildren<Props>) => {
-    const {children, title} = props;
+    const {children, title, containerStyle} = props;
 
     return (
-        <View style={{height: Layout.window.width * 0.9,  width: '100%'}}>
+        <View style={[{width: '100%'}, containerStyle]}>
             <View style={{height: 52}}>
                 <Text style={{fontSize: 18, fontFamily: 'nanum-square-round-bold'}}>{title}</Text>
             </View>

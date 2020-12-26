@@ -14,16 +14,23 @@ export type Profile = {
 
 export type CachedUser = CognitoUser;
 
+export type Alarm = {
+    manageIngredients: boolean,
+    recommendRecipes: boolean
+}
+
 export type Account = {
     profile?: Profile,
     cachedUser: CachedUser | undefined,
-    isAuthenticated?: boolean
+    alarm: Alarm,
+    isAuthenticated: boolean
 }
 
 export type Action =
-    | {type: "FLUSH"}
-    | {type: "SET_ACCOUNT", account: Account}
-    | {type: "DEAUTHENTICATE"}
+    | { type: "FLUSH" }
+    | { type: "SET_ACCOUNT", account: Account }
+    | { type: "DEAUTHENTICATE" }
+    | { type: "SET_ALARM", alarm: Alarm}
 
 type Props = {
     reducer: Reducer<Account, Action>;
@@ -37,6 +44,10 @@ type ContextProps = {
 
 export const initialAccount: Account = {
     cachedUser: undefined,
+    alarm: {
+        manageIngredients: false,
+        recommendRecipes: false
+    },
     isAuthenticated: false,
 }
 
@@ -67,8 +78,13 @@ const AccountController: React.FC = ({children}) => {
                 };
             case 'DEAUTHENTICATE':
                 return {
-                  ...state,
-                  isAuthenticated: false
+                    ...state,
+                    isAuthenticated: false
+                };
+            case 'SET_ALARM':
+                return {
+                    ...state,
+                    alarm: action.alarm,
                 };
             default:
                 return state;

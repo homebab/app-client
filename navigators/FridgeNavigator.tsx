@@ -1,7 +1,6 @@
 // Each tab has its own navigators stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 import {createStackNavigator, StackNavigationProp} from "@react-navigation/stack";
-import {FridgeNaviParamList} from "../types";
 import {View} from "react-native";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import AddItems from "../screens/AddItems";
@@ -13,6 +12,7 @@ import CrossIconButton from "../components/CrossIconButton";
 import Search from "../components/Search";
 import {useNavigation} from "@react-navigation/native";
 import {useContainerContext} from "../contexts/Container";
+import {FridgeNaviParamList} from "../types/Navigators";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 

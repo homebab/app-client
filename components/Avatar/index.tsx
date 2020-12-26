@@ -4,7 +4,7 @@ import React, {useState} from "react";
 type Props = {
     source: ImageSourcePropType,
     onError?: () => void,
-    size?: number,
+    size: number,
     containerStyle?: StyleProp<ViewStyle>
 }
 

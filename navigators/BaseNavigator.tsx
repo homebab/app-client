@@ -6,11 +6,10 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ListRecipes from '../screens/ListRecipes';
-import {BaseNaviParamList, RecipeNaviParamList} from '../types';
 import FridgeNavigator from "./FridgeNavigator";
-import GeneralAnalytics from "../screens/GeneralAnalytics";
 import Settings from "../screens/Settings";
 import AnalyticsNavigator from "./AnalyticsNavigator";
+import {BaseNaviParamList, RecipeNaviParamList, SettingsNaviParamList} from "../types/Navigators";
 
 const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
@@ -49,7 +48,7 @@ export default function BaseNavigator() {
             />
             <BottomTab.Screen
                 name="Settings"
-                component={Settings}
+                component={SettingsNavigator}
                 options={{
                     tabBarLabel: "설정",
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="settings" size={24}
@@ -79,5 +78,26 @@ function RecipeNavigator() {
                 }}
             />
         </RecipeStack.Navigator>
+    );
+}
+
+const SettingsStack = createStackNavigator<SettingsNaviParamList>();
+
+function SettingsNavigator() {
+    return (
+        <SettingsStack.Navigator>
+            <SettingsStack.Screen
+                name="Settings"
+                component={Settings}
+                options={{
+                    headerTitle: '설정',
+                    headerLeft: () => <MaterialCommunityIcons name="settings" size={32} color="black"
+                                                              style={{marginLeft: 20}}/>,
+                    headerTitleStyle: {
+                        fontFamily: 'nanum-square-round-bold'
+                    }
+                }}
+            />
+        </SettingsStack.Navigator>
     );
 }

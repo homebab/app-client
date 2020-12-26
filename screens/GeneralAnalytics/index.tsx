@@ -82,13 +82,13 @@ const GeneralAnalytics = () => {
                 <Pagination index={index} containerStyle={{padding: '3.6%'}}/>
             </View>
             <View style={{
-                flex: 1, borderTopLeftRadius: 50, borderTopRightRadius: 50,
+                flex: 1,
+                borderTopLeftRadius: 52, borderTopRightRadius: 52,
                 paddingTop: 30, backgroundColor: 'white'
             }}>
                 <ScrollView
                     contentContainerStyle={{
-                        paddingLeft: '8%', paddingRight: '8%', paddingBottom: 500,
-                        borderTopLeftRadius: 50, borderTopRightRadius: 50
+                        paddingLeft: '8%', paddingRight: '8%'
                     }}>
                     <WasteAmountAnalytics/>
                     <UsageCycleAnalytics/>

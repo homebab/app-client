@@ -21,11 +21,11 @@ const RecipeCard = (props: Props) => {
     if (validUrl) {
         return (
             <View>
-                <EmbedVideo id={id} height={videoHeight}/>
-                {/*<Image style={{height: videoHeight, width: '100%'}} onError={() => setValidUrl(false)} source={{uri: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`}}/>*/}
-                <View style={{padding: 20, height: videoHeight / 3, justifyContent: 'space-between', alignItems: 'center', flexDirection:'row'}}>
-                    <Text style={{}}>매칭 정보</Text>
-                    <MaterialCommunityIcons name="file-document-box-search-outline" size={32} color="black" />
+                {/*<EmbedVideo id={id} height={videoHeight}/>*/}
+                <Image style={{height: videoHeight, width: '100%'}} onError={() => setValidUrl(false)} source={{uri: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`}}/>
+                <View style={{padding: 20, height: videoHeight / 5, justifyContent: 'space-between', alignItems: 'center', flexDirection:'row'}}>
+                    {/*<Text style={{}}>매칭 정보</Text>*/}
+                    {/*<MaterialCommunityIcons name="file-document-box-search-outline" size={32} color="black" />*/}
                 </View>
             </View>
         );
