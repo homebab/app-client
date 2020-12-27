@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {useContainerContext} from "../../contexts/Container";
+import {Item, useContainerContext, UUID} from "../../contexts/Container";
 import VerticalAnalyticsLayout from "../../Layouts/VerticalAnalyticsLayout";
 import {imageKeys} from "../../constants/Ingredients";
 import {Text, View} from "react-native";
@@ -8,10 +8,13 @@ import Assets from "../../constants/Assets";
 import {BarChart, Grid, YAxis} from "react-native-svg-charts";
 import {Text as SVGText} from "react-native-svg"
 
-const UsageCycleAnalytics = () => {
+type Props = {
+    fridge: Map<UUID, Item>
+}
 
-    const {containerState} = useContainerContext();
-    const {fridge} = containerState;
+const UsageCycleAnalytics = (props: Props) => {
+
+     const {fridge} = props;
 
     // const tempData = [7, 2, 9, 15, 18, 3, 8, 4, 14, 7, 2, 28, 15, 18, 3, 8, 4, 14]
     //
@@ -35,13 +38,11 @@ const UsageCycleAnalytics = () => {
         ))
     )
 
-    if (fridge.size == 0) return null
-
     return (
         <VerticalAnalyticsLayout title={'식품별 사용주기  ( 단위: 일 )'} containerStyle={{borderBottomWidth: 0}}>
 
             {Array.from(fridge.values()).map((item, key) => {
-                const dataset = useMemo(() => [...Array(2)].map(_ => Math.round(Math.random() * 36)), [item])
+                const dataset = [...Array(2)].map(_ => Math.round(Math.random() * 36));
                 const avatarKey = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
                 return (
                     <View key={key} style={{
@@ -64,11 +65,11 @@ const UsageCycleAnalytics = () => {
                                         fill: 'black',
                                         fontSize: 14,
                                     }}
-                                    yAccessor={({index}) => index}
+                                    yAccessor={({ index }) => index}
                                     numberOfTicks={1}
                                     contentInset={{top: 10, bottom: 10}}
                                     spacing={0.2}
-                                    formatLabel={(_, index) => index == 0 ? '총' : '12월'}
+                                    formatLabel={(_, index) => index == 0? '총': '12월'}
                                 />
                                 <BarChart
                                     style={{flex: 1, marginLeft: 8}}

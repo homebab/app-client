@@ -6,14 +6,15 @@ import {useState} from "react";
 import EmbedVideo from "../EmbedVideo";
 
 type Props = {
-    id: string
+    recipe: any
 }
 
 const RecipeCard = (props: Props) => {
-    const {id} = props
+    const {recipe} = props
 
     const [validUrl, setValidUrl] = useState(true);
-    const imageUrl = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
+    const imageUrl = recipe.info.thumbnails.standard.url;
+    console.log(imageUrl)
 
     // 16:9
     const videoHeight = Layout.window.width * 9 / 16;
@@ -22,7 +23,7 @@ const RecipeCard = (props: Props) => {
         return (
             <View>
                 {/*<EmbedVideo id={id} height={videoHeight}/>*/}
-                <Image style={{height: videoHeight, width: '100%'}} onError={() => setValidUrl(false)} source={{uri: `https://img.youtube.com/vi/${id}/maxresdefault.jpg`}}/>
+                <Image style={{height: videoHeight, width: '100%'}} onError={() => setValidUrl(false)} source={{uri: imageUrl}}/>
                 <View style={{padding: 20, height: videoHeight / 5, justifyContent: 'space-between', alignItems: 'center', flexDirection:'row'}}>
                     {/*<Text style={{}}>매칭 정보</Text>*/}
                     {/*<MaterialCommunityIcons name="file-document-box-search-outline" size={32} color="black" />*/}

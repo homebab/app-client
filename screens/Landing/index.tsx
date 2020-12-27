@@ -28,6 +28,10 @@ const Landing = () => {
             account: {
                 cachedUser: cachedUser,
                 isAuthenticated: true,
+                alarm: {
+                    manageIngredients: false,
+                    recommendRecipes: false
+                }
             }
         });
     }

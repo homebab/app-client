@@ -1,14 +1,24 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useState} from 'react';
+import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import Layout from "../../constants/Layout";
 import Mocks from "../../constants/Mocks";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
-import { Analytics } from 'aws-amplify';
 import RecipeCard from "../../components/RecipeCard";
+import useFetchData from "../../hooks/useFetchData";
+import {EndPoints} from "../../constants/Endpoints";
+import {useContainerContext} from "../../contexts/Container";
+import {ActivityIndicator} from "react-native-paper";
+import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
 
 export default function ListRecipes() {
-    const [refreshing, setRefreshing] = useState<boolean>(false)
+    const {containerState} = useContainerContext();
+    const {fridge} = containerState;
+    const {isLoading, isError, data} = useFetchData<any>(
+        EndPoints.buildAPIPath("/recommend-recipes", "/omtm/recipe-recommender",
+            {ingredients: Array.from(fridge.values()).map(i => i.name).join(","), size: 5}), null
+    );
+
+    const [refreshing, setRefreshing] = useState<boolean>(false);
 
     // Not constant, fetch api
     const videoIds = Mocks.SearchedRecipesInfo.kimchi;
@@ -23,27 +33,42 @@ export default function ListRecipes() {
     //         .catch(err => console.warn("[omtm]: fail to record with " + err))
     // }, []);
 
-    return (
-        <View style={styles.container}>
-            <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={() => {
-                                    setRefreshing(true)
-                                    setRefreshing(false)
-                                }}
-                            />
-                        }
-            >
-                {videoIds.map((id, key) => {
-                    return (<RecipeCard key={key} id={id}/>)
-                })}
-            </ScrollView>
-            {/*<MaterialCommunityIcons name="chef-hat" size={100} color="black"/>*/}
-            {/*<Text style={{marginTop: 8, fontSize: 28}}>Coming Soon</Text>*/}
-        </View>
-    );
+    if (!data) {
+        return <RelativeCenterLayout><ActivityIndicator/></RelativeCenterLayout>
+    } else {
+
+        // TODO: refactoring
+        const recipes = data[0].hits.hits
+            .map(r => ({
+                id: r._id,
+                score: r._score,
+                info: r._source
+            }));
+        console.log(recipes[0].info.thumbnails)
+
+        return (
+            <View style={styles.container}>
+                <ScrollView style={{backgroundColor: "#f2f2f2"}}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={() => {
+                                        setRefreshing(true)
+                                        console.log(data)
+                                        setRefreshing(false)
+                                    }}
+                                />
+                            }
+                >
+                    {recipes.map((recipe, key) => {
+                        return (<RecipeCard key={key} recipe={recipe}/>)
+                    })}
+                </ScrollView>
+                {/*<MaterialCommunityIcons name="chef-hat" size={100} color="black"/>*/}
+                {/*<Text style={{marginTop: 8, fontSize: 28}}>Coming Soon</Text>*/}
+            </View>
+        );
+    }
 }
 
 // 16:9

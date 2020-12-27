@@ -90,8 +90,8 @@ const GeneralAnalytics = () => {
                     contentContainerStyle={{
                         paddingLeft: '8%', paddingRight: '8%'
                     }}>
-                    <WasteAmountAnalytics/>
-                    <UsageCycleAnalytics/>
+                    <WasteAmountAnalytics fridge={fridge}/>
+                    {fridge.size != 0 && <UsageCycleAnalytics fridge={fridge}/>}
                 </ScrollView>
             </View>
         </View>

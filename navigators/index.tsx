@@ -4,11 +4,11 @@ import * as React from 'react';
 import {ColorSchemeName} from 'react-native';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
-import {RootNaviParamList} from '../types';
 import BaseNavigator from './BaseNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import {useAccountContext} from "../contexts/Account";
 import AuthNavigator from "./AuthNavigator";
+import {RootNaviParamList} from "../types/Navigators";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
