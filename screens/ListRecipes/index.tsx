@@ -44,7 +44,7 @@ export default function ListRecipes() {
                 score: r._score,
                 info: r._source
             }));
-        console.log(recipes[0].info.thumbnails)
+        // console.log(recipes[0].info.thumbnails)
 
         return (
             <View style={styles.container}>
