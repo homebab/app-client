@@ -46,6 +46,7 @@ const useFetchData = <T>(url: string, initialData: T) => {
     });
 
     useEffect(() => {
+        console.log(url)
         let didCancel = false;
 
         const fetchData = async () => {
@@ -57,6 +58,7 @@ const useFetchData = <T>(url: string, initialData: T) => {
                 const jsonData = await response.json();
 
                 if (!didCancel) {
+                    console.debug(`[omtm]: fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 32)}`)
                     dispatch({type: 'FETCH_SUCCESS', payload: jsonData});
                 }
             } catch (error) {
@@ -71,7 +73,7 @@ const useFetchData = <T>(url: string, initialData: T) => {
         return () => {
             didCancel = true;
         };
-    }, []);
+    }, [url]);
 
     return state;
 };

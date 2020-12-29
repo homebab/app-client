@@ -19,14 +19,19 @@ $ yarn add expo
 $ expo start
 ```
 ### Deploy
-- android
-    - play store
+#### Android
+- play store
 ```shell script
 # android 
 $ expo build:android
-
 ```
-## AWS Amplify
+
+#### IOS
+```shell
+$ expo build:ios
+```
+
+## Integration with AWS
 - install and configure
     - see [prerequisites on docs](https://docs.amplify.aws/start/getting-started/installation/q/integration/react-native#sign-up-for-an-aws-account)
 ```shell script
@@ -41,7 +46,7 @@ $ amplify status
 - [authentication](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js) with AWS cognito
  
 ### Analytics
-- [analytics](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js) with AWS pinpoint
+- [analytics with AWS pinpoint](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js)
 - [pinpoint stream to Amazon Kinesis](https://docs.amplify.aws/lib/analytics/storing/q/platform/js)
 
 ## Screenshots
@@ -53,3 +58,7 @@ $ amplify status
   <img src="https://user-images.githubusercontent.com/40639955/82827196-7a05f200-9ee9-11ea-8f22-af2c60d6dd6e.png" width="200"></img>
   <img src="https://user-images.githubusercontent.com/40639955/84013761-50060280-a9b4-11ea-9d9b-4c877dd9593f.png" width="200"></img>
 </div>
+
+
+
+## Errors

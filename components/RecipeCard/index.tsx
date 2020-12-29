@@ -10,18 +10,17 @@ type Props = {
 
 const RecipeCard = (props: Props) => {
     const {score, info} = props.recipe
-    console.log(info)
 
     const [validUrl, setValidUrl] = useState(true);
     const imageUrl = info.thumbnails.standard.url;
-    console.log(imageUrl)
+    // console.log(imageUrl)
 
     // 16:9
     const videoHeight = Layout.window.width * 9 / 16;
 
     if (validUrl) {
         return (
-            <View style={{/* marginBottom:16, */ marginBottom: 8, backgroundColor: "#fffdfb"}}>
+            <View style={{/* marginBottom:16, */ marginBottom: 12, borderTopWidth: 0.1, borderColor: '#ababab', backgroundColor: "#fffdfb"}}>
                 <View style={{paddingLeft: 12, paddingRight: 12, paddingTop: 12, paddingBottom: 12}}>
                     <View style={{marginBottom: 12, flexDirection: "row", alignItems: "center"}}>
                         <View style={{
@@ -81,7 +80,7 @@ const RecipeCard = (props: Props) => {
                     <TouchableOpacity onPress={() => {
                     }}>
                         <Image source={{uri: imageUrl}}
-                               style={{width: "100%", resizeMode: "cover", aspectRatio: 2}}/>
+                               style={{width: "100%", resizeMode: "cover", aspectRatio: 16 / 9}}/>
                     </TouchableOpacity>
                 </View>
 

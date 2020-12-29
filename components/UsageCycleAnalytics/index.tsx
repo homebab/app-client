@@ -42,7 +42,7 @@ const UsageCycleAnalytics = (props: Props) => {
         <VerticalAnalyticsLayout title={'식품별 사용주기  ( 단위: 일 )'} containerStyle={{borderBottomWidth: 0}}>
 
             {Array.from(fridge.values()).map((item, key) => {
-                const dataset = [...Array(2)].map(_ => Math.round(Math.random() * 36));
+                const dataset = [...Array(2)].map(_ => Math.round(Math.random() * 36 + 1));
                 const avatarKey = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
                 return (
                     <View key={key} style={{

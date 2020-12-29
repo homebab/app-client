@@ -15,13 +15,15 @@ export default function ListRecipes() {
     const {fridge} = containerState;
     const {isLoading, isError, data} = useFetchData<any>(
         EndPoints.buildAPIPath("/recommend-recipes", "/omtm/recipe-recommender",
-            {ingredients: Array.from(fridge.values()).map(i => i.name).join(","), size: 5}), null
+            {
+                ingredients: Array.from(fridge.values())
+                    .map(i => i.name.replace('\n', ' '))
+                    .join(","), size: 5
+            }
+        ), null
     );
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
-
-    // Not constant, fetch api
-    const videoIds = Mocks.SearchedRecipesInfo.kimchi;
 
     // useEffect(() => {
     //     console.debug('[omtm]: test to record an event to AWS pinpoint');
@@ -54,7 +56,6 @@ export default function ListRecipes() {
                                     refreshing={refreshing}
                                     onRefresh={() => {
                                         setRefreshing(true)
-                                        console.log(data)
                                         setRefreshing(false)
                                     }}
                                 />
