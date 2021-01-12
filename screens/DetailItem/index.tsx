@@ -120,10 +120,10 @@ const DetailItem = (props: Props) => {
                         size={avatarSize}/>
                 <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
 
-                <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
-                    <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>
-                    <Text style={{fontSize: 12}}>{convertDateFormat(item.updatedAt!)} 수정</Text>
-                </View>
+                {/*<View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>*/}
+                {/*    <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>*/}
+                {/*    <Text style={{fontSize: 12}}>{convertDateFormat(item.updatedAt!)} 수정</Text>*/}
+                {/*</View>*/}
             </View>
         )
     }

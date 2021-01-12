@@ -2,39 +2,35 @@ import React, {useEffect} from 'react';
 import {ImageBackground, View} from 'react-native';
 import Assets from '../../constants/Assets';
 import {styles} from './styles';
-import {CachedUser, useAccountContext} from "../../contexts/Account";
+import {useAccountContext} from "../../contexts/Account";
 // @ts-ignore
-import {Auth, Hub} from 'aws-amplify';
+import {Auth, DataStore, Hub} from 'aws-amplify';
 import SignIn from '../../components/SignIn';
-import AsyncStorage from "@react-native-community/async-storage";
-import LocalStorage from '../../constants/LocalStorage';
 import {CognitoUser} from "amazon-cognito-identity-js";
-import {convertContainer, Item, useContainerContext, UUID} from "../../contexts/Container";
-import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const Landing = () => {
     const {accountDispatch} = useAccountContext();
-    const {containerDispatch} = useContainerContext();
+    // const {fetchItems} = useContainerAppSync();
 
-    const initializeContext = (cachedUser: CachedUser, userItems: string | null) => {
-        containerDispatch({
-            type: 'SET_FRIDGE',
-            fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map()
-        });
-
-        accountDispatch({
-            type: 'SET_ACCOUNT',
-            account: {
-                cachedUser: cachedUser,
-                isAuthenticated: true,
-                alarm: {
-                    manageIngredients: false,
-                    recommendRecipes: false
-                }
-            }
-        });
-    }
+    // const initializeContext = (cachedUser: CachedUser, userItems: string | null) => {
+    //     containerDispatch({
+    //         type: 'SET_FRIDGE',
+    //         fridge: userItems ? convertContainer(new Map(JSON.parse(userItems))) : new Map()
+    //     });
+    //
+    //     accountDispatch({
+    //         type: 'SET_ACCOUNT',
+    //         account: {
+    //             cachedUser: cachedUser,
+    //             isAuthenticated: true,
+    //             alarm: {
+    //                 manageIngredients: false,
+    //                 recommendRecipes: false
+    //             }
+    //         }
+    //     });
+    // }
 
     useEffect(() => {
         Hub.listen("auth", async ({payload: {event, data}}) => {
@@ -43,10 +39,23 @@ const Landing = () => {
                     const cognitoUser: CognitoUser = data
                     console.debug("[omtm]: success to signIn for", cognitoUser.getUsername())
 
-                    // retrieve cached userItems
-                    const userItems = await AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
+                    accountDispatch({
+                        type: 'SET_ACCOUNT',
+                        account: {
+                            cognitoUser: cognitoUser,
+                            isAuthenticated: true,
+                            alarm: {
+                                manageIngredients: false,
+                                recommendRecipes: false
+                            }
+                        }
+                    });
 
-                    initializeContext(cognitoUser, userItems);
+                    // retrieve cached userItems
+                    // fetchItems()
+                    // const userItems = await AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
+
+                    // initializeContext(cognitoUser, userItems);
                     break;
                 case "signOut":
                     accountDispatch({type: 'DEAUTHENTICATE'});
@@ -54,23 +63,33 @@ const Landing = () => {
             }
         });
 
-        /*
         // retrieve cachedUser
         Auth.currentAuthenticatedUser()
             .then((cachedUser: CognitoUser) => {
+                accountDispatch({
+                    type: 'SET_ACCOUNT',
+                    account: {
+                        cognitoUser: cachedUser,
+                        isAuthenticated: true,
+                        alarm: {
+                            manageIngredients: false,
+                            recommendRecipes: false
+                        }
+                    }
+                });
                 // retrieve userItems
-                AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
-                    .then(userItems => {
-                        initializeContext(cachedUser, userItems);
-                        console.debug("[omtm]: success to retrieve ", cachedUser.getUsername());
-                    })
-                    .catch(err => {
-                        alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`);
-                    })
+                // AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
+                //     .then(userItems => {
+                //         initializeContext(cachedUser, userItems);
+                //         console.debug("[omtm]: success to retrieve ", cachedUser.getUsername());
+                //     })
+                //     .catch(err => {
+                //         alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`);
+                //     })
             })
             .catch(err => console.debug(`[omtm]: ${err}`));
         return () => console.log('UNMOUNTED on Landing');
-         */
+
 
     }, []);
 

@@ -12,8 +12,6 @@ export type Profile = {
     imageUrl?: string;
 };
 
-export type CachedUser = CognitoUser;
-
 export type Alarm = {
     manageIngredients: boolean,
     recommendRecipes: boolean
@@ -21,7 +19,7 @@ export type Alarm = {
 
 export type Account = {
     profile?: Profile,
-    cachedUser: CachedUser | undefined,
+    cognitoUser: CognitoUser | undefined,
     alarm: Alarm,
     isAuthenticated: boolean
 }
@@ -43,7 +41,7 @@ type ContextProps = {
 }
 
 export const initialAccount: Account = {
-    cachedUser: undefined,
+    cognitoUser: undefined,
     alarm: {
         manageIngredients: false,
         recommendRecipes: false

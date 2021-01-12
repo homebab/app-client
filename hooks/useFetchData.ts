@@ -11,7 +11,7 @@ type State<T> = {
     data: T
 }
 
-const dataFetchReducer = <T>(state: State<T>, action: Action<T>) => {
+const reducer = <T>(state: State<T>, action: Action<T>) => {
     switch (action.type) {
         case 'FETCH_INIT':
             return {
@@ -39,7 +39,7 @@ const dataFetchReducer = <T>(state: State<T>, action: Action<T>) => {
 
 const useFetchData = <T>(url: string, initialData: T) => {
 
-    const [state, dispatch] = useReducer(dataFetchReducer, {
+    const [state, dispatch] = useReducer(reducer, {
         isLoading: false,
         isError: false,
         data: initialData,

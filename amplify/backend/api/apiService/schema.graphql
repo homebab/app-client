@@ -1,0 +1,9 @@
+type Item @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  category: String!
+  expiredAt: AWSDateTime!
+  storage: String!
+  memo: String
+}
+

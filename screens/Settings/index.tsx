@@ -93,14 +93,14 @@ const SetAlarm = () => {
 
 const Profile = () => {
     const {accountState} = useAccountContext();
-    const {cachedUser} = accountState;
+    const {cognitoUser} = accountState;
 
     const avatarSize = 140
     return (
         <View style={{alignItems: "center", padding: '4%', width: '100%'}}>
             <Image source={Assets.Image.emptyUser} style={{height: avatarSize, aspectRatio: 1, borderRadius: 100}}
                    resizeMethod={"resize"}/>
-            <Text style={{marginTop: 12, fontSize: 24}}>{cachedUser!.getUsername().slice(0, 10)}</Text>
+            <Text style={{marginTop: 12, fontSize: 24}}>{cognitoUser!.getUsername().slice(0, 10)}</Text>
         </View>
     )
 }

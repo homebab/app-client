@@ -7,6 +7,8 @@ import {Feather} from '@expo/vector-icons';
 import {styles} from "./style"
 import useWasteAmount from "../../hooks/useWasteAmount";
 import {Item, useContainerContext} from "../../contexts/Container";
+import useContainerAppSync from "../../hooks/useContainerAppSync";
+import {Analytics} from "aws-amplify";
 
 type Props = {
     item: Item
@@ -18,7 +20,7 @@ type Props = {
 const DeleteItemModal = (props: Props) => {
     const {item, visible, onCancel, onConfirm} = props
 
-    const {containerDispatch} = useContainerContext();
+    const {deleteItem} = useContainerAppSync();
     const [amount, setAmount] = React.useState<number>(0);
 
 
@@ -56,7 +58,7 @@ const DeleteItemModal = (props: Props) => {
                             underlayColor={'rgba(0,0,0,0.3)'}
                             style={{...styles.openButton, backgroundColor: "transparent"}}
                             onPress={() => {
-                                containerDispatch({type: "DELETE_FRIDGE_ITEM", id: item.id, amount: amount})
+                                deleteItem(item, amount)
                                 onConfirm();
                             }}
                         >

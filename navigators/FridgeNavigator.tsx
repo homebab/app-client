@@ -13,13 +13,14 @@ import Search from "../components/Search";
 import {useNavigation} from "@react-navigation/native";
 import {useContainerContext} from "../contexts/Container";
 import {FridgeNaviParamList} from "../types/Navigators";
+import useContainerAppSync from "../hooks/useContainerAppSync";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
 export default function FridgeNavigator() {
 
     const navigation = useNavigation<StackNavigationProp<FridgeNaviParamList, 'AddItems'>>();
-    const {containerDispatch} = useContainerContext();
+    const {createItem} = useContainerAppSync();
 
     return (
         <FridgeStack.Navigator>
@@ -48,8 +49,7 @@ export default function FridgeNavigator() {
                     headerLeft: () => <CrossIconButton containerStyle={{marginLeft: 16}} size={28}
                                                        onPress={() => navigation.navigate("ListItems")}/>,
                     headerRight: () => <NextIconButton containerStyle={{marginRight: 16}} size={28} onPress={() => {
-                        containerDispatch({type: 'MOVE_BASKET_TO_FRIDGE'});
-                        navigation.navigate('ListItems');
+                        createItem().then(_ => navigation.navigate('ListItems'));
                     }}/>,
                     headerTitleStyle: {
                         fontFamily: 'nanum-square-round-bold'

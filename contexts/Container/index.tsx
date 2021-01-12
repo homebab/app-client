@@ -1,19 +1,20 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
 import {Storage} from "../../types/Storage"
 import {Analytics} from "aws-amplify";
+import { Category } from "../../types/Category";
 
 export type UUID = string;
 
 export type Item = {
     id: UUID;
     name: string;
-    category: string;
+    category: Category;
     createdAt?: Date;
     updatedAt?: Date;
-    expiredAt?: Date; // | Date;
-    storage?: Storage;
+    expiredAt: Date; // | Date;
+    storage: Storage;
     tag?: string;
-    memo?: string;
+    memo: string;
     imageUrl?: string; // image url
 }
 
@@ -114,10 +115,10 @@ const ContainerController: React.FC = ({children}) => {
                         expiredAt: date, // | Date;
                         storage: Storage.FRIDGE,
                         category: item.category,
+                        memo: ''
                     }
                 })
 
-                console.log(state.basket)
                 Analytics.record({
                     name: 'ADD_FRIDGE_ITEMS',
                     deleteItem: {},

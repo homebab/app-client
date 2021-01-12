@@ -19,6 +19,7 @@ import CrossIconButton from "../../components/CrossIconButton";
 import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import Assets from "../../constants/Assets";
 import Layout from "../../constants/Layout";
+import useContainerAppSync from "../../hooks/useContainerAppSync";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -68,6 +69,7 @@ const ListItems: React.FC = () => {
 
     const navigation = useNavigation()
 
+    const {} = useContainerAppSync();
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
 
@@ -89,13 +91,13 @@ const ListItems: React.FC = () => {
         });
     }, [isSearching, navigation]);
 
-    useEffect(() => {
-        AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
-            .then(_ => console.log(`[omtm]: success to sync Account Context with AsyncStorage`))
-            .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
-
-        return () => console.log('UNMOUNTED on ListItems');
-    }, [fridge])
+    // useEffect(() => {
+    //     // AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
+    //     //     .then(_ => console.log(`[omtm]: success to sync Account Context with AsyncStorage`))
+    //     //     .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
+    //
+    //     return () => console.log('UNMOUNTED on ListItems');
+    // }, [fridge])
 
     const storages = Object.values(Storage);
     const [storage, setStorage] = useState<Storage>(storages[0]);
