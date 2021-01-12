@@ -5,8 +5,8 @@ import Premium from "../../components/Premium";
 import ShelfLifeAnalytics from "../../components/ShelfLifeAnalytics";
 import Pagination from "../../components/Pagination";
 import WasteAmountAnalytics from "../../components/WasteAmountAnalytics";
-import HorizontalAnalyticsLayout from "../../Layouts/HorizontalAnalyticsLayout";
-import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
+import HorizontalAnalyticsLayout from "../../layouts/HorizontalAnalyticsLayout";
+import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import {useContainerContext} from "../../contexts/Container";
 import UsageCycleAnalytics from "../../components/UsageCycleAnalytics";
 

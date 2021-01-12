@@ -7,7 +7,23 @@
       "customAuth": false
     }
   },
-  "api": {},
+  "api": {
+    "apiService": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authomtmappservice72c1308e"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
+    }
+  },
   "analytics": {
     "omtmAppService": {
       "service": "Pinpoint",

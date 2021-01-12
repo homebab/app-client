@@ -7,6 +7,7 @@ import ButtonList from "../../components/ButtonList";
 import AsyncStorage from "@react-native-community/async-storage";
 import {Auth} from "aws-amplify";
 import {Switch} from "react-native-paper";
+import LocalStorage from "../../constants/LocalStorage";
 
 
 const RowButtonList = () => {
@@ -26,14 +27,7 @@ const RowButtonList = () => {
         {
             label: '로그아웃',
             // icon: <MaterialCommunityIcons name="logout" size={28} style={{position: "absolute", left: 32}}/>,
-            onPress: () => AsyncStorage.removeItem('user').then(_ => {
-                Auth.signOut()
-                    .then(res => {
-                        accountDispatch({type: 'DEAUTHENTICATE'});
-                        console.debug("[omtm]: success to sign out")
-                    })
-                    .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
-            })
+            onPress: () => Auth.signOut().catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
         },
         {label: '영구 탈퇴', textStyle: {color: '#ff1744'}}
     ]

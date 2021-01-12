@@ -16,7 +16,7 @@ import {Category} from "../../types/Category";
 import SearchBar from "../../components/SearchBar";
 import Search from "../../components/Search";
 import CrossIconButton from "../../components/CrossIconButton";
-import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
+import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import Assets from "../../constants/Assets";
 import Layout from "../../constants/Layout";
 

@@ -48,9 +48,13 @@ const Landing = () => {
 
                     initializeContext(cognitoUser, userItems);
                     break;
+                case "signOut":
+                    accountDispatch({type: 'DEAUTHENTICATE'});
+                    console.debug("[omtm]: success to sign out", data)
             }
         });
 
+        /*
         // retrieve cachedUser
         Auth.currentAuthenticatedUser()
             .then((cachedUser: CognitoUser) => {
@@ -66,6 +70,8 @@ const Landing = () => {
             })
             .catch(err => console.debug(`[omtm]: ${err}`));
         return () => console.log('UNMOUNTED on Landing');
+         */
+
     }, []);
 
     return (

@@ -7,9 +7,9 @@ import Avatar from "../Avatar";
 import {imageKeys} from "../../constants/Ingredients";
 import Assets from "../../constants/Assets";
 import {Item, useContainerContext} from "../../contexts/Container";
-import AbsoluteCenterLayout from "../../Layouts/AbsoluteCenterLayout";
-import HorizontalAnalyticsLayout from "../../Layouts/HorizontalAnalyticsLayout";
-import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
+import AbsoluteCenterLayout from "../../layouts/AbsoluteCenterLayout";
+import HorizontalAnalyticsLayout from "../../layouts/HorizontalAnalyticsLayout";
+import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 
 const ShelfLifeAnalytics = () => {
 

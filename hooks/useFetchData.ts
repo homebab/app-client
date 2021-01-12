@@ -53,12 +53,11 @@ const useFetchData = <T>(url: string, initialData: T) => {
             dispatch({type: 'FETCH_INIT'});
 
             try {
-                console.log(url)
                 const response = await fetch(url);
                 const jsonData = await response.json();
 
                 if (!didCancel) {
-                    console.debug(`[omtm]: fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 32)}`)
+                    console.debug(`[omtm]: success to fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 100)}`)
                     dispatch({type: 'FETCH_SUCCESS', payload: jsonData});
                 }
             } catch (error) {

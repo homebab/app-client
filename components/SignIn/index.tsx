@@ -16,7 +16,7 @@ const SignIn = () => {
             {/*                  onPress={hostedUISignIn}>*/}
             {/*    <Entypo style={styles.icon} name="login" size={30} color="white"/>*/}
             {/*    <Text style={styles.text}>*/}
-            {/*        한끼두끼 로그인*/}
+            {/*        로그인*/}
             {/*    </Text>*/}
             {/*</TouchableOpacity>*/}
             <TouchableOpacity style={[styles.button, styles.google]}

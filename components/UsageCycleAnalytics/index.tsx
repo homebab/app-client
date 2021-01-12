@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import {Item, useContainerContext, UUID} from "../../contexts/Container";
-import VerticalAnalyticsLayout from "../../Layouts/VerticalAnalyticsLayout";
+import VerticalAnalyticsLayout from "../../layouts/VerticalAnalyticsLayout";
 import {imageKeys} from "../../constants/Ingredients";
 import {Text, View} from "react-native";
 import Avatar from "../Avatar";

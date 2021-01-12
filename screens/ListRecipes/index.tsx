@@ -8,7 +8,7 @@ import useFetchData from "../../hooks/useFetchData";
 import {EndPoints} from "../../constants/Endpoints";
 import {useContainerContext} from "../../contexts/Container";
 import {ActivityIndicator} from "react-native-paper";
-import RelativeCenterLayout from "../../Layouts/RelativeCenterLayout";
+import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
