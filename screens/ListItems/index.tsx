@@ -67,9 +67,9 @@ const ListItems: React.FC = () => {
 
     const navigation = useNavigation()
 
-    const {} = useContainerAppSync();
-    const {containerState} = useContainerContext();
-    const {fridge} = containerState;
+    const {fridge} = useContainerAppSync();
+    // const {containerState} = useContainerContext();
+    // const {fridge} = containerState;
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');

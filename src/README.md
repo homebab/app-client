@@ -4,6 +4,7 @@ However, it is impossible to change DIR of generated model [NOT SUPPORTED](https
 So, we choose to use default DIR `src/` only for appsync
 
 ```shell
+# not necessary
 > amplify codegen
 
 ✔ Downloaded the schema

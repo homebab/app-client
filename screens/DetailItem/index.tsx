@@ -12,6 +12,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { imageKeys } from "../../constants/Ingredients";
 import { leftDays } from "../../hooks/useShelfLifeAnalytics";
 import ButtonList from "../../components/ButtonList";
+import {updateItem} from "../../hooks/useContainerAppSync";
 
 
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
@@ -40,14 +41,15 @@ const DetailItem = (props: Props) => {
     const [editingMemo, setEditingMemo] = useState<boolean>(false);
     const [editingExpiredAt, setEditingExpiredAt] = useState<boolean>(false);
     const [throwing, setThrowing] = useState<boolean>(false);
-    console.log(item)
+
     const ColumnItemInfo = () => {
 
         const columnItemInfoList = [
             {
                 label: "보관상태", value: item.storage,
                 containerStyle: {flex: 1, alignItems: 'center'},
-                pressable: false
+                pressable: false,
+                onPressHandler: null
             },
             {
                 label: "유통기한", value: convertDateFormat(item.expiredAt!),
@@ -63,6 +65,7 @@ const DetailItem = (props: Props) => {
                 label: "보관일수", value: leftDays(item.createdAt!),
                 containerStyle: {flex: 1, alignItems: 'center'},
                 pressable: false,
+                onPressHandler: null
             }
         ]
 
@@ -78,10 +81,12 @@ const DetailItem = (props: Props) => {
             </View>
         )
     }
+
+    const a ={
+        1: [1,2]
+    }
     const RowItemButton = () => {
-
         const storages = Object.values(Storage).filter(s => !(s === item.storage || s === Storage.TOTAL));
-
         const rowItemsButtonList = [
             ...storages.map(s => {
                 return {
@@ -89,8 +94,8 @@ const DetailItem = (props: Props) => {
                     icon: <MaterialCommunityIcons name={"restore"} color={'#000000'} size={24}
                                                   style={{position: "absolute", left: 32}}/>,
                     onPress: () => {
-                        containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, storage: s}});
-                        console.debug(`[omtm]: success to change item storageType to ${s}, ${item.id}`)
+                        updateItem({...item, storage: s})
+                        // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, storage: s}});
                         navigatePop();
                     }
                 }
@@ -120,10 +125,10 @@ const DetailItem = (props: Props) => {
                         size={avatarSize}/>
                 <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
 
-                {/*<View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>*/}
-                {/*    <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>*/}
-                {/*    <Text style={{fontSize: 12}}>{convertDateFormat(item.updatedAt!)} 수정</Text>*/}
-                {/*</View>*/}
+                <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
+                    <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>
+                    <Text style={{fontSize: 12}}>{convertDateFormat(item.updatedAt!)} 수정</Text>
+                </View>
             </View>
         )
     }
@@ -143,8 +148,8 @@ const DetailItem = (props: Props) => {
                                   onPress={() => {
                                       if (editingMemo) {
                                           setEditingMemo(false)
-                                          containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, memo: memo}})
-                                          console.debug(`[omtm]: success to update item, ${item.id}`)
+                                          updateItem({...item, memo: memo})
+                                          // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, memo: memo}})
                                       } else setEditingMemo(true)
                                   }}>
                     <Text>{editingMemo ? "저장" : "수정"}</Text>
@@ -167,8 +172,8 @@ const DetailItem = (props: Props) => {
                 isVisible={editingExpiredAt}
                 onCancel={() => setEditingExpiredAt(false)}
                 onConfirm={(date: Date) => {
-                    containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, expiredAt: date}});
-                    console.debug(`[omtm]: success to update item, ${item.id}`);
+                    updateItem({...item, expiredAt: date})
+                    // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, expiredAt: date}});
                     setEditingExpiredAt(false);
                 }}/>
         </View>
