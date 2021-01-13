@@ -18,12 +18,13 @@ const ShelfLifeAnalytics = () => {
 
     const {shelfLifeStat, itemLeftDays} = useShelfLifeAnalytics();
 
-    if (fridge.size == 0) return <RelativeCenterLayout containerStyle={{top: -8}}>
+    if (fridge.length == 0) return <RelativeCenterLayout containerStyle={{top: -8}}>
         <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'} style={{height: 120, aspectRatio: 1}}/>
         <Text>{'냉장고가 텅 비었습니다'}</Text>
     </RelativeCenterLayout>
 
-    const topRiskItem: Item = fridge.get(itemLeftDays.sort((a, b) => a.leftDays - b.leftDays)[0].id) as Item
+    // TODO: will be optimized for data structure array
+    const topRiskItem: Item = fridge.filter(i => i.id == itemLeftDays.sort((a, b) => a.leftDays - b.leftDays)[0].id)[0] as Item
     const avatarKey = imageKeys.filter(key => key.includes(topRiskItem.name) || topRiskItem.name.includes(key))[0];
 
     return (

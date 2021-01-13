@@ -6,7 +6,7 @@ import styles from './styles';
 import Toolbar from './toolbar.component';
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {FridgeNaviParamList} from "../../types";
+import {FridgeNaviParamList} from "../../types/Navigators";
 
 const CaptureItem = () => {
 
@@ -41,7 +41,8 @@ const CaptureItem = () => {
     };
 
     if (hasCameraPermission === null) {
-        return <View style={{display: "flex", alignItems: "center", justifyContent: "center"}}><Text>카메라 권한을 허가해주세요</Text></View>; // <View/>;
+        return <View style={{display: "flex", alignItems: "center", justifyContent: "center"}}><Text>카메라 권한을
+            허가해주세요</Text></View>; // <View/>;
     } else if (!hasCameraPermission) {
         return <Text>Access to camera has been denied.</Text>;
     }

@@ -91,7 +91,7 @@ const GeneralAnalytics = () => {
                         paddingLeft: '8%', paddingRight: '8%'
                     }}>
                     <WasteAmountAnalytics fridge={fridge}/>
-                    {fridge.size != 0 && <UsageCycleAnalytics fridge={fridge}/>}
+                    {fridge.length != 0 && <UsageCycleAnalytics fridge={fridge}/>}
                 </ScrollView>
             </View>
         </View>

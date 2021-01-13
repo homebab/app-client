@@ -4,13 +4,13 @@ import {AntDesign, Foundation} from "@expo/vector-icons";
 
 import {styles} from "./styles";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import {FridgeNaviParamList, TextInputField} from "../../types";
+import {TextInputField} from "../../types";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {useAccountContext} from "../../contexts/Account";
 import {formatDate, formatTag} from "../../validators/format";
 import {v4 as uuidv4} from "uuid"
-import {Item} from "../../contexts/Container";
 import {Storage} from "../../types/Storage";
+import {FridgeNaviParamList} from "../../types/Navigators";
 
 const AddItem = () => {
 

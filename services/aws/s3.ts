@@ -67,7 +67,7 @@ export const deleteImageOnS3 = (imageUrl: string) => new Promise((resolve, rejec
             reject(err);
         } else {
             console.log(`[omtm]: success to delete the image on s3 URL '${imageUrl}' with ` + JSON.stringify(res));
-            resolve();
+            resolve(res);
         }
     });
 });

@@ -48,8 +48,7 @@ const DetailItem = (props: Props) => {
             {
                 label: "보관상태", value: item.storage,
                 containerStyle: {flex: 1, alignItems: 'center'},
-                pressable: false,
-                onPressHandler: null
+                pressable: false
             },
             {
                 label: "유통기한", value: convertDateFormat(item.expiredAt!),
@@ -64,8 +63,7 @@ const DetailItem = (props: Props) => {
             {
                 label: "보관일수", value: leftDays(item.createdAt!),
                 containerStyle: {flex: 1, alignItems: 'center'},
-                pressable: false,
-                onPressHandler: null
+                pressable: false
             }
         ]
 
@@ -86,7 +84,7 @@ const DetailItem = (props: Props) => {
         1: [1,2]
     }
     const RowItemButton = () => {
-        const storages = Object.values(Storage).filter(s => !(s === item.storage || s === Storage.TOTAL));
+        const storages = Object.values(Storage).filter(s => s != item.storage);
         const rowItemsButtonList = [
             ...storages.map(s => {
                 return {

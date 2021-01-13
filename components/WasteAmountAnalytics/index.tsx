@@ -1,11 +1,11 @@
 import CustomBarChart from "../BarChart";
 import React, {useMemo} from "react";
-import {Item, useContainerContext, UUID} from "../../contexts/Container";
+import {FRIDGE, Item} from "../../contexts/Container";
 import Layout from "../../constants/Layout";
 import VerticalAnalyticsLayout from "../../layouts/VerticalAnalyticsLayout";
 
 type Props = {
-    fridge: Map<UUID, Item>
+    fridge: FRIDGE
 }
 
 const WasteAmountAnalytics = (props: Props) => {

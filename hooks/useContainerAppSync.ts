@@ -17,6 +17,7 @@ const useContainerAppSync = () => {
 
     useEffect(() => {
         fetchItems()
+
         const subscription = DataStore.observe(ItemModel).subscribe(() => fetchItems())
         console.debug("[omtm]: subscribe appsync")
         return () => {
@@ -27,7 +28,7 @@ const useContainerAppSync = () => {
 
     async function fetchItems() {
         const items = await DataStore.query(ItemModel)
-        console.debug("[omtm] success to fetch items, ", items)
+        console.debug("[omtm] success to fetch items, ", items.map(i => i.name).join(', '))
         containerDispatch({
             type: 'SET_FRIDGE',
             fridge: items.map(item =>
@@ -76,7 +77,7 @@ export async function createItem(basket: Array<BasketItem>) {
         await DataStore.save(new ItemModel(itemForm));
     }
 
-    console.debug(`[omtm]: success to create item, ${items.map(item => item.name).join(', ')}`)
+    console.debug(`[omtm]: success to create item, ${items.map(i => i.name).join(', ')}`)
 
     // record event
     Analytics.record({
@@ -93,7 +94,7 @@ export async function updateItem(item: Item) {
     const original = await DataStore.query(ItemModel, item.id)
 
     await DataStore.save<ItemModel>(
-        ItemModel.copyOf(original, updated => {
+        ItemModel.copyOf(original!, updated => {
             console.log('updateItem ', updated)
 
             // editable

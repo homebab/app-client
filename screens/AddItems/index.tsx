@@ -56,16 +56,25 @@ const AddItems = () => {
     }, [])
 
     const ingredients = useMemo(() => {
-            return new Map(Object.keys(Ingredients)
-                .map(key => [
-                    key as Category, <ItemsGrid container={Ingredients[key as keyof Ingredients].map(name => ({
-                        name: name,
-                        category: key as Category
-                    }))}/>
-                ]))
-        }
-        , [Ingredients]
-    );
+        return Object.keys(Ingredients)
+            .map(key => Ingredients[key as keyof Ingredients].map(name => {
+                    // Dummy id
+                    return {name: name, category: key as Category}
+                })
+            )
+            .reduce((acc, val) => acc.concat(val))
+    }, [Ingredients]);
+    // const ingredients: Map<Category, JSX.Element> = useMemo(() => {
+    //         return new Map(Object.keys(Ingredients)
+    //             .map(key => [
+    //                 key as Category, <ItemsGrid container={Ingredients[key as keyof Ingredients].map(name => ({
+    //                     name: name,
+    //                     category: key as Category
+    //                 }))}/>
+    //             ]))
+    //     }
+    //     , [Ingredients]
+    // );
 
     const categories = Object.values(Category);
     const [category, setCategory] = useState<Category>(categories[0]);
@@ -83,11 +92,12 @@ const AddItems = () => {
                 containerStyle={{paddingBottom: 8}}
             />
             {isSearching ?
-                ItemsGrid([]) :
+                <ItemsGrid container={(ingredients.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false))}/>  :
                 <>
                     <HorizontalTypesView types={categories} pressedType={category}
                                          onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
-                    {ingredients.get(category)}
+                    <ItemsGrid container={ingredients.filter(ingredient => ingredient.category == category)}/>
+                    {/*{ingredients.get(category)}*/}
                 </>
             }
         </>

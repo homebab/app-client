@@ -24,20 +24,23 @@ export type BasketItem = {
     category: Category;
 }
 
+export type FRIDGE = Array<Item> // Map<UUID, Item>
+export type BASKET = Array<BasketItem>
+
 export type Container = {
-    fridge: Array<Item>, // Map<UUID, Item>,
+    fridge: FRIDGE,
     // temporary container: basket
-    basket: Array<BasketItem>,
+    basket: BASKET,
 }
 
 export type Action =
     | { type: "FLUSH" }
     | { type: "FLUSH_BASKET" }
-    | { type: "SET_BASKET", basket: Array<BasketItem> }
+    | { type: "SET_BASKET", basket: BASKET }
     | { type: "ADD_BASKET_ITEM", item: BasketItem }
     | { type: "DELETE_BASKET_ITEM", item: BasketItem}
     | { type: "FLUSH_FRIDGE" }
-    | { type: "SET_FRIDGE", fridge: Array<Item> }
+    | { type: "SET_FRIDGE", fridge: FRIDGE }
     // TODO: deprecated
     // | { type: "MOVE_BASKET_TO_FRIDGE" }
     // | { type: "DELETE_FRIDGE_ITEM", id: UUID, amount: number }
@@ -75,7 +78,7 @@ export const ContainerProvider: React.FC<Props> =
 export const useContainerContext = () => useContext(ContainerContext);
 
 const ContainerController: React.FC = ({children}) => {
-    const reducer: Reducer<Container, Action> = (state, action) => {
+    const reducer: Reducer<Container, Action> = (state: Container, action: Action) => {
         switch (action.type) {
             case 'FLUSH':
                 return initialContainer;
@@ -102,7 +105,7 @@ const ContainerController: React.FC = ({children}) => {
             case 'FLUSH_FRIDGE':
                 return {
                     ...state,
-                    fridge: new Map()
+                    fridge: []
                 }
             case 'SET_FRIDGE':
                 return {

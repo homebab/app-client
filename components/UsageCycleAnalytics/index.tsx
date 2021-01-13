@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {Item, useContainerContext, UUID} from "../../contexts/Container";
+import {FRIDGE, Item, useContainerContext, UUID} from "../../contexts/Container";
 import VerticalAnalyticsLayout from "../../layouts/VerticalAnalyticsLayout";
 import {imageKeys} from "../../constants/Ingredients";
 import {Text, View} from "react-native";
@@ -9,7 +9,7 @@ import {BarChart, Grid, YAxis} from "react-native-svg-charts";
 import {Text as SVGText} from "react-native-svg"
 
 type Props = {
-    fridge: Map<UUID, Item>
+    fridge: FRIDGE
 }
 
 const UsageCycleAnalytics = (props: Props) => {
