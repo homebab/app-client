@@ -1,9 +1,18 @@
-type Item @model @auth(rules: [{ allow: owner }]) {
-  id: ID!
-  name: String!
-  category: String!
-  expiredAt: AWSDateTime!
-  storage: String!
-  memo: String
+type Item
+@model
+@auth(rules: [{ allow: owner }]) {
+    id: ID!
+    name: String!
+    category: String!
+    storage: String!
+    memo: String!
+    expiredAt: AWSDateTime!
+
+    # https://docs.amplify.aws/cli/graphql-transformer/model#definition
+    # The automatically added createdAt and updatedAt fields can’t be set in create or update mutation.
+    # If these fields need to be controlled as part of the mutation,
+    # they should be in the input schema and should have AWSDateTime as their type
+    createdAt: AWSDateTime!
+    updatedAt: AWSDateTime!
 }
 

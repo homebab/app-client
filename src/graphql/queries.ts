@@ -19,14 +19,14 @@ export const syncItems = /* GraphQL */ `
         id
         name
         category
+        createdAt
+        updatedAt
         expiredAt
         storage
         memo
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
         owner
       }
       nextToken
@@ -40,14 +40,14 @@ export const getItem = /* GraphQL */ `
       id
       name
       category
+      createdAt
+      updatedAt
       expiredAt
       storage
       memo
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
       owner
     }
   }
@@ -63,14 +63,14 @@ export const listItems = /* GraphQL */ `
         id
         name
         category
+        createdAt
+        updatedAt
         expiredAt
         storage
         memo
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
         owner
       }
       nextToken

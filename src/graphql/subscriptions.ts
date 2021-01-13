@@ -8,14 +8,14 @@ export const onCreateItem = /* GraphQL */ `
       id
       name
       category
+      createdAt
+      updatedAt
       expiredAt
       storage
       memo
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
       owner
     }
   }
@@ -26,14 +26,14 @@ export const onUpdateItem = /* GraphQL */ `
       id
       name
       category
+      createdAt
+      updatedAt
       expiredAt
       storage
       memo
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
       owner
     }
   }
@@ -44,14 +44,14 @@ export const onDeleteItem = /* GraphQL */ `
       id
       name
       category
+      createdAt
+      updatedAt
       expiredAt
       storage
       memo
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
       owner
     }
   }

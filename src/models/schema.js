@@ -24,6 +24,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "expiredAt": {
                     "name": "expiredAt",
                     "isArray": false,
@@ -42,7 +56,7 @@ export const schema = {
                     "name": "memo",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 }
             },
@@ -77,5 +91,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "e7b91438bed90e71dfd135466ef64424"
+    "version": "19f1e90f33890a13e8a65f4c897ed0c9"
 };

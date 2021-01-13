@@ -40,7 +40,7 @@ const DetailItem = (props: Props) => {
     const [editingMemo, setEditingMemo] = useState<boolean>(false);
     const [editingExpiredAt, setEditingExpiredAt] = useState<boolean>(false);
     const [throwing, setThrowing] = useState<boolean>(false);
-
+    console.log(item)
     const ColumnItemInfo = () => {
 
         const columnItemInfoList = [

@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
+import React, {useLayoutEffect, useMemo, useState} from "react";
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign} from "@expo/vector-icons";
@@ -6,8 +6,6 @@ import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
 import {Item, useContainerContext} from "../../contexts/Container";
 import ScrollViewGrid from "../../components/ScrollViewGrid";
-import LocalStorage from "../../constants/LocalStorage";
-import AsyncStorage from "@react-native-community/async-storage";
 import DetailItem from "../DetailItem";
 import BottomModal from "../../components/BottomModal";
 import {Storage} from "../../types/Storage";
@@ -99,15 +97,15 @@ const ListItems: React.FC = () => {
     //     return () => console.log('UNMOUNTED on ListItems');
     // }, [fridge])
 
-    const storages = Object.values(Storage);
-    const [storage, setStorage] = useState<Storage>(storages[0]);
+    const storages = ["전체"].concat(Object.values(Storage));
+    const [storage, setStorage] = useState<Storage | string>(storages[0]);
 
-    const categories = Object.values(Category);
-    const [category, setCategory] = useState<Category>(categories[0]);
+    const categories = ["전체"].concat(Object.values(Category));
+    const [category, setCategory] = useState<Category | string>(categories[0]);
 
     const filteredItems = useMemo(() => {
-        const filteredByStorage = storage === Storage.TOTAL ? Array.from(fridge.values()) : Array.from(fridge.values()).filter(item => item.storage === storage);
-        return category === Category.TOTAL ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
+        const filteredByStorage = storage === '전체' ? fridge : fridge.filter(item => item.storage == storage);
+        return category === '전체' ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
     }, [category, storage, fridge]);
 
     return (

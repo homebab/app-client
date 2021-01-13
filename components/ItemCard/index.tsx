@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleProp, Text, View, ViewStyle} from "react-native";
 import {styles} from "./styles";
-import {Item} from "../../contexts/Container";
+import {BasketItem, Item} from "../../contexts/Container";
 import Avatar from "../Avatar";
 import Assets from "../../constants/Assets";
 import {imageKeys} from "../../constants/Ingredients";
 
 type Props = {
-    item: Item,
+    item: Item | BasketItem,
     containerStyle?: StyleProp<ViewStyle>,
     avatarStyle?: StyleProp<ViewStyle>,
     iconSize?: number,
@@ -18,6 +18,9 @@ const ItemCard = (props: Props) => {
     const {item, containerStyle, avatarStyle, iconSize} = props;
     const key = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
     // const [image, setImage] = useState({uri: `https://omtm-production.s3.ap-northeast-2.amazonaws.com/app-service/client/images/ingredients/${encodeURIComponent(item.name)}.png`});
+
+    // TODO: It is just used in order to check rerender. It will be removed
+    item.name == "대파" && console.log("rendered", item.name)
 
     return (
         <View style={[styles.container, containerStyle]}>
@@ -31,4 +34,4 @@ const ItemCard = (props: Props) => {
     );
 }
 
-export default ItemCard;
+export default React.memo(ItemCard);

@@ -9,32 +9,39 @@ export type Item = {
     id: UUID;
     name: string;
     category: Category;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt: Date;
+    updatedAt: Date;
     expiredAt: Date; // | Date;
     storage: Storage;
-    tag?: string;
     memo: string;
+    tag?: string;
     imageUrl?: string; // image url
 }
 
+export type BasketItem = {
+    // id: UUID;
+    name: string;
+    category: Category;
+}
+
 export type Container = {
-    fridge: Map<UUID, Item>,
+    fridge: Array<Item>, // Map<UUID, Item>,
     // temporary container: basket
-    basket: Array<Item>,
+    basket: Array<BasketItem>,
 }
 
 export type Action =
     | { type: "FLUSH" }
     | { type: "FLUSH_BASKET" }
-    | { type: "SET_BASKET", basket: Array<Item> }
-    | { type: "ADD_BASKET_ITEM", item: Item }
-    | { type: "DELETE_BASKET_ITEM", item: Item}
+    | { type: "SET_BASKET", basket: Array<BasketItem> }
+    | { type: "ADD_BASKET_ITEM", item: BasketItem }
+    | { type: "DELETE_BASKET_ITEM", item: BasketItem}
     | { type: "FLUSH_FRIDGE" }
-    | { type: "SET_FRIDGE", fridge: Map<UUID, Item> }
-    | { type: "MOVE_BASKET_TO_FRIDGE" }
-    | { type: "DELETE_FRIDGE_ITEM", id: UUID, amount: number }
-    | { type: "UPDATE_FRIDGE_ITEM", item: Item }
+    | { type: "SET_FRIDGE", fridge: Array<Item> }
+    // TODO: deprecated
+    // | { type: "MOVE_BASKET_TO_FRIDGE" }
+    // | { type: "DELETE_FRIDGE_ITEM", id: UUID, amount: number }
+    // | { type: "UPDATE_FRIDGE_ITEM", item: Item }
 
 
 type Props = {
@@ -48,7 +55,7 @@ type ContextProps = {
 }
 
 const initialContainer: Container = {
-    fridge: new Map(),
+    fridge: [],
     basket: []
 }
 
@@ -102,68 +109,68 @@ const ContainerController: React.FC = ({children}) => {
                     ...state,
                     fridge: action.fridge
                 }
-            case 'MOVE_BASKET_TO_FRIDGE':
-                const items: Array<Item> = state.basket.map(item => {
-                    const date = new Date();
-                    date.setDate(date.getDate() + 10);
-
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        createdAt: new Date(),
-                        updatedAt: new Date(),
-                        expiredAt: date, // | Date;
-                        storage: Storage.FRIDGE,
-                        category: item.category,
-                        memo: ''
-                    }
-                })
-
-                Analytics.record({
-                    name: 'ADD_FRIDGE_ITEMS',
-                    deleteItem: {},
-                    addItemIds: items.map(i => i.id),
-                    metrics: {}
-                })
-                    .then(res => console.debug(`[omtm]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
-                    .catch(err => console.warn(`[omtm]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
-
-                return {
-                    ...state,
-                    fridge: new Map(
-                        Array.from(state.fridge.entries())
-                            .concat(items.map(item => [item.id, item]))
-                            .sort())
-                };
-            case 'DELETE_FRIDGE_ITEM':
-                const item: Item | undefined = state.fridge.get(action.id);
-
-                Analytics.record({
-                    name: 'DELETE_FRIDGE_ITEM',
-                    // customize spreading Object
-                    deleteItem: {...item},
-                    addItemIds: [],
-                    metrics: {'WASTE_AMOUNT': action.amount}
-                })
-                    .then(res => console.debug(`[omtm]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
-                    .catch(err => console.warn(`[omtm]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
-
-                state.fridge.delete(action.id);
-                return {
-                    ...state,
-                    fridge: new Map(state.fridge)
-                };
-            case 'UPDATE_FRIDGE_ITEM':
-                const updatedItem: Item = {
-                    ...action.item,
-                    updatedAt: new Date()
-                };
-                state.fridge.set(updatedItem.id, updatedItem);
-
-                return {
-                    ...state,
-                    fridge: new Map(state.fridge)
-                }
+            // case 'MOVE_BASKET_TO_FRIDGE':
+            //     const items: Array<Item> = state.basket.map(item => {
+            //         const date = new Date();
+            //         date.setDate(date.getDate() + 10);
+            //
+            //         return {
+            //             id: item.id,
+            //             name: item.name,
+            //             createdAt: new Date(),
+            //             updatedAt: new Date(),
+            //             expiredAt: date, // | Date;
+            //             storage: Storage.FRIDGE,
+            //             category: item.category,
+            //             memo: ''
+            //         }
+            //     })
+            //
+            //     Analytics.record({
+            //         name: 'ADD_FRIDGE_ITEMS',
+            //         deleteItem: {},
+            //         addItemIds: items.map(i => i.id),
+            //         metrics: {}
+            //     })
+            //         .then(res => console.debug(`[omtm]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
+            //         .catch(err => console.warn(`[omtm]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
+            //
+            //     return {
+            //         ...state,
+            //         fridge: new Map(
+            //             Array.from(state.fridge.entries())
+            //                 .concat(items.map(item => [item.id, item]))
+            //                 .sort())
+            //     };
+            // case 'DELETE_FRIDGE_ITEM':
+            //     const item: Item | undefined = state.fridge.get(action.id);
+            //
+            //     Analytics.record({
+            //         name: 'DELETE_FRIDGE_ITEM',
+            //         // customize spreading Object
+            //         deleteItem: {...item},
+            //         addItemIds: [],
+            //         metrics: {'WASTE_AMOUNT': action.amount}
+            //     })
+            //         .then(res => console.debug(`[omtm]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
+            //         .catch(err => console.warn(`[omtm]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
+            //
+            //     state.fridge.delete(action.id);
+            //     return {
+            //         ...state,
+            //         fridge: new Map(state.fridge)
+            //     };
+            // case 'UPDATE_FRIDGE_ITEM':
+            //     const updatedItem: Item = {
+            //         ...action.item,
+            //         updatedAt: new Date()
+            //     };
+            //     state.fridge.set(updatedItem.id, updatedItem);
+            //
+            //     return {
+            //         ...state,
+            //         fridge: new Map(state.fridge)
+            //     }
             default:
                 return state;
         }

@@ -1,9 +1,10 @@
-import {useContainerContext, Item as CustomItem} from "../contexts/Container";
+import {useContainerContext} from "../contexts/Container";
 import {Analytics, DataStore, Predicates} from "aws-amplify";
 import {Item} from "../src/models";
-import {ModelInit} from "@aws-amplify/datastore";
 import {useEffect} from "react";
 import {Storage} from "../types/Storage";
+import {Category} from "../types/Category";
+import {v4 as uuidv4} from 'uuid';
 
 /*
     This is bridge between Container Context and AppSync (Amplify DataStore)
@@ -26,37 +27,45 @@ const useContainerAppSync = () => {
 
     async function fetchItems() {
         const items = await DataStore.query(Item)
-        console.debug("[omtm] success to fetch items, ", items.map(item => item.name))
+        console.debug("[omtm] success to fetch items, ", items)
         containerDispatch({
             type: 'SET_FRIDGE',
-            fridge: new Map(items.map(item => {
-                return [item.id, {...item, storage: Storage[item.storage as keyof typeof Storage], expiredAt: new Date(item.expiredAt)}]
-            })) // ? convertContainer(new Map(JSON.parse(items))) : new Map()
+            fridge: items.map(item =>
+                ({
+                    ...item,
+                    storage: item.storage as Storage,
+                    category: item.category as Category,
+                    createdAt: new Date(item.createdAt),
+                    updatedAt: new Date(item.updatedAt),
+                    expiredAt: new Date(item.expiredAt)
+                })
+            ) // ? convertContainer(new Map(JSON.parse(items))) : new Map()
         });
     }
 
     async function createItem() {
         // convert items in basket
-        // Array<ModelInit<Item>>
-        const items: any = basket.map(item => {
+        const items = basket.map(item => {
             const date = new Date();
             date.setDate(date.getDate() + 10);
 
             return {
-                id: item.id,
+                id: uuidv4(),
                 name: item.name,
                 /*
                     - JS string to AWSDateTime
                     https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html
                     The AWSDateTime scalar type represents a valid extended ISO 8601 DateTime string.
                  */
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
                 expiredAt: date.toISOString(), // | Date;
                 storage: Storage.FREEZER,
                 category: item.category,
                 memo: ''
             }
         })
-
+        console.log(items)
         // save using appsync
         for (const itemForm of items) {
             await DataStore.save(new Item(itemForm));
