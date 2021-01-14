@@ -4,10 +4,8 @@ import {useContainerContext} from "../../contexts/Container";
 import {useAccountContext} from "../../contexts/Account";
 import Assets from "../../constants/Assets";
 import ButtonList from "../../components/ButtonList";
-import AsyncStorage from "@react-native-community/async-storage";
-import {Auth} from "aws-amplify";
+import {Auth, DataStore} from "aws-amplify";
 import {Switch} from "react-native-paper";
-import LocalStorage from "../../constants/LocalStorage";
 
 
 const RowButtonList = () => {
@@ -27,14 +25,19 @@ const RowButtonList = () => {
         {
             label: '로그아웃',
             // icon: <MaterialCommunityIcons name="logout" size={28} style={{position: "absolute", left: 32}}/>,
-            onPress: () => Auth.signOut().catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
+            onPress: () => Auth.signOut()
+                // refer to https://docs.amplify.aws/lib/datastore/other-methods/q/platform/js#clear
+                // `DataStore.clear() is often important to use for shared device scenarios
+                // or where you need to purge the local on-device storage of records for security/privacy concerns.
+                .then(_ => DataStore.clear().then(_ => console.debug('[omtm]: success to clear datastore')))
+                .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
         },
         {label: '영구 탈퇴', textStyle: {color: '#ff1744'}}
     ]
 
     return (
         <View style={{flex: 1, width: '100%', justifyContent: 'flex-start', paddingTop: '4%'}}>
-            <ButtonList dataset={dataset} containerStyle={{borderTopColor: 'white', borderLeftColor: 'white'}}/>
+            <ButtonList dataset={dataset} containerStyle={{borderLeftColor: 'white', borderTopColor: 'white'}}/>
         </View>
     )
 }
