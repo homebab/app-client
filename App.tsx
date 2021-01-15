@@ -29,9 +29,9 @@ const [
 
 const hostUrl = Linking.makeUrl()
 
-console.debug('[omtm]: host on ' + hostUrl)
+console.debug('[HOMEBAB]: host on ' + hostUrl)
 
-const isTunnel = hostUrl.includes("exp://")
+// const isTunnel = hostUrl.includes("exp://")
 const isLAN = hostUrl.includes("localhost") || hostUrl.includes("127.0.0.1")
 
 const updatedAwsConfig = {
@@ -42,7 +42,7 @@ const updatedAwsConfig = {
     }
 }
 
-console.debug('[omtm]: update AWS amplify config ' + JSON.stringify(updatedAwsConfig.oauth))
+console.debug('[HOMEBAB]: update AWS amplify config ' + JSON.stringify(updatedAwsConfig.oauth))
 
 Amplify.configure(updatedAwsConfig)
 

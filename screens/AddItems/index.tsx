@@ -23,7 +23,7 @@ const AddItemCard = ({item}: { item: BasketItem }) => {
         containerDispatch({type: dispatchType, item: item})
         // setPressed(!pressed);
 
-        console.debug(`[omtm]: success to ${dispatchType}, ${item.name}`)
+        console.debug(`[HOMEBAB]: success to ${dispatchType}, ${item.name}`)
     };
 
     return (
@@ -52,7 +52,7 @@ const AddItems = () => {
 
     useEffect(() => {
         containerDispatch({type: 'FLUSH_BASKET'})
-        console.debug("[omtm]: success to FLUSH_BASKET")
+        console.debug("[HOMEBAB]: success to FLUSH_BASKET")
     }, [])
 
     const ingredients = useMemo(() => {

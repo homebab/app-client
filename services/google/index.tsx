@@ -10,11 +10,11 @@ export const signInWithGoogle: () => Promise<GoogleUser | undefined> = async () 
             //iosClientId: YOUR_CLIENT_ID_HERE,  <-- if you use iOS
             scopes: ["profile", "email"]
         });
-        console.debug(`[omtm]: response from Google is ${JSON.stringify(result)}`);
+        console.debug(`[HOMEBAB]: response from Google is ${JSON.stringify(result)}`);
 
         if (result.type === "success") return result.user;
-        else console.debug('[omtm]: LoginResult type is `canceled`');
+        else console.debug('[HOMEBAB]: LoginResult type is `canceled`');
     } catch (err) {
-        console.warn(`[omtm]: fail to fetch api to Google with ${err}`);
+        console.warn(`[HOMEBAB]: fail to fetch api to Google with ${err}`);
     }
 }

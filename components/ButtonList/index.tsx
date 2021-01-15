@@ -28,8 +28,7 @@ const ButtonList = (props: Props) => {
 
                         return (
                             <TouchableOpacity
-                                disabled={!onPress}
-                                key={key} onPress={onPress}
+                                key={key} onPress={onPress ? onPress : () => alert('[HOMEBAB]: coming soon')}
                                 style={[{
                                     alignSelf: "center", alignItems: 'center', justifyContent: 'center',
                                     margin: 4, flexDirection: "row", width: '100%', borderWidth: 1, borderColor: 'rgba(208,200,192,0.5)'

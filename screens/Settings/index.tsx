@@ -16,7 +16,7 @@ const RowButtonList = () => {
 
         {label: '공지사항'},
         {label: '서비스 문의'},
-        {label: '버전정보'},
+        // {label: '버전정보'},
         {
             label: '냉장고 초기화',
             // icon: <MaterialCommunityIcons name="autorenew" size={28} style={{position: "absolute", left: 32}}/>,
@@ -29,8 +29,8 @@ const RowButtonList = () => {
                 // refer to https://docs.amplify.aws/lib/datastore/other-methods/q/platform/js#clear
                 // `DataStore.clear() is often important to use for shared device scenarios
                 // or where you need to purge the local on-device storage of records for security/privacy concerns.
-                .then(_ => DataStore.clear().then(_ => console.debug('[omtm]: success to clear datastore')))
-                .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
+                .then(_ => DataStore.clear().then(_ => console.debug('[HOMEBAB]: success to clear datastore')))
+                .catch(err => console.warn("[HOMEBAB]: fail to delete cachedUser with", err))
         },
         {label: '영구 탈퇴', textStyle: {color: '#ff1744'}}
     ]
@@ -69,16 +69,20 @@ const SetAlarm = () => {
 
     const dataset = [
         {
-            label: '유통기한 임박', value: manageIngredients, onPress: () => accountDispatch({
-                type: "SET_ALARM",
-                alarm: {manageIngredients: !manageIngredients, recommendRecipes: recommendRecipes}
-            })
+            label: '유통기한 임박', value: manageIngredients, onPress: () =>
+                alert('[HOMEBAB] coming soon')
+            // accountDispatch({
+            //     type: "SET_ALARM",
+            //     alarm: {manageIngredients: !manageIngredients, recommendRecipes: recommendRecipes}
+            // })
         },
         {
-            label: '레시피 추천', value: recommendRecipes, onPress: () => accountDispatch({
-                type: "SET_ALARM",
-                alarm: {manageIngredients: manageIngredients, recommendRecipes: !recommendRecipes}
-            })
+            label: '레시피 추천', value: recommendRecipes, onPress: () =>
+                alert('[HOMEBAB] coming soon')
+                // accountDispatch({
+                //     type: "SET_ALARM",
+                //     alarm: {manageIngredients: manageIngredients, recommendRecipes: !recommendRecipes}
+                // })
         }
     ]
 

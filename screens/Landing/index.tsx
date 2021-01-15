@@ -37,7 +37,7 @@ const Landing = () => {
             switch (event) {
                 case "signIn":
                     const cognitoUser: CognitoUser = data
-                    console.debug("[omtm]: success to signIn for", cognitoUser.getUsername())
+                    console.debug("[HOMEBAB]: success to signIn for", cognitoUser.getUsername())
 
                     accountDispatch({
                         type: 'SET_ACCOUNT',
@@ -59,7 +59,7 @@ const Landing = () => {
                     break;
                 case "signOut":
                     accountDispatch({type: 'DEAUTHENTICATE'});
-                    console.debug("[omtm]: success to sign out", data)
+                    console.debug("[HOMEBAB]: success to sign out", data)
             }
         });
 
@@ -81,13 +81,13 @@ const Landing = () => {
                 // AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
                 //     .then(userItems => {
                 //         initializeContext(cachedUser, userItems);
-                //         console.debug("[omtm]: success to retrieve ", cachedUser.getUsername());
+                //         console.debug("[HOMEBAB]: success to retrieve ", cachedUser.getUsername());
                 //     })
                 //     .catch(err => {
-                //         alert(`[omtm]: fail to retrieve userItems on AsyncStorage with ${err}`);
+                //         alert(`[HOMEBAB]: fail to retrieve userItems on AsyncStorage with ${err}`);
                 //     })
             })
-            .catch(err => console.debug(`[omtm]: ${err}`));
+            .catch(err => console.debug(`[HOMEBAB]: ${err}`));
         return () => console.log('UNMOUNTED on Landing');
 
 

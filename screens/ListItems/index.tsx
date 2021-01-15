@@ -91,8 +91,8 @@ const ListItems: React.FC = () => {
 
     // useEffect(() => {
     //     // AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
-    //     //     .then(_ => console.log(`[omtm]: success to sync Account Context with AsyncStorage`))
-    //     //     .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
+    //     //     .then(_ => console.log(`[HOMEBAB]: success to sync Account Context with AsyncStorage`))
+    //     //     .catch(err => console.error('[HOMEBAB]: fail to sync Account Context with AsyncStorage', err));
     //
     //     return () => console.log('UNMOUNTED on ListItems');
     // }, [fridge])

@@ -36,10 +36,10 @@ export default ScrollViewGrid
 // useEffect(() => {
 //     AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(container))
 //         .then(_ => {
-//             console.log(`[omtm]: success to sync Account Context with AsyncStorage`);
+//             console.log(`[HOMEBAB]: success to sync Account Context with AsyncStorage`);
 //             // setVisibleDeleteModal(false);
 //         })
-//         .catch(err => console.error('[omtm]: fail to sync Account Context with AsyncStorage', err));
+//         .catch(err => console.error('[HOMEBAB]: fail to sync Account Context with AsyncStorage', err));
 // }, [container])
 
 
@@ -51,8 +51,8 @@ export default ScrollViewGrid
 //         name: 'refreshUserItems',
 //         attributes: {message: `hello im ${accountState.cachedUser.username}`}
 //     })
-//         .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + res))
-//         .catch(err => console.warn("[omtm]: fail to record with " + err))
+//         .then(res => console.debug("[HOMEBAB]: success to record an event through AWS pinpoint with " + res))
+//         .catch(err => console.warn("[HOMEBAB]: fail to record with " + err))
 //
 //     AsyncStorage.getItem(LocalStorage.KEY.USER_ITEMS)
 //         .then(userItems => {

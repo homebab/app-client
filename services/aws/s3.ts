@@ -39,10 +39,10 @@ export const uploadImageOnS3 = (picture: CameraCapturedPicture) => new Promise<s
         // CacheControl: "no-cache"
     }, (err: Error, data: ManagedUpload.SendData) => {
         if (err) {
-            console.warn('[omtm]: fail to upload the image to s3 with ', err);
+            console.warn('[HOMEBAB]: fail to upload the image to s3 with ', err);
             reject(err);
         } else {
-            console.log(`[omtm]: success to upload the image to s3 URL '${data.Location}'`);
+            console.log(`[HOMEBAB]: success to upload the image to s3 URL '${data.Location}'`);
             resolve(data.Location);
         }
     });
@@ -63,10 +63,10 @@ export const deleteImageOnS3 = (imageUrl: string) => new Promise((resolve, rejec
         Key: key
     }, (err: AWSError, res: DeleteObjectOutput) => {
         if (err) {
-            console.warn('[omtm]: fail to delete the image on s3 with ', err);
+            console.warn('[HOMEBAB]: fail to delete the image on s3 with ', err);
             reject(err);
         } else {
-            console.log(`[omtm]: success to delete the image on s3 URL '${imageUrl}' with ` + JSON.stringify(res));
+            console.log(`[HOMEBAB]: success to delete the image on s3 URL '${imageUrl}' with ` + JSON.stringify(res));
             resolve(res);
         }
     });

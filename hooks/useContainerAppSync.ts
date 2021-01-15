@@ -19,16 +19,16 @@ const useContainerAppSync = () => {
         fetchItems()
 
         const subscription = DataStore.observe(ItemModel).subscribe(() => fetchItems())
-        console.debug("[omtm]: subscribe appsync")
+        console.debug("[HOMEBAB]: subscribe appsync")
         return () => {
             subscription.unsubscribe()
-            console.debug("[omtm]: unsubscribe appsync")
+            console.debug("[HOMEBAB]: unsubscribe appsync")
         }
     }, [])
 
     async function fetchItems() {
         const items = await DataStore.query(ItemModel)
-        console.debug("[omtm] success to fetch items, ", items.map(i => i.name).join(', '))
+        console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.name).join(', '))
         containerDispatch({
             type: 'SET_FRIDGE',
             fridge: items.map(item =>
@@ -77,7 +77,7 @@ export async function createItem(basket: Array<BasketItem>) {
         await DataStore.save(new ItemModel(itemForm));
     }
 
-    console.debug(`[omtm]: success to create item, ${items.map(i => i.name).join(', ')}`)
+    console.debug(`[HOMEBAB]: success to create item, ${items.map(i => i.name).join(', ')}`)
 
     // record event
     // Analytics.record({
@@ -86,8 +86,8 @@ export async function createItem(basket: Array<BasketItem>) {
     //     addItemIds: items.map(item => item.id),
     //     metrics: {}
     // })
-    //     .then(res => console.debug(`[omtm]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
-    //     .catch(err => console.warn(`[omtm]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
+    //     .then(res => console.debug(`[HOMEBAB]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
+    //     .catch(err => console.warn(`[HOMEBAB]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
 }
 
 export async function updateItem(item: Item) {
@@ -110,8 +110,8 @@ export async function updateItem(item: Item) {
 
 export function deleteItem(item: any, wasteAmount: number) {
     DataStore.delete(ItemModel, item.id)
-        .then(res => console.debug("[omtm]: success to delete item, ", res))
-        .catch(err => console.debug("[omtm]: fail to delete item, ", err))
+        .then(res => console.debug("[HOMEBAB]: success to delete item, ", res))
+        .catch(err => console.debug("[HOMEBAB]: fail to delete item, ", err))
 
     // Analytics.record({
     //     name: 'DELETE_FRIDGE_ITEM',
@@ -120,13 +120,13 @@ export function deleteItem(item: any, wasteAmount: number) {
     //     addItemIds: [],
     //     metrics: {'WASTE_AMOUNT': wasteAmount}
     // })
-    //     .then(res => console.debug(`[omtm]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
-    //     .catch(err => console.warn(`[omtm]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
+    //     .then(res => console.debug(`[HOMEBAB]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
+    //     .catch(err => console.warn(`[HOMEBAB]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
 }
 
 export function deleteAllItems() {
     DataStore.delete(ItemModel, Predicates.ALL)
-        .then(res => console.debug("[omtm]: success to delete all items, ", res))
-        .catch(err => console.debug("[omtm]: fail to delete all items, ", err));
+        .then(res => console.debug("[HOMEBAB]: success to delete all items, ", res))
+        .catch(err => console.debug("[HOMEBAB]: fail to delete all items, ", err));
 }
 

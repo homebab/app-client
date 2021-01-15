@@ -17,11 +17,11 @@ export const recommendRecipes = (ingredients: string, size: number) => new Promi
         .then(res => {
             if (typeof (res) === "string")
                 throw Error(res)
-            console.debug('[omtm]: success to create user on Omtm Server with ' + res);
+            console.debug('[HOMEBAB]: success to create user on Omtm Server with ' + res);
             resolve(res);
         })
         .catch(err => {
-            console.warn(`[omtm]: fail to create user on Omtm Server with ${err}`);
+            console.warn(`[HOMEBAB]: fail to create user on Omtm Server with ${err}`);
             reject(err);
         });
 

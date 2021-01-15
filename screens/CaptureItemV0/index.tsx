@@ -21,7 +21,7 @@ const CaptureItem = () => {
     const camera = useRef<any>(undefined); // TODO: change 'any' to other type
 
     useEffect(() => {
-        console.log("[omtm]: set camera permission");
+        console.log("[HOMEBAB]: set camera permission");
         (async () => {
             const {status} = await Camera.requestPermissionsAsync();
             setHasCameraPermission(status === 'granted');

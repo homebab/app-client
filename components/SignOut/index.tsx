@@ -17,9 +17,9 @@ const SignOut = (props: Props) => {
                               Auth.signOut()
                                   .then(res => {
                                       accountDispatch({type: 'DEAUTHENTICATE'});
-                                      console.debug("[omtm]: success to sign out")
+                                      console.debug("[HOMEBAB]: success to sign out")
                                   })
-                                  .catch(err => console.warn("[omtm]: fail to delete cachedUser with", err))
+                                  .catch(err => console.warn("[HOMEBAB]: fail to delete cachedUser with", err))
                           })}>
             <AntDesign
                 name="logout"

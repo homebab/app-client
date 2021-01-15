@@ -25,13 +25,13 @@ export default function ListRecipes() {
     const [refreshing, setRefreshing] = useState<boolean>(false);
 
     // useEffect(() => {
-    //     console.debug('[omtm]: test to record an event to AWS pinpoint');
+    //     console.debug('[HOMEBAB]: test to record an event to AWS pinpoint');
     //     Analytics.record({
     //         name: 'PAGE_VIEW',
     //         attributes: {pageType: 'ListRecipes'}
     //     })
-    //         .then(res => console.debug("[omtm]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
-    //         .catch(err => console.warn("[omtm]: fail to record with " + err))
+    //         .then(res => console.debug("[HOMEBAB]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
+    //         .catch(err => console.warn("[HOMEBAB]: fail to record with " + err))
     // }, []);
 
     if (!data) {

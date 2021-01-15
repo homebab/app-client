@@ -57,7 +57,7 @@ const useFetchData = <T>(url: string, initialData: T) => {
                 const jsonData = await response.json();
 
                 if (!didCancel) {
-                    console.debug(`[omtm]: success to fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 100)}`)
+                    console.debug(`[HOMEBAB]: success to fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 100)}`)
                     dispatch({type: 'FETCH_SUCCESS', payload: jsonData});
                 }
             } catch (error) {

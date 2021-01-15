@@ -135,8 +135,8 @@ const ContainerController: React.FC = ({children}) => {
             //         addItemIds: items.map(i => i.id),
             //         metrics: {}
             //     })
-            //         .then(res => console.debug(`[omtm]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
-            //         .catch(err => console.warn(`[omtm]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
+            //         .then(res => console.debug(`[HOMEBAB]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
+            //         .catch(err => console.warn(`[HOMEBAB]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
             //
             //     return {
             //         ...state,
@@ -155,8 +155,8 @@ const ContainerController: React.FC = ({children}) => {
             //         addItemIds: [],
             //         metrics: {'WASTE_AMOUNT': action.amount}
             //     })
-            //         .then(res => console.debug(`[omtm]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
-            //         .catch(err => console.warn(`[omtm]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
+            //         .then(res => console.debug(`[HOMEBAB]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
+            //         .catch(err => console.warn(`[HOMEBAB]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
             //
             //     state.fridge.delete(action.id);
             //     return {
