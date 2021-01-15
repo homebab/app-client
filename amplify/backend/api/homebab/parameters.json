@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "homebab",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authhomebabf581fe92",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

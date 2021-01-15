@@ -80,14 +80,14 @@ export async function createItem(basket: Array<BasketItem>) {
     console.debug(`[omtm]: success to create item, ${items.map(i => i.name).join(', ')}`)
 
     // record event
-    Analytics.record({
-        name: 'ADD_FRIDGE_ITEMS',
-        deleteItem: {},
-        addItemIds: items.map(item => item.id),
-        metrics: {}
-    })
-        .then(res => console.debug(`[omtm]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
-        .catch(err => console.warn(`[omtm]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
+    // Analytics.record({
+    //     name: 'ADD_FRIDGE_ITEMS',
+    //     deleteItem: {},
+    //     addItemIds: items.map(item => item.id),
+    //     metrics: {}
+    // })
+    //     .then(res => console.debug(`[omtm]: success to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(res)}`))
+    //     .catch(err => console.warn(`[omtm]: fail to record 'ADD_FRIDGE_ITEMS' event, ${JSON.stringify(err)}`))
 }
 
 export async function updateItem(item: Item) {
@@ -113,15 +113,15 @@ export function deleteItem(item: any, wasteAmount: number) {
         .then(res => console.debug("[omtm]: success to delete item, ", res))
         .catch(err => console.debug("[omtm]: fail to delete item, ", err))
 
-    Analytics.record({
-        name: 'DELETE_FRIDGE_ITEM',
-        // customize spreading Object
-        deleteItem: {...item},
-        addItemIds: [],
-        metrics: {'WASTE_AMOUNT': wasteAmount}
-    })
-        .then(res => console.debug(`[omtm]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
-        .catch(err => console.warn(`[omtm]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
+    // Analytics.record({
+    //     name: 'DELETE_FRIDGE_ITEM',
+    //     // customize spreading Object
+    //     deleteItem: {...item},
+    //     addItemIds: [],
+    //     metrics: {'WASTE_AMOUNT': wasteAmount}
+    // })
+    //     .then(res => console.debug(`[omtm]: success to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(res)}`))
+    //     .catch(err => console.warn(`[omtm]: fail to record 'DELETE_FRIDGE_ITEM' event, ${JSON.stringify(err)}`))
 }
 
 export function deleteAllItems() {

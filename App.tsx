@@ -18,13 +18,13 @@ import ContainerController from "./contexts/Container";
 const [
     ProdRedirectSignIn,
     LANRedirectSignIn,
-    TunnelRedirectSignIn
+    // TunnelRedirectSignIn
 ] = awsConfig.oauth.redirectSignIn.split(",");
 
 const [
     ProdRedirectSignOut,
     LANRedirectSignOut,
-    TunnelRedirectSignOut
+    // TunnelRedirectSignOut
 ] = awsConfig.oauth.redirectSignOut.split(",");
 
 const hostUrl = Linking.makeUrl()
@@ -37,9 +37,8 @@ const isLAN = hostUrl.includes("localhost") || hostUrl.includes("127.0.0.1")
 const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
-        ...awsConfig.oauth,
-        redirectSignIn: isLAN ? LANRedirectSignIn : isTunnel ? TunnelRedirectSignIn : ProdRedirectSignIn,
-        redirectSignOut: isLAN ? LANRedirectSignOut : isTunnel ? TunnelRedirectSignOut : ProdRedirectSignOut,
+        redirectSignIn: isLAN ? LANRedirectSignIn /*: isTunnel ? TunnelRedirectSignIn */: ProdRedirectSignIn,
+        redirectSignOut: isLAN ? LANRedirectSignOut /*: isTunnel ? TunnelRedirectSignOut */: ProdRedirectSignOut,
     }
 }
 

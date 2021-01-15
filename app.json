@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "한끼두끼",
+    "name": "홈밥",
     "slug": "app-client",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "omtm",
+    "scheme": "homebab",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -20,13 +20,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.meowai.omtm"
+      "bundleIdentifier": "com.meowai.homebab"
     },
     "web": {
       "favicon": "./assets/images/icon.png"
     },
     "android": {
-      "package": "com.meowai.omtm"
+      "package": "com.meowai.homebab"
     }
   }
 }

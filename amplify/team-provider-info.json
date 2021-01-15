@@ -1,22 +1,19 @@
 {
-  "prod": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-omtmappservice-prod-174537-authRole",
-      "UnauthRoleArn": "arn:aws:iam::783361761742:role/amplify-omtmappservice-prod-174537-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::783361761742:role/amplify-omtmappservice-prod-174537-authRole",
+      "AuthRoleName": "amplify-homebab-dev-113212-authRole",
+      "UnauthRoleArn": "arn:aws:iam::783361761742:role/amplify-homebab-dev-113212-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::783361761742:role/amplify-homebab-dev-113212-authRole",
       "Region": "ap-northeast-2",
-      "DeploymentBucketName": "amplify-omtmappservice-prod-174537-deployment",
-      "UnauthRoleName": "amplify-omtmappservice-prod-174537-unauthRole",
-      "StackName": "amplify-omtmappservice-prod-174537",
-      "StackId": "arn:aws:cloudformation:ap-northeast-2:783361761742:stack/amplify-omtmappservice-prod-174537/08ce4180-fcb0-11ea-8bba-0a80329c84bc",
-      "AmplifxyAppId": "d3852txsox6qbi",
-      "AmplifyAppId": "d3852txsox6qbi"
+      "DeploymentBucketName": "amplify-homebab-dev-113212-deployment",
+      "UnauthRoleName": "amplify-homebab-dev-113212-unauthRole",
+      "StackName": "amplify-homebab-dev-113212",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:783361761742:stack/amplify-homebab-dev-113212/e1337530-56d9-11eb-a64a-06b2a1b210e2",
+      "AmplifyAppId": "d7isr5t9ugg9b"
     },
     "categories": {
       "auth": {
-        "omtmappservice72c1308e": {
-          "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"968960786946950\",\"client_secret\":\"bcce9ffbd04861d0721f140d49d7ef2e\"},{\"ProviderName\":\"Google\",\"client_id\":\"74436265621-stnjr1591e24t77j3puvmtf756d9raug.apps.googleusercontent.com\",\"client_secret\":\"iBcyH0hsriIBeM_1bXE4NdfD\"}]"
-        }
+        "homebabf581fe92": {}
       }
     }
   }
