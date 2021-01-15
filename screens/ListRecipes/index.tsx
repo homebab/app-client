@@ -2,7 +2,6 @@ import * as React from 'react';
 import {useState} from 'react';
 import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import Layout from "../../constants/Layout";
-import Mocks from "../../constants/Mocks";
 import RecipeCard from "../../components/RecipeCard";
 import useFetchData from "../../hooks/useFetchData";
 import {EndPoints} from "../../constants/Endpoints";
@@ -16,9 +15,9 @@ export default function ListRecipes() {
     const {isLoading, isError, data} = useFetchData<any>(
         EndPoints.buildAPIPath("/recommend-recipes", "/omtm/recipe-recommender",
             {
-                ingredients: Array.from(fridge.values())
+                ingredients: fridge.length > 0 ? fridge
                     .map(i => i.name.replace('\n', ' '))
-                    .join(","), size: 5
+                    .join(",") : '인기, 간단', size: 5
             }
         ), null
     );
