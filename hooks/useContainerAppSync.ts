@@ -1,6 +1,6 @@
 import {useContainerContext, Item, BasketItem} from "../contexts/Container";
 import {Analytics, DataStore, Predicates} from "aws-amplify";
-import {Item as ItemModel} from "../src/models";
+import {Item as ItemModel} from "../models";
 import {useEffect} from "react";
 import {Storage} from "../types/Storage";
 import {Category} from "../types/Category";

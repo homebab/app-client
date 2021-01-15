@@ -31,7 +31,7 @@ $ expo build:android
 $ expo build:ios
 ```
 
-## Integration with AWS
+## Integration with AWS Amplify
 - install and configure
     - see [prerequisites on docs](https://docs.amplify.aws/start/getting-started/installation/q/integration/react-native#sign-up-for-an-aws-account)
 ```shell script
@@ -44,7 +44,16 @@ $ amplify status
 ```
 ### Auth
 - [authentication](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js) with AWS cognito
- 
+
+### DataStore (API GraphQL)
+```shell
+> amplify codegen models
+
+GraphQL schema compiled successfully.
+
+Edit your schema at /Users/jinhoon.bae/Projects/homebab/app-client/amplify/backend/api/homebab/schema.graphql or place .graphql files in a directory at /Users/jinhoon.bae/Projects/homebab/app-client/amplify/backend/api/homebab/schema
+```
+
 ### Analytics
 - [analytics with AWS pinpoint](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js)
 - [pinpoint stream to Amazon Kinesis](https://docs.amplify.aws/lib/analytics/storing/q/platform/js)

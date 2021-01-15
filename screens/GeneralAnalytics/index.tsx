@@ -1,5 +1,5 @@
-import {ScrollView, View} from "react-native";
-import React, {useCallback, useRef, useState} from "react";
+import {ScrollView, View, Text} from "react-native";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Layout from "../../constants/Layout";
 import Premium from "../../components/Premium";
 import ShelfLifeAnalytics from "../../components/ShelfLifeAnalytics";
@@ -9,6 +9,7 @@ import HorizontalAnalyticsLayout from "../../layouts/HorizontalAnalyticsLayout";
 import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import {useContainerContext} from "../../contexts/Container";
 import UsageCycleAnalytics from "../../components/UsageCycleAnalytics";
+import {useNavigation} from "@react-navigation/native";
 
 const horizontalAnalyticsList = [
     {Component: () => <HorizontalAnalyticsLayout title={'남은 유통기한'}><ShelfLifeAnalytics/></HorizontalAnalyticsLayout>},

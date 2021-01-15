@@ -37,15 +37,15 @@ export default function BaseNavigator() {
                                                                      color={color}/>,
                 }}
             />
-            <BottomTab.Screen
-                name="Analytics"
-                component={AnalyticsNavigator}
-                options={{
-                    tabBarLabel: "종합분석",
-                    tabBarIcon: ({color}) => <MaterialCommunityIcons name="file-chart" size={24}
-                                                                     color={color}/>,
-                }}
-            />
+            {/*<BottomTab.Screen*/}
+            {/*    name="Analytics"*/}
+            {/*    component={AnalyticsNavigator}*/}
+            {/*    options={{*/}
+            {/*        tabBarLabel: "종합분석",*/}
+            {/*        tabBarIcon: ({color}) => <MaterialCommunityIcons name="file-chart" size={24}*/}
+            {/*                                                         color={color}/>,*/}
+            {/*    }}*/}
+            {/*/>*/}
             <BottomTab.Screen
                 name="Settings"
                 component={SettingsNavigator}
