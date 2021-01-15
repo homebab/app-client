@@ -1,7 +1,7 @@
+export const MATERIALBLUE = '#2196f3';
+
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
-
-export const materialBlue = '#2196f3';
 
 export default {
   light: {

@@ -2,7 +2,7 @@ import {BarChart, Grid, XAxis} from 'react-native-svg-charts'
 import {Text} from 'react-native-svg';
 import React, {useMemo} from 'react';
 import {StyleProp, View, ViewStyle} from "react-native";
-import {materialBlue} from "../../constants/Colors";
+import {MATERIALBLUE} from "../../constants/Colors";
 
 type Data = { label: string, value: number }
 
@@ -57,7 +57,7 @@ const CustomBarChart = (props: Props) => {
                 data={dataset2}
                 numberOfTicks={4}
                 // gridMin={10}
-                svg={{fill: materialBlue}}
+                svg={{fill: MATERIALBLUE}}
                 yAccessor={({item}) => item.value}
                 contentInset={{top: 20, bottom: 20}}
                 spacingInner={0.8}

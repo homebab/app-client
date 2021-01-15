@@ -18,6 +18,7 @@ import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import Assets from "../../constants/Assets";
 import Layout from "../../constants/Layout";
 import useContainerAppSync from "../../hooks/useContainerAppSync";
+import Loading from "../../components/Loading";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -67,7 +68,7 @@ const ListItems: React.FC = () => {
 
     const navigation = useNavigation()
 
-    const {fridge} = useContainerAppSync();
+    const {isLoading, fridge} = useContainerAppSync();
     // const {containerState} = useContainerContext();
     // const {fridge} = containerState;
 
@@ -108,36 +109,43 @@ const ListItems: React.FC = () => {
         return category === '전체' ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
     }, [category, storage, fridge]);
 
-    return (
-        <>
-            {
-                isSearching ?
-                    <>
-                        <SearchBar
-                            placeholder={"식품을 직접 입력해주세요."} value={searchWord}
-                            onChangeText={text => setSearchWord(text)}
-                            onStartEditing={() => setIsSearching(true)}
-                            onEndEditing={() => setIsSearching(false)}
-                        />
-                        {ItemsGrid(filteredItems.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false))}
-                    </> :
-                    <>
-                        <HorizontalTypesView types={categories} pressedType={category}
-                                             onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
-                        <HorizontalTypesView types={storages} pressedType={storage}
-                                             onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
-                                             containerStyle={{padding: '8%', paddingTop: '6%', paddingBottom: '4%'}}/>
-                        {ItemsGrid(filteredItems)}
 
-                        <View style={styles.plusButton}>
-                            <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                                <AntDesign name="plus" size={20} color='white' style={{backgroundColor: 'black'}}/>
-                            </TouchableOpacity>
-                        </View>
-                    </>
-            }
-        </>
-    )
+    if (isLoading) return <Loading/>
+    else
+        return (
+            <>
+                {
+                    isSearching ?
+                        <>
+                            <SearchBar
+                                placeholder={"식품을 직접 입력해주세요."} value={searchWord}
+                                onChangeText={text => setSearchWord(text)}
+                                onStartEditing={() => setIsSearching(true)}
+                                onEndEditing={() => setIsSearching(false)}
+                            />
+                            {ItemsGrid(filteredItems.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false))}
+                        </> :
+                        <>
+                            <HorizontalTypesView types={categories} pressedType={category}
+                                                 onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
+                            <HorizontalTypesView types={storages} pressedType={storage}
+                                                 onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
+                                                 containerStyle={{
+                                                     padding: '8%',
+                                                     paddingTop: '6%',
+                                                     paddingBottom: '4%'
+                                                 }}/>
+                            {ItemsGrid(filteredItems)}
+
+                            <View style={styles.plusButton}>
+                                <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
+                                    <AntDesign name="plus" size={20} color='white' style={{backgroundColor: 'black'}}/>
+                                </TouchableOpacity>
+                            </View>
+                        </>
+                }
+            </>
+        )
 }
 
 export default ListItems;

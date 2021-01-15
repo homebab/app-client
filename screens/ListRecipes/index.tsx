@@ -8,6 +8,7 @@ import {EndPoints} from "../../constants/Endpoints";
 import {useContainerContext} from "../../contexts/Container";
 import {ActivityIndicator} from "react-native-paper";
 import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
+import Loading from "../../components/Loading";
 
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
@@ -34,8 +35,8 @@ export default function ListRecipes() {
     //         .catch(err => console.warn("[HOMEBAB]: fail to record with " + err))
     // }, []);
 
-    if (!data) {
-        return <RelativeCenterLayout><ActivityIndicator/></RelativeCenterLayout>
+    if (isLoading) {
+        return <Loading/>
     } else {
 
         // TODO: refactoring

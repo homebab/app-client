@@ -37,6 +37,7 @@ const isLAN = hostUrl.includes("localhost") || hostUrl.includes("127.0.0.1")
 const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
+        ...awsConfig.oauth,
         redirectSignIn: isLAN ? LANRedirectSignIn /*: isTunnel ? TunnelRedirectSignIn */: ProdRedirectSignIn,
         redirectSignOut: isLAN ? LANRedirectSignOut /*: isTunnel ? TunnelRedirectSignOut */: ProdRedirectSignOut,
     }

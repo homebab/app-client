@@ -40,7 +40,7 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
 const useFetchData = <T>(url: string, initialData: T) => {
 
     const [state, dispatch] = useReducer(reducer, {
-        isLoading: false,
+        isLoading: true,
         isError: false,
         data: initialData,
     });

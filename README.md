@@ -43,15 +43,28 @@ $ amplify status
 | Analytics | omtmAppService         | No Change | awscloudformation |
 ```
 ### Auth
-- [authentication](https://docs.amplify.aws/lib/auth/getting-started/q/platform/js) with AWS cognito
+- support only for a social(Google, Facebook) login with [Oauth](https://docs.amplify.aws/lib/auth/social/q/platform/js#oauth-and-federation-overview)
+  - Google
+  - Facebook
 
 ### DataStore (API GraphQL)
+- `amplify codegen models` generate models in `model/` by amplify graphql scheme
 ```shell
-> amplify codegen models
+$ amplify codegen models
 
 GraphQL schema compiled successfully.
 
 Edit your schema at /Users/jinhoon.bae/Projects/homebab/app-client/amplify/backend/api/homebab/schema.graphql or place .graphql files in a directory at /Users/jinhoon.bae/Projects/homebab/app-client/amplify/backend/api/homebab/schema
+```
+
+- interact with amplify datastore using the models
+
+```typescript
+import {Item as ItemModel} from "../models";
+
+async function fetchItems() {
+  const items = await DataStore.query(ItemModel)
+}
 ```
 
 ### Analytics
