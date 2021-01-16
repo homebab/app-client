@@ -66,6 +66,8 @@ const Landing = () => {
         // retrieve cachedUser
         Auth.currentAuthenticatedUser()
             .then((cachedUser: CognitoUser) => {
+                console.debug("[HOMEBAB]: success to retrieve ", cachedUser.getUsername())
+
                 accountDispatch({
                     type: 'SET_ACCOUNT',
                     account: {

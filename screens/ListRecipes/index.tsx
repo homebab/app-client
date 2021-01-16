@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
 import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import Layout from "../../constants/Layout";
 import RecipeCard from "../../components/RecipeCard";
@@ -9,6 +9,10 @@ import {useContainerContext} from "../../contexts/Container";
 import {ActivityIndicator} from "react-native-paper";
 import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import Loading from "../../components/Loading";
+import WebView from 'react-native-webview';
+import CrossIconButton from "../../components/CrossIconButton";
+import Search from "../../components/Search";
+import {useNavigation} from "@react-navigation/native";
 
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
@@ -24,21 +28,29 @@ export default function ListRecipes() {
     );
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [videoId, setVideoId] = useState<undefined | string>(undefined);
 
-    // useEffect(() => {
-    //     console.debug('[HOMEBAB]: test to record an event to AWS pinpoint');
-    //     Analytics.record({
-    //         name: 'PAGE_VIEW',
-    //         attributes: {pageType: 'ListRecipes'}
-    //     })
-    //         .then(res => console.debug("[HOMEBAB]: success to record an event through AWS pinpoint with " + JSON.stringify(res)))
-    //         .catch(err => console.warn("[HOMEBAB]: fail to record with " + err))
-    // }, []);
+    const navigation = useNavigation();
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () =>
+                videoId ?
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <CrossIconButton containerStyle={{marginRight: 16}} size={28}
+                                         onPress={() => setVideoId(undefined)}/>
+                    </View> :
+                    <></>
+                    // <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    //     <Search containerStyle={{marginRight: 16}} size={28}
+                    //             onPressHandler={() => setIsSearching(true)}/>
+                    // </View>
+        });
+    }, [videoId, navigation]);
 
     if (isLoading) {
         return <Loading/>
     } else {
-
         // TODO: refactoring
         const recipes = data[0].hits.hits
             .map(r => ({
@@ -50,23 +62,27 @@ export default function ListRecipes() {
 
         return (
             <View style={styles.container}>
-                <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={() => {
-                                        setRefreshing(true)
-                                        setRefreshing(false)
-                                    }}
-                                />
-                            }
-                >
-                    {recipes.map((recipe, key) => {
-                        return (<RecipeCard key={key} recipe={recipe}/>)
-                    })}
-                </ScrollView>
-                {/*<MaterialCommunityIcons name="chef-hat" size={100} color="black"/>*/}
-                {/*<Text style={{marginTop: 8, fontSize: 28}}>Coming Soon</Text>*/}
+                {!videoId ?
+                    <ScrollView style={{backgroundColor: "#f2f2f2"}}
+                                refreshControl={
+                                    <RefreshControl refreshing={refreshing}
+                                                    onRefresh={() => {
+                                                        setRefreshing(true)
+                                                        setRefreshing(false)
+                                                    }}
+                                    />}>
+                        {
+                            recipes.map((recipe: any, k: number) => {
+                                return (<RecipeCard key={k} recipe={recipe}
+                                                    onPress={() => setVideoId(recipe.info.external_id)}/>)
+                            })
+                        }
+                    </ScrollView> :
+                    <WebView
+                        javaScriptEnabled={true}
+                        allowsFullscreenVideo={true}
+                        source={{uri: `https://m.youtube.com/watch?v=${videoId}`}}
+                    />}
             </View>
         );
     }
