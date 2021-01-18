@@ -26,7 +26,8 @@
       "favicon": "./assets/images/logo/logo.png"
     },
     "android": {
-      "package": "com.meowailand.homebab"
+      "package": "com.meowailand.homebab",
+      "permissions": ["CAMERA"]
     }
   }
 }

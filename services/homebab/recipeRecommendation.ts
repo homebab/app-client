@@ -1,4 +1,5 @@
 import {EndPoints} from "../../constants/Endpoints";
+import {Item} from "../../contexts/Container";
 import {handleHttpStatus} from "../HttpStatus";
 
 const prefix = "/omtm/recipe-recommender"
@@ -26,3 +27,11 @@ export const recommendRecipes = (ingredients: string, size: number) => new Promi
         });
 
 });
+
+
+export const buildRecipeRecommendationEndPoint = (fridge: Array<Item>) => EndPoints.buildAPIPath("/recommend-recipes", "/recipe-recommender",
+    {
+        ingredients: fridge.length > 0 ? fridge
+            .map(i => i.name.replace('\n', ' '))
+            .join(",") : '인기, 간단', size: 5
+    })
