@@ -1,7 +1,7 @@
-import React, {useMemo} from "react";
-import {FRIDGE, Item, useContainerContext, UUID} from "../../contexts/Container";
+import React from "react";
+import {FRIDGE} from "../../contexts/Container";
 import VerticalAnalyticsLayout from "../../layouts/VerticalAnalyticsLayout";
-import {imageKeys} from "../../constants/Ingredients";
+import {getImageKey} from "../../constants/Ingredients";
 import {Text, View} from "react-native";
 import Avatar from "../Avatar";
 import Assets from "../../constants/Assets";
@@ -14,7 +14,7 @@ type Props = {
 
 const UsageCycleAnalytics = (props: Props) => {
 
-     const {fridge} = props;
+    const {fridge} = props;
 
     // const tempData = [7, 2, 9, 15, 18, 3, 8, 4, 14, 7, 2, 28, 15, 18, 3, 8, 4, 14]
     //
@@ -43,7 +43,7 @@ const UsageCycleAnalytics = (props: Props) => {
 
             {Array.from(fridge.values()).map((item, key) => {
                 const dataset = [...Array(2)].map(_ => Math.round(Math.random() * 36 + 1));
-                const avatarKey = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
+                const avatarKey = getImageKey(item.name);
                 return (
                     <View key={key} style={{
                         flexDirection: 'row', height: 80, width: '100%', justifyContent: 'space-between',
@@ -65,11 +65,11 @@ const UsageCycleAnalytics = (props: Props) => {
                                         fill: 'black',
                                         fontSize: 14,
                                     }}
-                                    yAccessor={({ index }) => index}
+                                    yAccessor={({index}) => index}
                                     numberOfTicks={1}
                                     contentInset={{top: 10, bottom: 10}}
                                     spacing={0.2}
-                                    formatLabel={(_, index) => index == 0? '총': '12월'}
+                                    formatLabel={(_, index) => index == 0 ? '총' : '12월'}
                                 />
                                 <BarChart
                                     style={{flex: 1, marginLeft: 8}}

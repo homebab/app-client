@@ -1,4 +1,4 @@
-import {DispatchWithoutAction, useEffect, useReducer, useState} from "react";
+import {DependencyList, DispatchWithoutAction, useEffect, useReducer, useState} from "react";
 
 type Action<T> =
     | { type: "FETCH_INIT" }
@@ -37,12 +37,13 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
     }
 };
 
-const useFetchData = <T>(url: string, initialData: T) => {
+const useFetchData = <T>(initialUrl: string, initialData: T, deps?: Array<any>) => {
     const [state, dispatch] = useReducer(reducer, {
         isLoading: true,
         isError: false,
         data: initialData,
     });
+    const [url, setUrl] = useState(initialUrl)
 
     useEffect(() => {
         console.log(url)
@@ -71,9 +72,9 @@ const useFetchData = <T>(url: string, initialData: T) => {
         return () => {
             didCancel = true;
         };
-    }, [url]);
+    }, [url].concat(deps ?? []));
 
-    return state;
+    return {state, setUrl};
 };
 
 export default useFetchData;

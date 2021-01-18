@@ -18,14 +18,14 @@ import {Recipe, RecipeHit, RecipeRecommendationResponse, sourceToRecipe} from ".
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
-    const {isLoading, isError, data} = useFetchData<RecipeRecommendationResponse>(
+    const {state: {isLoading, isError, data}, setUrl: fetchData} = useFetchData<RecipeRecommendationResponse>(
         EndPoints.buildAPIPath("/recommend-recipes", "/recipe-recommender",
             {
                 ingredients: fridge.length > 0 ? fridge
                     .map(i => i.name.replace('\n', ' '))
                     .join(",") : '인기, 간단', size: 5
             }
-        ), []);
+        ), [], [fridge]);
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [videoId, setVideoId] = useState<undefined | string>(undefined);

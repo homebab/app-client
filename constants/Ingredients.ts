@@ -1,3 +1,6 @@
+import { Item } from "../contexts/Container";
+import Assets from "./Assets";
+
 export interface Ingredients {
     채소: string[],
     과일: string[],
@@ -9,7 +12,8 @@ export interface Ingredients {
     기타: string[],
 }
 
-export const imageKeys = ['고구마', '감자', '애호박', '새우', '고등어,꽁치', '사과', '케찹', '토마토', '김치', '바나나']
+export const imageKeys = Object.keys(Assets.FoodImages)
+export const getImageKey = (itemName: string) => imageKeys.filter(key => itemName.includes(key)).sort((a, b) => b.length - a.length)[0];
 
 export const Ingredients: Ingredients = {
     채소: [

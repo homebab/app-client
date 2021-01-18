@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Text, TextInput, TouchableOpacity, View, ViewStyle} from "react-native";
 import Avatar from "../../components/Avatar";
 import Assets from "../../constants/Assets";
@@ -9,7 +9,7 @@ import {formatMemo} from "../../validators/format";
 import {Storage} from "../../types/Storage";
 import DeleteItemModal from "../../components/DeleteItemModal";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { imageKeys } from "../../constants/Ingredients";
+import {getImageKey} from "../../constants/Ingredients";
 import { leftDays } from "../../hooks/useShelfLifeAnalytics";
 import ButtonList from "../../components/ButtonList";
 import {updateItem} from "../../services/aws/appsync"
@@ -112,7 +112,7 @@ const DetailItem = (props: Props) => {
     }
 
     const ItemAvatar = () => {
-        const key = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
+        const key = getImageKey(item.name);
         const avatarSize = 58;
         const padding = 14;
         return (

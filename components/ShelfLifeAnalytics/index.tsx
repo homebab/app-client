@@ -4,7 +4,7 @@ import CustomPieChart from "../PieChart";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import React from "react";
 import Avatar from "../Avatar";
-import {imageKeys} from "../../constants/Ingredients";
+import {getImageKey} from "../../constants/Ingredients";
 import Assets from "../../constants/Assets";
 import {Item, useContainerContext} from "../../contexts/Container";
 import AbsoluteCenterLayout from "../../layouts/AbsoluteCenterLayout";
@@ -25,7 +25,7 @@ const ShelfLifeAnalytics = () => {
 
     // TODO: will be optimized for data structure array
     const topRiskItem: Item = fridge.filter(i => i.id == itemLeftDays.sort((a, b) => a.leftDays - b.leftDays)[0].id)[0] as Item
-    const avatarKey = imageKeys.filter(key => key.includes(topRiskItem.name) || topRiskItem.name.includes(key))[0];
+    const avatarKey = getImageKey(topRiskItem.name);
 
     return (
         <>

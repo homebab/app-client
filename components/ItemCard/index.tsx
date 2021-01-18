@@ -4,7 +4,7 @@ import {styles} from "./styles";
 import {BasketItem, Item} from "../../contexts/Container";
 import Avatar from "../Avatar";
 import Assets from "../../constants/Assets";
-import {imageKeys} from "../../constants/Ingredients";
+import {getImageKey} from "../../constants/Ingredients";
 
 type Props = {
     item: Item | BasketItem,
@@ -16,7 +16,7 @@ type Props = {
 
 const ItemCard = (props: Props) => {
     const {item, containerStyle, avatarStyle, iconSize} = props;
-    const key = imageKeys.filter(key => key.includes(item.name) || item.name.includes(key))[0];
+    const key = getImageKey(item.name);
     // const [image, setImage] = useState({uri: `https://omtm-production.s3.ap-northeast-2.amazonaws.com/app-service/client/images/ingredients/${encodeURIComponent(item.name)}.png`});
 
     // TODO: It is just used in order to check rerender. It will be removed
@@ -25,8 +25,8 @@ const ItemCard = (props: Props) => {
     return (
         <View style={[styles.container, containerStyle]}>
             <Avatar containerStyle={[{padding: 8, bottom: 12}, avatarStyle]}
-                    // @ts-ignore
-                    source={Assets.FoodImages[key? key: 'default']}
+                // @ts-ignore
+                    source={Assets.FoodImages[key ? key : 'default']}
                 // onError={() => setImage(require('../../../app-client/assets/images/ingredients.png'))}
                     size={iconSize ? iconSize : 44}/>
             <Text style={{fontFamily: 'nanum-square-round'}}>{item.name}</Text>
