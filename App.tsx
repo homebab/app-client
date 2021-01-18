@@ -13,6 +13,7 @@ import Amplify from 'aws-amplify'
 // @ts-ignore
 import awsConfig from './aws-exports'
 import ContainerController from "./contexts/Container";
+import {AppLoading} from "expo";
 
 
 const [
@@ -38,8 +39,8 @@ const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
         ...awsConfig.oauth,
-        redirectSignIn: isLAN ? LANRedirectSignIn /*: isTunnel ? TunnelRedirectSignIn */: ProdRedirectSignIn,
-        redirectSignOut: isLAN ? LANRedirectSignOut /*: isTunnel ? TunnelRedirectSignOut */: ProdRedirectSignOut,
+        redirectSignIn: isLAN ? LANRedirectSignIn /*: isTunnel ? TunnelRedirectSignIn */ : ProdRedirectSignIn,
+        redirectSignOut: isLAN ? LANRedirectSignOut /*: isTunnel ? TunnelRedirectSignOut */ : ProdRedirectSignOut,
     }
 }
 
@@ -53,7 +54,7 @@ const App: React.FC = () => {
     const colorScheme = useColorScheme();
 
     if (!isLoadingComplete) {
-        return null;
+        return null
     } else {
         return (
             <SafeAreaProvider>

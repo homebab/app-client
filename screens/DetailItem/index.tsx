@@ -12,7 +12,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { imageKeys } from "../../constants/Ingredients";
 import { leftDays } from "../../hooks/useShelfLifeAnalytics";
 import ButtonList from "../../components/ButtonList";
-import {updateItem} from "../../hooks/useContainerAppSync";
+import {updateItem} from "../../services/aws/appsync"
 
 
 const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
@@ -119,7 +119,7 @@ const DetailItem = (props: Props) => {
             <View style={{alignItems: 'center', marginBottom: 24}}>
                 <Avatar containerStyle={{position: "absolute", top: -40, padding: padding, width: avatarSize + padding*2}}
                     // @ts-ignore
-                        source={Assets.Image[key? key: '토마토']}
+                        source={Assets.FoodImages[key? key: 'default']}
                         size={avatarSize}/>
                 <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
 

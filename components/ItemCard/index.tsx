@@ -26,7 +26,7 @@ const ItemCard = (props: Props) => {
         <View style={[styles.container, containerStyle]}>
             <Avatar containerStyle={[{padding: 8, bottom: 12}, avatarStyle]}
                     // @ts-ignore
-                    source={Assets.Image[key? key: '토마토']}
+                    source={Assets.FoodImages[key? key: 'default']}
                 // onError={() => setImage(require('../../../app-client/assets/images/ingredients.png'))}
                     size={iconSize ? iconSize : 44}/>
             <Text style={{fontFamily: 'nanum-square-round'}}>{item.name}</Text>
@@ -34,4 +34,4 @@ const ItemCard = (props: Props) => {
     );
 }
 
-export default React.memo(ItemCard);
+export default ItemCard;

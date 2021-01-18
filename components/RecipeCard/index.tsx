@@ -3,6 +3,9 @@ import * as React from "react";
 import {useState} from "react";
 import Layout from "../../constants/Layout";
 import {Entypo, EvilIcons} from "@expo/vector-icons";
+import {YOUTUBE_API_KEY} from "react-native-dotenv";
+import {Recipe, RecipeHit} from "../../types/Recipe";
+import {EndPoints} from "../../constants/Endpoints";
 
 const RecipeHeader = ({title}: {title: string}) => {
     return (
@@ -32,36 +35,34 @@ const RecipeHeader = ({title}: {title: string}) => {
                     }
                 </View>
 
-                <View style={{position: "absolute", right: 0, flexDirection: "row", alignItems: "center"}}>
-                    <View style={{marginRight: 12}}>
-                        <EvilIcons name="heart" size={28} color="#bfbfbf"/>
-                    </View>
-                    <View style={{marginRight: 12}}>
-                        <EvilIcons name="share-apple" size={28} color="#bfbfbf"/>
-                    </View>
-                    <View>
-                        <EvilIcons name="sc-youtube" size={28} color="#bfbfbf"/>
-                    </View>
-                </View>
+                {/*<View style={{position: "absolute", right: 0, flexDirection: "row", alignItems: "center"}}>*/}
+                {/*    <View style={{marginRight: 12}}>*/}
+                {/*        <EvilIcons name="heart" size={28} color="#bfbfbf"/>*/}
+                {/*    </View>*/}
+                {/*    <View style={{marginRight: 12}}>*/}
+                {/*        <EvilIcons name="share-apple" size={28} color="#bfbfbf"/>*/}
+                {/*    </View>*/}
+                {/*    <View>*/}
+                {/*        <EvilIcons name="sc-youtube" size={28} color="#bfbfbf"/>*/}
+                {/*    </View>*/}
+                {/*</View>*/}
             </View>
         </View>
     )
 }
 
 type Props = {
-    recipe: any,
+    recipeHit: RecipeHit<Recipe>,
     onPress: () => void,
 }
 
 const RecipeCard = (props: Props) => {
-    const {recipe, onPress} = props
-    const {info, score} = recipe
-    const {kind, external_id, published_at, publisher, title, description, thumbnails} = info
+    const {recipeHit, onPress} = props
+    const {_source} = recipeHit
+    const {kind, videoId, publishedAt, publisher, title, description, thumbnails} = _source
 
     const [validUrl, setValidUrl] = useState(true);
     const imageUrl = thumbnails.standard.url;
-    const videoId = external_id
-    // console.log(imageUrl)
 
     // 16:9
     const videoHeight = Layout.window.width * 9 / 16;
@@ -69,7 +70,7 @@ const RecipeCard = (props: Props) => {
     if (validUrl) {
         return (
             <View style={{marginBottom: 12, borderTopWidth: 0.1, borderColor: '#ababab', backgroundColor: "#fffdfb"}}>
-                <RecipeHeader title={info.title}/>
+                <RecipeHeader title={_source.title}/>
 
                 <View>
                     <TouchableOpacity onPress={onPress}>

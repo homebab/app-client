@@ -1,4 +1,4 @@
-import {useEffect, useReducer, useState} from "react";
+import {DispatchWithoutAction, useEffect, useReducer, useState} from "react";
 
 type Action<T> =
     | { type: "FETCH_INIT" }
@@ -38,7 +38,6 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
 };
 
 const useFetchData = <T>(url: string, initialData: T) => {
-
     const [state, dispatch] = useReducer(reducer, {
         isLoading: true,
         isError: false,
@@ -58,7 +57,7 @@ const useFetchData = <T>(url: string, initialData: T) => {
 
                 if (!didCancel) {
                     console.debug(`[HOMEBAB]: success to fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 100)}`)
-                    dispatch({type: 'FETCH_SUCCESS', payload: jsonData});
+                    dispatch({type: 'FETCH_SUCCESS', payload: jsonData as T});
                 }
             } catch (error) {
                 if (!didCancel) {

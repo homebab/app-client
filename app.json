@@ -4,12 +4,12 @@
     "slug": "app-client",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo/logo.png",
     "scheme": "homebab",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -20,13 +20,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.meowai.homebab"
+      "bundleIdentifier": "com.meowailand.homebab"
     },
     "web": {
-      "favicon": "./assets/images/icon.png"
+      "favicon": "./assets/images/logo/logo.png"
     },
     "android": {
-      "package": "com.meowai.homebab"
+      "package": "com.meowailand.homebab"
     }
   }
 }

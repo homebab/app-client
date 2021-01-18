@@ -1,3 +1,25 @@
+export const formatUserName = (name: string) => {
+    if (name.length > 12) {
+        alert("12자 이하로 입력하시오.")
+        return name.slice(0, 12)
+    } else return name
+}
+
+export const formatTag = (text: string) => {
+    if (text.length > 10) {
+        alert("10자 이내로 입력하시오.")
+        return text.slice(0, 10)
+    } else return text
+}
+
+export const formatMemo = (text: string) => {
+    if (text.length > 100) {
+
+        alert("100자 이내로 입력하시오.")
+        return text.slice(0, 100)
+    } else return text
+}
+
 export const formatDate = (date: string) => {
     // TODO: handle exception that the input '2020-1-21' is not available, just available for '2020-12-1;
     const delimiter = '-';
@@ -38,19 +60,4 @@ export const formatDate = (date: string) => {
         return str + delimiter + mid + delimiter + end;
     }
 
-}
-
-export const formatTag = (text: string) => {
-    if (text.length > 10) {
-        alert("10자 이내로 입력하시오.")
-        return text.slice(0, 9)
-    } else return text
-}
-
-export const formatMemo = (text: string) => {
-    if (text.length > 100) {
-
-        alert("100자 이내로 입력하시오.")
-        return text.slice(0, 100)
-    } else return text
 }

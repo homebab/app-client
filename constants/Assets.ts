@@ -12,6 +12,11 @@ const Image = {
     emptyFridge: require('../../app-client/assets/images/emptyFridge.png'),
     emptyUser: require('../../app-client/assets/images/emptyUser.png'),
     ingredients: require('../../app-client/assets/images/ingredients.png'),
+
+};
+
+const FoodImages = {
+    default: require('../../app-client/assets/images/food/default.png'),
     사과: require('../../app-client/assets/images/food/사과.png'),
     감자: require('../../app-client/assets/images/food/감자.png'),
     고구마: require('../../app-client/assets/images/food/고구마.png'),
@@ -22,14 +27,10 @@ const Image = {
     케찹: require('../../app-client/assets/images/food/케찹.png'),
     바나나: require('../../app-client/assets/images/food/바나나.png'),
     김치: require('../../app-client/assets/images/food/김치.png')
-
-
-
-
-};
+}
 
 const Assets = {
-    Image
+    Image, FoodImages
 };
 
 export default Assets;

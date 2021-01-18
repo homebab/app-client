@@ -1,5 +1,6 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
 import {CognitoUser} from "amazon-cognito-identity-js";
+import {MyCognitoUser} from "../../services/aws/cognito";
 
 export type Profile = {
     // TODO: strengthen security
@@ -19,7 +20,7 @@ export type Alarm = {
 
 export type Account = {
     profile?: Profile,
-    cognitoUser: CognitoUser | undefined,
+    cognitoUser: MyCognitoUser | undefined,
     alarm: Alarm,
     isAuthenticated: boolean
 }

@@ -13,3 +13,5 @@ export function chunkArray<T>(myArray: Array<T>, chunk_size: number): T[][] {
 
     return chunked;
 }
+
+export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));

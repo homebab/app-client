@@ -7,8 +7,9 @@ import {Feather} from '@expo/vector-icons';
 import {styles} from "./style"
 import useWasteAmount from "../../hooks/useWasteAmount";
 import {Item, useContainerContext} from "../../contexts/Container";
-import useContainerAppSync, {deleteItem} from "../../hooks/useContainerAppSync";
+import useContainerAppSync from "../../hooks/useContainerAppSync";
 import {Analytics} from "aws-amplify";
+import {deleteItem} from "../../services/aws/appsync";
 
 type Props = {
     item: Item

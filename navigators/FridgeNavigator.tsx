@@ -13,7 +13,8 @@ import Search from "../components/Search";
 import {useNavigation} from "@react-navigation/native";
 import {useContainerContext} from "../contexts/Container";
 import {FridgeNaviParamList} from "../types/Navigators";
-import useContainerAppSync, {createItem} from "../hooks/useContainerAppSync";
+import useContainerAppSync from "../hooks/useContainerAppSync";
+import {createItem} from "../services/aws/appsync";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 

@@ -13,19 +13,19 @@ import WebView from 'react-native-webview';
 import CrossIconButton from "../../components/CrossIconButton";
 import Search from "../../components/Search";
 import {useNavigation} from "@react-navigation/native";
+import {Recipe, RecipeHit, RecipeRecommendationResponse, sourceToRecipe} from "../../types/Recipe";
 
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
-    const {isLoading, isError, data} = useFetchData<any>(
-        EndPoints.buildAPIPath("/recommend-recipes", "/omtm/recipe-recommender",
+    const {isLoading, isError, data} = useFetchData<RecipeRecommendationResponse>(
+        EndPoints.buildAPIPath("/recommend-recipes", "/recipe-recommender",
             {
                 ingredients: fridge.length > 0 ? fridge
                     .map(i => i.name.replace('\n', ' '))
                     .join(",") : '인기, 간단', size: 5
             }
-        ), null
-    );
+        ), []);
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [videoId, setVideoId] = useState<undefined | string>(undefined);
@@ -41,10 +41,10 @@ export default function ListRecipes() {
                                          onPress={() => setVideoId(undefined)}/>
                     </View> :
                     <></>
-                    // <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    //     <Search containerStyle={{marginRight: 16}} size={28}
-                    //             onPressHandler={() => setIsSearching(true)}/>
-                    // </View>
+            // <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            //     <Search containerStyle={{marginRight: 16}} size={28}
+            //             onPressHandler={() => setIsSearching(true)}/>
+            // </View>
         });
     }, [videoId, navigation]);
 
@@ -52,13 +52,7 @@ export default function ListRecipes() {
         return <Loading/>
     } else {
         // TODO: refactoring
-        const recipes = data[0].hits.hits
-            .map(r => ({
-                id: r._id,
-                score: r._score,
-                info: r._source
-            }));
-        // console.log(recipes[0].info.thumbnails)
+        const recipeHits: Array<RecipeHit<Recipe>> = sourceToRecipe(data as RecipeRecommendationResponse)
 
         return (
             <View style={styles.container}>
@@ -72,8 +66,8 @@ export default function ListRecipes() {
                                                     }}
                                     />}>
                         {
-                            recipes.map((recipe: any, k: number) => {
-                                return (<RecipeCard key={k} recipe={recipe}
+                            recipeHits.map((recipe: any, k: number) => {
+                                return (<RecipeCard key={k} recipeHit={recipe}
                                                     onPress={() => setVideoId(recipe.info.external_id)}/>)
                             })
                         }

@@ -7,6 +7,7 @@ import {useAccountContext} from "../../contexts/Account";
 import {Auth, DataStore, Hub} from 'aws-amplify';
 import SignIn from '../../components/SignIn';
 import {CognitoUser} from "amazon-cognito-identity-js";
+import {MyCognitoUser, updateUser} from "../../services/aws/cognito";
 
 
 const Landing = () => {
@@ -34,9 +35,10 @@ const Landing = () => {
 
     useEffect(() => {
         Hub.listen("auth", async ({payload: {event, data}}) => {
+            console.debug(`[AMPLIFY_HUB]: listen event, ${event}`)
             switch (event) {
                 case "signIn":
-                    const cognitoUser: CognitoUser = data
+                    const cognitoUser: MyCognitoUser = data
                     console.debug("[HOMEBAB]: success to signIn for", cognitoUser.getUsername())
 
                     accountDispatch({
@@ -59,13 +61,13 @@ const Landing = () => {
                     break;
                 case "signOut":
                     accountDispatch({type: 'DEAUTHENTICATE'});
-                    console.debug("[HOMEBAB]: success to sign out", data)
+                    console.debug("[HOMEBAB]: success to sign out", data.getUsername())
             }
         });
 
         // retrieve cachedUser
         Auth.currentAuthenticatedUser()
-            .then((cachedUser: CognitoUser) => {
+            .then((cachedUser: MyCognitoUser) => {
                 console.debug("[HOMEBAB]: success to retrieve ", cachedUser.getUsername())
 
                 accountDispatch({
