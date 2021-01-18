@@ -25,25 +25,25 @@ export default function ListRecipes() {
     useEffect(() => {fetchData(buildRecipeRecommendationEndPoint(fridge))}, [fridge]);
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
-    const [videoId, setVideoId] = useState<undefined | string>(undefined);
+    const [videoUrl, setVideoUrl] = useState<undefined | string>(undefined);
 
     const navigation = useNavigation();
 
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                videoId ?
+                videoUrl ?
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <CrossIconButton containerStyle={{marginRight: 16}} size={28}
-                                         onPress={() => setVideoId(undefined)}/>
+                                         onPress={() => setVideoUrl(undefined)}/>
                     </View> :
-                    <></>
+                    <Search containerStyle={{marginRight: 16}} onPress={() => setVideoUrl("https://m.youtube.com")}/>
             // <View style={{flexDirection: 'row', alignItems: 'center'}}>
             //     <Search containerStyle={{marginRight: 16}} size={28}
             //             onPressHandler={() => setIsSearching(true)}/>
             // </View>
         });
-    }, [videoId, navigation]);
+    }, [videoUrl, navigation]);
 
     if (isLoading) {
         return <Loading/>
@@ -53,7 +53,7 @@ export default function ListRecipes() {
 
         return (
             <View style={styles.container}>
-                {!videoId ?
+                {!videoUrl ?
                     <ScrollView style={{backgroundColor: "#f2f2f2"}}
                                 // refreshControl={<RefreshControl refreshing={false}
                                 //                                 onRefresh={() => {
@@ -63,16 +63,16 @@ export default function ListRecipes() {
                                 //                                 }}/>}
                     >
                         {
-                            recipeHits.map((recipe: any, k: number) => {
+                            recipeHits.map((recipe: RecipeHit<Recipe>, k: number) => {
                                 return (<RecipeCard key={k} recipeHit={recipe}
-                                                    onPress={() => setVideoId(recipe.info.external_id)}/>)
+                                                    onPress={() => setVideoUrl(`https://m.youtube.com/watch?v=${recipe._source.videoId}`)}/>)
                             })
                         }
                     </ScrollView> :
                     <WebView
                         javaScriptEnabled={true}
                         allowsFullscreenVideo={true}
-                        source={{uri: `https://m.youtube.com/watch?v=${videoId}`}}
+                        source={{uri: videoUrl}}
                     />}
             </View>
         );

@@ -85,7 +85,7 @@ const ListItems: React.FC = () => {
                     </View> :
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Search containerStyle={{marginRight: 16}} size={28}
-                                onPressHandler={() => setIsSearching(true)}/>
+                                onPress={() => setIsSearching(true)}/>
                     </View>
         });
     }, [isSearching, navigation]);

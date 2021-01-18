@@ -5,14 +5,14 @@ import * as React from "react";
 type Props = {
     containerStyle?: StyleProp<ViewStyle>,
     size?: number,
-    onPressHandler?: (event: GestureResponderEvent) => void,
+    onPress?: (event: GestureResponderEvent) => void,
 }
 const Search = (props: Props) => {
 
-    const {containerStyle, size, onPressHandler} = props;
+    const {containerStyle, size, onPress} = props;
 
     return (
-        <TouchableOpacity style={containerStyle} onPress={onPressHandler}>
+        <TouchableOpacity style={containerStyle} onPress={onPress}>
             <Ionicons
                 name="ios-search"
                 size={size? size: 28}
