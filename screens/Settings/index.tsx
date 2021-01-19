@@ -110,20 +110,12 @@ const SetAlarm = () => {
 
 const Profile = () => {
     const {accountState} = useAccountContext();
-    const {cognitoUser} = accountState;
+    const {customAttributes} = accountState;
 
     const ref = useRef(null);
     const [editableName, setEditableName] = useState(false);
-    const [name, setName] = useState('undefined')
-
-    useEffect(() => {
-        getUserAttributes()
-            .then(res => res["custom:name"] ?
-                setName(res["custom:name"]) :
-                updateUser(cognitoUser!.getUsername().slice(0, 12), '')
-                    .then(attr => setName(attr["custom:name"]))
-            )
-    }, [cognitoUser?.attributes])
+    const [name, setName] = useState(customAttributes.name ?? 'undefined')
+    const [image, setImage] = useState(customAttributes.image ?? 'undefined')
 
     const avatarSize = 140
     return (
@@ -140,7 +132,7 @@ const Profile = () => {
                            style={[{fontSize: 24, padding: 12}, editableName && {backgroundColor: '#f2f2f2'}]}/>
                 <TouchableOpacity style={{position: "absolute", right: '4%'}}
                                   onPress={() => {
-                                      if (editableName) updateUser(name, '')
+                                      if (editableName) updateUser(name, image)
                                       setEditableName(!editableName)
                                   }}>
                     <MaterialIcons name={editableName ? "save" : 'edit'} size={24} color="black"/>

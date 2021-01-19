@@ -1,26 +1,20 @@
 import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
-import {CognitoUser} from "amazon-cognito-identity-js";
-import {MyCognitoUser} from "../../services/aws/cognito";
-
-export type Profile = {
-    // TODO: strengthen security
-    id: number; // omtm RDB id
-    // socialId?: string;
-    email: string;
-    name: string;
-    age?: number;
-    gender?: string;
-    imageUrl?: string;
-};
+import {CognitoUser, CognitoUserPool} from "amazon-cognito-identity-js";
+import {MyCognitoAttributes, MyCognitoUser} from "../../services/aws/cognito";
 
 export type Alarm = {
     manageIngredients: boolean,
     recommendRecipes: boolean
 }
 
+export type CustomAttributes = {
+    name?: string,
+    image?: string
+}
+
 export type Account = {
-    profile?: Profile,
-    cognitoUser: MyCognitoUser | undefined,
+    cognitoUser: MyCognitoUser,
+    customAttributes: CustomAttributes,
     alarm: Alarm,
     isAuthenticated: boolean
 }
@@ -29,7 +23,7 @@ export type Action =
     | { type: "FLUSH" }
     | { type: "SET_ACCOUNT", account: Account }
     | { type: "DEAUTHENTICATE" }
-    | { type: "SET_ALARM", alarm: Alarm}
+    | { type: "SET_ALARM", alarm: Alarm }
 
 type Props = {
     reducer: Reducer<Account, Action>;
@@ -42,7 +36,8 @@ type ContextProps = {
 }
 
 export const initialAccount: Account = {
-    cognitoUser: undefined,
+    cognitoUser: {} as MyCognitoUser,
+    customAttributes: {},
     alarm: {
         manageIngredients: false,
         recommendRecipes: false

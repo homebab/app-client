@@ -2,7 +2,7 @@ import {Auth} from "aws-amplify";
 import {CognitoUser} from "amazon-cognito-identity-js";
 
 
-type MyCognitoAttributes = { 'custom:name': string, 'custom:image': string }
+export type MyCognitoAttributes = { 'custom:name': string, 'custom:image': string }
 
 export type MyCognitoUser = CognitoUser & { attributes: MyCognitoAttributes; }
 
