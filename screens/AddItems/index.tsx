@@ -82,7 +82,7 @@ const AddItems = () => {
     return (
         <>
             <SearchBar
-                placeholder={"식품 이름을 입력해주세요."} value={searchWord}
+                placeholder={"식품을 입력해주세요."} value={searchWord}
                 onChangeText={text => setSearchWord(text)}
                 onStartEditing={() => setIsSearching(true)}
                 onEndEditing={() => {
