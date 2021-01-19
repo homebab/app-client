@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useMemo, useRef, useState} from "react";
-import {imageKeys, Ingredients} from "../../constants/Ingredients";
+import {imageKeys, ingredientObj, ingredients} from "../../constants/Ingredients";
 import {BasketItem, useContainerContext} from "../../contexts/Container";
 import ItemCard from "../../components/ItemCard";
 import {GestureResponderEvent, ScrollView, TouchableOpacity, View, Text, PointPropType} from "react-native";
@@ -68,19 +68,6 @@ const AddItems = () => {
         containerDispatch({type: 'FLUSH_BASKET'})
         console.debug("[HOMEBAB]: success to FLUSH_BASKET")
     }, [])
-
-    const ingredientObj = useMemo(() => Object.keys(Ingredients)
-            .map(key => ({
-                [key]: Ingredients[key as keyof Ingredients].map(name => ({
-                    name: name,
-                    category: key as Category
-                }))
-            }))
-            .reduce((val, acc) => ({...val, ...acc}))
-        , [Ingredients])
-
-    const ingredients = useMemo(() => Object.values(ingredientObj)
-        .reduce((acc, val) => acc.concat(val)), [ingredientObj])
 
     const categories = ["전체"].concat(Object.values(Category));
     const [category, setCategory] = useState<Category | string>(categories[0]);

@@ -1,5 +1,7 @@
-import { Item } from "../contexts/Container";
+import {Item} from "../contexts/Container";
 import Assets from "./Assets";
+import {useMemo} from "react";
+import {Category} from "../types/Category";
 
 export interface Ingredients {
     채소: string[],
@@ -14,6 +16,7 @@ export interface Ingredients {
 
 export const imageKeys = Object.keys(Assets.FoodImages)
 export const getImageKey = (itemName: string) => imageKeys.filter(key => itemName.includes(key)).sort((a, b) => b.length - a.length)[0];
+
 
 export const Ingredients: Ingredients = {
     채소: [
@@ -47,7 +50,7 @@ export const Ingredients: Ingredients = {
     ],
 
     과일: [
-        "사과", "귤", "바나나", "딸기", "배","블루베리", "키위", "단감", "토마토", "방울토마토",
+        "사과", "귤", "바나나", "딸기", "배", "블루베리", "키위", "단감", "토마토", "방울토마토",
         "곶감", "망고", "석류", "건포도", "파인애플", "크랜베리", "푸룬", "오렌지", "아보카도", "라임",
         "건블루베리", "청포도", "복분자", "한라봉", "자몽", "레몬", "건체리", "건사과", "자두", "살구",
         "미니토마토", "오디", "참외", "라즈베리", "산딸기", "건자두", "메론", "수박", "용과", "모듬건과일",
@@ -61,7 +64,7 @@ export const Ingredients: Ingredients = {
         "소고기\n안심", "소고기\n등심", "소고기\n샤브샤브용", "소고기\n육포", "소고기\n다짐육",
         "소고기\n우둔살", "소고기\n사골", "소고기\n사태", "소고기\n갈비", "소고기\n도가니",
         "소고기\n살치살", "소고기\n우족", "소고기\n장조림용", "소고기\n산적용", "소고기\n육회용",
-        "소고기\n채끝살", "소 간","소고기\n홍두깨살", "소 곱창", "소 꼬리", "소고기\n부채살",
+        "소고기\n채끝살", "소 간", "소고기\n홍두깨살", "소 곱창", "소 꼬리", "소고기\n부채살",
 
         // 돼지고기
         "돼지고기\n국거리용", "돼지고기\n구이용", "돼지고기\n삼겹살", "돼지고기\n다짐육", "돼지고기\n목심",
@@ -223,3 +226,16 @@ export const Ingredients: Ingredients = {
         "씨리얼", "초콜릿", "과자", "아이스크림"
     ]
 }
+
+
+export const ingredientObj = Object.keys(Ingredients)
+    .map(key => ({
+        [key]: Ingredients[key as keyof Ingredients].map(name => ({
+            name: name,
+            category: key as Category
+        }))
+    }))
+    .reduce((val, acc) => ({...val, ...acc}))
+
+export const ingredients = Object.values(ingredientObj)
+    .reduce((acc, val) => acc.concat(val))
