@@ -13,34 +13,38 @@ import Amplify from 'aws-amplify'
 // @ts-ignore
 import awsConfig from './aws-exports'
 import ContainerController from "./contexts/Container";
-import {AppLoading} from "expo";
 
+import { YellowBox } from 'react-native';
+
+// [Warning]: Setting a timer for a long period of time
+// https://github.com/facebook/react-native/issues/12981
+YellowBox.ignoreWarnings(['Setting a timer']);
 
 const [
     ProdRedirectSignIn,
     LANRedirectSignIn,
-    // TunnelRedirectSignIn
+    TunnelRedirectSignIn
 ] = awsConfig.oauth.redirectSignIn.split(",");
 
 const [
     ProdRedirectSignOut,
     LANRedirectSignOut,
-    // TunnelRedirectSignOut
+    TunnelRedirectSignOut
 ] = awsConfig.oauth.redirectSignOut.split(",");
 
 const hostUrl = Linking.makeUrl()
 
 console.debug('[HOMEBAB]: host on ' + hostUrl)
 
-// const isTunnel = hostUrl.includes("exp://")
+const isTunnel = hostUrl.includes("exp://")
 const isLAN = hostUrl.includes("localhost") || hostUrl.includes("127.0.0.1")
 
 const updatedAwsConfig = {
     ...awsConfig,
     oauth: {
         ...awsConfig.oauth,
-        redirectSignIn: isLAN ? LANRedirectSignIn /*: isTunnel ? TunnelRedirectSignIn */ : ProdRedirectSignIn,
-        redirectSignOut: isLAN ? LANRedirectSignOut /*: isTunnel ? TunnelRedirectSignOut */ : ProdRedirectSignOut,
+        redirectSignIn: isLAN ? LANRedirectSignIn : isTunnel ? TunnelRedirectSignIn : ProdRedirectSignIn,
+        redirectSignOut: isLAN ? LANRedirectSignOut : isTunnel ? TunnelRedirectSignOut : ProdRedirectSignOut,
     }
 }
 

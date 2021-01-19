@@ -41,9 +41,9 @@ const SignIn = () => {
             </TouchableOpacity>
 
             <TouchableOpacity style={[styles.button, styles.apple]}
-                              onPress={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google})
-                                  .then(res => console.debug("[HOMEBAB]: success to google signIn with", res))
-                                  .catch(err => console.warn(`[HOMEBAB]: fail to google signIn with ${Linking.makeUrl()} and ${err}`))}>
+                              onPress={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Apple})
+                                  .then(res => console.debug("[HOMEBAB]: success to apple signIn with", res))
+                                  .catch(err => console.warn(`[HOMEBAB]: fail to apple signIn with ${Linking.makeUrl()} and ${err}`))}>
                 <FontAwesome style={styles.icon} name="apple" size={30} color="white"/>
                 <Text style={styles.text}>
                     애플 로그인

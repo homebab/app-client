@@ -1,6 +1,5 @@
-import {Image, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import React, {useEffect, useRef, useState} from "react";
-import {useContainerContext} from "../../contexts/Container";
 import {useAccountContext} from "../../contexts/Account";
 import Assets from "../../constants/Assets";
 import ButtonList from "../../components/ButtonList";
@@ -10,7 +9,6 @@ import {deleteAllItems} from "../../services/aws/appsync";
 import {getUserAttributes, updateUser} from "../../services/aws/cognito";
 import {MaterialIcons} from "@expo/vector-icons";
 import {formatUserName} from "../../validators/format";
-import {logInAsync} from "expo-google-app-auth";
 
 
 const RowButtonList = () => {
@@ -20,16 +18,17 @@ const RowButtonList = () => {
     const dataset = [
 
         {label: '공지사항'},
-        {label: '서비스 문의'},
+        {
+            label: '서비스 문의',
+            onPress: () => {Linking.openURL("mailto://homebab.developer@gmail.com")}
+        },
         // {label: '버전정보'},
         {
             label: '냉장고 초기화',
-            // icon: <MaterialCommunityIcons name="autorenew" size={28} style={{position: "absolute", left: 32}}/>,
             onPress: () => deleteAllItems(),
         },
         {
             label: '로그아웃',
-            // icon: <MaterialCommunityIcons name="logout" size={28} style={{position: "absolute", left: 32}}/>,
             onPress: () => Auth.signOut()
                 // refer to https://docs.amplify.aws/lib/datastore/other-methods/q/platform/js#clear
                 // `DataStore.clear() is often important to use for shared device scenarios

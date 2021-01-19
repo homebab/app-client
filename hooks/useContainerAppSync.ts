@@ -52,6 +52,7 @@ const useContainerAppSync = () => {
         console.debug("[HOMEBAB]: subscribe appsync");
 
         return () => {
+            Hub.remove('datastore', (response) => console.debug(`[HOMEBAB]: unsubscribe {${response.channel} channel of Amplify Hub`));
             subscription.unsubscribe();
             setIsLoading(true);
             console.debug("[HOMEBAB]: unsubscribe appsync");
