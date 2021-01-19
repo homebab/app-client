@@ -7,6 +7,7 @@ import {Category} from "../types/Category";
 import {v4 as uuidv4} from 'uuid';
 import {useNetInfo} from "@react-native-community/netinfo";
 import useThenable from "@react-navigation/native/lib/typescript/src/useThenable";
+import {HubCallback} from "@aws-amplify/core/src/Hub";
 
 /*
     This is bridge between Container Context and AppSync (Amplify DataStore)
@@ -20,31 +21,33 @@ const useContainerAppSync = () => {
     const netInfo = useNetInfo();
     const [isLoading, setIsLoading] = useState(true);
 
+    useEffect(() => {
+        if (isLoading && fridge.length > 0) setIsLoading(false)
+    }, [fridge]);
+
     /*
         - https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#query-data
         Queries are performed against the local store.
         When cloud synchronization is enabled,
         the local store is updated in the background by the DataStore Sync Engine.
     */
-    useEffect(() => {
-        if (isLoading && fridge.length > 0) setIsLoading(false)
-    }, [fridge]);
+    const hubListener: HubCallback = ({channel: channel, payload: {event, data}}) => {
+        console.debug(`[AMPLIFY_HUB]: on channel '${channel}' listen event - ${event} with data - ${JSON.stringify(data)}`);
+        switch (event) {
+            case "storageSubscribed":
+                if (isLoading && !netInfo) setIsLoading(false);
+                break;
+            case "syncQueriesReady":
+                if (isLoading && netInfo) setIsLoading(false);
+                break;
+        }
+    }
 
     useEffect(() => {
 
         // Git Issue : https://github.com/aws-amplify/amplify-js/issues/4808
         // Document  : https://docs.amplify.aws/lib/datastore/datastore-events/q/platform/js
-        Hub.listen("datastore", ({channel: channel, payload: {event, data}}) => {
-            console.debug(`[AMPLIFY_HUB]: on channel '${channel}' listen event - ${event} with data - ${JSON.stringify(data)}`);
-            switch (event) {
-                case "storageSubscribed":
-                    if (isLoading && !netInfo) setIsLoading(false);
-                    break;
-                case "syncQueriesReady":
-                    if (isLoading && netInfo) setIsLoading(false);
-                    break;
-            }
-        })
+        Hub.listen("datastore", hubListener)
 
         fetchItems()
 
@@ -52,7 +55,7 @@ const useContainerAppSync = () => {
         console.debug("[HOMEBAB]: subscribe appsync");
 
         return () => {
-            Hub.remove('datastore', (response) => console.debug(`[HOMEBAB]: unsubscribe {${response.channel} channel of Amplify Hub`));
+            Hub.remove('datastore', hubListener);
             subscription.unsubscribe();
             setIsLoading(true);
             console.debug("[HOMEBAB]: unsubscribe appsync");
