@@ -29,7 +29,7 @@ export default function FridgeNavigator() {
                 name="ListItems"
                 component={ListItems}
                 options={{
-                    headerTitle: '냉장고',
+                    headerTitle: '식재료 관리',
                     headerLeft: () => <MaterialCommunityIcons name="fridge-outline" size={32} color="black"
                                                               style={{marginLeft: 16}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
                     headerRight: () =>

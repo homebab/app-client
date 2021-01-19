@@ -69,7 +69,7 @@ function RecipeNavigator() {
                 name="ListRecipes"
                 component={ListRecipes}
                 options={{
-                    headerTitle: '레시피',
+                    headerTitle: '추천 레시피',
                     headerLeft: () => <MaterialCommunityIcons name="chef-hat" size={32} color="black"
                                                               style={{marginLeft: 20}}/>,
                     headerTitleStyle: {
@@ -90,7 +90,7 @@ function SettingsNavigator() {
                 name="Settings"
                 component={Settings}
                 options={{
-                    headerTitle: '설정',
+                    headerTitle: '환경 설정',
                     headerLeft: () => <MaterialCommunityIcons name="settings" size={32} color="black"
                                                               style={{marginLeft: 20}}/>,
                     headerTitleStyle: {
