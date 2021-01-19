@@ -2,15 +2,14 @@
   "expo": {
     "name": "홈밥",
     "slug": "app-client",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo/logo.png",
     "scheme": "homebab",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -20,12 +19,14 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "buildNumber": "1.0.0",
       "bundleIdentifier": "com.meowailand.homebab"
     },
     "web": {
       "favicon": "./assets/images/logo/logo.png"
     },
     "android": {
+      "versionCode": 1,
       "package": "com.meowailand.homebab",
       "permissions": ["CAMERA"]
     }

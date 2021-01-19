@@ -26,10 +26,13 @@ export const styles = StyleSheet.create({
         backgroundColor: "rgb(53,53,53)"
     },
     google: {
-        backgroundColor: "rgba(222, 82, 70, 1)",
+        backgroundColor: "rgb(222,82,70)",
     },
     facebook: {
-        backgroundColor: "#4267B2"
+        backgroundColor: "#4267b2"
+    },
+    apple: {
+        backgroundColor: "#323232"
     },
     text: {
         padding: 16,

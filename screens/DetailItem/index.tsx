@@ -10,12 +10,17 @@ import {Storage} from "../../types/Storage";
 import DeleteItemModal from "../../components/DeleteItemModal";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {getImageKey} from "../../constants/Ingredients";
-import { leftDays } from "../../hooks/useShelfLifeAnalytics";
+import {leftDays} from "../../hooks/useShelfLifeAnalytics";
 import ButtonList from "../../components/ButtonList";
 import {updateItem} from "../../services/aws/appsync"
 
 
-const TextInputBox = ({active, value, onChangeHandler, containerStyle}: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
+const TextInputBox = ({
+                          active,
+                          value,
+                          onChangeHandler,
+                          containerStyle
+                      }: { active: boolean, value: string, onChangeHandler: (t: string) => void, containerStyle: ViewStyle }) => {
 
     return (
         <View
@@ -80,8 +85,8 @@ const DetailItem = (props: Props) => {
         )
     }
 
-    const a ={
-        1: [1,2]
+    const a = {
+        1: [1, 2]
     }
     const RowItemButton = () => {
         const storages = Object.values(Storage).filter(s => s != item.storage);
@@ -107,7 +112,8 @@ const DetailItem = (props: Props) => {
         ]
 
         return (
-            <ButtonList dataset={rowItemsButtonList} containerStyle={{borderTopColor: 'white', borderLeftColor: 'white'}}/>
+            <ButtonList dataset={rowItemsButtonList}
+                        containerStyle={{borderTopColor: 'white', borderLeftColor: 'white'}}/>
         )
     }
 
@@ -117,10 +123,11 @@ const DetailItem = (props: Props) => {
         const padding = 14;
         return (
             <View style={{alignItems: 'center', marginBottom: 24}}>
-                <Avatar containerStyle={{position: "absolute", top: -40, padding: padding, width: avatarSize + padding*2}}
+                <Avatar
+                    containerStyle={{position: "absolute", top: -40, padding: padding, width: avatarSize + padding * 2}}
                     // @ts-ignore
-                        source={Assets.FoodImages[key? key: 'default']}
-                        size={avatarSize}/>
+                    source={Assets.FoodImages[key ? key : 'default']}
+                    size={avatarSize}/>
                 <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
 
                 <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
