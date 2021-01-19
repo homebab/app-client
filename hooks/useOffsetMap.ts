@@ -4,10 +4,10 @@ import {Category} from "../types/Category";
 import {PointPropType} from "react-native";
 
 export type OffsetAction =
-    | {type: "SET_OFFSET", payload: {category: Category, point: PointPropType}}
+    | { type: "SET_OFFSET", payload: { category: Category, point: PointPropType } }
 
 const reducer: Reducer<Map<Category, PointPropType>, OffsetAction> = (state: Map<Category, PointPropType>, action: OffsetAction) => {
-    switch(action.type) {
+    switch (action.type) {
         case "SET_OFFSET":
             const {category, point} = action.payload
             state.set(category, point)

@@ -34,15 +34,15 @@ const AddItemCard = ({item}: { item: BasketItem }) => {
         </TouchableOpacity>);
 }
 
-const CategoryGrid = ({category, ingredients, offsetDispatch}: {category: string, ingredients: Array<BasketItem>, offsetDispatch: Dispatch<OffsetAction>}) => {
-    const ref = useRef<View>(null);
-    const [a, setA] = useState(0);
+const CategoryGrid = ({
+                          category,
+                          ingredients,
+                          offsetDispatch
+                      }: { category: string, ingredients: Array<BasketItem>, offsetDispatch: Dispatch<OffsetAction> }) => {
 
-    useEffect(() => {
-        console.log(a)}, [a])
-    // console.log(ref.current.props.onLayout())
+
     return (
-        <View ref={ref} style={{padding: '4%'}}
+        <View style={{padding: '4%'}}
               onLayout={(event => {
                   const {x, y} = event.nativeEvent.layout
                   offsetDispatch({type: "SET_OFFSET", payload: {category: category as Category, point: {x, y}}});
@@ -69,7 +69,7 @@ const AddItems = () => {
         console.debug("[HOMEBAB]: success to FLUSH_BASKET")
     }, [])
 
-    const ingredients = useMemo(() => Object.keys(Ingredients)
+    const ingredientObj = useMemo(() => Object.keys(Ingredients)
             .map(key => ({
                 [key]: Ingredients[key as keyof Ingredients].map(name => ({
                     name: name,
@@ -79,12 +79,25 @@ const AddItems = () => {
             .reduce((val, acc) => ({...val, ...acc}))
         , [Ingredients])
 
+    const ingredients = useMemo(() => Object.values(ingredientObj)
+        .reduce((acc, val) => acc.concat(val)), [ingredientObj])
+
     const categories = ["전체"].concat(Object.values(Category));
     const [category, setCategory] = useState<Category | string>(categories[0]);
 
     const {offsetState, offsetDispatch} = useOffsetMap(new Map());
+    const scroller = useRef<ScrollView>(null);
 
-    useEffect(() => console.log(offsetState), [offsetState])
+    useEffect(() => {
+        if (scroller && scroller.current) {
+            const offset = offsetState.get(category as Category) ?? {x: 0, y: 0}
+
+            scroller.current.scrollTo({
+                ...offset,
+                animated: true
+            })
+        }
+    }, [category])
 
     return (
         <>
@@ -100,8 +113,7 @@ const AddItems = () => {
             />
             {isSearching ?
                 <ScrollView style={{backgroundColor: "#f2f2f2"}}>
-                    <Grid container={Object.values(ingredients)
-                        .reduce((acc, val) => acc.concat(val))
+                    <Grid container={ingredients
                         .filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)
                         .map((item: BasketItem, key: number) => <AddItemCard key={key} item={item}/>)
                     } chunkSize={4}/>
@@ -110,12 +122,31 @@ const AddItems = () => {
                     <HorizontalTypesView types={categories} pressedType={category}
                                          onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
                     <ScrollView
+                        ref={scroller}
                         style={{backgroundColor: "#f2f2f2"}}
-                        contentOffset={category == "전체" ? {x: 0, y: 0}: offsetState.get(category as Category)}>
+                    >
+                        <View style={{padding: '4%'}}>
+                            <Text style={{
+                                fontSize: 20, fontFamily: 'nanum-square-round-bold', padding: '8%'
+                            }}>{"바구니"}</Text>
+                            <Grid container={basket.map((item: BasketItem, key: number) =>
+                                <AddItemCard key={key} item={item}/>)} chunkSize={4}/>
+                        </View>
+                        <View style={{padding: '4%'}}>
+                            <Text style={{
+                                fontSize: 20, fontFamily: 'nanum-square-round-bold', padding: '8%'
+                            }}>{"인기"}</Text>
+                            <Grid container={ingredients
+                                .filter(item => imageKeys.includes(item.name))
+                                .map((item: BasketItem, key: number) => <AddItemCard key={key}
+                                                                                     item={item}/>)
+                            } chunkSize={4}/>
+                        </View>
                         {
-                            Object.keys(ingredients)
+                            Object.keys(ingredientObj)
                                 .map((category, k) =>
-                                    <CategoryGrid key={k} category={category} ingredients={ingredients[category]} offsetDispatch={offsetDispatch}/>)
+                                    <CategoryGrid key={k} category={category} ingredients={ingredientObj[category]}
+                                                  offsetDispatch={offsetDispatch}/>)
                         }
                     </ScrollView>
                 </>
