@@ -34,8 +34,8 @@ const Landing = () => {
     // }
 
     useEffect(() => {
-        Hub.listen("auth", async ({payload: {event, data}}) => {
-            console.debug(`[AMPLIFY_HUB]: listen event, ${event}`)
+        Hub.listen("auth", async ({channel: channel, payload: {event, data}}) => {
+            console.debug(`[AMPLIFY_HUB]: on channel '${channel}' listen event - ${event} with data - ${JSON.stringify(data).slice(0,32)}`);
             switch (event) {
                 case "signIn":
                     const cognitoUser: MyCognitoUser = data

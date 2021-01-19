@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#4267b2"
     },
     apple: {
-        backgroundColor: "#323232"
+        backgroundColor: "#303030"
     },
     text: {
         padding: 16,

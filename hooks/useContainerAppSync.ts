@@ -5,6 +5,8 @@ import {useEffect, useState} from "react";
 import {Storage} from "../types/Storage";
 import {Category} from "../types/Category";
 import {v4 as uuidv4} from 'uuid';
+import {useNetInfo} from "@react-native-community/netinfo";
+import useThenable from "@react-navigation/native/lib/typescript/src/useThenable";
 
 /*
     This is bridge between Container Context and AppSync (Amplify DataStore)
@@ -15,7 +17,8 @@ const useContainerAppSync = () => {
     const {containerState, containerDispatch} = useContainerContext();
     const {fridge} = containerState;
 
-    const [isLoading, setIsLoading] = useState(false);
+    const netInfo = useNetInfo();
+    const [isLoading, setIsLoading] = useState(true);
 
     /*
         - https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#query-data
@@ -24,11 +27,24 @@ const useContainerAppSync = () => {
         the local store is updated in the background by the DataStore Sync Engine.
     */
     useEffect(() => {
-        // https://github.com/aws-amplify/amplify-js/issues/4808
-        // TODO: 06.01.2021 not useful
-        // Hub.listen ("datastore", (data) => {
-        //     console.log ('A new event has happened:', JSON.stringify(data));
-        // })
+        if (isLoading && fridge.length > 0) setIsLoading(false)
+    }, [fridge]);
+
+    useEffect(() => {
+
+        // Git Issue : https://github.com/aws-amplify/amplify-js/issues/4808
+        // Document  : https://docs.amplify.aws/lib/datastore/datastore-events/q/platform/js
+        Hub.listen("datastore", ({channel: channel, payload: {event, data}}) => {
+            console.debug(`[AMPLIFY_HUB]: on channel '${channel}' listen event - ${event} with data - ${JSON.stringify(data)}`);
+            switch (event) {
+                case "storageSubscribed":
+                    if (isLoading && !netInfo) setIsLoading(false);
+                    break;
+                case "syncQueriesReady":
+                    if (isLoading && netInfo) setIsLoading(false);
+                    break;
+            }
+        })
 
         fetchItems()
 
