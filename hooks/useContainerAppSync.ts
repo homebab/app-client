@@ -57,7 +57,7 @@ const useContainerAppSync = () => {
         return () => {
             Hub.remove('datastore', hubListener);
             subscription.unsubscribe();
-            setIsLoading(true);
+            // setIsLoading(true);
             console.debug("[HOMEBAB]: unsubscribe appsync");
         }
     }, [])

@@ -1,19 +1,20 @@
-import {View} from "react-native";
+import {View, ViewStyle} from "react-native";
 import {chunkArray} from "../../utils/functions";
 import React from "react";
 
 type Props = {
     container: Array<any>,
-    chunkSize?: number
+    chunkSize?: number,
+    containerStyle?: ViewStyle,
 }
 
 const Grid = (props: Props) => {
-    const {container, chunkSize} = props;
+    const {container, chunkSize, containerStyle} = props;
 
     const chunked = chunkArray(container, chunkSize? chunkSize: 4);
 
     return (
-        <View style={{backgroundColor: "#f2f2f2", padding: "5%"}}>
+        <View style={[{backgroundColor: "#f2f2f2"}, containerStyle]}>
             {
                 chunked.map((components, key: number) => (
                     <View key={key} style={{flexDirection: "row", justifyContent: "space-around"}}>
@@ -21,7 +22,6 @@ const Grid = (props: Props) => {
                     </View>
                 ))
             }
-            <View style={{height: 100}}/>
         </View>
     );
 }

@@ -1,11 +1,10 @@
 import React, {useLayoutEffect, useMemo, useState} from "react";
-import {Image, Text, TouchableOpacity, View} from "react-native";
+import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
 import {styles} from "./styles";
-import {Item, useContainerContext} from "../../contexts/Container";
-import ScrollViewGrid from "../../components/ScrollViewGrid";
+import {Item} from "../../contexts/Container";
 import DetailItem from "../DetailItem";
 import BottomModal from "../../components/BottomModal";
 import {Storage} from "../../types/Storage";
@@ -19,6 +18,7 @@ import Assets from "../../constants/Assets";
 import Layout from "../../constants/Layout";
 import useContainerAppSync from "../../hooks/useContainerAppSync";
 import Loading from "../../components/Loading";
+import Grid from "../../components/Grid";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -57,8 +57,11 @@ const ItemsGrid = (container: Array<Item>) => {
                                style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
                         <Text style={{fontFamily: 'nanum-square-round', fontSize: 20}}>{'냉장고가 텅 비었습니다'}</Text>
                     </RelativeCenterLayout> :
-                    <ScrollViewGrid
-                        container={container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)}/>
+                    <ScrollView style={{backgroundColor: "#f2f2f2"}}>
+                        <Grid container={container ?
+                            container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)
+                            : []} chunkSize={4}/>
+                    </ScrollView>
             }
         </>
     )
@@ -69,8 +72,6 @@ const ListItems: React.FC = () => {
     const navigation = useNavigation()
 
     const {isLoading, fridge} = useContainerAppSync();
-    // const {containerState} = useContainerContext();
-    // const {fridge} = containerState;
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');
