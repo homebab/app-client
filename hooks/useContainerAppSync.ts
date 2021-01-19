@@ -48,11 +48,13 @@ const useContainerAppSync = () => {
 
         fetchItems()
 
-        const subscription = DataStore.observe(ItemModel).subscribe(() => fetchItems())
-        console.debug("[HOMEBAB]: subscribe appsync")
+        const subscription = DataStore.observe(ItemModel).subscribe(() => fetchItems());
+        console.debug("[HOMEBAB]: subscribe appsync");
+
         return () => {
-            subscription.unsubscribe()
-            console.debug("[HOMEBAB]: unsubscribe appsync")
+            subscription.unsubscribe();
+            setIsLoading(true);
+            console.debug("[HOMEBAB]: unsubscribe appsync");
         }
     }, [])
 
