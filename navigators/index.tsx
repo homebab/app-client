@@ -9,6 +9,10 @@ import LinkingConfiguration from './LinkingConfiguration';
 import {useAccountContext} from "../contexts/Account";
 import AuthNavigator from "./AuthNavigator";
 import {RootNaviParamList} from "../types/Navigators";
+import {useEffect} from "react";
+import {Auth, Hub} from "aws-amplify";
+import {MyCognitoUser} from "../services/aws/cognito";
+import useAccountAuthFlow from "../hooks/useAccountAuthFlow";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -27,9 +31,7 @@ export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName
 const RootStack = createStackNavigator<RootNaviParamList>();
 
 function RootNavigator() {
-
-    const {accountState} = useAccountContext();
-    const {isAuthenticated} = accountState;
+    const isAuthenticated = useAccountAuthFlow();
 
     return (
         <RootStack.Navigator screenOptions={{headerShown: false}}>

@@ -75,20 +75,20 @@ const ListItems: React.FC = () => {
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () =>
-                isSearching ?
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <CrossIconButton containerStyle={{marginRight: 16}} size={28}
-                                         onPress={() => setIsSearching(false)}/>
-                    </View> :
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Search containerStyle={{marginRight: 16}} size={28}
-                                onPress={() => setIsSearching(true)}/>
-                    </View>
-        });
-    }, [isSearching, navigation]);
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         headerRight: () =>
+    //             isSearching ?
+    //                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    //                     <CrossIconButton containerStyle={{marginRight: 16}} size={28}
+    //                                      onPress={() => setIsSearching(false)}/>
+    //                 </View> :
+    //                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    //                     <Search containerStyle={{marginRight: 16}} size={28}
+    //                             onPress={() => setIsSearching(true)}/>
+    //                 </View>
+    //     });
+    // }, [isSearching, navigation]);
 
     // useEffect(() => {
     //     // AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))

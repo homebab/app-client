@@ -6,9 +6,10 @@ import ButtonList from "../../components/ButtonList";
 import {Auth, DataStore} from "aws-amplify";
 import {Switch} from "react-native-paper";
 import {deleteAllItems} from "../../services/aws/appsync";
-import {getUserAttributes, updateUser} from "../../services/aws/cognito";
+import {updateUser} from "../../services/aws/cognito";
 import {MaterialIcons} from "@expo/vector-icons";
 import {formatUserName} from "../../validators/format";
+import Constants from "expo-constants";
 
 
 const RowButtonList = () => {
@@ -17,12 +18,20 @@ const RowButtonList = () => {
 
     const dataset = [
 
-        {label: '공지사항'},
+        // {label: '공지사항'},
+        {
+            label: '버전정보',
+            onPress: () => {
+                alert(`현재 버전은 v${Constants.nativeBuildVersion} 입니다`)
+            }
+        },
         {
             label: '서비스 문의',
-            onPress: () => {Linking.openURL("mailto://homebab.developer@gmail.com")}
+            onPress: () => {
+                Linking.openURL("mailto:homebab.developer@gmail.com")
+            }
         },
-        // {label: '버전정보'},
+
         {
             label: '냉장고 초기화',
             onPress: () => deleteAllItems(),

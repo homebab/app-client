@@ -1,20 +1,21 @@
 import {StatusBar} from 'expo-status-bar';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigators';
-import AccountController from "./contexts/Account";
+import AccountController, {useAccountContext} from "./contexts/Account";
 
 import * as Linking from 'expo-linking';
 
-import Amplify from 'aws-amplify'
+import Amplify, {Auth, Hub} from 'aws-amplify'
 // @ts-ignore
 import awsConfig from './aws-exports'
 import ContainerController from "./contexts/Container";
 
 import { YellowBox } from 'react-native';
+import {MyCognitoUser} from "./services/aws/cognito";
 
 // [Warning]: Setting a timer for a long period of time
 // https://github.com/facebook/react-native/issues/12981
