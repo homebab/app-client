@@ -49,7 +49,7 @@ const ListItemCard = ({item}: { item: Item }) => {
 const ItemsGrid = (container: Array<Item>) => {
 
     return (
-        <View style={{padding: '4%', paddingTop: '2%'}}>
+        <View style={{flex: 1, padding: '4%', paddingTop: '2%'}}>
             {
                 container.length == 0 ?
                     <RelativeCenterLayout containerStyle={{marginBottom: '8%'}}>

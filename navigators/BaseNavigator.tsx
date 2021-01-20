@@ -71,7 +71,7 @@ function RecipeNavigator() {
                 options={{
                     headerTitle: '추천 레시피',
                     headerLeft: () => <MaterialCommunityIcons name="chef-hat" size={32} color="black"
-                                                              style={{marginLeft: 20}}/>,
+                                                              style={{marginLeft: 16}}/>,
                     headerTitleStyle: {
                         fontFamily: 'nanum-square-round-bold'
                     }
@@ -92,7 +92,7 @@ function SettingsNavigator() {
                 options={{
                     headerTitle: '환경 설정',
                     headerLeft: () => <MaterialCommunityIcons name="settings" size={32} color="black"
-                                                              style={{marginLeft: 20}}/>,
+                                                              style={{marginLeft: 16}}/>,
                     headerTitleStyle: {
                         fontFamily: 'nanum-square-round-bold'
                     }
