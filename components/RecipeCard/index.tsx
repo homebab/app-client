@@ -18,7 +18,7 @@ const RecipeHeader = ({title}: {title: string}) => {
                     <Entypo name="youtube" size={24} color="#FF0000"/>
                 </View>
                 <View style={{flex: 11, marginLeft: 12, marginRight: 12}}>
-                    <Text style={{fontWeight: "bold", fontSize: 16}}>{title}</Text>
+                    <Text style={{fontWeight: "bold", fontSize: 16, fontFamily: 'nanum-square-round-bold'}}>{title}</Text>
                 </View>
                 {/*<Entypo name="dots-three-vertical" size={16} color="#444444" />*/}
             </View>
@@ -29,7 +29,7 @@ const RecipeHeader = ({title}: {title: string}) => {
                     {
                         ['유튜브', '초간단레시피', '가성비'].slice(0, 3).map((tag: any, key) => (
                             <View key={key}>
-                                <Text>#{tag}</Text>
+                                <Text style={{ fontFamily: 'nanum-square-round'}}>#{tag}</Text>
                             </View>
                         ))
                     }
@@ -78,7 +78,6 @@ const RecipeCard = (props: Props) => {
                                style={{width: "100%", resizeMode: "cover", aspectRatio: 16 / 9}}/>
                     </TouchableOpacity>
                 </View>
-
             </View>
             // <View>
             //     {/*<EmbedVideo id={id} height={videoHeight}/>*/}

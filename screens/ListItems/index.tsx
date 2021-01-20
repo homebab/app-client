@@ -49,7 +49,7 @@ const ListItemCard = ({item}: { item: Item }) => {
 const ItemsGrid = (container: Array<Item>) => {
 
     return (
-        <>
+        <View style={{padding: '4%', paddingTop: '2%'}}>
             {
                 container.length == 0 ?
                     <RelativeCenterLayout containerStyle={{marginBottom: '8%'}}>
@@ -63,7 +63,7 @@ const ItemsGrid = (container: Array<Item>) => {
                             : []} chunkSize={4}/>
                     </ScrollView>
             }
-        </>
+        </View>
     )
 }
 
@@ -132,9 +132,7 @@ const ListItems: React.FC = () => {
                             <HorizontalTypesView types={storages} pressedType={storage}
                                                  onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
                                                  containerStyle={{
-                                                     padding: '8%',
-                                                     paddingTop: '6%',
-                                                     paddingBottom: '4%'
+                                                     padding: '8%'
                                                  }}/>
                             {ItemsGrid(filteredItems)}
 

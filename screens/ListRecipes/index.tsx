@@ -22,7 +22,9 @@ export default function ListRecipes() {
     const {state: {isLoading, isError, data}, setUrl: fetchData} = useFetchData<RecipeRecommendationResponse>(
         buildRecipeRecommendationEndPoint(fridge), []);
 
-    useEffect(() => {fetchData(buildRecipeRecommendationEndPoint(fridge))}, [fridge]);
+    useEffect(() => {
+        fetchData(buildRecipeRecommendationEndPoint(fridge))
+    }, [fridge]);
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [videoUrl, setVideoUrl] = useState<undefined | string>(undefined);
@@ -37,11 +39,10 @@ export default function ListRecipes() {
                         <CrossIconButton containerStyle={{marginRight: 16}} size={28}
                                          onPress={() => setVideoUrl(undefined)}/>
                     </View> :
-                    <Search containerStyle={{marginRight: 16}} onPress={() => setVideoUrl("https://m.youtube.com")}/>
-            // <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            //     <Search containerStyle={{marginRight: 16}} size={28}
-            //             onPressHandler={() => setIsSearching(true)}/>
-            // </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Search containerStyle={{marginRight: 16}}
+                                onPress={() => setVideoUrl("https://m.youtube.com")}/>
+                    </View>
         });
     }, [videoUrl, navigation]);
 
@@ -54,14 +55,7 @@ export default function ListRecipes() {
         return (
             <View style={styles.container}>
                 {!videoUrl ?
-                    <ScrollView style={{backgroundColor: "#f2f2f2"}}
-                                // refreshControl={<RefreshControl refreshing={false}
-                                //                                 onRefresh={() => {
-                                //                                     setRefreshing(true);
-                                //                                     fetchData(buildRecipeRecommendationEndPoint(fridge));
-                                //                                     setRefreshing(false);
-                                //                                 }}/>}
-                    >
+                    <ScrollView style={{backgroundColor: "#f2f2f2"}}>
                         {
                             recipeHits.map((recipe: RecipeHit<Recipe>, k: number) => {
                                 return (<RecipeCard key={k} recipeHit={recipe}

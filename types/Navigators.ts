@@ -20,7 +20,7 @@ export type BaseNaviParamList = {
 export type FridgeNaviParamList = {
     ListItems: undefined;
     AddItems: {
-        itemPhoto: CameraCapturedPicture
+        itemPhoto?: CameraCapturedPicture
     }
     CaptureItems: undefined
 };
