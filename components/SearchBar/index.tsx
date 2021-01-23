@@ -1,6 +1,7 @@
 import {TextInput, TouchableOpacity, View, ViewStyle} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import React, {useState} from "react";
+import {styles} from "./styles";
 
 type Props = {
     placeholder: string,
@@ -18,17 +19,9 @@ const SearchBar = (props: Props) => {
     const [editing, setEditing] = useState(false);
 
     return (
-        <View style={[{backgroundColor: 'white', padding: 20}, containerStyle]}>
-            <View style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                backgroundColor: '#f2f2f2',
-                padding: 10,
-                paddingLeft: 16,
-                paddingRight: 16
-            }}>
-                <TextInput style={{fontSize: 16}} placeholder={placeholder} value={value}
+        <View style={[styles.container, containerStyle]}>
+            <View style={styles.textInputContainer}>
+                <TextInput style={styles.text} placeholder={placeholder} value={value}
                            onChangeText={onChangeText}
                            onFocus={() => onFocus ? onFocus() : null}
                            onKeyPress={() => {
