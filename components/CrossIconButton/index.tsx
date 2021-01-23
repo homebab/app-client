@@ -14,9 +14,9 @@ const CrossIconButton = (props: Props) => {
     const {containerStyle, size, onPress} = props;
 
     return (
-        <TouchableOpacity style={containerStyle} onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
             <Feather
-                name="x" size={size ? size : 28} color="black"
+                name="x" style={containerStyle} color="black"
                 // @ts-ignore
                 backgroundColor="transparent"/>
         </TouchableOpacity>

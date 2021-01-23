@@ -33,10 +33,9 @@ export const styles = StyleSheet.create({
     },
     text: {
         justifyContent: "center",
-        fontFamily: 'nanum-square-round',
+        fontFamily: 'nanum-square-round-bold',
         color: "white",
-        fontWeight: "bold",
-        fontSize: hp(1.6),
+        fontSize: hp(1.8),
     },
     icon: {
         position: "absolute",

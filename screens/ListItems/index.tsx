@@ -19,6 +19,7 @@ import Layout from "../../constants/Layout";
 import useContainerAppSync from "../../hooks/useContainerAppSync";
 import Loading from "../../components/Loading";
 import Grid from "../../components/Grid";
+import {styles as navigatorStyles} from "../../navigators/styles"
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -81,11 +82,11 @@ const ListItems: React.FC = () => {
             headerRight: () =>
                 isSearching ?
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <CrossIconButton containerStyle={{marginRight: 16}} size={28}
+                        <CrossIconButton containerStyle={[navigatorStyles.headerIcon, {marginRight: 16}]} size={28}
                                          onPress={() => setIsSearching(false)}/>
                     </View> :
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Search containerStyle={{marginRight: 16}} size={28}
+                        <Search containerStyle={[navigatorStyles.headerIcon, {marginRight: 16}]} size={28}
                                 onPress={() => setIsSearching(true)}/>
                     </View>
         });

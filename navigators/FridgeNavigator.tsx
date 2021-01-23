@@ -14,6 +14,7 @@ import {useNavigation} from "@react-navigation/native";
 import {useContainerContext} from "../contexts/Container";
 import {FridgeNaviParamList} from "../types/Navigators";
 import {createItem} from "../services/aws/appsync";
+import {styles} from "./styles";
 
 const FridgeStack = createStackNavigator<FridgeNaviParamList>();
 
@@ -30,16 +31,14 @@ export default function FridgeNavigator() {
                 component={ListItems}
                 options={{
                     headerTitle: '식재료 관리',
-                    headerLeft: () => <MaterialCommunityIcons name="fridge" size={32} color="black"
-                                                              style={{marginLeft: 16}}/>, /* <AntDesign name="home" size={28} color="black" style={{marginLeft: 12}} /> */
+                    headerStyle: styles.headerStyle,
+                    headerLeft: () => <MaterialCommunityIcons name="fridge"  color="black" style={[styles.headerIcon, {marginLeft: 16}]}/>,
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Search containerStyle={{marginRight: 16}}/>
+                            <Search containerStyle={[styles.headerIcon, {marginRight: 16}]}/>
                             {/*<ThrowAway style={{marginRight: 16}}/>*/}
                         </View>,
-                    headerTitleStyle: {
-                        fontFamily: 'nanum-square-round-bold'
-                    }
+                    headerTitleStyle: styles.headerTitle,
                 }}
             />
             <FridgeStack.Screen
@@ -53,7 +52,7 @@ export default function FridgeNavigator() {
                         createItem(basket).then(_ => navigation.navigate('ListItems'));
                     }}/>,
                     headerTitleStyle: {
-                        fontFamily: 'nanum-square-round-bold'
+                        fontFamily: styles.headerTitle,
                     }
                 }}
             />
@@ -62,8 +61,8 @@ export default function FridgeNavigator() {
                 component={CaptureItem}
                 options={{
                     headerTitle: '식품 사진',
-                    headerTitleStyle: {
-                        fontFamily: 'nanum-square-round-bold'
+                    headerTitleStyles: {
+                        fontFamily: styles.headerTitle,
                     }
                 }}
             />

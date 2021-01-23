@@ -15,6 +15,7 @@ import Search from "../../components/Search";
 import {useNavigation} from "@react-navigation/native";
 import {Recipe, RecipeHit, RecipeRecommendationResponse, sourceToRecipe} from "../../types/Recipe";
 import {buildRecipeRecommendationEndPoint} from "../../services/homebab/recipeRecommendation";
+import {styles as navigatorStyle} from "../../navigators/styles"
 
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
@@ -36,11 +37,11 @@ export default function ListRecipes() {
             headerRight: () =>
                 videoUrl ?
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <CrossIconButton containerStyle={{marginRight: 16}} size={28}
+                        <CrossIconButton containerStyle={[navigatorStyle.headerIcon, {marginRight: 16}]} size={28}
                                          onPress={() => setVideoUrl(undefined)}/>
                     </View> :
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Search containerStyle={{marginRight: 16}}
+                        <Search containerStyle={[navigatorStyle.headerIcon, {marginRight: 16}]}
                                 onPress={() => setVideoUrl("https://m.youtube.com")}/>
                     </View>
         });

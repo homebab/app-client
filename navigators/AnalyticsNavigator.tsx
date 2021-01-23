@@ -18,7 +18,7 @@ export default function AnalyticsNavigator() {
                     headerTitle: '종합분석',
                     headerLeft: () => <MaterialCommunityIcons name="view-dashboard-outline" size={32} color="black"
                                                               style={{marginLeft: 16}}/>,
-                    headerTitleStyle: {
+                    headerTitle: {
                         fontFamily: 'nanum-square-round-bold'
                     }
                 }}

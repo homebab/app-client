@@ -12,10 +12,11 @@ const Search = (props: Props) => {
     const {containerStyle, size, onPress} = props;
 
     return (
-        <TouchableOpacity style={containerStyle} onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
             <Ionicons
                 name="ios-search"
-                size={size? size: 28}
+                // size={size? size: 28}
+                style={containerStyle}
                 color="black"
                 // @ts-ignore, TODO: how to fix it without @ts-ignore
                 borderRadius={32}
