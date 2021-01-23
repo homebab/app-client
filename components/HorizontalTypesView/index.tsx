@@ -1,4 +1,4 @@
-import {ScrollView, Text, TouchableOpacity, View, ViewStyle} from "react-native";
+import {ScrollView, Text, TextStyle, TouchableOpacity, View, ViewStyle} from "react-native";
 import React from "react";
 import Layout from "../../constants/Layout";
 
@@ -8,11 +8,12 @@ type Props = {
     onPressHandler: (c: any) => void,
     scrollEnabled: boolean,
     containerStyle?: ViewStyle,
+    textStyle?: TextStyle
 }
 
 const HorizontalTypesView = (props: Props) => {
 
-    const {types, pressedType, onPressHandler, scrollEnabled, containerStyle} = props;
+    const {types, pressedType, onPressHandler, scrollEnabled, containerStyle, textStyle} = props;
 
     return (
         <View style={[{flexDirection: "row"}, containerStyle]}>
@@ -36,8 +37,8 @@ const HorizontalTypesView = (props: Props) => {
                                 onPress={() => onPressHandler(type)}
                             >
                                 <Text style={[
-                                    {padding: 16, color: '#949494'},
-                                    isPressed && {color: '#0e0e0e'}]}>{type}</Text>
+                                    {color: '#949494'},
+                                    isPressed && {color: '#0e0e0e'}, textStyle]}>{type}</Text>
                             </TouchableOpacity>
                         )
                     })}

@@ -51,9 +51,7 @@ export default function FridgeNavigator() {
                     headerRight: () => <NextIconButton containerStyle={{marginRight: 16}} size={28} onPress={() => {
                         createItem(basket).then(_ => navigation.navigate('ListItems'));
                     }}/>,
-                    headerTitleStyle: {
-                        fontFamily: styles.headerTitle,
-                    }
+                    headerTitleStyle: styles.headerTitle
                 }}
             />
             <FridgeStack.Screen
@@ -61,9 +59,7 @@ export default function FridgeNavigator() {
                 component={CaptureItem}
                 options={{
                     headerTitle: '식품 사진',
-                    headerTitleStyles: {
-                        fontFamily: styles.headerTitle,
-                    }
+                    headerTitleStyles: styles.headerTitle
                 }}
             />
         </FridgeStack.Navigator>

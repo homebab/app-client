@@ -1,33 +1,36 @@
 import {StyleSheet} from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
+export const tabletStyles = StyleSheet.create({
+    storageBar: {aspectRatio: 4.2, padding: wp(8)},
+});
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1
+    categoryBar: {
+        height: hp(6),
     },
-    advertiseContainer: {
-        width: "100%",
-        aspectRatio: 2.5,
-        backgroundColor: "skyblue"
+    storageBar: {aspectRatio: 3.6, padding: wp(8)},
+
+    text: {
+        padding: hp(1.6),
+        fontSize: hp(1.56)
     },
-    advertiseImage: {
-        flex: 1,
-        resizeMode: 'cover',
-        width: '100%',
-    },
-    storageMenu: {
-        alignSelf: 'center',
-        width: "80%",
-        backgroundColor: "white",
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: "space-around",
-    },
+
+    itemGridContainer: {flex: 1, padding: wp(4), paddingTop: wp(2)},
+    itemContainer: {padding: hp(0.8)},
+    avatarStyle: {padding: hp(3.6), borderRadius: hp(50)},
+    itemLabel: {fontSize: hp(1.56)},
+
     plusButton: {
         position: "absolute",
-        padding: 16,
-        borderRadius: 50,
-        bottom: '8%',
-        right: '10%',
+        padding: hp(2),
+        borderRadius: hp(10),
+        bottom: hp(8),
+        right: wp(10),
+        backgroundColor: 'black'
+    },
+    plusIcon: {
+        fontSize: hp(2),
         backgroundColor: 'black'
     }
 });

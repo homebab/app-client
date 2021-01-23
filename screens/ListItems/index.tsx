@@ -1,9 +1,9 @@
-import React, {useLayoutEffect, useMemo, useState} from "react";
+import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
 import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AntDesign} from "@expo/vector-icons";
 import ItemCard from "../../components/ItemCard";
-import {styles} from "./styles";
+import {styles, tabletStyles} from "./styles";
 import {Item} from "../../contexts/Container";
 import DetailItem from "../DetailItem";
 import BottomModal from "../../components/BottomModal";
@@ -20,6 +20,8 @@ import useContainerAppSync from "../../hooks/useContainerAppSync";
 import Loading from "../../components/Loading";
 import Grid from "../../components/Grid";
 import {styles as navigatorStyles} from "../../navigators/styles"
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {isTablet} from "../../utils/responsive";
 
 const ListItemCard = ({item}: { item: Item }) => {
 
@@ -41,7 +43,8 @@ const ListItemCard = ({item}: { item: Item }) => {
             </BottomModal>
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
-                <ItemCard item={item}/>
+                <ItemCard item={item} avatarStyle={styles.avatarStyle} containerStyle={styles.itemContainer}
+                          iconSize={hp(5)} textStyle={styles.itemLabel} />
             </TouchableOpacity>
         </View>
     )
@@ -49,19 +52,20 @@ const ListItemCard = ({item}: { item: Item }) => {
 
 const ItemsGrid = (container: Array<Item>) => {
 
+
     return (
-        <View style={{flex: 1, padding: '4%', paddingTop: '2%'}}>
+        <View style={styles.itemGridContainer}>
             {
                 container.length == 0 ?
-                    <RelativeCenterLayout containerStyle={{marginBottom: '8%'}}>
+                    <RelativeCenterLayout containerStyle={{marginBottom: hp(8)}}>
                         <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
                                style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
-                        <Text style={{fontFamily: 'nanum-square-round', fontSize: 20}}>{'냉장고가 텅 비었습니다'}</Text>
+                        <Text style={{fontFamily: 'nanum-square-round', fontSize: hp(2)}}>{'냉장고가 텅 비었습니다'}</Text>
                     </RelativeCenterLayout> :
                     <ScrollView style={{backgroundColor: "#f2f2f2"}}>
                         <Grid container={container ?
                             container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)
-                            : []} chunkSize={4}/>
+                            : []} chunkSize={isTablet? 5: 4}/>
                     </ScrollView>
             }
         </View>
@@ -129,19 +133,17 @@ const ListItems: React.FC = () => {
                         </> :
                         <>
                             <HorizontalTypesView types={categories} pressedType={category}
-                                                 onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}/>
+                                                 onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}
+                                                 containerStyle={styles.categoryBar} textStyle={styles.text}/>
                             <HorizontalTypesView types={storages} pressedType={storage}
                                                  onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
-                                                 containerStyle={{
-                                                     padding: '8%'
-                                                 }}/>
+                                                 containerStyle={isTablet? tabletStyles.storageBar: styles.storageBar} textStyle={styles.text}/>
                             {ItemsGrid(filteredItems)}
 
-                            <View style={styles.plusButton}>
-                                <TouchableOpacity onPress={() => navigation.navigate('AddItems')}>
-                                    <AntDesign name="plus" size={20} color='white' style={{backgroundColor: 'black'}}/>
-                                </TouchableOpacity>
-                            </View>
+                            <TouchableOpacity style={styles.plusButton} onPress={() => navigation.navigate('AddItems')}>
+                                <AntDesign name="plus" color='white' style={styles.plusIcon}/>
+                            </TouchableOpacity>
+
                         </>
                 }
             </>

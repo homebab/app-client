@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleProp, Text, View, ViewStyle} from "react-native";
+import {StyleProp, Text, TextStyle, View, ViewStyle} from "react-native";
 import {styles} from "./styles";
 import {BasketItem, Item} from "../../contexts/Container";
 import Avatar from "../Avatar";
@@ -10,12 +10,13 @@ type Props = {
     item: Item | BasketItem,
     containerStyle?: StyleProp<ViewStyle>,
     avatarStyle?: StyleProp<ViewStyle>,
+    textStyle?: TextStyle,
     iconSize?: number,
     // handlePress?: (e: GestureResponderEvent) => void
 }
 
 const ItemCard = (props: Props) => {
-    const {item, containerStyle, avatarStyle, iconSize} = props;
+    const {item, containerStyle, avatarStyle, textStyle, iconSize} = props;
     const key = getImageKey(item.name);
     // const [image, setImage] = useState({uri: `https://omtm-production.s3.ap-northeast-2.amazonaws.com/app-service/client/images/ingredients/${encodeURIComponent(item.name)}.png`});
 
@@ -29,7 +30,7 @@ const ItemCard = (props: Props) => {
                     source={Assets.FoodImages[key ? key : 'default']}
                 // onError={() => setImage(require('../../../app-client/assets/images/ingredients.png'))}
                     size={iconSize ? iconSize : 44}/>
-            <Text style={{fontFamily: 'nanum-square-round'}}>{item.name}</Text>
+            <Text style={[{fontFamily: 'nanum-square-round'}, textStyle]}>{item.name}</Text>
         </View>
     );
 }
