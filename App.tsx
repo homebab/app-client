@@ -9,12 +9,12 @@ import AccountController, {useAccountContext} from "./contexts/Account";
 
 import * as Linking from 'expo-linking';
 
-import Amplify, {Auth, Hub} from 'aws-amplify'
+import Amplify, {Auth, Hub, Analytics, AWSKinesisFirehoseProvider} from 'aws-amplify'
 // @ts-ignore
 import awsConfig from './aws-exports'
 import ContainerController from "./contexts/Container";
 
-import { YellowBox } from 'react-native';
+import {YellowBox} from 'react-native';
 import {MyCognitoUser} from "./services/aws/cognito";
 
 // [Warning]: Setting a timer for a long period of time
@@ -39,6 +39,8 @@ console.debug('[HOMEBAB]: host on ' + hostUrl)
 
 const isTunnel = hostUrl.includes("exp://")
 const isLAN = hostUrl.includes("localhost") || hostUrl.includes("127.0.0.1")
+
+Analytics.addPluggable(new AWSKinesisFirehoseProvider());
 
 const updatedAwsConfig = {
     ...awsConfig,

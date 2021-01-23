@@ -23,5 +23,11 @@
         }
       }
     }
+  },
+  "analytics": {
+    "homebab": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }

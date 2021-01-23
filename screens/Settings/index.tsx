@@ -10,9 +10,13 @@ import {updateUser} from "../../services/aws/cognito";
 import {MaterialIcons} from "@expo/vector-icons";
 import {formatUserName} from "../../validators/format";
 import Constants from "expo-constants";
+import {useNetInfo} from "@react-native-community/netinfo";
 
 
 const RowButtonList = () => {
+    const netInfo = useNetInfo();
+    const {isConnected} = netInfo;
+
     const {accountState, accountDispatch} = useAccountContext();
     const {cognitoUser} = accountState;
 
@@ -22,14 +26,15 @@ const RowButtonList = () => {
         {
             label: '버전정보',
             onPress: () => {
-                alert(`현재 버전은 v${Constants.nativeBuildVersion} 입니다`)
+                alert(`현재 버전은 vdr${Constants.nativeBuildVersion} 입니다`)
             }
         },
         {
             label: '서비스 문의',
             onPress: () => {
                 Linking.openURL("mailto:homebab.developer@gmail.com")
-            }
+            },
+            disabled: !isConnected,
         },
 
         {
@@ -43,14 +48,16 @@ const RowButtonList = () => {
                 // `DataStore.clear() is often important to use for shared device scenarios
                 // or where you need to purge the local on-device storage of records for security/privacy concerns.
                 .then(_ => DataStore.clear().then(_ => console.debug('[HOMEBAB]: success to clear datastore')))
-                .catch(err => console.warn("[HOMEBAB]: fail to delete cachedUser with", err))
+                .catch(err => console.warn("[HOMEBAB]: fail to delete cachedUser with", err)),
+            disabled: !isConnected
         },
         {
             label: '영구 탈퇴', textStyle: {color: '#ff1744'},
             onPress: () => cognitoUser?.deleteUser((err) => {
                 if (err) console.debug('[HOMEBAB]: fail to delete cognitoUser with ', JSON.stringify(err))
                 else accountDispatch({type: "DEAUTHENTICATE"})
-            })
+            }),
+            disabled: !isConnected
         }
     ]
 
@@ -118,6 +125,9 @@ const SetAlarm = () => {
 }
 
 const Profile = () => {
+    const netInfo = useNetInfo();
+    const {isConnected} = netInfo;
+
     const {accountState} = useAccountContext();
     const {customAttributes} = accountState;
 
@@ -140,11 +150,17 @@ const Profile = () => {
                            autoFocus={true}
                            style={[{fontSize: 24, padding: 12}, editableName && {backgroundColor: '#f2f2f2'}]}/>
                 <TouchableOpacity style={{position: "absolute", right: '4%'}}
+                                  disabled={!isConnected}
                                   onPress={() => {
+                                      if (!isConnected) {
+                                          alert('[Homebab]: 네트워크 연결이 필요합니다.');
+                                          return;
+                                      }
+
                                       if (editableName) updateUser(name, image)
                                       setEditableName(!editableName)
                                   }}>
-                    <MaterialIcons name={editableName ? "save" : 'edit'} size={24} color="black"/>
+                    <MaterialIcons name={editableName ? "save" : 'edit'} size={24} color={isConnected ? "black": "gray"}/>
                 </TouchableOpacity>
             </View>
         </View>

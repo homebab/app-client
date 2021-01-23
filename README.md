@@ -9,8 +9,7 @@
                                                                   
 ```
 A cross platform capable of driving both Android and IOS services with React Native
-1. ReactNative
-2. Expo
+
 ## Get Started
 ### Test
 ```shell script
@@ -37,10 +36,13 @@ $ expo build:ios
 ```shell script
 $ amplify status
 
-| Category  | Resource name          | Operation | Provider plugin   |
-| --------- | ---------------------- | --------- | ----------------- |
-| Auth      | omtmappservice72c1308e | No Change | awscloudformation |
-| Analytics | omtmAppService         | No Change | awscloudformation |
+Current Environment: dev
+
+| Category  | Resource name   | Operation | Provider plugin   |
+| --------- | --------------- | --------- | ----------------- |
+| Auth      | homebabf581fe92 | No Change | awscloudformation |
+| Api       | homebab         | No Change | awscloudformation |
+| Analytics | homebab         | No Change | awscloudformation |
 ```
 ### Auth
 - support only for a social(Google, Facebook, Apple) login with [Oauth](https://docs.amplify.aws/lib/auth/social/q/platform/js#oauth-and-federation-overview)
@@ -49,6 +51,7 @@ $ amplify status
   - Apple
 
 ### DataStore (API GraphQL)
+- [only supported on offline](https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js)
 - `amplify codegen models` generate models in `model/` by amplify graphql scheme
 ```shell
 $ amplify codegen models
@@ -69,8 +72,10 @@ async function fetchItems() {
 ```
 
 ### Analytics
-- [analytics with AWS pinpoint](https://docs.amplify.aws/lib/analytics/getting-started/q/platform/js)
-- [pinpoint stream to Amazon Kinesis](https://docs.amplify.aws/lib/analytics/storing/q/platform/js)
+- [Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html)
+  - Region mapping ap-northeast-2 to ap-northeast-2 is not supported yet.(ap-northeast-2 to us-east-1)
+  - So, pinpoint analytics is used only for user tracking. Then, use ap-northeast-2 kinesis for other analytics.
+  
 
 ## Screenshots
 ### v0

@@ -1,6 +1,6 @@
 {
     "identityPoolName": "homebabf581fe92_identitypool_f581fe92",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "homebaf581fe92",
     "userPoolName": "homebabf581fe92_userpool_f581fe92",
     "autoVerifiedAttributes": [

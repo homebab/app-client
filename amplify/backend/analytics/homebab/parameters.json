@@ -1,0 +1,21 @@
+{
+    "appName": "homebab",
+    "roleName": "pinpointLambdaRole10943cec",
+    "cloudformationPolicyName": "cloudformationPolicy10943cec",
+    "cloudWatchPolicyName": "cloudWatchPolicy10943cec",
+    "pinpointPolicyName": "pinpointPolicy10943cec",
+    "authPolicyName": "pinpoint_amplify_10943cec",
+    "unauthPolicyName": "pinpoint_amplify_10943cec",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
