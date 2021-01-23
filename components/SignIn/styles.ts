@@ -1,10 +1,11 @@
 import {StyleSheet} from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
 
     wrapper: {
         flex: 0.6,
-        width: "80%",
+        // width: "80%",
         // backgroundColor: "white",
         alignItems: "center",
         justifyContent: "flex-end"
@@ -12,13 +13,9 @@ export const styles = StyleSheet.create({
     button: {
         display: "flex",
         flexDirection: "row",
-        width: "100%",
-        marginTop: 10,
-        marginBottom: 10,
-        // paddingLeft: "10%",
-        // paddingRight: 24,
-        // paddingBottom: 16,
-        // paddingTop: 16,
+        width: wp(80),
+        margin: hp(1),
+        height: hp(6),
         justifyContent: "center",
         alignItems: "center",
     },
@@ -35,16 +32,16 @@ export const styles = StyleSheet.create({
         backgroundColor: "#303030"
     },
     text: {
-        padding: 16,
         justifyContent: "center",
         fontFamily: 'nanum-square-round',
         color: "white",
         fontWeight: "bold",
-        fontSize: 16,
+        fontSize: hp(1.6),
     },
     icon: {
         position: "absolute",
-        left: 28
+        left: wp(8),
+        fontSize: hp(2.8),
     },
     link: {
         fontWeight: 'bold',

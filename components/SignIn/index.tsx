@@ -24,7 +24,7 @@ const SignIn = () => {
                               onPress={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google})
                                   .then(res => console.debug("[HOMEBAB]: success to google signIn with", res))
                                   .catch(err => console.warn(`[HOMEBAB]: fail to google signIn with ${Linking.makeUrl()} and ${err}`))}>
-                <Entypo style={styles.icon} name="google-" size={30} color="white"/>
+                <Entypo style={styles.icon} name="google-" color="white"/>
                 <Text style={styles.text}>
                     구글 로그인
                 </Text>
