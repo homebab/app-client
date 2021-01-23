@@ -12,5 +12,6 @@ export const styles = StyleSheet.create({
         paddingLeft: wp(4),
         paddingRight: wp(4),
     },
-    text: {fontSize: hp(1.8)}
+    text: {fontSize: hp(1.8)},
+    icon: {fontSize: hp(2)}
 });

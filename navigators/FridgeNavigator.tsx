@@ -32,7 +32,8 @@ export default function FridgeNavigator() {
                 options={{
                     headerTitle: '식재료 관리',
                     headerStyle: styles.headerStyle,
-                    headerLeft: () => <MaterialCommunityIcons name="fridge"  color="black" style={[styles.headerIcon, {marginLeft: 16}]}/>,
+                    headerLeft: () => <MaterialCommunityIcons name="fridge" color="black"
+                                                              style={[styles.headerIcon, {marginLeft: 16}]}/>,
                     headerRight: () =>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Search containerStyle={[styles.headerIcon, {marginRight: 16}]}/>
@@ -46,11 +47,13 @@ export default function FridgeNavigator() {
                 component={AddItems}
                 options={{
                     headerTitle: '식품 추가',
-                    headerLeft: () => <CrossIconButton containerStyle={{marginLeft: 16}} size={28}
+                    headerStyle: styles.headerStyle,
+                    headerLeft: () => <CrossIconButton containerStyle={[styles.headerIcon, {marginLeft: 16}]}
                                                        onPress={() => navigation.navigate("ListItems")}/>,
-                    headerRight: () => <NextIconButton containerStyle={{marginRight: 16}} size={28} onPress={() => {
-                        createItem(basket).then(_ => navigation.navigate('ListItems'));
-                    }}/>,
+                    headerRight: () => <NextIconButton containerStyle={[styles.headerIcon, {marginRight: 16}]}
+                                                       onPress={() => {
+                                                           createItem(basket).then(_ => navigation.navigate('ListItems'));
+                                                       }}/>,
                     headerTitleStyle: styles.headerTitle
                 }}
             />
@@ -59,6 +62,7 @@ export default function FridgeNavigator() {
                 component={CaptureItem}
                 options={{
                     headerTitle: '식품 사진',
+                    headerStyle: styles.headerStyle,
                     headerTitleStyles: styles.headerTitle
                 }}
             />

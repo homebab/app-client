@@ -8,7 +8,7 @@ type Props = {
     value: string,
     onChangeText: (text: string) => void;
     onStartEditing?: () => void;
-    onEndEditing?: () => void;
+    onEndEditing: () => void;
     onFocus?: () => void;
     containerStyle?: ViewStyle;
 }
@@ -29,16 +29,19 @@ const SearchBar = (props: Props) => {
                                setEditing(true);
                            }}/>
                 {editing ?
-                    <TouchableOpacity onPress={onEndEditing}>
+                    <TouchableOpacity onPress={() => {
+                        onEndEditing();
+                        setEditing(false);
+                    }}>
                         <Ionicons
-                            name={"md-close"} size={18} color="gray"
+                            name={"md-close"} style={styles.icon} color="gray"
                             // @ts-ignore, TODO: how to fix it without @ts-ignore
-                            borderRadius={32} backgroundColor="transparent"
+                            backgroundColor="transparent"
                         />
                     </TouchableOpacity> : <Ionicons
-                        name="md-search" size={18} color="gray"
+                        name="md-search" style={styles.icon} color="gray"
                         // @ts-ignore, TODO: how to fix it without @ts-ignore
-                        borderRadius={32} backgroundColor="transparent"
+                        backgroundColor="transparent"
                     />}
             </View>
         </View>

@@ -44,7 +44,7 @@ const ListItemCard = ({item}: { item: Item }) => {
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
                 <ItemCard item={item} avatarStyle={styles.avatarStyle} containerStyle={styles.itemContainer}
-                          iconSize={hp(5)} textStyle={styles.itemLabel} />
+                          iconSize={hp(5)} textStyle={styles.itemLabel}/>
             </TouchableOpacity>
         </View>
     )
@@ -65,7 +65,7 @@ const ItemsGrid = (container: Array<Item>) => {
                     <ScrollView style={{backgroundColor: "#f2f2f2"}}>
                         <Grid container={container ?
                             container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)
-                            : []} chunkSize={isTablet? 5: 4}/>
+                            : []} chunkSize={isTablet ? 5 : 4}/>
                     </ScrollView>
             }
         </View>
@@ -127,8 +127,10 @@ const ListItems: React.FC = () => {
                                 placeholder={"식품을 입력해주세요."} value={searchWord}
                                 onChangeText={text => setSearchWord(text)}
                                 onStartEditing={() => setIsSearching(true)}
-                                onEndEditing={() => setIsSearching(false)}
-                            />
+                                onEndEditing={() => {
+                                    setIsSearching(false)
+                                    setSearchWord('')
+                                }}/>
                             {ItemsGrid(filteredItems.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false))}
                         </> :
                         <>
@@ -137,7 +139,8 @@ const ListItems: React.FC = () => {
                                                  containerStyle={styles.categoryBar} textStyle={styles.text}/>
                             <HorizontalTypesView types={storages} pressedType={storage}
                                                  onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
-                                                 containerStyle={isTablet? tabletStyles.storageBar: styles.storageBar} textStyle={styles.text}/>
+                                                 containerStyle={isTablet ? tabletStyles.storageBar : styles.storageBar}
+                                                 textStyle={styles.text}/>
                             {ItemsGrid(filteredItems)}
 
                             <TouchableOpacity style={styles.plusButton} onPress={() => navigation.navigate('AddItems')}>
