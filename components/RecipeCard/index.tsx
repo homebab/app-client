@@ -1,11 +1,12 @@
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Layout from "../../constants/Layout";
 import {Entypo, EvilIcons} from "@expo/vector-icons";
 import {YOUTUBE_API_KEY} from "react-native-dotenv";
 import {Recipe, RecipeHit} from "../../types/Recipe";
 import {EndPoints} from "../../constants/Endpoints";
+import Assets from "../../constants/Assets";
 
 const RecipeHeader = ({title}: {title: string}) => {
     return (
@@ -62,7 +63,11 @@ const RecipeCard = (props: Props) => {
     const {kind, videoId, publishedAt, publisher, title, description, thumbnails} = _source
 
     const [validUrl, setValidUrl] = useState(true);
-    const imageUrl = thumbnails.standard.url;
+    const imageUrl = thumbnails.medium?.url
+        ?? thumbnails.standard?.url
+        ?? thumbnails.default?.url;
+
+    useEffect(() => console.log(Object.keys(thumbnails)))
 
     // 16:9
     const videoHeight = Layout.window.width * 9 / 16;
@@ -74,7 +79,7 @@ const RecipeCard = (props: Props) => {
 
                 <View>
                     <TouchableOpacity onPress={onPress}>
-                        <Image source={{uri: imageUrl}}
+                        <Image source={imageUrl ? {uri: imageUrl}: Assets.Image.logo}
                                style={{width: "100%", resizeMode: "cover", aspectRatio: 16 / 9}}/>
                     </TouchableOpacity>
                 </View>

@@ -51,7 +51,7 @@ export default function ListRecipes() {
         return <Loading/>
     } else {
         // TODO: refactoring
-        const recipeHits: Array<RecipeHit<Recipe>> = sourceToRecipe(data as RecipeRecommendationResponse)
+        const recipeHits: Array<RecipeHit<Recipe>> = sourceToRecipe(data as RecipeRecommendationResponse ?? [])
 
         return (
             <View style={styles.container}>

@@ -29,9 +29,9 @@ export const recommendRecipes = (ingredients: string, size: number) => new Promi
 });
 
 
-export const buildRecipeRecommendationEndPoint = (fridge: Array<Item>) => EndPoints.buildAPIPath("/recommend-recipes", "/recipe-recommender",
+export const buildRecipeRecommendationEndPoint = (fridge: Array<Item>, size?: number) => EndPoints.buildAPIPath("/recommend-recipes", "/recipe-recommender",
     {
         ingredients: fridge.length > 0 ? fridge
             .map(i => i.name.replace('\n', ' '))
-            .join(",") : '인기, 간단', size: 5
+            .join(",") : '인기, 간단', size: size ?? 5
     })

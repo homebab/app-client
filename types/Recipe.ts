@@ -1,3 +1,9 @@
+interface YoutubeThumbnailImage {
+    height: number,
+    width: number,
+    url: string
+}
+
 export interface Recipe {
     kind: string,
     videoId: string,
@@ -5,7 +11,13 @@ export interface Recipe {
     publisher: string,
     title: string,
     description: string,
-    thumbnails: any,
+    thumbnails: {
+        default?: YoutubeThumbnailImage,
+        medium?: YoutubeThumbnailImage,
+        high?: YoutubeThumbnailImage,
+        standard?: YoutubeThumbnailImage,
+        maxres?: YoutubeThumbnailImage,
+    },
 }
 
 export const sourceToRecipe: (res: RecipeRecommendationResponse) => Array<RecipeHit<Recipe>> = (res: RecipeRecommendationResponse) => res.map((r: RecipeHit<Source>) => {

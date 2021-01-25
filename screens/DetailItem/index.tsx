@@ -13,6 +13,7 @@ import {getImageKey} from "../../constants/Ingredients";
 import {leftDays} from "../../hooks/useShelfLifeAnalytics";
 import ButtonList from "../../components/ButtonList";
 import {updateItem} from "../../services/aws/appsync"
+import {styles} from "./styles";
 
 
 const TextInputBox = ({
@@ -139,7 +140,7 @@ const DetailItem = (props: Props) => {
     }
 
     return (
-        <View style={{flex: 1, width: "92%"}}>
+        <View style={styles.container}>
             {ItemAvatar()}
 
             <ColumnItemInfo/>
