@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {useEffect, useLayoutEffect, useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
+import {useEffect, useLayoutEffect, useMemo, useState} from 'react';
+import {RefreshControl, ScrollView, StyleSheet, View, Text} from 'react-native';
 import Layout from "../../constants/Layout";
 import RecipeCard from "../../components/RecipeCard";
 import useFetchData from "../../hooks/useFetchData";
@@ -16,15 +16,17 @@ import {useNavigation} from "@react-navigation/native";
 import {Recipe, RecipeHit, RecipeRecommendationResponse, sourceToRecipe} from "../../types/Recipe";
 import {buildRecipeRecommendationEndPoint} from "../../services/homebab/recipeRecommendation";
 import {styles as navigatorStyle} from "../../navigators/styles"
+import Grid from "../../components/Grid";
+import {isTablet} from "../../utils/responsive";
 
 export default function ListRecipes() {
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
     const {state: {isLoading, isError, data}, setUrl: fetchData} = useFetchData<RecipeRecommendationResponse>(
-        buildRecipeRecommendationEndPoint(fridge), []);
+        buildRecipeRecommendationEndPoint(fridge, isTablet ? 9 : 5), []);
 
     useEffect(() => {
-        fetchData(buildRecipeRecommendationEndPoint(fridge))
+        fetchData(buildRecipeRecommendationEndPoint(fridge, isTablet ? 9 : 5))
     }, [fridge]);
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -47,21 +49,24 @@ export default function ListRecipes() {
         });
     }, [videoUrl, navigation]);
 
+    const recipeCards = useMemo(() => sourceToRecipe(data as RecipeRecommendationResponse ?? [])
+            .map((recipe: RecipeHit<Recipe>, k: number) =>
+                <RecipeCard key={k} recipeHit={recipe}
+                            onPress={() => setVideoUrl(`https://m.youtube.com/watch?v=${recipe._source.videoId}`)}/>)
+        , [data])
+    console.log('recipeCards', data.length, videoUrl)
+
     if (isLoading) {
         return <Loading/>
     } else {
-        // TODO: refactoring
-        const recipeHits: Array<RecipeHit<Recipe>> = sourceToRecipe(data as RecipeRecommendationResponse ?? [])
-
         return (
             <View style={styles.container}>
                 {!videoUrl ?
                     <ScrollView style={{backgroundColor: "#f2f2f2"}}>
                         {
-                            recipeHits.map((recipe: RecipeHit<Recipe>, k: number) => {
-                                return (<RecipeCard key={k} recipeHit={recipe}
-                                                    onPress={() => setVideoUrl(`https://m.youtube.com/watch?v=${recipe._source.videoId}`)}/>)
-                            })
+                            isTablet ?
+                                <Grid container={recipeCards} chunkSize={3}/> :
+                                recipeCards
                         }
                     </ScrollView> :
                     <WebView

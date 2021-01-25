@@ -33,5 +33,6 @@ export const buildRecipeRecommendationEndPoint = (fridge: Array<Item>, size?: nu
     {
         ingredients: fridge.length > 0 ? fridge
             .map(i => i.name.replace('\n', ' '))
-            .join(",") : '인기, 간단', size: size ?? 5
+            .join(",") : '인기, 간단',
+        size: size ?? 5
     })

@@ -1,4 +1,4 @@
-import {Image, Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, TouchableOpacity, View, ViewProps} from "react-native";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Layout from "../../constants/Layout";
@@ -8,7 +8,7 @@ import {Recipe, RecipeHit} from "../../types/Recipe";
 import {EndPoints} from "../../constants/Endpoints";
 import Assets from "../../constants/Assets";
 
-const RecipeHeader = ({title}: {title: string}) => {
+const RecipeHeader = ({title}: { title: string }) => {
     return (
         <View style={{paddingLeft: 12, paddingRight: 12, paddingTop: 12, paddingBottom: 12}}>
             <View style={{marginBottom: 12, flexDirection: "row", alignItems: "center"}}>
@@ -19,7 +19,8 @@ const RecipeHeader = ({title}: {title: string}) => {
                     <Entypo name="youtube" size={24} color="#FF0000"/>
                 </View>
                 <View style={{flex: 11, marginLeft: 12, marginRight: 12}}>
-                    <Text style={{fontWeight: "bold", fontSize: 16, fontFamily: 'nanum-square-round-bold'}}>{title}</Text>
+                    <Text
+                        style={{fontWeight: "bold", fontSize: 16, fontFamily: 'nanum-square-round-bold'}}>{title}</Text>
                 </View>
                 {/*<Entypo name="dots-three-vertical" size={16} color="#444444" />*/}
             </View>
@@ -30,7 +31,7 @@ const RecipeHeader = ({title}: {title: string}) => {
                     {
                         ['유튜브', '초간단레시피', '가성비'].slice(0, 3).map((tag: any, key) => (
                             <View key={key}>
-                                <Text style={{ fontFamily: 'nanum-square-round'}}>#{tag}</Text>
+                                <Text style={{fontFamily: 'nanum-square-round'}}>#{tag}</Text>
                             </View>
                         ))
                     }
@@ -55,10 +56,11 @@ const RecipeHeader = ({title}: {title: string}) => {
 type Props = {
     recipeHit: RecipeHit<Recipe>,
     onPress: () => void,
+    containerStyle?: ViewProps,
 }
 
 const RecipeCard = (props: Props) => {
-    const {recipeHit, onPress} = props
+    const {recipeHit, onPress, containerStyle} = props
     const {_source} = recipeHit
     const {kind, videoId, publishedAt, publisher, title, description, thumbnails} = _source
 
@@ -67,19 +69,20 @@ const RecipeCard = (props: Props) => {
         ?? thumbnails.standard?.url
         ?? thumbnails.default?.url;
 
-    useEffect(() => console.log(Object.keys(thumbnails)))
-
     // 16:9
     const videoHeight = Layout.window.width * 9 / 16;
 
     if (validUrl) {
         return (
-            <View style={{marginBottom: 12, borderTopWidth: 0.1, borderColor: '#ababab', backgroundColor: "#fffdfb"}}>
+            <View style={[{
+                flex: 1, marginBottom: 12, backgroundColor: "#fffdfb",
+                borderTopWidth: 0.1, borderColor: '#ababab'
+            }, containerStyle]}>
                 <RecipeHeader title={_source.title}/>
 
                 <View>
                     <TouchableOpacity onPress={onPress}>
-                        <Image source={imageUrl ? {uri: imageUrl}: Assets.Image.logo}
+                        <Image source={imageUrl ? {uri: imageUrl} : Assets.Image.logo}
                                style={{width: "100%", resizeMode: "cover", aspectRatio: 16 / 9}}/>
                     </TouchableOpacity>
                 </View>
