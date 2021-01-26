@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useLayoutEffect, useMemo, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Linking, ScrollView, StyleSheet, View} from 'react-native';
 import Layout from "../../constants/Layout";
 import RecipeCard from "../../components/RecipeCard";
 import useFetchData from "../../hooks/useFetchData";
@@ -49,8 +49,9 @@ export default function ListRecipes() {
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Search containerStyle={[navigatorStyle.headerIcon, {marginRight: 16}]}
                                 onPress={() => {
-                                    setVideoUrl("https://m.youtube.com");
-                                    setIsOpenVideo(true);
+                                    Linking.openURL("https://m.youtube.com");
+                                    // setVideoUrl("https://m.youtube.com");
+                                    // setIsOpenVideo(true);
                                 }}/>
                     </View>
         });
@@ -60,8 +61,9 @@ export default function ListRecipes() {
             .map((recipe: Recipe, k: number) =>
                 <RecipeCard key={k} recipe={recipe}
                             onPress={() => {
-                                setVideoUrl(`https://m.youtube.com/watch?v=${recipe.videoId}`);
-                                setIsOpenVideo(true)
+                                Linking.openURL(`https://m.youtube.com/watch?v=${recipe.videoId}`);
+                                // setVideoUrl(`https://m.youtube.com/watch?v=${recipe.videoId}`);
+                                // setIsOpenVideo(true)
                             }} containerStyle={{backgroundColor: '#f2f2f2'}}/>
     )
 
