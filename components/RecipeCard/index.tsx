@@ -54,15 +54,14 @@ const RecipeHeader = ({title}: { title: string }) => {
 }
 
 type Props = {
-    recipeHit: RecipeHit<Recipe>,
+    recipe: Recipe,
     onPress: () => void,
     containerStyle?: ViewProps,
 }
 
 const RecipeCard = (props: Props) => {
-    const {recipeHit, onPress, containerStyle} = props
-    const {_source} = recipeHit
-    const {kind, videoId, publishedAt, publisher, title, description, thumbnails} = _source
+    const {recipe, onPress, containerStyle} = props
+    const {kind, videoId, publishedAt, publisher, title, description, thumbnails} = recipe
 
     const [validUrl, setValidUrl] = useState(true);
     const imageUrl = thumbnails.medium?.url
@@ -75,10 +74,10 @@ const RecipeCard = (props: Props) => {
     if (validUrl) {
         return (
             <View style={[{
-                flex: 1, marginBottom: 12, backgroundColor: "#fffdfb",
+                flex: 1, backgroundColor: "#fffdfb",
                 borderTopWidth: 0.1, borderColor: '#ababab'
             }, containerStyle]}>
-                <RecipeHeader title={_source.title}/>
+                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...': title}/>
 
                 <View>
                     <TouchableOpacity onPress={onPress}>

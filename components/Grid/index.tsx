@@ -16,7 +16,10 @@ const Grid = (props: Props) => {
     const chunked = useMemo(() => chunkArray(container, chunkSize ?? 4)
             .map((components, key: number) =>
                 <View key={key} style={[{flexDirection: "row", justifyContent: "space-around"}, rowStyle]}>
-                    {components}
+                    {components.map((v, k) =>
+                        <View key={k} style={itemStyle}>
+                            {v}
+                        </View>)}
                 </View>
             ), [container, chunkSize]);
 

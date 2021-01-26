@@ -1,13 +1,10 @@
 import * as React from 'react';
 import {useEffect, useLayoutEffect, useMemo, useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, View, Text} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import Layout from "../../constants/Layout";
 import RecipeCard from "../../components/RecipeCard";
 import useFetchData from "../../hooks/useFetchData";
-import {EndPoints} from "../../constants/Endpoints";
 import {useContainerContext} from "../../contexts/Container";
-import {ActivityIndicator} from "react-native-paper";
-import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import Loading from "../../components/Loading";
 import WebView from 'react-native-webview';
 import CrossIconButton from "../../components/CrossIconButton";
@@ -23,14 +20,18 @@ export default function ListRecipes() {
     const {containerState} = useContainerContext();
     const {fridge} = containerState;
     const {state: {isLoading, isError, data}, setUrl: fetchData} = useFetchData<RecipeRecommendationResponse>(
-        buildRecipeRecommendationEndPoint(fridge, isTablet ? 9 : 5), []);
+        buildRecipeRecommendationEndPoint(fridge, isTablet ? 12 : 5), []);
+
+    const recipes: Array<Recipe> = useMemo( () =>
+        sourceToRecipe(data as RecipeRecommendationResponse ?? []), [data]);
 
     useEffect(() => {
-        fetchData(buildRecipeRecommendationEndPoint(fridge, isTablet ? 9 : 5))
+        fetchData(buildRecipeRecommendationEndPoint(fridge, isTablet ? 12 : 5))
     }, [fridge]);
 
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [videoUrl, setVideoUrl] = useState<undefined | string>(undefined);
+    const [isOpenVideo, setIsOpenVideo] = useState<boolean>(false);
 
     const navigation = useNavigation();
 
@@ -40,32 +41,40 @@ export default function ListRecipes() {
                 videoUrl ?
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <CrossIconButton containerStyle={[navigatorStyle.headerIcon, {marginRight: 16}]} size={28}
-                                         onPress={() => setVideoUrl(undefined)}/>
+                                         onPress={() => {
+                                             setVideoUrl(undefined);
+                                             setIsOpenVideo(false);
+                                         }}/>
                     </View> :
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Search containerStyle={[navigatorStyle.headerIcon, {marginRight: 16}]}
-                                onPress={() => setVideoUrl("https://m.youtube.com")}/>
+                                onPress={() => {
+                                    setVideoUrl("https://m.youtube.com");
+                                    setIsOpenVideo(true);
+                                }}/>
                     </View>
         });
     }, [videoUrl, navigation]);
 
-    const recipeCards = useMemo(() => sourceToRecipe(data as RecipeRecommendationResponse ?? [])
-            .map((recipe: RecipeHit<Recipe>, k: number) =>
-                <RecipeCard key={k} recipeHit={recipe}
-                            onPress={() => setVideoUrl(`https://m.youtube.com/watch?v=${recipe._source.videoId}`)}/>)
-        , [data])
-    console.log('recipeCards', data.length, videoUrl)
+    const recipeCards = recipes
+            .map((recipe: Recipe, k: number) =>
+                <RecipeCard key={k} recipe={recipe}
+                            onPress={() => {
+                                setVideoUrl(`https://m.youtube.com/watch?v=${recipe.videoId}`);
+                                setIsOpenVideo(true)
+                            }} containerStyle={{backgroundColor: '#f2f2f2'}}/>
+    )
 
     if (isLoading) {
         return <Loading/>
     } else {
         return (
             <View style={styles.container}>
-                {!videoUrl ?
+                {!isOpenVideo ?
                     <ScrollView style={{backgroundColor: "#f2f2f2"}}>
                         {
                             isTablet ?
-                                <Grid container={recipeCards} chunkSize={3}/> :
+                                <Grid container={recipeCards} chunkSize={3} itemStyle={{flex: 1, padding: 8}}/> :
                                 recipeCards
                         }
                     </ScrollView> :

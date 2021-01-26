@@ -20,18 +20,15 @@ export interface Recipe {
     },
 }
 
-export const sourceToRecipe: (res: RecipeRecommendationResponse) => Array<RecipeHit<Recipe>> = (res: RecipeRecommendationResponse) => res.map((r: RecipeHit<Source>) => {
+export const sourceToRecipe: (res: RecipeRecommendationResponse) => Array<Recipe> = (res: RecipeRecommendationResponse) => res.map((r: RecipeHit<Source>) => {
     const {kind, external_id, published_at, publisher, title, description, thumbnails} = r._source;
 
     return {
-        ...r,
-        _source: {
             kind,
             videoId: external_id,
             publishedAt: new Date(published_at),
             publisher, title, description, thumbnails
         }
-    }
 })
 
 
