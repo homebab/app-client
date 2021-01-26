@@ -8,13 +8,13 @@ import {Recipe, RecipeHit} from "../../types/Recipe";
 import {EndPoints} from "../../constants/Endpoints";
 import Assets from "../../constants/Assets";
 
-const RecipeHeader = ({title}: { title: string }) => {
+const RecipeHeader = ({title, publisher}: { title: string, publisher: string }) => {
     return (
         <View style={{paddingLeft: 12, paddingRight: 12, paddingTop: 12, paddingBottom: 12}}>
             <View style={{marginBottom: 12, flexDirection: "row", alignItems: "center"}}>
                 <View style={{
                     flex: 1, aspectRatio: 1, alignItems: "center", justifyContent: "center",
-                    padding: 4, borderWidth: 1, borderColor: "#dbdbdb", borderRadius: 100
+                    padding: 4, borderWidth: 1, borderColor: "#dbdbdb", borderRadius: 100, backgroundColor: 'white'
                 }}>
                     <Entypo name="youtube" size={24} color="#FF0000"/>
                 </View>
@@ -28,14 +28,18 @@ const RecipeHeader = ({title}: { title: string }) => {
 
             <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                 <View style={{width: "60%", flexDirection: "row", alignItems: "center"}}>
-                    {
-                        ['유튜브', '초간단레시피', '가성비'].slice(0, 3).map((tag: any, key) => (
-                            <View key={key}>
-                                <Text style={{fontFamily: 'nanum-square-round'}}>#{tag}</Text>
-                            </View>
-                        ))
-                    }
+                    <Text style={{fontFamily: 'nanum-square-round'}}>{publisher}</Text>
                 </View>
+
+                {/*<View style={{width: "60%", flexDirection: "row", alignItems: "center"}}>*/}
+                {/*    {*/}
+                {/*        tags.concat(['가성비레시피']).slice(0, 3).map((tag: any, key) => (*/}
+                {/*            <View key={key}>*/}
+                {/*                <Text style={{fontFamily: 'nanum-square-round'}}>#{tag}</Text>*/}
+                {/*            </View>*/}
+                {/*        ))*/}
+                {/*    }*/}
+                {/*</View>*/}
 
                 {/*<View style={{position: "absolute", right: 0, flexDirection: "row", alignItems: "center"}}>*/}
                 {/*    <View style={{marginRight: 12}}>*/}
@@ -77,7 +81,7 @@ const RecipeCard = (props: Props) => {
                 flex: 1, backgroundColor: "#fffdfb",
                 borderTopWidth: 0.1, borderColor: '#ababab'
             }, containerStyle]}>
-                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...': title}/>
+                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...' : title} publisher={[publisher]}/>
 
                 <View>
                     <TouchableOpacity onPress={onPress}>
