@@ -37,7 +37,7 @@ const usePushNotification = () => {
                 .then(_ => accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } }))
                 .catch(_ => alert("[HOMEBAB]: 업데이트에 실패했습니다."))
         } catch {
-            alert("[HOMEBAB]: 푸쉬알림을 거부했습니다.")
+            alert("[HOMEBAB]: 푸쉬알림을 허가해주세요.")
         }
     }
 
