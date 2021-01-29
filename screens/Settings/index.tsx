@@ -1,28 +1,31 @@
-import {Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useEffect, useRef, useState} from "react";
-import {useAccountContext} from "../../contexts/Account";
-import Assets from "../../constants/Assets";
-import ButtonList from "../../components/ButtonList";
-import {Auth, DataStore} from "aws-amplify";
-import {Switch} from "react-native-paper";
-import {deleteAllItems} from "../../services/aws/appsync";
-import {updateUser} from "../../services/aws/cognito";
-import {MaterialIcons} from "@expo/vector-icons";
-import {formatUserName} from "../../validators/format";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { Auth, DataStore } from "aws-amplify";
 import Constants from "expo-constants";
-import {useNetInfo} from "@react-native-community/netinfo";
+import React, { useRef, useState } from "react";
+import { Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Switch } from "react-native-paper";
+import ButtonList, { Dataset as ButtonListDataset } from "../../components/ButtonList";
+import OnOffButton from "../../components/OnOffButton";
+import Assets from "../../constants/Assets";
+import { useAccountContext } from "../../contexts/Account";
+import { deleteAllItems } from "../../services/aws/appsync";
+import { updateCustomAttributes } from "../../services/aws/cognito";
+import { formatUserName } from "../../validators/format";
 
 
 const RowButtonList = () => {
     const netInfo = useNetInfo();
-    const {isConnected} = netInfo;
+    const { isConnected } = netInfo;
 
-    const {accountState, accountDispatch} = useAccountContext();
-    const {cognitoUser} = accountState;
+    const { accountState, accountDispatch } = useAccountContext();
+    const { cognitoUser } = accountState;
+    const { recommendRecipes, imminentShelfLife } = accountState.customAttributes.alarm;
 
-    const dataset = [
+    const dataset: ButtonListDataset = [
 
         // {label: '공지사항'},
+        // { label: '알림설정', icon: <OnOffButton value={imminentShelfLife} containerStyle={{position: 'absolute', right: '4%'}} onPress={() => {}} />},
         {
             label: '버전정보',
             onPress: () => {
@@ -52,73 +55,55 @@ const RowButtonList = () => {
             disabled: !isConnected
         },
         {
-            label: '영구 탈퇴', textStyle: {color: '#ff1744'},
+            label: '영구 탈퇴', textStyle: { color: '#ff1744' },
             onPress: () => cognitoUser?.deleteUser((err) => {
                 if (err) console.debug('[HOMEBAB]: fail to delete cognitoUser with ', JSON.stringify(err))
-                else accountDispatch({type: "DEAUTHENTICATE"})
+                else accountDispatch({ type: "DEAUTHENTICATE" })
             }),
             disabled: !isConnected
         }
     ]
 
     return (
-        <View style={{flex: 1, width: '100%', justifyContent: 'flex-start', paddingTop: '4%'}}>
-            <ButtonList dataset={dataset} containerStyle={{borderLeftColor: 'white', borderTopColor: 'white'}}/>
-        </View>
-    )
-}
-
-const OnOffButton = ({label, value, onPress}: { label: string, value: boolean, onPress: () => void }) => {
-    return (
-        <View style={{
-            flexDirection: 'row',
-            flex: 1,
-            padding: '4%',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-        }}>
-            <Text style={{fontFamily: 'nanum-square-round'}}>{label}</Text>
-            <Switch
-                onValueChange={onPress}
-                value={value}
-                color={"#2196f3"}
-                style={{position: 'absolute', right: '3%', transform: [{scaleX: .8}, {scaleY: .8}]}}
-            />
+        <View style={{ flex: 1, width: '100%', justifyContent: 'flex-start', marginTop: '4%' }}>
+            <ButtonList dataset={dataset} containerStyle={{ borderLeftColor: 'white', borderTopColor: 'white' }} />
         </View>
     )
 }
 
 const SetAlarm = () => {
-    const {accountState, accountDispatch} = useAccountContext();
-    const {alarm} = accountState;
-    const {recommendRecipes, manageIngredients} = alarm;
+    const { accountState, accountDispatch } = useAccountContext();
+    const { alarm } = accountState.customAttributes;
+    const { recommendRecipes, imminentShelfLife, expoPushToken } = alarm;
 
     const dataset = [
         {
-            label: '유통기한 임박', value: manageIngredients, onPress: () =>
-                alert('[HOMEBAB] coming soon')
-            // accountDispatch({
-            //     type: "SET_ALARM",
-            //     alarm: {manageIngredients: !manageIngredients, recommendRecipes: recommendRecipes}
-            // })
+            label: '유통기한 임박', value: imminentShelfLife, onPress: () => {
+                // alert('[HOMEBAB] coming soon')
+                const newAlarm = { ...alarm, imminentShelfLife: !imminentShelfLife };
+                updateCustomAttributes(
+                    { "custom:alarm": JSON.stringify(newAlarm) }
+                ).then(_ => accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } }));
+            }
         },
         {
-            label: '레시피 추천', value: recommendRecipes, onPress: () =>
-                alert('[HOMEBAB] coming soon')
-            // accountDispatch({
-            //     type: "SET_ALARM",
-            //     alarm: {manageIngredients: manageIngredients, recommendRecipes: !recommendRecipes}
-            // })
+            label: '레시피 추천', value: recommendRecipes, onPress: () => {
+                // alert('[HOMEBAB] coming soon')
+                const newAlarm = { ...alarm, recommendRecipes: !recommendRecipes };
+                updateCustomAttributes(
+                    { "custom:alarm": JSON.stringify(newAlarm) }
+                ).then(_ => accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } }));
+            }
         }
     ]
 
     return (
-        <View style={{width: '100%', padding: '4%', borderBottomWidth: 1, borderColor: 'rgba(208,200,192,0.5)'}}>
-            <Text style={{marginBottom: 16, fontFamily: 'nanum-square-round-bold', fontSize: 16}}>알림설정</Text>
+        <View style={{ width: '100%', padding: '4%', borderBottomWidth: 1, borderColor: 'rgba(208,200,192,0.5)' }}>
+            <Text style={{ marginBottom: 16, fontFamily: 'nanum-square-round-bold', fontSize: 16 }}>알림설정</Text>
 
-            <View style={{width: '100%', flexDirection: 'row'}}>
+            <View style={{ width: '100%', flexDirection: 'row' }}>
                 {dataset.map((data, key) =>
-                    <OnOffButton key={key} label={data.label} value={data.value} onPress={data.onPress}/>)}
+                    <OnOffButton key={key} label={data.label} value={data.value} onPress={data.onPress} />)}
             </View>
         </View>
     )
@@ -126,10 +111,10 @@ const SetAlarm = () => {
 
 const Profile = () => {
     const netInfo = useNetInfo();
-    const {isConnected} = netInfo;
+    const { isConnected } = netInfo;
 
-    const {accountState} = useAccountContext();
-    const {customAttributes} = accountState;
+    const { accountState, accountDispatch } = useAccountContext();
+    const { customAttributes } = accountState;
 
     const ref = useRef(null);
     const [editableName, setEditableName] = useState(false);
@@ -138,29 +123,30 @@ const Profile = () => {
 
     const avatarSize = 140
     return (
-        <View style={{alignItems: "center", paddingTop: '4%', width: '100%'}}>
-            <Image source={Assets.Image.emptyUser} style={{height: avatarSize, aspectRatio: 1, borderRadius: 100}}
-                   resizeMethod={"resize"}/>
+        <View style={{ alignItems: "center", paddingTop: '4%', width: '100%' }}>
+            <Image source={Assets.Image.emptyUser} style={{ height: avatarSize, aspectRatio: 1, borderRadius: 100 }}
+                resizeMethod={"resize"} />
             <View style={{
                 width: '100%', marginTop: 8,
                 flexDirection: 'row', alignItems: 'center', justifyContent: 'center'
             }}>
                 <TextInput ref={ref} value={name} onChangeText={text => setName(formatUserName(text))}
-                           editable={editableName}
-                           autoFocus={true}
-                           style={[{fontSize: 24, padding: 12}, editableName && {backgroundColor: '#f2f2f2'}]}/>
-                <TouchableOpacity style={{position: "absolute", right: '4%'}}
-                                  disabled={!isConnected}
-                                  onPress={() => {
-                                      if (!isConnected) {
-                                          alert('[Homebab]: 네트워크 연결이 필요합니다.');
-                                          return;
-                                      }
+                    editable={editableName}
+                    autoFocus={true}
+                    style={[{ fontSize: 24, padding: 12 }, editableName && { backgroundColor: '#f2f2f2' }]} />
+                <TouchableOpacity style={{ position: "absolute", right: '4%' }}
+                    disabled={!isConnected}
+                    onPress={() => {
+                        if (!isConnected) {
+                            alert('[Homebab]: 네트워크 연결이 필요합니다.');
+                            return;
+                        }
 
-                                      if (editableName) updateUser(name, image)
-                                      setEditableName(!editableName)
-                                  }}>
-                    <MaterialIcons name={editableName ? "save" : 'edit'} size={24} color={isConnected ? "black": "gray"}/>
+                        if (editableName) updateCustomAttributes({ "custom:name": name })
+                            .then(_ => accountDispatch({ type: 'SET_CUSTOM_ATTRIBUTES', customAttributes: { name } }))
+                        setEditableName(!editableName)
+                    }}>
+                    <MaterialIcons name={editableName ? "save" : 'edit'} size={24} color={isConnected ? "black" : "gray"} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -170,10 +156,10 @@ const Profile = () => {
 const Settings = () => {
 
     return (
-        <ScrollView style={{flex: 1, backgroundColor: 'white'}} contentContainerStyle={{padding: '4%'}}>
-            <Profile/>
-            <SetAlarm/>
-            <RowButtonList/>
+        <ScrollView style={{ flex: 1, backgroundColor: 'white' }} contentContainerStyle={{ padding: '4%' }}>
+            <Profile />
+            <SetAlarm />
+            <RowButtonList />
         </ScrollView>
     )
 }

@@ -1,29 +1,35 @@
-import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
-import {CognitoUser, CognitoUserPool} from "amazon-cognito-identity-js";
-import {MyCognitoAttributes, MyCognitoUser} from "../../services/aws/cognito";
+import React, { createContext, Dispatch, Reducer, useContext, useReducer } from "react";
+import { MyCognitoUser } from "../../services/aws/cognito";
 
 export type Alarm = {
-    manageIngredients: boolean,
+    expoPushToken?: string,
+    imminentShelfLife: boolean,
     recommendRecipes: boolean
 }
 
 export type CustomAttributes = {
     name?: string,
-    image?: string
+    image?: string,
+    alarm: Alarm,
 }
 
 export type Account = {
     cognitoUser: MyCognitoUser,
     customAttributes: CustomAttributes,
-    alarm: Alarm,
     isAuthenticated: boolean
 }
 
 export type Action =
     | { type: "FLUSH" }
     | { type: "SET_ACCOUNT", account: Account }
+    | {
+        type: "SET_CUSTOM_ATTRIBUTES", customAttributes: {
+            name?: string,
+            image?: string,
+            alarm?: Alarm,
+        }
+    }
     | { type: "DEAUTHENTICATE" }
-    | { type: "SET_ALARM", alarm: Alarm }
 
 type Props = {
     reducer: Reducer<Account, Action>;
@@ -35,22 +41,20 @@ type ContextProps = {
     accountDispatch: Dispatch<Action>;
 }
 
+export const initialAlarm: Alarm = { imminentShelfLife: false, recommendRecipes: false }
+
 export const initialAccount: Account = {
     cognitoUser: {} as MyCognitoUser,
-    customAttributes: {},
-    alarm: {
-        manageIngredients: false,
-        recommendRecipes: false
-    },
+    customAttributes: { alarm: initialAlarm },
     isAuthenticated: false,
 }
 
 export const AccountContext: React.Context<ContextProps> = createContext({} as ContextProps);
 
 export const AccountProvider: React.FC<Props> =
-    ({reducer, initState, children}) => {
+    ({ reducer, initState, children }) => {
         const [accountState, accountDispatch] = useReducer(reducer, initState);
-        const value = {accountState, accountDispatch};
+        const value = { accountState, accountDispatch };
         return (
             <AccountContext.Provider value={value}>
                 {children}
@@ -60,7 +64,7 @@ export const AccountProvider: React.FC<Props> =
 
 export const useAccountContext = () => useContext(AccountContext);
 
-const AccountController: React.FC = ({children}) => {
+const AccountController: React.FC = ({ children }) => {
     const reducer: Reducer<Account, Action> = (state, action) => {
         switch (action.type) {
             case 'FLUSH':
@@ -70,15 +74,18 @@ const AccountController: React.FC = ({children}) => {
                     ...state,
                     ...action.account
                 };
+            case 'SET_CUSTOM_ATTRIBUTES':
+                return {
+                    ...state,
+                    customAttributes: {
+                        ...state.customAttributes,
+                        ...action.customAttributes
+                    }
+                };
             case 'DEAUTHENTICATE':
                 return {
                     ...state,
                     isAuthenticated: false
-                };
-            case 'SET_ALARM':
-                return {
-                    ...state,
-                    alarm: action.alarm,
                 };
             default:
                 return state;

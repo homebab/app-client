@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "499035094083",
+    "project_id": "homebab-2020",
+    "storage_bucket": "homebab-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499035094083:android:93d0d57bb478aa5f6268f6",
+        "android_client_info": {
+          "package_name": "com.meowailand.homebab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499035094083-e0fkeukm88j6601e51q2p702pgl03dq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB67SpI7KMxpyOvKizDD4ab9DuEADJF0b8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499035094083-e0fkeukm88j6601e51q2p702pgl03dq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

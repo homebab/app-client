@@ -1,9 +1,9 @@
 import {Ionicons} from "@expo/vector-icons";
-import {TouchableOpacity, ViewStyle} from "react-native";
+import {StyleProp, TouchableOpacity, ViewStyle} from "react-native";
 import * as React from "react";
 
 type Props = {
-    containerStyle?: ViewStyle,
+    containerStyle?: StyleProp<ViewStyle>,
     size?: number,
     onPress?: () => void,
 }

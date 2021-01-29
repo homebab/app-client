@@ -3,7 +3,7 @@ import React from "react";
 import {EvilIcons} from "@expo/vector-icons";
 import styles from "./styles";
 
-type Dataset = Array<{
+export type Dataset = Array<{
     label: string,
     icon?: JSX.Element,
     onPress?: () => void,

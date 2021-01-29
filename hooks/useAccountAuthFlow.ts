@@ -1,14 +1,14 @@
-import {useAccountContext} from "../contexts/Account";
-import {useEffect} from "react";
-import {Auth, Hub} from "aws-amplify";
-import {MyCognitoUser} from "../services/aws/cognito";
-import {HubCallback} from "@aws-amplify/core/src/Hub";
+import { HubCallback } from "@aws-amplify/core/src/Hub";
+import { Auth, Hub } from "aws-amplify";
+import { useEffect } from "react";
+import { useAccountContext } from "../contexts/Account";
+import { getCustomAttributes, MyCognitoUser } from "../services/aws/cognito";
 
 const useAccountAuthFlow = () => {
-    const {accountState, accountDispatch} = useAccountContext();
-    const {isAuthenticated} = accountState;
+    const { accountState, accountDispatch } = useAccountContext();
+    const { isAuthenticated } = accountState;
 
-    const hubListener: HubCallback = async ({channel: channel, payload: {event, data}}) => {
+    const hubListener: HubCallback = async ({ channel: channel, payload: { event, data } }) => {
         console.debug(`[AMPLIFY_HUB]: on channel '${channel}' listen event - ${event} with data - ${JSON.stringify(data).slice(0, 32)}`);
         switch (event) {
             case "signIn":
@@ -19,20 +19,13 @@ const useAccountAuthFlow = () => {
                     type: 'SET_ACCOUNT',
                     account: {
                         cognitoUser: cognitoUser,
-                        customAttributes: {
-                            name: cognitoUser.getSignInUserSession()?.getIdToken().decodePayload()["custom:name"] ?? undefined,
-                            image: cognitoUser.getSignInUserSession()?.getIdToken().decodePayload()["custom:image"] ?? undefined,
-                        },
+                        customAttributes: getCustomAttributes(cognitoUser),
                         isAuthenticated: true,
-                        alarm: {
-                            manageIngredients: false,
-                            recommendRecipes: false
-                        }
                     }
                 });
                 break;
             case "signOut":
-                accountDispatch({type: 'DEAUTHENTICATE'});
+                accountDispatch({ type: 'DEAUTHENTICATE' });
                 console.debug("[HOMEBAB]: success to sign out");
         }
     }
@@ -49,15 +42,8 @@ const useAccountAuthFlow = () => {
                     type: 'SET_ACCOUNT',
                     account: {
                         cognitoUser: cachedUser,
-                        customAttributes: {
-                            name: cachedUser.getSignInUserSession()?.getIdToken().decodePayload()["custom:name"] ?? undefined,
-                            image: cachedUser.getSignInUserSession()?.getIdToken().decodePayload()["custom:image"] ?? undefined,
-                        },
+                        customAttributes: getCustomAttributes(cachedUser),
                         isAuthenticated: true,
-                        alarm: {
-                            manageIngredients: false,
-                            recommendRecipes: false
-                        }
                     }
                 });
             })

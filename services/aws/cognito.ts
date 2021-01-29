@@ -1,33 +1,33 @@
-import {Auth} from "aws-amplify";
-import {CognitoUser} from "amazon-cognito-identity-js";
+import { Auth } from "aws-amplify";
+import { CognitoUser } from "amazon-cognito-identity-js";
+import { Alarm, CustomAttributes, initialAlarm } from "../../contexts/Account";
 
 
-export type MyCognitoAttributes = { 'custom:name': string, 'custom:image': string }
+export type CognitoCustomAttributes = { 'custom:name'?: string, 'custom:image'?: string, 'custom:alarm'?: string }
 
-export type MyCognitoUser = CognitoUser & { attributes: MyCognitoAttributes; }
+export type MyCognitoUser = CognitoUser & { attributes: CognitoCustomAttributes; }
 
-export async function updateUser(name: string, image: string): Promise<MyCognitoAttributes> {
-    const attributes: MyCognitoAttributes = {
-        'custom:name': name,
-        'custom:image': image
-    }
-
+export async function updateCustomAttributes(attributes: CognitoCustomAttributes): Promise<CognitoCustomAttributes> {
     try {
         const user: MyCognitoUser = await Auth.currentAuthenticatedUser();
-        const res: string = await Auth.updateUserAttributes(user, {
-            'custom:name': name,
-            'custom:image': image
-        });
+        const res: string = await Auth.updateUserAttributes(user, attributes);
 
-        console.debug('[HOMEBAB]: success to update userAttributes with ', res)
+        console.debug('[HOMEBAB]: success to update userAttributes with ', res);
+        return attributes
     } catch (err) {
-        console.debug('[HOMEBAB]: fail to update userAttributes with ', err)
+        console.debug('[HOMEBAB]: fail to update userAttributes with ', err);
+        throw Error;
     }
-
-    return attributes
 }
 
-export async function getUserAttributes() {
-    const user: MyCognitoUser = await Auth.currentAuthenticatedUser();
-    return user.attributes;
+export function getCustomAttributes(cognitoUser: MyCognitoUser): CustomAttributes {
+    const idToken = cognitoUser.getSignInUserSession()?.getIdToken().decodePayload();
+    const [name, image, alarm] = idToken ? [
+        idToken["custom:name"],
+        idToken["custom:image"],
+        idToken["custom:alarm"] ? JSON.parse(idToken["custom:alarm"]) : initialAlarm
+    ] : Array(3).fill(undefined);
+
+
+    return { name, image, alarm }
 }
