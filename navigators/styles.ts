@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     tarBarStyle: {height: hp(10)},
     tarBarContainer: {flex: 1, flexDirection: "column", justifyContent: 'center', alignContent: 'center'},
     tarBarIcon: {aspectRatio: 1, fontSize: hp(3.2), textAlign: 'center', margin: hp(0.4)},
-    tarBarLabel: {textAlign: 'center', fontSize: hp(1.2)},
+    tarBarLabel: {fontFamily: 'nanum-square-round', textAlign: 'center', fontSize: hp(1.2)},
 
 
     headerStyle: {height: hp(10)},

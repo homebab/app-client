@@ -9,8 +9,10 @@ import ButtonList, { Dataset as ButtonListDataset } from "../../components/Butto
 import OnOffButton from "../../components/OnOffButton";
 import Assets from "../../constants/Assets";
 import { useAccountContext } from "../../contexts/Account";
+import usePushNotification from "../../hooks/usePushNotification";
 import { deleteAllItems } from "../../services/aws/appsync";
 import { updateCustomAttributes } from "../../services/aws/cognito";
+import { registerForPushNotificationsAsync } from "../../services/expo/notification";
 import { formatUserName } from "../../validators/format";
 
 
@@ -71,32 +73,23 @@ const RowButtonList = () => {
     )
 }
 
+const func = async () => {
+    
+}
+
 const SetAlarm = () => {
     const netInfo = useNetInfo();
     const { isConnected } = netInfo;
-
-    const { accountState, accountDispatch } = useAccountContext();
-    const { alarm } = accountState.customAttributes;
-    const { recommendRecipes, imminentShelfLife, expoPushToken } = alarm;
+    
+    const {alarm, alarmDispatch} = usePushNotification();
+    const {imminentShelfLife, recommendRecipes} = alarm;
 
     const dataset = [
         {
-            label: '유통기한 임박', value: imminentShelfLife, onPress: () => {
-                // alert('[HOMEBAB] coming soon')
-                const newAlarm = { ...alarm, imminentShelfLife: !imminentShelfLife };
-                updateCustomAttributes(
-                    { "custom:alarm": JSON.stringify(newAlarm) }
-                ).then(_ => accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } }));
-            }
+            label: '유통기한 임박', value: imminentShelfLife, onPress: () => alarmDispatch({type: "SWITCH_IMMINENT_SHELF_LIFE"})    
         },
         {
-            label: '레시피 추천', value: recommendRecipes, onPress: () => {
-                // alert('[HOMEBAB] coming soon')
-                const newAlarm = { ...alarm, recommendRecipes: !recommendRecipes };
-                updateCustomAttributes(
-                    { "custom:alarm": JSON.stringify(newAlarm) }
-                ).then(_ => accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } }));
-            }
+            label: '레시피 추천', value: recommendRecipes, onPress: () => alarmDispatch({type: "SWITCH_RECOMMEND_RECIPES"})
         }
     ]
 
@@ -106,7 +99,7 @@ const SetAlarm = () => {
 
             <View style={{ width: '100%', flexDirection: 'row' }}>
                 {dataset.map((data, key) =>
-                    <OnOffButton key={key} disabled={!isConnected} label={data.label} value={data.value} onPress={data.onPress}/>)}
+                    <OnOffButton key={key} disabled={!isConnected} label={data.label} value={data.value} onPress={data.onPress} />)}
             </View>
         </View>
     )

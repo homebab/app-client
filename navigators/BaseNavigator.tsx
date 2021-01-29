@@ -1,17 +1,16 @@
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-
+import { Text, View } from "react-native";
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ListRecipes from '../screens/ListRecipes';
-import FridgeNavigator from "./FridgeNavigator";
 import Settings from "../screens/Settings";
-import AnalyticsNavigator from "./AnalyticsNavigator";
-import {BaseNaviParamList, RecipeNaviParamList, SettingsNaviParamList} from "../types/Navigators";
-import {StyleSheet, Text, View} from "react-native";
-import {styles} from "./styles";
+import { BaseNaviParamList, RecipeNaviParamList, SettingsNaviParamList } from "../types/Navigators";
+import FridgeNavigator from "./FridgeNavigator";
+import { styles } from "./styles";
+
 
 const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
@@ -24,7 +23,7 @@ export default function BaseNavigator() {
             tabBarOptions={{
                 activeTintColor: Colors[colorScheme].tint,
                 style: styles.tarBarStyle,
-                tabStyle: {flex: 1, flexDirection: "column"},
+                tabStyle: { flex: 1, flexDirection: "column" },
                 showLabel: false,
             }}>
             <BottomTab.Screen
@@ -32,9 +31,9 @@ export default function BaseNavigator() {
                 component={FridgeNavigator}
                 options={{
                     tabBarLabel: "냉장고",
-                    tabBarIcon: ({color}) =>
+                    tabBarIcon: ({ color }) =>
                         <View style={styles.tarBarContainer}>
-                            <MaterialCommunityIcons name="fridge" style={styles.tarBarIcon} color={color}/>
+                            <MaterialCommunityIcons name="fridge" style={styles.tarBarIcon} color={color} />
                             <Text style={styles.tarBarLabel}>{'냉장고'}</Text>
                         </View>,
                 }}
@@ -44,9 +43,9 @@ export default function BaseNavigator() {
                 component={RecipeNavigator}
                 options={{
                     tabBarLabel: "레시피",
-                    tabBarIcon: ({color}) =>
+                    tabBarIcon: ({ color }) =>
                         <View style={styles.tarBarContainer}>
-                            <MaterialCommunityIcons name="chef-hat" style={styles.tarBarIcon} color={color}/>
+                            <MaterialCommunityIcons name="chef-hat" style={styles.tarBarIcon} color={color} />
                             <Text style={styles.tarBarLabel}>{'레시피'}</Text>
                         </View>
                 }}
@@ -65,9 +64,9 @@ export default function BaseNavigator() {
                 component={SettingsNavigator}
                 options={{
                     tabBarLabel: "설정",
-                    tabBarIcon: ({color}) =>
+                    tabBarIcon: ({ color }) =>
                         <View style={styles.tarBarContainer}>
-                            <MaterialCommunityIcons name="settings" style={styles.tarBarIcon} color={color}/>
+                            <MaterialCommunityIcons name="settings" style={styles.tarBarIcon} color={color} />
                             <Text style={styles.tarBarLabel}>{'환경설정'}</Text>
                         </View>,
                 }}
@@ -89,7 +88,7 @@ function RecipeNavigator() {
                     headerTitle: '추천 레시피',
                     headerStyle: styles.headerStyle,
                     headerLeft: () => <MaterialCommunityIcons name="chef-hat" color="black"
-                                                              style={[styles.headerIcon, {marginLeft: 16}]}/>,
+                        style={[styles.headerIcon, { marginLeft: 16 }]} />,
                     headerTitleStyle: styles.headerTitle
                 }}
             />
@@ -109,7 +108,7 @@ function SettingsNavigator() {
                     headerTitle: '환경 설정',
                     headerStyle: styles.headerStyle,
                     headerLeft: () => <MaterialCommunityIcons name="settings" size={32} color="black"
-                                                              style={[styles.headerIcon, {marginLeft: 16}]}/>,
+                        style={[styles.headerIcon, { marginLeft: 16 }]} />,
                     headerTitleStyle: styles.headerTitle
                 }}
             />

@@ -1,34 +1,32 @@
-import {Image, Text, TouchableOpacity, View, ViewProps} from "react-native";
+import { Entypo } from "@expo/vector-icons";
 import * as React from "react";
-import {useEffect, useState} from "react";
-import Layout from "../../constants/Layout";
-import {Entypo, EvilIcons} from "@expo/vector-icons";
-import {YOUTUBE_API_KEY} from "react-native-dotenv";
-import {Recipe, RecipeHit} from "../../types/Recipe";
-import {EndPoints} from "../../constants/Endpoints";
+import { useState } from "react";
+import { Image, StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import Assets from "../../constants/Assets";
+import Layout from "../../constants/Layout";
+import { Recipe } from "../../types/Recipe";
 
-const RecipeHeader = ({title, publisher}: { title: string, publisher: string }) => {
+const RecipeHeader = ({ title, publisher }: { title: string, publisher: string }) => {
     return (
-        <View style={{paddingLeft: 12, paddingRight: 12, paddingTop: 12, paddingBottom: 12}}>
-            <View style={{marginBottom: 12, flexDirection: "row", alignItems: "center"}}>
+        <View style={{ paddingLeft: 12, paddingRight: 12, paddingTop: 12, paddingBottom: 12 }}>
+            <View style={{ marginBottom: 12, flexDirection: "row", alignItems: "center" }}>
                 <View style={{
                     flex: 1, aspectRatio: 1, alignItems: "center", justifyContent: "center",
                     padding: 4, borderWidth: 1, borderColor: "#dbdbdb", borderRadius: 100, backgroundColor: 'white'
                 }}>
-                    <Entypo name="youtube" size={24} color="#FF0000"/>
+                    <Entypo name="youtube" size={24} color="#FF0000" />
                 </View>
-                <View style={{flex: 11, marginLeft: 12, marginRight: 12}}>
+                <View style={{ flex: 11, marginLeft: 12, marginRight: 12 }}>
                     <Text
-                        style={{fontWeight: "bold", fontSize: 16, fontFamily: 'nanum-square-round-bold'}}>{title}</Text>
+                        style={{ fontWeight: "bold", fontSize: 16, fontFamily: 'nanum-square-round-bold' }}>{title}</Text>
                 </View>
                 {/*<Entypo name="dots-three-vertical" size={16} color="#444444" />*/}
             </View>
 
 
-            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                <View style={{width: "60%", flexDirection: "row", alignItems: "center"}}>
-                    <Text style={{fontFamily: 'nanum-square-round'}}>{publisher}</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                <View style={{ width: "60%", flexDirection: "row", alignItems: "center" }}>
+                    <Text style={{ fontFamily: 'nanum-square-round' }}>{publisher}</Text>
                 </View>
 
                 {/*<View style={{width: "60%", flexDirection: "row", alignItems: "center"}}>*/}
@@ -60,12 +58,12 @@ const RecipeHeader = ({title, publisher}: { title: string, publisher: string }) 
 type Props = {
     recipe: Recipe,
     onPress: () => void,
-    containerStyle?: ViewProps,
+    containerStyle?: StyleProp<ViewStyle>,
 }
 
 const RecipeCard = (props: Props) => {
-    const {recipe, onPress, containerStyle} = props
-    const {kind, videoId, publishedAt, publisher, title, description, thumbnails} = recipe
+    const { recipe, onPress, containerStyle } = props
+    const { kind, videoId, publishedAt, publisher, title, description, thumbnails } = recipe
 
     const [validUrl, setValidUrl] = useState(true);
     const imageUrl = thumbnails.medium?.url
@@ -81,12 +79,12 @@ const RecipeCard = (props: Props) => {
                 flex: 1, backgroundColor: "#fffdfb",
                 borderTopWidth: 0.1, borderColor: '#ababab'
             }, containerStyle]}>
-                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...' : title} publisher={[publisher]}/>
+                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...' : title} publisher={[publisher]} />
 
                 <View>
                     <TouchableOpacity onPress={onPress}>
-                        <Image source={imageUrl ? {uri: imageUrl} : Assets.Image.logo}
-                               style={{width: "100%", resizeMode: "cover", aspectRatio: 16 / 9}}/>
+                        <Image source={imageUrl ? { uri: imageUrl } : Assets.Image.logo}
+                            style={{ width: "100%", resizeMode: "cover", aspectRatio: 16 / 9 }} />
                     </TouchableOpacity>
                 </View>
             </View>
