@@ -72,6 +72,9 @@ const RowButtonList = () => {
 }
 
 const SetAlarm = () => {
+    const netInfo = useNetInfo();
+    const { isConnected } = netInfo;
+
     const { accountState, accountDispatch } = useAccountContext();
     const { alarm } = accountState.customAttributes;
     const { recommendRecipes, imminentShelfLife, expoPushToken } = alarm;
@@ -103,7 +106,7 @@ const SetAlarm = () => {
 
             <View style={{ width: '100%', flexDirection: 'row' }}>
                 {dataset.map((data, key) =>
-                    <OnOffButton key={key} label={data.label} value={data.value} onPress={data.onPress} />)}
+                    <OnOffButton key={key} disabled={!isConnected} label={data.label} value={data.value} onPress={data.onPress}/>)}
             </View>
         </View>
     )
