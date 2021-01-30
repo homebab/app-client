@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { FlatList, GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Grid from "../../components/Grid";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
 import ItemCard from "../../components/ItemCard";
 import SearchBar from "../../components/SearchBar";
-import { imageKeys, ingredientObj, ingredients } from "../../constants/Ingredients";
+import { imageKeys, Ingredients } from "../../constants/Ingredients";
 import { BasketItem, useContainerContext } from "../../contexts/Container";
 import { Category } from "../../types/Category";
 import { isTablet } from "../../utils/responsive";
@@ -42,10 +42,7 @@ const CategoryGrid = (props: CategoryGridProps) => {
     return (
         <View style={styles.itemGridContainer}>
             <Text style={styles.itemGridLabel}>{category}</Text>
-            <Grid container={ingredients
-                .map((item: BasketItem, key: number) => <AddItemCard key={key}
-                    item={item} />)
-            } chunkSize={chunkSize} />
+            <Grid data={ingredients} renderItem={({ item }) => <AddItemCard item={item} />} chunkSize={chunkSize} />
         </View>
     )
 }
@@ -66,16 +63,19 @@ const AddItems = () => {
     const categories = ["인기"].concat(Object.values(Category));
     const [category, setCategory] = useState<Category | string>(categories[0]);
 
-    const scroller = useRef<FlatList>(null);
-
-    useEffect(() => {
-        scroller.current?.scrollToIndex({
-            index: categories.indexOf(category),
-            animated: true
-        })
-    }, [category])
-
     const chunkSize = isTablet ? 5 : 4
+
+    const ingredientObj = Object.keys(Ingredients)
+        .map(key => ({
+            [key]: Ingredients[key as keyof Ingredients].map(name => ({
+                name: name,
+                category: key as Category
+            }))
+        }))
+        .reduce((val, acc) => ({ ...val, ...acc }));
+
+    const ingredients = Object.values(ingredientObj)
+        .reduce((acc, val) => acc.concat(val));
 
     return (
         <>
@@ -89,10 +89,8 @@ const AddItems = () => {
                 }}
             />
             {isSearching ?
-                <Grid container={ingredients
-                    .filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)
-                    .map((item: BasketItem, key: number) => <AddItemCard key={key} item={item} />)
-                } chunkSize={chunkSize} containerStyle={styles.itemGridContainer} /> :
+                <Grid data={ingredients.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)}
+                    renderItem={({ item }) => <AddItemCard item={item} />} chunkSize={chunkSize} containerStyle={styles.itemGridContainer} /> :
                 <>
                     <HorizontalTypesView types={categories} pressedType={category}
                         onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}

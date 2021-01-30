@@ -7,7 +7,7 @@ export function* chunk(collection: Array<any>, size: number): Generator<any[], v
 export function chunkArray<T>(myArray: Array<T>, chunk_size: number): T[][] {
     const chunked = [];
 
-    while (myArray.length) {
+    while (myArray?.length) {
         chunked.push(myArray.splice(0, chunk_size));
     }
 

@@ -52,6 +52,9 @@ const ListItemCard = ({ item }: { item: Item }) => {
 
 const ItemsGrid = (container: Array<Item>) => {
 
+    const renderItem = ({ item }: { item: Item }) => {
+        return <ListItemCard item={item} />
+    }
 
     return (
         <View style={styles.itemGridContainer}>
@@ -61,10 +64,8 @@ const ItemsGrid = (container: Array<Item>) => {
                         <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
                             style={{ height: Layout.window.width * 2 / 3, aspectRatio: 1 }} />
                         <Text style={{ fontFamily: 'nanum-square-round', fontSize: hp(2) }}>{'냉장고가 텅 비었습니다'}</Text>
-                    </RelativeCenterLayout> :
-                    <Grid container={container ?
-                        container.map((item: Item, key: number) => <ListItemCard key={key} item={item} />)
-                        : []} chunkSize={isTablet ? 5 : 4} />
+                    </RelativeCenterLayout> : null
+                    // <Grid data={container} renderItem={renderItem} chunkSize={isTablet ? 5 : 4} />
             }
         </View>
     )
@@ -112,6 +113,9 @@ const ListItems: React.FC = () => {
         const filteredByStorage = storage === '전체' ? fridge : fridge.filter(item => item.storage == storage);
         return category === '전체' ? filteredByStorage : filteredByStorage.filter(ingredient => ingredient.category == category);
     }, [category, storage, fridge]);
+
+    console.log(fridge, storage);
+    
 
 
     if (isLoading) return <Loading />

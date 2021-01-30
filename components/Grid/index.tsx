@@ -1,32 +1,34 @@
 import React, { useMemo } from "react";
 import { FlatList, View, ViewStyle } from "react-native";
+import { TapGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { chunkArray } from "../../utils/functions";
 
-type Props = {
-    container: Array<any>,
+type Props<T> = {
+    data: T[],
+    renderItem: ({ item }: { item: T }) => JSX.Element,
     chunkSize?: number,
     containerStyle?: ViewStyle,
     rowStyle?: ViewStyle,
     itemStyle?: ViewStyle
 }
 
-type renderItemProps = {
-    components: JSX.Element[]
+type renderItemProps<T> = {
+    items: T[]
 }
 
-const Grid = (props: Props) => {
-    const { container, chunkSize, containerStyle, rowStyle, itemStyle } = props;
+const Grid = <T,>(props: Props<T>) => {
+    const { data, renderItem, chunkSize, containerStyle, rowStyle, itemStyle } = props;
 
-    const chunked = useMemo(() => chunkArray<JSX.Element>(container, chunkSize ?? 4), [container, chunkSize]);
-
-    const renderItem = ({ item }: { item: renderItemProps }) => {
-        const { components } = item;
+    const chunked = useMemo(() => chunkArray<T>(data, chunkSize ?? 4), [data, chunkSize]);
+    
+    const renderItemRow = ({ item }: { item: renderItemProps<T> }) => {
+        const { items } = item;
 
         return (
             <View style={[{ flexDirection: "row", justifyContent: "space-around" }, rowStyle]}>
-                {components?.map((v, k) =>
+                {items?.map((item, k) =>
                     <View key={k} style={itemStyle}>
-                        {v}
+                        {renderItem({ item: item })}
                     </View>)}
             </View>
         )
@@ -35,9 +37,9 @@ const Grid = (props: Props) => {
     return (
         <View style={[{ backgroundColor: "#f2f2f2" }, containerStyle]}>
             <FlatList
-                data={chunked.map((c, k) => ({ components: c }))}
-                keyExtractor={(item, key) => key.toString()}
-                renderItem={renderItem}
+                data={chunked.map(v => ({ items: v }))}
+                keyExtractor={(_, key) => key.toString()}
+                renderItem={renderItemRow}
             />
         </View>
     );
