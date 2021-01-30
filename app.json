@@ -4,12 +4,15 @@
     "slug": "app-client",
     "version": "1.0.4",
     "orientation": "portrait",
-    "icon": "./assets/images/logo/logo.png",
+    "icon": "./assets/images/logo/home.png",
     "scheme": "homebab",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover"
+    },
+    "notification": {
+      "icon": "./assets/images/logo/notification.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

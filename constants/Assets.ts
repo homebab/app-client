@@ -1,16 +1,9 @@
 const Image = {
     backgroundImage: require('../../app-client/assets/images/splash/splash.jpg'),
-    logo: require('../../app-client/assets/images/logo/logo.png'),
-    menu: require('../../app-client/assets/images/header/menu.png'),
-    search: require('../../app-client/assets/images/header/search.png'),
-    adduser: require('../../app-client/assets/images/header/adduser.png'),
-    delete: require('../../app-client/assets/images/header/delete.png'),
-    addItem: require('../../app-client/assets/images/addItem.png'),
+    logo: require('../../app-client/assets/images/logo/home.png'),
 
     emptyFridge: require('../../app-client/assets/images/emptyFridge.png'),
     emptyUser: require('../../app-client/assets/images/emptyUser.png'),
-    ingredients: require('../../app-client/assets/images/ingredients.png'),
-
 };
 
 const FoodImages = {

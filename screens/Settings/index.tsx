@@ -37,7 +37,8 @@ const RowButtonList = () => {
         {
             label: '서비스 문의',
             onPress: () => {
-                Linking.openURL("mailto:homebab.developer@gmail.com")
+                if (Constants.isDevice) Linking.openURL("mailto:homebab.developer@gmail.com");
+                else alert('[HOMEBAB]: must use physical device')
             },
             disabled: !isConnected,
         },

@@ -15,15 +15,11 @@ export const registerForPushNotificationsAsync = async () => {
         }
 
         if (finalStatus !== 'granted') {
-            console.debug('[HOMEBAB]: Failed to get push token for push notification!');
-            throw Error;
+            throw Error('[HOMEBAB]: 푸쉬알림을 허가해주세요.');
         }
 
         token = (await Notifications.getExpoPushTokenAsync()).data;
-    } else {
-        console.debug('[HOMEBAB]: Must use physical device for Push Notifications');
-        throw Error;
-    }
+    } else throw Error('[HOMEBAB]: must use physical device');
 
     if (Platform.OS === 'android') {
         Notifications.setNotificationChannelAsync('default', {
