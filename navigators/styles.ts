@@ -3,7 +3,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 export const styles = StyleSheet.create({
     tarBarStyle: {height: hp(10)},
-    tarBarContainer: {flex: 1, flexDirection: "column", justifyContent: 'center', alignContent: 'center'},
+    tarBarContainer: {flex: 1, flexDirection: "column", justifyContent: 'center', alignItems: 'center'},
     tarBarIcon: {aspectRatio: 1, fontSize: hp(3.2), textAlign: 'center', margin: hp(0.4)},
     tarBarLabel: {fontFamily: 'nanum-square-round', textAlign: 'center', fontSize: hp(1.2)},
 

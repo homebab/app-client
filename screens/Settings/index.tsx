@@ -74,23 +74,19 @@ const RowButtonList = () => {
 }
 
 const func = async () => {
-    
+
 }
 
 const SetAlarm = () => {
     const netInfo = useNetInfo();
     const { isConnected } = netInfo;
-    
-    const {alarm, alarmDispatch} = usePushNotification();
-    const {imminentShelfLife, recommendRecipes} = alarm;
+
+    const { alarm, alarmDispatch } = usePushNotification();
+    const { imminentShelfLife, recommendRecipes } = alarm;
 
     const dataset = [
-        {
-            label: '유통기한 임박', value: imminentShelfLife, onPress: () => alarmDispatch({type: "SWITCH_IMMINENT_SHELF_LIFE"})    
-        },
-        {
-            label: '레시피 추천', value: recommendRecipes, onPress: () => alarmDispatch({type: "SWITCH_RECOMMEND_RECIPES"})
-        }
+        { label: '유통기한 임박', value: imminentShelfLife, onPress: () => alarmDispatch({ type: "SWITCH_IMMINENT_SHELF_LIFE" }) },
+        { label: '레시피 추천', value: recommendRecipes, onPress: () => alarmDispatch({ type: "SWITCH_RECOMMEND_RECIPES" }) }
     ]
 
     return (

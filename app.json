@@ -20,7 +20,8 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1.0.4",
-      "bundleIdentifier": "com.meowailand.homebab"
+      "bundleIdentifier": "com.meowailand.homebab",
+      "userInterfaceStyle": "light"
     },
     "web": {
       "favicon": "./assets/images/logo/logo.png"
@@ -33,7 +34,8 @@
       "permissions": [
         "CAMERA",
         "NOTIFICATION"
-      ]
+      ],
+      "userInterfaceStyle": "light"
     }
   }
 }

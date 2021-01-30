@@ -2,7 +2,6 @@ import React, { createContext, Dispatch, Reducer, useContext, useReducer } from 
 import { MyCognitoUser } from "../../services/aws/cognito";
 
 export type Alarm = {
-    expoPushToken?: string,
     imminentShelfLife: boolean,
     recommendRecipes: boolean
 }
