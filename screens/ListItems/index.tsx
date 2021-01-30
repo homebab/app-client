@@ -1,29 +1,29 @@
-import React, {useEffect, useLayoutEffect, useMemo, useState} from "react";
-import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import {AntDesign} from "@expo/vector-icons";
-import ItemCard from "../../components/ItemCard";
-import {styles, tabletStyles} from "./styles";
-import {Item} from "../../contexts/Container";
-import DetailItem from "../DetailItem";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useLayoutEffect, useMemo, useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import BottomModal from "../../components/BottomModal";
-import {Storage} from "../../types/Storage";
-import HorizontalTypesView from "../../components/HorizontalTypesView";
-import {Category} from "../../types/Category";
-import SearchBar from "../../components/SearchBar";
-import Search from "../../components/Search";
 import CrossIconButton from "../../components/CrossIconButton";
-import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
+import Grid from "../../components/Grid";
+import HorizontalTypesView from "../../components/HorizontalTypesView";
+import ItemCard from "../../components/ItemCard";
+import Loading from "../../components/Loading";
+import Search from "../../components/Search";
+import SearchBar from "../../components/SearchBar";
 import Assets from "../../constants/Assets";
 import Layout from "../../constants/Layout";
+import { Item } from "../../contexts/Container";
 import useContainerAppSync from "../../hooks/useContainerAppSync";
-import Loading from "../../components/Loading";
-import Grid from "../../components/Grid";
-import {styles as navigatorStyles} from "../../navigators/styles"
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {isTablet} from "../../utils/responsive";
+import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
+import { styles as navigatorStyles } from "../../navigators/styles";
+import { Category } from "../../types/Category";
+import { Storage } from "../../types/Storage";
+import { isTablet } from "../../utils/responsive";
+import DetailItem from "../DetailItem";
+import { styles, tabletStyles } from "./styles";
 
-const ListItemCard = ({item}: { item: Item }) => {
+const ListItemCard = ({ item }: { item: Item }) => {
 
     const [isVisible, setIsVisible] = useState(false);
 
@@ -39,12 +39,12 @@ const ListItemCard = ({item}: { item: Item }) => {
                     borderTopLeftRadius: 32
                 }}
                 visible={isVisible} handlePress={() => setIsVisible(false)}>
-                <DetailItem item={item} navigatePop={() => setIsVisible(false)}/>
+                <DetailItem item={item} navigatePop={() => setIsVisible(false)} />
             </BottomModal>
 
             <TouchableOpacity onPress={() => setIsVisible(true)}>
                 <ItemCard item={item} avatarStyle={styles.avatarStyle} containerStyle={styles.itemContainer}
-                          iconSize={hp(5)} textStyle={styles.itemLabel}/>
+                    iconSize={hp(5)} textStyle={styles.itemLabel} />
             </TouchableOpacity>
         </View>
     )
@@ -57,16 +57,14 @@ const ItemsGrid = (container: Array<Item>) => {
         <View style={styles.itemGridContainer}>
             {
                 container.length == 0 ?
-                    <RelativeCenterLayout containerStyle={{marginBottom: hp(8)}}>
+                    <RelativeCenterLayout containerStyle={{ marginBottom: hp(8) }}>
                         <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
-                               style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
-                        <Text style={{fontFamily: 'nanum-square-round', fontSize: hp(2)}}>{'냉장고가 텅 비었습니다'}</Text>
+                            style={{ height: Layout.window.width * 2 / 3, aspectRatio: 1 }} />
+                        <Text style={{ fontFamily: 'nanum-square-round', fontSize: hp(2) }}>{'냉장고가 텅 비었습니다'}</Text>
                     </RelativeCenterLayout> :
-                    <ScrollView style={{backgroundColor: "#f2f2f2"}}>
-                        <Grid container={container ?
-                            container.map((item: Item, key: number) => <ListItemCard key={key} item={item}/>)
-                            : []} chunkSize={isTablet ? 5 : 4}/>
-                    </ScrollView>
+                    <Grid container={container ?
+                        container.map((item: Item, key: number) => <ListItemCard key={key} item={item} />)
+                        : []} chunkSize={isTablet ? 5 : 4} />
             }
         </View>
     )
@@ -76,7 +74,7 @@ const ListItems: React.FC = () => {
 
     const navigation = useNavigation()
 
-    const {isLoading, fridge} = useContainerAppSync();
+    const { isLoading, fridge } = useContainerAppSync();
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');
@@ -85,13 +83,13 @@ const ListItems: React.FC = () => {
         navigation.setOptions({
             headerRight: () =>
                 isSearching ?
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <CrossIconButton containerStyle={[navigatorStyles.headerIcon, {marginRight: 16}]} size={28}
-                                         onPress={() => setIsSearching(false)}/>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <CrossIconButton containerStyle={[navigatorStyles.headerIcon, { marginRight: 16 }]} size={28}
+                            onPress={() => setIsSearching(false)} />
                     </View> :
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Search containerStyle={[navigatorStyles.headerIcon, {marginRight: 16}]} size={28}
-                                onPress={() => setIsSearching(true)}/>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Search containerStyle={[navigatorStyles.headerIcon, { marginRight: 16 }]} size={28}
+                            onPress={() => setIsSearching(true)} />
                     </View>
         });
     }, [isSearching, navigation]);
@@ -116,7 +114,7 @@ const ListItems: React.FC = () => {
     }, [category, storage, fridge]);
 
 
-    if (isLoading) return <Loading/>
+    if (isLoading) return <Loading />
     else
         return (
             <>
@@ -130,23 +128,22 @@ const ListItems: React.FC = () => {
                                 onEndEditing={() => {
                                     setIsSearching(false)
                                     setSearchWord('')
-                                }}/>
+                                }} />
                             {ItemsGrid(filteredItems.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false))}
                         </> :
                         <>
                             <HorizontalTypesView types={categories} pressedType={category}
-                                                 onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}
-                                                 containerStyle={styles.categoryBar} textStyle={styles.text}/>
+                                onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}
+                                containerStyle={styles.categoryBar} textStyle={styles.text} />
                             <HorizontalTypesView types={storages} pressedType={storage}
-                                                 onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
-                                                 containerStyle={isTablet ? tabletStyles.storageBar : styles.storageBar}
-                                                 textStyle={styles.text}/>
+                                onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
+                                containerStyle={isTablet ? tabletStyles.storageBar : styles.storageBar}
+                                textStyle={styles.text} />
                             {ItemsGrid(filteredItems)}
 
                             <TouchableOpacity style={styles.plusButton} onPress={() => navigation.navigate('AddItems')}>
-                                <AntDesign name="plus" color='white' style={styles.plusIcon}/>
+                                <AntDesign name="plus" color='white' style={styles.plusIcon} />
                             </TouchableOpacity>
-
                         </>
                 }
             </>

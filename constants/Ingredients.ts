@@ -1,7 +1,5 @@
-import {Item} from "../contexts/Container";
+import { Category } from "../types/Category";
 import Assets from "./Assets";
-import {useMemo} from "react";
-import {Category} from "../types/Category";
 
 export interface Ingredients {
     채소: string[],

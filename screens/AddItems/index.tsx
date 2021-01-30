@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { FlatList, GestureResponderEvent, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Grid from "../../components/Grid";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
@@ -8,7 +8,6 @@ import SearchBar from "../../components/SearchBar";
 import { imageKeys, ingredientObj, ingredients } from "../../constants/Ingredients";
 import { BasketItem, useContainerContext } from "../../contexts/Container";
 import { Category } from "../../types/Category";
-import { delay } from "../../utils/functions";
 import { isTablet } from "../../utils/responsive";
 import { styles } from "./styles";
 
@@ -37,8 +36,8 @@ const AddItemCard = ({ item }: { item: BasketItem }) => {
 
 type CategoryGridProps = { category: string, ingredients: Array<BasketItem>, chunkSize: number };
 
-const CategoryGrid = ({ item }: { item: CategoryGridProps }) => {
-    const { category, ingredients, chunkSize } = item;
+const CategoryGrid = (props: CategoryGridProps) => {
+    const { category, ingredients, chunkSize } = props;
 
     return (
         <View style={styles.itemGridContainer}>
@@ -90,64 +89,21 @@ const AddItems = () => {
                 }}
             />
             {isSearching ?
-                <ScrollView style={{ backgroundColor: "#f2f2f2" }}>
-                    <Grid container={ingredients
-                        .filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)
-                        .map((item: BasketItem, key: number) => <AddItemCard key={key} item={item} />)
-                    } chunkSize={chunkSize} containerStyle={styles.itemGridContainer} />
-                </ScrollView> :
+                <Grid container={ingredients
+                    .filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)
+                    .map((item: BasketItem, key: number) => <AddItemCard key={key} item={item} />)
+                } chunkSize={chunkSize} containerStyle={styles.itemGridContainer} /> :
                 <>
                     <HorizontalTypesView types={categories} pressedType={category}
                         onPressHandler={(c: Category) => setCategory(c)} scrollEnabled={true}
                         containerStyle={styles.categoryBar} textStyle={styles.text} />
-                    {/* <ScrollView
-                        ref={scroller}
-                        style={{ backgroundColor: "#f2f2f2" }}
-                    > */}
-                    {/*<View style={{padding: '4%'}}>*/}
-                    {/*    <Text style={{*/}
-                    {/*        fontSize: 20, fontFamily: 'nanum-square-round-bold', padding: '8%'*/}
-                    {/*    }}>{"바구니"}</Text>*/}
-                    {/*    <Grid container={basket.map((item: BasketItem, key: number) =>*/}
-                    {/*        <AddItemCard key={key} item={item}/>)} chunkSize={4}/>*/}
-                    {/*</View>*/}
-                    {/* <CategoryGrid item={{
-                            category: '인기',
-                            ingredients: ingredients
-                                .filter(item => imageKeys.includes(item.name)),
-                            chunkSize
-                        }}/> */}
-                    {
-                        <FlatList
-                            ref={scroller}
-                            keyExtractor={item => item.category}
-                            data={categories.map(category => ({
-                                category,
-                                ingredients: category == "인기"
-                                    ? ingredients
-                                        .filter(item => imageKeys.includes(item.name))
-                                    : ingredientObj[category] ?? [],
-                                chunkSize
-                            }))}
-                            renderItem={CategoryGrid}
-                            initialNumToRender={2}
-                            maxToRenderPerBatch={20}
-                            onScrollToIndexFailed={info => {
-                                const offset = info.averageItemLength * info.index;
-                                scroller.current?.scrollToEnd({ animated: true });
-
-                                // It is not ideal but needed
-                                setTimeout(() => {
-                                    scroller.current?.scrollToIndex({ animated: true, index: info.index });
-                                }, 100);
-                            }}
-                        />
-                        //     Object.keys(ingredientObj)
-                        //     .map((category, k) =>
-                        //         <CategoryGrid key={k} category={category} ingredients={ingredientObj[category]}
-                        // chunkSize={chunkSize} offsetDispatch={offsetDispatch} />)
-                    }
-                    {/* </ScrollView> */}
+                    <CategoryGrid
+                        category={category}
+                        ingredients={category == "인기"
+                            ? ingredients
+                                .filter(item => imageKeys.includes(item.name))
+                            : ingredientObj[category] ?? []}
+                        chunkSize={chunkSize} />
                 </>
             }
         </>
