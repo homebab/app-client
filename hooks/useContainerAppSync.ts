@@ -20,7 +20,7 @@ const useContainerAppSync = () => {
 
     const netInfo = useNetInfo();
     const [isLoading, setIsLoading] = useState(true);
-
+    
     useEffect(() => {
         if (isLoading && fridge.length > 0) setIsLoading(false)
     }, [fridge]);
@@ -57,14 +57,15 @@ const useContainerAppSync = () => {
         return () => {
             Hub.remove('datastore', hubListener);
             subscription.unsubscribe();
-            // setIsLoading(true);
+  
             console.debug("[HOMEBAB]: unsubscribe appsync");
         }
     }, [])
 
     async function fetchItems() {
         const items = await DataStore.query(ItemModel)
-        // console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.name).join(', '))
+        console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.name).join(', '));
+        
         containerDispatch({
             type: 'SET_FRIDGE',
             fridge: items.map(item =>

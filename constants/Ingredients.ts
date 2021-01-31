@@ -1,4 +1,3 @@
-import { Category } from "../types/Category";
 import Assets from "./Assets";
 
 export interface Ingredients {
@@ -225,15 +224,14 @@ export const Ingredients: Ingredients = {
     ]
 }
 
+export const ingredientObj = Object.keys(Ingredients)
+    .map(key => ({
+        [key]: Ingredients[key as keyof Ingredients].map(name => ({
+            name: name,
+            category: key as Category
+        }))
+    }))
+    .reduce((val, acc) => ({...val, ...acc}))
 
-// export const ingredientObj = Object.keys(Ingredients)
-//     .map(key => ({
-//         [key]: Ingredients[key as keyof Ingredients].map(name => ({
-//             name: name,
-//             category: key as Category
-//         }))
-//     }))
-//     .reduce((val, acc) => ({...val, ...acc}))
-
-// export const ingredients = Object.values(ingredientObj)
-//     .reduce((acc, val) => acc.concat(val))
+export const ingredients = Object.values(ingredientObj)
+    .reduce((acc, val) => acc.concat(val))

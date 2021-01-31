@@ -31,6 +31,6 @@ export const styles = StyleSheet.create({
     },
     plusIcon: {
         fontSize: hp(2),
-        backgroundColor: 'black'
+        backgroundColor: 'transparent'
     }
 });

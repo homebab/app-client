@@ -1,6 +1,6 @@
-import React, {createContext, Dispatch, Reducer, useContext, useReducer} from "react";
-import {Storage} from "../../types/Storage"
-import {Analytics} from "aws-amplify";
+import React, { createContext, Dispatch, Reducer, useContext, useReducer } from "react";
+import { Storage } from "../../types/Storage"
+import { Analytics } from "aws-amplify";
 import { Category } from "../../types/Category";
 
 export type UUID = string;
@@ -38,13 +38,13 @@ export type Action =
     | { type: "FLUSH_BASKET" }
     | { type: "SET_BASKET", basket: BASKET }
     | { type: "ADD_BASKET_ITEM", item: BasketItem }
-    | { type: "DELETE_BASKET_ITEM", item: BasketItem}
+    | { type: "DELETE_BASKET_ITEM", item: BasketItem }
     | { type: "FLUSH_FRIDGE" }
     | { type: "SET_FRIDGE", fridge: FRIDGE }
-    // TODO: deprecated
-    // | { type: "MOVE_BASKET_TO_FRIDGE" }
-    // | { type: "DELETE_FRIDGE_ITEM", id: UUID, amount: number }
-    // | { type: "UPDATE_FRIDGE_ITEM", item: Item }
+// TODO: deprecated
+// | { type: "MOVE_BASKET_TO_FRIDGE" }
+// | { type: "DELETE_FRIDGE_ITEM", id: UUID, amount: number }
+// | { type: "UPDATE_FRIDGE_ITEM", item: Item }
 
 
 type Props = {
@@ -58,16 +58,16 @@ type ContextProps = {
 }
 
 const initialContainer: Container = {
-    fridge: [],
+    fridge: [], // [{ id: '', category: Category.VEGETABLE, storage: Storage.FREEZER, name: '기본야채', memo: '', createdAt: new Date(), updatedAt: new Date(), expiredAt: new Date() }],
     basket: []
 }
 
 export const ContainerContext: React.Context<ContextProps> = createContext({} as ContextProps);
 
 export const ContainerProvider: React.FC<Props> =
-    ({reducer, initState, children}) => {
+    ({ reducer, initState, children }) => {
         const [containerState, containerDispatch] = useReducer(reducer, initState);
-        const value = {containerState, containerDispatch};
+        const value = { containerState, containerDispatch };
         return (
             <ContainerContext.Provider value={value}>
                 {children}
@@ -77,7 +77,7 @@ export const ContainerProvider: React.FC<Props> =
 
 export const useContainerContext = () => useContext(ContainerContext);
 
-const ContainerController: React.FC = ({children}) => {
+const ContainerController: React.FC = ({ children }) => {
     const reducer: Reducer<Container, Action> = (state: Container, action: Action) => {
         switch (action.type) {
             case 'FLUSH':

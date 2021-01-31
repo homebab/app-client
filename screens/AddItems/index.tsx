@@ -5,7 +5,7 @@ import Grid from "../../components/Grid";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
 import ItemCard from "../../components/ItemCard";
 import SearchBar from "../../components/SearchBar";
-import { imageKeys, Ingredients } from "../../constants/Ingredients";
+import { imageKeys, ingredientObj, ingredients } from "../../constants/Ingredients";
 import { BasketItem, useContainerContext } from "../../contexts/Container";
 import { Category } from "../../types/Category";
 import { isTablet } from "../../utils/responsive";
@@ -64,18 +64,6 @@ const AddItems = () => {
     const [category, setCategory] = useState<Category | string>(categories[0]);
 
     const chunkSize = isTablet ? 5 : 4
-
-    const ingredientObj = Object.keys(Ingredients)
-        .map(key => ({
-            [key]: Ingredients[key as keyof Ingredients].map(name => ({
-                name: name,
-                category: key as Category
-            }))
-        }))
-        .reduce((val, acc) => ({ ...val, ...acc }));
-
-    const ingredients = Object.values(ingredientObj)
-        .reduce((acc, val) => acc.concat(val));
 
     return (
         <>

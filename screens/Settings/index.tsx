@@ -3,7 +3,7 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { Auth, DataStore } from "aws-amplify";
 import Constants from "expo-constants";
 import React, { useRef, useState } from "react";
-import { Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Switch } from "react-native-paper";
 import ButtonList, { Dataset as ButtonListDataset } from "../../components/ButtonList";
 import OnOffButton from "../../components/OnOffButton";
@@ -31,7 +31,8 @@ const RowButtonList = () => {
         {
             label: '버전정보',
             onPress: () => {
-                alert(`현재 버전은 vdr${Constants.nativeBuildVersion} 입니다`)
+                // alert(`현재 버전은 vdr${Constants.nativeBuildVersion} 입니다`)
+                Alert.alert('HOMEBAB', `현재 버전은 vdr${Constants.nativeBuildVersion} 입니다`)
             }
         },
         {
@@ -131,7 +132,7 @@ const Profile = () => {
                     disabled={!isConnected}
                     onPress={() => {
                         if (!isConnected) {
-                            alert('[Homebab]: 네트워크 연결이 필요합니다.');
+                            Alert.alert('HOMEBAB', '네트워크 연결이 필요합니다.');
                             return;
                         }
 

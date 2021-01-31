@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
+import React, { ReactElement, useEffect, useMemo } from "react";
 import { FlatList, View, ViewStyle } from "react-native";
 import { TapGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { chunkArray } from "../../utils/functions";
 
 type Props<T> = {
     data: T[],
-    renderItem: ({ item }: { item: T }) => JSX.Element,
+    renderItem: ({ item }: { item: T }) => ReactElement,
     chunkSize?: number,
     containerStyle?: ViewStyle,
     rowStyle?: ViewStyle,
@@ -19,8 +19,8 @@ type renderItemProps<T> = {
 const Grid = <T,>(props: Props<T>) => {
     const { data, renderItem, chunkSize, containerStyle, rowStyle, itemStyle } = props;
 
-    const chunked = useMemo(() => chunkArray<T>(data, chunkSize ?? 4), [data, chunkSize]);
-    
+    const chunked: T[][] = useMemo(() => chunkArray<T>(data, chunkSize ?? 4), [data, chunkSize]);
+
     const renderItemRow = ({ item }: { item: renderItemProps<T> }) => {
         const { items } = item;
 
@@ -40,6 +40,7 @@ const Grid = <T,>(props: Props<T>) => {
                 data={chunked.map(v => ({ items: v }))}
                 keyExtractor={(_, key) => key.toString()}
                 renderItem={renderItemRow}
+                // initialNumToRender={10}
             />
         </View>
     );

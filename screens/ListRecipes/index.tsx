@@ -15,6 +15,7 @@ import { buildRecipeRecommendationEndPoint } from "../../services/homebab/recipe
 import { styles as navigatorStyle } from "../../navigators/styles"
 import Grid from "../../components/Grid";
 import { isTablet } from "../../utils/responsive";
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function ListRecipes() {
     const { containerState } = useContainerContext();
@@ -57,15 +58,25 @@ export default function ListRecipes() {
         });
     }, [videoUrl, navigation]);
 
-    const recipeCards = recipes
-        .map((recipe: Recipe, k: number) =>
-            <RecipeCard key={k} recipe={recipe}
+    const renderItem = ({ item }: { item: Recipe }) => {
+        return (
+            <RecipeCard recipe={item}
                 onPress={() => {
-                    Linking.openURL(`https://m.youtube.com/watch?v=${recipe.videoId}`);
+                    Linking.openURL(`https://m.youtube.com/watch?v=${item.videoId}`);
                     // setVideoUrl(`https://m.youtube.com/watch?v=${recipe.videoId}`);
                     // setIsOpenVideo(true)
                 }} containerStyle={isTablet ? { backgroundColor: '#f2f2f2' } : { backgroundColor: 'white', marginBottom: '4%' }} />
         )
+    }
+    // const recipeCards = recipes
+    //     .map((recipe: Recipe, k: number) =>
+    //         <RecipeCard key={k} recipe={recipe}
+    //             onPress={() => {
+    //                 Linking.openURL(`https://m.youtube.com/watch?v=${recipe.videoId}`);
+    //                 // setVideoUrl(`https://m.youtube.com/watch?v=${recipe.videoId}`);
+    //                 // setIsOpenVideo(true)
+    //             }} containerStyle={isTablet ? { backgroundColor: '#f2f2f2' } : { backgroundColor: 'white', marginBottom: '4%' }} />
+    //     )
 
     if (isLoading) {
         return <Loading />
@@ -73,17 +84,13 @@ export default function ListRecipes() {
         return (
             <View style={styles.container}>
                 {!isOpenVideo ?
-                    <ScrollView style={{ backgroundColor: "#f2f2f2" }}>
-                        {
-                            isTablet ?
-                                <Grid container={recipeCards} chunkSize={3} itemStyle={{ flex: 1, padding: 8 }} /> :
-                                recipeCards
-                        }
-                    </ScrollView> :
+                    isTablet ?
+                        <Grid data={recipes} renderItem={renderItem} chunkSize={3} itemStyle={{ flex: 1, padding: 8 }} /> :
+                        <FlatList data={recipes} renderItem={renderItem} /> :
                     <WebView
                         javaScriptEnabled={true}
                         allowsFullscreenVideo={true}
-                        source={{ uri: videoUrl}}
+                        source={{ uri: videoUrl }}
                     />}
             </View>
         );
