@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useMemo } from "react";
-import { FlatList, View, ViewStyle } from "react-native";
+import { FlatList, RefreshControlProps, View, ViewStyle } from "react-native";
 import { TapGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { chunkArray } from "../../utils/functions";
 
@@ -9,7 +9,8 @@ type Props<T> = {
     chunkSize?: number,
     containerStyle?: ViewStyle,
     rowStyle?: ViewStyle,
-    itemStyle?: ViewStyle
+    itemStyle?: ViewStyle,
+    refreshControl?: ReactElement<RefreshControlProps>,
 }
 
 type renderItemProps<T> = {
@@ -17,7 +18,7 @@ type renderItemProps<T> = {
 }
 
 const Grid = <T,>(props: Props<T>) => {
-    const { data, renderItem, chunkSize, containerStyle, rowStyle, itemStyle } = props;
+    const { data, renderItem, chunkSize, containerStyle, rowStyle, itemStyle, refreshControl } = props;
 
     const chunked: T[][] = useMemo(() => chunkArray<T>(data, chunkSize ?? 4), [data, chunkSize]);
 
@@ -40,6 +41,7 @@ const Grid = <T,>(props: Props<T>) => {
                 data={chunked.map(v => ({ items: v }))}
                 keyExtractor={(_, key) => key.toString()}
                 renderItem={renderItemRow}
+                refreshControl={refreshControl}
                 // initialNumToRender={10}
             />
         </View>

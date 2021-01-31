@@ -1,18 +1,22 @@
-import {DependencyList, DispatchWithoutAction, useEffect, useReducer, useState} from "react";
+import { DependencyList, DispatchWithoutAction, Reducer, useEffect, useReducer, useState } from "react";
 
 type Action<T> =
+    | { type: "FLUSH", payload: { initialState: State<T> } }
     | { type: "FETCH_INIT" }
-    | { type: "FETCH_SUCCESS", payload: T }
+    | { type: "FETCH_SUCCESS", payload: { data: T } }
     | { type: "FETCH_FAILURE" }
 
 type State<T> = {
     isLoading: boolean,
     isError: boolean,
-    data: T
+    data: T,
+    page: number
 }
 
 const reducer = <T>(state: State<T>, action: Action<T>) => {
     switch (action.type) {
+        case "FLUSH":
+            return action.payload.initialState;
         case 'FETCH_INIT':
             return {
                 ...state,
@@ -24,7 +28,8 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
                 ...state,
                 isLoading: false,
                 isError: false,
-                data: action.payload,
+                data: action.payload.data,
+                page: state.page + 1
             };
         case 'FETCH_FAILURE':
             return {
@@ -38,43 +43,32 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
 };
 
 const useFetchData = <T>(initialUrl: string, initialData: T, deps?: Array<any>) => {
-    const [state, dispatch] = useReducer(reducer, {
-        isLoading: true,
-        isError: false,
-        data: initialData,
-    });
-    const [url, setUrl] = useState(initialUrl)
+    const initialState = { isLoading: true, isError: false, data: initialData, page: 0 };
+    const [state, dispatch] = useReducer<Reducer<State<T>, Action<T>>>(reducer, initialState);
+
+    const { data } = state;
+
+    const fetchData = async (url: string, reduce?: (l: T, r: T) => T) => {
+        dispatch({ type: 'FETCH_INIT' });
+
+        try {
+            const response = await fetch(url);
+            const jsonData = await response.json();
+
+            console.debug(`[HOMEBAB]: success to fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 100)}`);
+            dispatch({ type: 'FETCH_SUCCESS', payload: { data: reduce ? reduce(data, jsonData) : jsonData as T } });
+        } catch (error) {
+            console.debug(`[HOMEBAB]: fail to fetch data to '${url}' with ${error}`);
+            dispatch({ type: 'FETCH_FAILURE' });
+        }
+    };
 
     useEffect(() => {
-        console.log(url)
-        let didCancel = false;
+        dispatch({ type: "FLUSH", payload: { initialState } })
+        fetchData(initialUrl);
+    }, deps ?? []);
 
-        const fetchData = async () => {
-            dispatch({type: 'FETCH_INIT'});
-
-            try {
-                const response = await fetch(url);
-                const jsonData = await response.json();
-
-                if (!didCancel) {
-                    console.debug(`[HOMEBAB]: success to fetch data to '${url}' with ${JSON.stringify(jsonData).slice(0, 100)}`)
-                    dispatch({type: 'FETCH_SUCCESS', payload: jsonData as T});
-                }
-            } catch (error) {
-                if (!didCancel) {
-                    dispatch({type: 'FETCH_FAILURE'});
-                }
-            }
-        };
-
-        fetchData();
-
-        return () => {
-            didCancel = true;
-        };
-    }, [url].concat(deps ?? []));
-
-    return {state, setUrl};
+    return { state, fetchData };
 };
 
 export default useFetchData;

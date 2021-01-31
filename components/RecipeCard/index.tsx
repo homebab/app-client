@@ -25,7 +25,7 @@ const RecipeHeader = ({ title, publisher }: { title: string, publisher: string }
 
 
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <View style={{ width: "60%", flexDirection: "row", alignItems: "center" }}>
+                <View style={{ width: "72%", flexDirection: "row", alignItems: "center" }}>
                     <Text style={{ fontFamily: 'nanum-square-round' }}>{publisher}</Text>
                 </View>
 
@@ -79,7 +79,7 @@ const RecipeCard = (props: Props) => {
                 flex: 1, backgroundColor: "#fffdfb",
                 borderTopWidth: 0.1, borderColor: '#ababab'
             }, containerStyle]}>
-                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...' : title} publisher={[publisher]} />
+                <RecipeHeader title={title.length > 40 ? title.slice(0, 38) + '...' : title} publisher={publisher} />
 
                 <View>
                     <TouchableOpacity onPress={onPress}>
