@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo/home.png",
     "scheme": "homebab",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover"
@@ -18,13 +18,12 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "assets/images/*"
+      "./assets/images/*"
     ],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1.0.4",
-      "bundleIdentifier": "com.meowailand.homebab",
-      "userInterfaceStyle": "light"
+      "bundleIdentifier": "com.meowailand.homebab"
     },
     "web": {
       "favicon": "./assets/images/logo/logo.png"
@@ -37,8 +36,7 @@
       "permissions": [
         "CAMERA",
         "NOTIFICATION"
-      ],
-      "userInterfaceStyle": "light"
+      ]
     }
   }
 }
