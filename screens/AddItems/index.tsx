@@ -37,20 +37,22 @@ const AddItemCard = ({ item }: { item: BasketItem }) => {
 type CategoryGridProps = { category: string, ingredients: Array<BasketItem>, chunkSize: number };
 
 const CategoryGrid = (props: CategoryGridProps) => {
-    const { category, ingredients, chunkSize } = props;
+    const { ingredients, chunkSize } = props;
 
     return (
         <View style={styles.itemGridContainer}>
-            <Text style={styles.itemGridLabel}>{category}</Text>
-            <Grid data={ingredients} renderItem={({ item }) => <AddItemCard item={item} />} chunkSize={chunkSize} />
+            <Grid
+                data={ingredients}
+                renderItem={({ item }) => <AddItemCard item={item} />}
+                chunkSize={chunkSize}
+            />
         </View>
     )
 }
 
 const AddItems = () => {
 
-    const { containerState, containerDispatch } = useContainerContext();
-    const { basket } = containerState;
+    const { containerDispatch } = useContainerContext();
 
     const [isSearching, setIsSearching] = useState(false)
     const [searchWord, setSearchWord] = useState('');

@@ -1,4 +1,5 @@
 import Assets from "./Assets";
+import {Category} from "../types/Category";
 
 export interface Ingredients {
     채소: string[],

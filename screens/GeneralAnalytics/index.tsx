@@ -9,7 +9,6 @@ import HorizontalAnalyticsLayout from "../../layouts/HorizontalAnalyticsLayout";
 import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
 import {useContainerContext} from "../../contexts/Container";
 import UsageCycleAnalytics from "../../components/UsageCycleAnalytics";
-import {useNavigation} from "@react-navigation/native";
 
 const horizontalAnalyticsList = [
     {Component: () => <HorizontalAnalyticsLayout title={'남은 유통기한'}><ShelfLifeAnalytics/></HorizontalAnalyticsLayout>},
@@ -55,7 +54,7 @@ const GeneralAnalytics = () => {
                 <ScrollView horizontal pagingEnabled centerContent
                             showsHorizontalScrollIndicator={false}
                             onScroll={onScroll}
-                    // control sensitivity
+                            // control sensitivity
                             scrollEventThrottle={400}
                             contentContainerStyle={{
                                 alignItems: 'center', justifyContent: 'center',
@@ -65,7 +64,7 @@ const GeneralAnalytics = () => {
                     {
                         horizontalAnalyticsList.map((v, i) =>
                             <View key={i}
-                                // @ts-ignore
+                                 // @ts-ignore
                                   style={{
                                       backgroundColor: 'white', borderRadius: 16,
                                       width: Layout.window.width * 0.84,

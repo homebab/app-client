@@ -1,13 +1,15 @@
+import {Alert} from "react-native";
+
 export const formatUserName = (name: string) => {
     if (name.length > 12) {
-        alert("12자 이하로 입력하시오.")
+        Alert.alert('HOMEBAB', "12자 이내로 입력하시오.");
         return name.slice(0, 12)
     } else return name
 }
 
 export const formatTag = (text: string) => {
     if (text.length > 10) {
-        alert("10자 이내로 입력하시오.")
+        Alert.alert('HOMEBAB', "10자 이내로 입력하시오.");
         return text.slice(0, 10)
     } else return text
 }
@@ -15,7 +17,7 @@ export const formatTag = (text: string) => {
 export const formatMemo = (text: string) => {
     if (text.length > 100) {
 
-        alert("100자 이내로 입력하시오.")
+        Alert.alert('HOMEBAB', "100자 이내로 입력하시오.");
         return text.slice(0, 100)
     } else return text
 }

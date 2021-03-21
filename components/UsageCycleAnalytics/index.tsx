@@ -52,11 +52,11 @@ const UsageCycleAnalytics = (props: Props) => {
                         <View style={{alignItems: 'center', justifyContent: 'center', aspectRatio: 1}}>
                             <Avatar
                                 // @ts-ignore
-                                source={Assets.Image[avatarKey ? avatarKey : '토마토']}
+                                source={Assets.FoodImages[avatarKey ? avatarKey : 'default']}
                                 size={52}/>
                         </View>
                         <View style={{marginLeft: 8, flex: 1}}>
-                            <Text style={{alignSelf: 'center', marginBottom: 4}}>{item.name}</Text>
+                            {/* <Text style={{alignSelf: 'center', marginBottom: 4}}>{item.name}</Text> */}
                             <View style={{flexDirection: "row", flex: 1}}>
                                 <YAxis
                                     style={{}}

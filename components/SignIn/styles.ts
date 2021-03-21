@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     button: {
         display: "flex",
         flexDirection: "row",
-        width: wp(80),
+        width: wp(78),
         margin: hp(1),
         height: hp(6),
         justifyContent: "center",

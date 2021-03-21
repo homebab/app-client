@@ -37,7 +37,7 @@ const ShelfLifeAnalytics = () => {
                     <AbsoluteCenterLayout>
                         <Avatar
                             // @ts-ignore
-                            source={Assets.Image[avatarKey ? avatarKey : '토마토']}
+                            source={Assets.FoodImages[avatarKey ? avatarKey : 'default']}
                             size={58}/>
                     </AbsoluteCenterLayout>
                 </View>

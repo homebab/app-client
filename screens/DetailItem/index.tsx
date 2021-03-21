@@ -40,8 +40,6 @@ type Props = {
 const DetailItem = (props: Props) => {
     const {item, navigatePop} = props;
 
-    const {containerDispatch} = useContainerContext();
-
     const [memo, setMemo] = useState<string>(item.memo!);
 
     const [editingMemo, setEditingMemo] = useState<boolean>(false);

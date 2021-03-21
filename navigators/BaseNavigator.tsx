@@ -8,6 +8,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import ListRecipes from '../screens/ListRecipes';
 import Settings from "../screens/Settings";
 import { BaseNaviParamList, RecipeNaviParamList, SettingsNaviParamList } from "../types/Navigators";
+import AnalyticsNavigator from './AnalyticsNavigator';
 import FridgeNavigator from "./FridgeNavigator";
 import { styles } from "./styles";
 
@@ -38,25 +39,28 @@ export default function BaseNavigator() {
                         </View>,
                 }}
             />
-            <BottomTab.Screen
-                name="Recipe"
-                component={RecipeNavigator}
-                options={{
-                    tabBarLabel: "레시피",
-                    tabBarIcon: ({ color }) =>
-                        <View style={styles.tarBarContainer}>
-                            <MaterialCommunityIcons name="chef-hat" style={styles.tarBarIcon} color={color} />
-                            <Text style={styles.tarBarLabel}>{'레시피'}</Text>
-                        </View>
-                }}
-            />
+            {/*<BottomTab.Screen*/}
+            {/*    name="Recipe"*/}
+            {/*    component={RecipeNavigator}*/}
+            {/*    options={{*/}
+            {/*        tabBarLabel: "레시피",*/}
+            {/*        tabBarIcon: ({ color }) =>*/}
+            {/*            <View style={styles.tarBarContainer}>*/}
+            {/*                <MaterialCommunityIcons name="chef-hat" style={styles.tarBarIcon} color={color} />*/}
+            {/*                <Text style={styles.tarBarLabel}>{'레시피'}</Text>*/}
+            {/*            </View>*/}
+            {/*    }}*/}
+            {/*/>*/}
             {/*<BottomTab.Screen*/}
             {/*    name="Analytics"*/}
             {/*    component={AnalyticsNavigator}*/}
             {/*    options={{*/}
             {/*        tabBarLabel: "종합분석",*/}
-            {/*        tabBarIcon: ({color}) => <MaterialCommunityIcons name="file-chart" size={24}*/}
-            {/*                                                         color={color}/>,*/}
+            {/*        tabBarIcon: ({ color }) =>*/}
+            {/*            <View style={styles.tarBarContainer}>*/}
+            {/*                <MaterialCommunityIcons name="file-chart" style={styles.tarBarIcon} color={color} />*/}
+            {/*                <Text style={styles.tarBarLabel}>{'식생활'}</Text>*/}
+            {/*            </View>*/}
             {/*    }}*/}
             {/*/>*/}
             <BottomTab.Screen

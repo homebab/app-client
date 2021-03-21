@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         fontSize: hp(1.56)
     },
 
-    itemGridContainer: {flex: 1, padding: wp(4), paddingTop: wp(2)},
+    itemGridContainer: {flex: 1, padding: wp(4), paddingTop: hp(4)},
     itemGridLabel: {fontSize: hp(2.2), fontFamily: 'nanum-square-round-bold', padding: wp(6)},
     itemContainer: {padding: hp(0.8)},
     avatarStyle: {padding: hp(3.6), borderRadius: hp(50)},
