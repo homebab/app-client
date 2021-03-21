@@ -10,6 +10,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: isTablet? "space-around": "space-between"
     },
-    text: { fontFamily: 'nanum-square-round', fontSize: hp(1.68)},
+    text: { fontFamily: 'nanum-square-round', fontSize: hp(1.62)},
     switch: { transform: [{ scaleX: hp(0.094) }, { scaleY: hp(0.094) }] }
 });

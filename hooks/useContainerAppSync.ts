@@ -1,13 +1,12 @@
-import {useContainerContext, Item, BasketItem} from "../contexts/Container";
-import {Analytics, DataStore, Hub, Predicates} from "aws-amplify";
+import {useContainerContext} from "../contexts/Container";
+import {DataStore, Hub} from "aws-amplify";
 import {Item as ItemModel} from "../models";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Storage} from "../types/Storage";
 import {Category} from "../types/Category";
-import {v4 as uuidv4} from 'uuid';
 import {useNetInfo} from "@react-native-community/netinfo";
-import useThenable from "@react-navigation/native/lib/typescript/src/useThenable";
 import {HubCallback} from "@aws-amplify/core/src/Hub";
+import {useLoadingContext} from "../contexts/Loading";
 
 /*
     This is bridge between Container Context and AppSync (Amplify DataStore)
@@ -16,14 +15,11 @@ import {HubCallback} from "@aws-amplify/core/src/Hub";
 const useContainerAppSync = () => {
 
     const {containerState, containerDispatch} = useContainerContext();
+    const {isLoading, showLoading, hideLoading} = useLoadingContext();
+
     const {fridge} = containerState;
 
     const netInfo = useNetInfo();
-    const [isLoading, setIsLoading] = useState(true);
-    
-    useEffect(() => {
-        if (isLoading && fridge.length > 0) setIsLoading(false)
-    }, [fridge]);
 
     /*
         - https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#query-data
@@ -35,10 +31,10 @@ const useContainerAppSync = () => {
         console.debug(`[AMPLIFY_HUB]: on channel '${channel}' listen event - ${event} with data - ${JSON.stringify(data)}`);
         switch (event) {
             case "storageSubscribed":
-                if (isLoading && !netInfo) setIsLoading(false);
+                if (isLoading && !netInfo) hideLoading();
                 break;
             case "syncQueriesReady":
-                if (isLoading && netInfo) setIsLoading(false);
+                if (isLoading && netInfo) hideLoading();
                 break;
         }
     }
@@ -49,7 +45,8 @@ const useContainerAppSync = () => {
         // Document  : https://docs.amplify.aws/lib/datastore/datastore-events/q/platform/js
         Hub.listen("datastore", hubListener)
 
-        fetchItems()
+        showLoading();
+        fetchItems();
 
         const subscription = DataStore.observe(ItemModel).subscribe(() => fetchItems());
         console.debug("[HOMEBAB]: subscribe appsync");
@@ -57,15 +54,19 @@ const useContainerAppSync = () => {
         return () => {
             Hub.remove('datastore', hubListener);
             subscription.unsubscribe();
-  
+
             console.debug("[HOMEBAB]: unsubscribe appsync");
         }
     }, [])
 
+    useEffect(() => {
+        if (isLoading && fridge.length > 0) hideLoading();
+    }, [fridge]);
+
     async function fetchItems() {
         const items = await DataStore.query(ItemModel)
-        console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.name).join(', '));
-        
+        console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.id.substring(0, 4)).join(', '));
+
         containerDispatch({
             type: 'SET_FRIDGE',
             fridge: items.map(item =>

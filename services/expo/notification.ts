@@ -1,8 +1,10 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import {Alarm} from "../../contexts/Account";
+import {updateCustomAttributes} from "../aws/cognito";
 
-export const registerForPushNotificationsAsync = async () => {
+export const registerForPushNotificationsAsync = async (alarm: Alarm) => {
     let token;
     if (Constants.isDevice) {
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -19,10 +21,14 @@ export const registerForPushNotificationsAsync = async () => {
         }
 
         token = (await Notifications.getExpoPushTokenAsync()).data;
-    } else throw Error('[HOMEBAB]: must use physical device');
+
+        // TODO: separate push notification logic from cognito. and handle multi devices(tokens) for same user.
+        updateCustomAttributes({ "custom:alarm": JSON.stringify({ ...alarm, expoPushToken: token }) })
+            .catch(_ => { throw Error("fail to update custom attributes") });
+    } else throw Error('You must use physical device.');
 
     if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
+        await Notifications.setNotificationChannelAsync('default', {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],

@@ -5,16 +5,16 @@ export const styles = StyleSheet.create({
     container: {flex: 1, backgroundColor: 'white'},
     containerContent: {padding: wp(4)},
 
-    profileContainer: {alignItems: "center", padding: wp(4)},
+    profileContainer: {alignItems: "center", padding: wp(5.2)},
     profileImage: {height:  wp(32), aspectRatio: 1, borderRadius: wp(8)},
 
     alarmContainer: {
-        padding: wp(4),
+        padding: wp(3.2),
         marginBottom: hp(1),
         borderBottomWidth: 1,
         borderColor: 'rgba(208,200,192,0.5)'
     },
-    alarmText: {marginBottom: hp(1.6), fontFamily: 'nanum-square-round-bold', fontSize: hp(2)},
+    alarmText: {marginBottom: hp(2), fontFamily: 'nanum-square-round-bold', fontSize: hp(2)},
     alarmOnOffContainer: {flexDirection: 'row'},
 
 

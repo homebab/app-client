@@ -65,9 +65,9 @@ export async function updateItem(item: Item) {
     );
 }
 
-export function deleteItem(item: any, wasteAmount: number) {
+export function deleteItem(item: Item, wasteAmount: number) {
     DataStore.delete(ItemModel, item.id)
-        .then(res => console.debug("[HOMEBAB]: success to delete item, ", res.name))
+        .then(res => console.debug("[HOMEBAB]: success to delete item, ", item.id.substring(0, 4)))
         .catch(err => console.debug("[HOMEBAB]: fail to delete item, ", err))
 
     // Analytics.record({

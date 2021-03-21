@@ -1,9 +1,9 @@
-import Amplify, { Analytics, AWSKinesisFirehoseProvider } from 'aws-amplify';
+import Amplify, {Analytics, AWSKinesisFirehoseProvider} from 'aws-amplify';
 import * as Linking from 'expo-linking';
-import { StatusBar } from 'expo-status-bar';
+import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import { YellowBox } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {YellowBox} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 // @ts-ignore
 import awsConfig from './aws-exports';
 import AccountController from "./contexts/Account";
@@ -11,6 +11,8 @@ import ContainerController from "./contexts/Container";
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigators';
+import Loading from "./components/Loading";
+import {LoadingProvider} from "./contexts/Loading";
 
 // ignore warning `[Warning]: Setting a timer for a long period of time`
 // https://github.com/facebook/react-native/issues/12981
@@ -52,21 +54,22 @@ console.debug('[HOMEBAB]: update AWS amplify config ' + JSON.stringify(updatedAw
 Amplify.configure(updatedAwsConfig)
 
 const App: React.FC = () => {
-
-    const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
+    const isLoading = useCachedResources();
 
-    if (!isLoadingComplete) {
-        return null
+    if (isLoading) {
+        return <Loading/>;
     } else {
         return (
             <SafeAreaProvider>
-                <AccountController>
-                    <ContainerController>
-                        <Navigation colorScheme={colorScheme} />
-                    </ContainerController>
-                </AccountController>
-                <StatusBar />
+                <LoadingProvider>
+                    <AccountController>
+                        <ContainerController>
+                            <Navigation colorScheme={colorScheme}/>
+                        </ContainerController>
+                    </AccountController>
+                </LoadingProvider>
+                <StatusBar/>
             </SafeAreaProvider>
         );
     }

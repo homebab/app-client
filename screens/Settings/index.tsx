@@ -9,7 +9,6 @@ import Assets from "../../constants/Assets";
 import {useAccountContext} from "../../contexts/Account";
 import usePushNotification from "../../hooks/usePushNotification";
 import {deleteAllItems} from "../../services/aws/appsync";
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {styles} from "./styles";
 
 
@@ -19,6 +18,7 @@ const RowButtonList = () => {
 
     const {accountState, accountDispatch} = useAccountContext();
     const {cognitoUser} = accountState;
+
     const {recommendRecipes, imminentShelfLife} = accountState.customAttributes.alarm;
 
     const dataset: ButtonListDataset = [
@@ -42,7 +42,12 @@ const RowButtonList = () => {
 
         {
             label: '냉장고 초기화',
-            onPress: () => deleteAllItems(),
+            onPress: () => Alert.alert(
+                "홈밥", "식자재 정보를 다시 되돌릴 수 없습니다.\n 그래도 초기화 하시겠습니까?",
+                [
+                    {text: '예', onPress: () => deleteAllItems(), style: 'destructive'},
+                    {text: '아니오'}
+                ]),
         },
         {
             label: '로그아웃',
@@ -56,21 +61,31 @@ const RowButtonList = () => {
         },
         {
             label: '영구 탈퇴', textStyle: {color: '#ff1744'},
-            onPress: () => cognitoUser?.deleteUser((err) => {
-                if (err) console.debug('[HOMEBAB]: fail to delete cognitoUser with ', JSON.stringify(err))
-                else accountDispatch({type: "DEAUTHENTICATE"})
-            }),
+            onPress: () => Alert.alert(
+                "홈밥", "정말로 탈퇴하시겠습니까?",
+                [
+                    {
+                        text: "예",
+                        onPress: () => cognitoUser?.deleteUser((err) => {
+                            if (err) console.debug('[HOMEBAB]: fail to delete cognitoUser with ', JSON.stringify(err))
+                            else accountDispatch({type: "DEAUTHENTICATE"})
+                        }),
+                        style: "destructive"
+                    },
+                    {text: "아니오"}
+                ]
+            ),
             disabled: !isConnected
         }
     ]
 
     return (
         // <View style={{flex: 1, width: '100%', justifyContent: 'flex-start', marginTop: '4%'}}>
-            <ButtonList
-                dataset={dataset}
-                containerStyle={styles.buttonListContainer}
-                buttonContainerStyle={styles.buttonContainer}
-            />
+        <ButtonList
+            dataset={dataset}
+            containerStyle={styles.buttonListContainer}
+            buttonContainerStyle={styles.buttonContainer}
+        />
         // </View>
     )
 }
@@ -79,16 +94,20 @@ const Alarm = () => {
     const netInfo = useNetInfo();
     const {isConnected} = netInfo;
 
-    const {alarm, alarmDispatch} = usePushNotification();
-    const {imminentShelfLife, recommendRecipes} = alarm;
+    // const {alarm, alarmDispatch} = usePushNotification();
+    // const {imminentShelfLife, recommendRecipes} = alarm;
 
     const dataset = [
         {
             label: '유통기한 임박',
-            value: imminentShelfLife,
-            onPress: () => alarmDispatch({type: "SWITCH_IMMINENT_SHELF_LIFE"})
+            value: false,
+            // onPress: () => alarmDispatch({type: "SWITCH_IMMINENT_SHELF_LIFE"})
         },
-        {label: '레시피 추천', value: recommendRecipes, onPress: () => alarmDispatch({type: "SWITCH_RECOMMEND_RECIPES"})}
+        {
+            label: '레시피 추천',
+            value: false,
+            // onPress: () => alarmDispatch({type: "SWITCH_RECOMMEND_RECIPES"})
+        }
     ]
 
     return (
@@ -97,8 +116,10 @@ const Alarm = () => {
 
             <View style={styles.alarmOnOffContainer}>
                 {dataset.map((data, key) =>
-                    <OnOffButton key={key} disabled={!isConnected} label={data.label} value={data.value}
-                                 onPress={data.onPress}/>)}
+                    <OnOffButton key={key} disabled={true} label={data.label} value={data.value}
+                                 // onPress={data.onPress}
+                    />
+                )}
             </View>
         </View>
     )

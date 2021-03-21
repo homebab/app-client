@@ -1,8 +1,9 @@
 import { useNetInfo } from "@react-native-community/netinfo";
-import { useEffect, useReducer } from "react";
-import { Alarm, useAccountContext } from "../contexts/Account";
+import {Alarm, initialAlarm, useAccountContext} from "../contexts/Account";
 import { updateCustomAttributes } from "../services/aws/cognito";
 import { registerForPushNotificationsAsync } from "../services/expo/notification";
+import {Alert} from "react-native";
+import {useEffect} from "react";
 
 
 type Action =
@@ -29,25 +30,31 @@ const usePushNotification = () => {
     const { accountState, accountDispatch } = useAccountContext();
     const { alarm } = accountState.customAttributes;
 
+    useEffect(() => {
+      registerForPushNotificationsAsync(alarm)
+          .then(token => console.debug("[HOMEBAB]: success to get token, ", token))
+          .catch(error => {
+              Alert.alert('홈밥', error.message);
+              // 롤백
+              accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: alarm } });
+          });
+    }, [])
+
     const alarmDispatch = async (action: Action) => {
         if (!isConnected) {
             throw Error('[Homebab]: 네트워크 연결이 필요합니다.');
         }
 
-        try {
-            const newAlarm = reducer(alarm, action);
-            accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } });
+        const newAlarm = reducer(alarm, action);
+        accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: newAlarm } });
 
-            const token = await registerForPushNotificationsAsync();
-            console.debug("[HOMEBAB]: success to get token, ", token)
-
-            updateCustomAttributes({ "custom:alarm": JSON.stringify({ ...newAlarm, expoPushToken: token }) })
-                .catch(_ => { throw Error("[HOMEBAB]: 업데이트에 실패했습니다.") });
-
-        } catch (err) {
-            alert(err.message);
-            accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: alarm } });
-        }
+        registerForPushNotificationsAsync(newAlarm)
+            .then(token => console.debug("[HOMEBAB]: success to get token, ", token))
+            .catch(error => {
+                Alert.alert('홈밥', error.message);
+                // 롤백
+                accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: alarm } });
+            });
     }
 
     return { alarm, alarmDispatch }

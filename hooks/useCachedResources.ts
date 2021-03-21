@@ -6,7 +6,7 @@ import {Asset} from "expo-asset";
 import Assets from '../constants/Assets';
 
 export default function useCachedResources() {
-    const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+    const [isLoading, setLoading] = React.useState(true);
 
     async function loadResourcesAndDataAsync() {
         try {
@@ -22,14 +22,15 @@ export default function useCachedResources() {
 
             // Load Images
             await Asset.loadAsync([
-                ...Object.values(Assets.Image)
+                ...Object.values(Assets.Image),
+                ...Object.values(Assets.FoodImages)
             ]);
 
         } catch (e) {
             // We might want to provide this error information to an error reporting service
             console.warn(e);
         } finally {
-            setLoadingComplete(true);
+            setLoading(false);
             SplashScreen.hideAsync().then();
         }
     }
@@ -39,5 +40,5 @@ export default function useCachedResources() {
         loadResourcesAndDataAsync().then();
     }, []);
 
-    return isLoadingComplete;
+    return isLoading;
 }

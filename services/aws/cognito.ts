@@ -27,7 +27,5 @@ export function getCustomAttributes(cognitoUser: MyCognitoUser): CustomAttribute
         idToken["custom:image"],
         idToken["custom:alarm"] ? JSON.parse(idToken["custom:alarm"]) : initialAlarm
     ] : Array(3).fill(undefined);
-
-
     return { name, image, alarm }
 }

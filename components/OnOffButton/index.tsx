@@ -6,7 +6,7 @@ import {styles} from "./styles";
 type Props = { 
     label?: string, 
     value: boolean, 
-    onPress: () => void,
+    onPress?: () => void,
     containerStyle?: StyleProp<ViewStyle>,
     disabled?: boolean
 }
