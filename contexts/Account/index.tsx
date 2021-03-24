@@ -4,7 +4,7 @@ import { MyCognitoUser } from "../../services/aws/cognito";
 export type Alarm = {
     imminentShelfLife: boolean,
     recommendRecipes: boolean,
-    expoPushToken: Set<string>
+    expoPushToken: string
 }
 
 export type CustomAttributes = {
@@ -41,7 +41,7 @@ type ContextProps = {
     accountDispatch: Dispatch<Action>;
 }
 
-export const initialAlarm: Alarm = { imminentShelfLife: false, recommendRecipes: false, expoPushToken: new Set() }
+export const initialAlarm: Alarm = { imminentShelfLife: false, recommendRecipes: false, expoPushToken: "" }
 
 export const initialAccount: Account = {
     cognitoUser: {} as MyCognitoUser,

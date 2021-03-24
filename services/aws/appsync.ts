@@ -5,7 +5,11 @@ import {DataStore, Predicates} from "aws-amplify";
 import {Item as ItemModel} from "../../models";
 
 
-export async function createItem(basket: Array<BasketItem>) {
+export async function fetchItems() {
+    return await DataStore.query(ItemModel);
+}
+
+    export async function createItem(basket: Array<BasketItem>) {
     // convert items in basket
     const items = basket.map(item => {
         const date = new Date();

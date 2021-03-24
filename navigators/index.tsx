@@ -16,12 +16,12 @@ import Loading from "../components/Loading";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
-export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
+export default function Navigation({colorScheme, isLoading}: { colorScheme: ColorSchemeName, isLoading: boolean }) {
     const {isLoading: isGlobalLoading} = useLoadingContext();
 
     return (
         <>
-            {isGlobalLoading ? <Loading/> : null}
+            {(isGlobalLoading || isLoading) ? <Loading/> : null}
             <NavigationContainer
                 linking={LinkingConfiguration}
                 theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -37,7 +37,7 @@ const RootStack = createStackNavigator<RootNaviParamList>();
 
 function RootNavigator() {
     const isAuthenticated = useAccountAuthFlow();
-    // usePushNotification();
+    usePushNotification();
 
     return (
         <RootStack.Navigator screenOptions={{headerShown: false}}>

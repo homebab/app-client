@@ -1,6 +1,5 @@
 import { useNetInfo } from "@react-native-community/netinfo";
-import {Alarm, initialAlarm, useAccountContext} from "../contexts/Account";
-import { updateCustomAttributes } from "../services/aws/cognito";
+import {Alarm,  useAccountContext} from "../contexts/Account";
 import { registerForPushNotificationsAsync } from "../services/expo/notification";
 import {Alert} from "react-native";
 import {useEffect} from "react";

@@ -96,7 +96,7 @@ const DetailItem = (props: Props) => {
                     icon: <MaterialCommunityIcons name={"restore"} color={'#000000'} size={24}
                                                   style={{position: "absolute", left: 32}}/>,
                     onPress: () => {
-                        updateItem({...item, storage: s})
+                        updateItem({...item, storage: s});
                         // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, storage: s}});
                         navigatePop();
                     }

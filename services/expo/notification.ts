@@ -1,17 +1,17 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import {Alarm} from "../../contexts/Account";
 import {updateCustomAttributes} from "../aws/cognito";
 
 export const registerForPushNotificationsAsync = async (alarm: Alarm) => {
     let token;
     if (Constants.isDevice) {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        const {status: existingStatus} = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
 
         if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
+            const {status} = await Notifications.requestPermissionsAsync();
             console.log(status)
             finalStatus = status;
         }

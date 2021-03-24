@@ -51,7 +51,7 @@ Current Environment: dev
   - Apple
 
 ### DataStore (API GraphQL)
-- [only supported on offline](https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js)
+- [supported on offline](https://docs.amplify.aws/lib/graphqlapi/offline/q/platform/js)
 - `amplify codegen models` generate models in `model/` by amplify graphql scheme
 ```shell
 $ amplify codegen models

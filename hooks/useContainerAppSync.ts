@@ -1,12 +1,13 @@
 import {useContainerContext} from "../contexts/Container";
-import {DataStore, Hub} from "aws-amplify";
-import {Item as ItemModel} from "../models";
+import {DataStore, Hub, API} from "aws-amplify";
+import {Item} from "../models";
 import {useEffect} from "react";
 import {Storage} from "../types/Storage";
 import {Category} from "../types/Category";
 import {useNetInfo} from "@react-native-community/netinfo";
 import {HubCallback} from "@aws-amplify/core/src/Hub";
 import {useLoadingContext} from "../contexts/Loading";
+import {fetchItems} from "../services/aws/appsync";
 
 /*
     This is bridge between Container Context and AppSync (Amplify DataStore)
@@ -46,13 +47,14 @@ const useContainerAppSync = () => {
         Hub.listen("datastore", hubListener)
 
         showLoading();
-        fetchItems();
+        fetch();
 
-        const subscription = DataStore.observe(ItemModel).subscribe(() => fetchItems());
+        const subscription = DataStore.observe(Item).subscribe(() => fetch());
         console.debug("[HOMEBAB]: subscribe appsync");
 
         return () => {
             Hub.remove('datastore', hubListener);
+            DataStore.clear().then(_ => console.debug('[HOMEBAB]: success to clear datastore'));
             subscription.unsubscribe();
 
             console.debug("[HOMEBAB]: unsubscribe appsync");
@@ -63,25 +65,25 @@ const useContainerAppSync = () => {
         if (isLoading && fridge.length > 0) hideLoading();
     }, [fridge]);
 
-    async function fetchItems() {
-        const items = await DataStore.query(ItemModel)
-        console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.id.substring(0, 4)).join(', '));
+    async function fetch() {
+        fetchItems()
+            .then(items => {
+                console.debug("[HOMEBAB] success to fetch items, ", items.map(i => i.id.substring(0, 4)).join(', '));
 
-        containerDispatch({
-            type: 'SET_FRIDGE',
-            fridge: items.map(item =>
-                ({
-                    ...item,
-                    storage: item.storage as Storage,
-                    category: item.category as Category,
-                    createdAt: new Date(item.createdAt),
-                    updatedAt: new Date(item.updatedAt),
-                    expiredAt: new Date(item.expiredAt)
-                })
-            ) // ? convertContainer(new Map(JSON.parse(items))) : new Map()
-        });
-
-        // return items
+                containerDispatch({
+                    type: 'SET_FRIDGE',
+                    fridge: items.map(item =>
+                        ({
+                            ...item,
+                            storage: item.storage as Storage,
+                            category: item.category as Category,
+                            createdAt: new Date(item.createdAt),
+                            updatedAt: new Date(item.updatedAt),
+                            expiredAt: new Date(item.expiredAt)
+                        })
+                    )
+                });
+            })
     }
 
     return {isLoading, fridge};

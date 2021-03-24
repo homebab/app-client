@@ -8,12 +8,10 @@ import CrossIconButton from "../../components/CrossIconButton";
 import Grid from "../../components/Grid";
 import HorizontalTypesView from "../../components/HorizontalTypesView";
 import ItemCard from "../../components/ItemCard";
-import Loading from "../../components/Loading";
 import Search from "../../components/Search";
 import SearchBar from "../../components/SearchBar";
 import Assets from "../../constants/Assets";
 import Layout from "../../constants/Layout";
-import {useAccountContext} from "../../contexts/Account";
 import {Item} from "../../contexts/Container";
 import useContainerAppSync from "../../hooks/useContainerAppSync";
 import RelativeCenterLayout from "../../layouts/RelativeCenterLayout";
@@ -51,18 +49,23 @@ const ListItemCard = ({item}: { item: Item }) => {
     )
 }
 
-const ItemsGrid = ({container}: { container: Array<Item> }) => {
+const ItemsGrid = ({container, searching}: { container: Array<Item>, searching: boolean }) => {
     const renderItem = ({item}: { item: Item }) => <ListItemCard item={item}/>
+
 
     return (
         <View style={styles.itemGridContainer}>
             {
                 container.length == 0 ?
-                    <RelativeCenterLayout containerStyle={{marginBottom: hp(8)}}>
-                        <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
-                               style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
-                        <Text style={{fontFamily: 'nanum-square-round', fontSize: hp(2)}}>{'냉장고가 텅 비었습니다'}</Text>
-                    </RelativeCenterLayout> :
+                    !searching ?
+                        <RelativeCenterLayout containerStyle={{marginBottom: hp(8)}}>
+                            <Image source={Assets.Image.emptyFridge} resizeMethod={'resize'}
+                                   style={{height: Layout.window.width * 2 / 3, aspectRatio: 1}}/>
+                            <Text style={{fontFamily: 'nanum-square-round', fontSize: hp(2)}}>{'냉장고가 텅 비었습니다'}</Text>
+                        </RelativeCenterLayout> :
+                        <RelativeCenterLayout containerStyle={{marginBottom: hp(8)}}>
+                            <Text style={{fontFamily: 'nanum-square-round', fontSize: hp(2)}}>{'검색 결과가 없습니다'}</Text>
+                        </RelativeCenterLayout> :
                     // null
                     <Grid data={container} renderItem={renderItem} chunkSize={isTablet ? 5 : 4}/>
             }
@@ -85,7 +88,10 @@ const ListItems: React.FC = () => {
                 isSearching ?
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <CrossIconButton containerStyle={[navigatorStyles.headerIcon, {marginRight: 16}]} size={28}
-                                         onPress={() => setIsSearching(false)}/>
+                                         onPress={() => {
+                                             setIsSearching(false);
+                                             setSearchWord('');
+                                         }}/>
                     </View> :
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Search containerStyle={[navigatorStyles.headerIcon, {marginRight: 16}]} size={28}
@@ -93,14 +99,6 @@ const ListItems: React.FC = () => {
                     </View>
         });
     }, [isSearching, navigation]);
-
-    // useEffect(() => {
-    //     // AsyncStorage.setItem(LocalStorage.KEY.USER_ITEMS, JSON.stringify(Array.from(fridge.entries())))
-    //     //     .then(_ => console.log(`[HOMEBAB]: success to sync Account Context with AsyncStorage`))
-    //     //     .catch(err => console.error('[HOMEBAB]: fail to sync Account Context with AsyncStorage', err));
-    //
-    //     return () => console.log('UNMOUNTED on ListItems');
-    // }, [fridge])
 
     const storages = ["전체"].concat(Object.values(Storage));
     const [storage, setStorage] = useState<Storage | string>(storages[0]);
@@ -121,12 +119,10 @@ const ListItems: React.FC = () => {
                     placeholder={"식품을 입력해주세요."} value={searchWord}
                     onChangeText={text => setSearchWord(text)}
                     onStartEditing={() => setIsSearching(true)}
-                    onEndEditing={() => {
-                        setIsSearching(false)
-                        setSearchWord('')
-                    }}/>
+                    onEndEditing={() => setSearchWord('')}/>
                 <ItemsGrid
-                    container={filteredItems.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)}/>
+                    container={fridge.filter(ingredient => searchWord ? ingredient.name.includes(searchWord) : false)}
+                    searching={isSearching}/>
             </> :
             <>
                 <HorizontalTypesView types={categories} pressedType={category}
@@ -136,7 +132,7 @@ const ListItems: React.FC = () => {
                                      onPressHandler={(s: Storage) => setStorage(s)} scrollEnabled={false}
                                      containerStyle={isTablet ? tabletStyles.storageBar : styles.storageBar}
                                      textStyle={styles.text}/>
-                <ItemsGrid container={filteredItems}/>
+                <ItemsGrid container={filteredItems} searching={isSearching}/>
 
                 <TouchableOpacity style={styles.plusButton} onPress={() => navigation.navigate('AddItems')}>
                     <AntDesign name="plus" color='white' style={styles.plusIcon}/>

@@ -1,7 +1,7 @@
 import {useNetInfo} from "@react-native-community/netinfo";
 import {Auth, DataStore} from "aws-amplify";
 import Constants from "expo-constants";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Alert, Image, Linking, ScrollView, Text, View} from "react-native";
 import ButtonList, {Dataset as ButtonListDataset} from "../../components/ButtonList";
 import OnOffButton from "../../components/OnOffButton";
@@ -169,6 +169,7 @@ const Profile = () => {
 }
 
 const Settings = () => {
+    usePushNotification();
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.containerContent}>

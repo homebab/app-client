@@ -55,17 +55,17 @@ Amplify.configure(updatedAwsConfig)
 
 const App: React.FC = () => {
     const colorScheme = useColorScheme();
-    const isLoading = useCachedResources();
+    const {isHardLoading, isSoftLoading} = useCachedResources();
 
-    if (isLoading) {
-        return <Loading/>;
+    if (isHardLoading) {
+        return null;
     } else {
         return (
             <SafeAreaProvider>
                 <LoadingProvider>
                     <AccountController>
                         <ContainerController>
-                            <Navigation colorScheme={colorScheme}/>
+                            <Navigation colorScheme={colorScheme} isLoading={isSoftLoading}/>
                         </ContainerController>
                     </AccountController>
                 </LoadingProvider>
