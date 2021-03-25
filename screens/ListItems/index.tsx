@@ -2,7 +2,7 @@ import {AntDesign} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native";
 import React, {useLayoutEffect, useMemo, useState} from "react";
 import {Image, Text, TouchableOpacity, View} from "react-native";
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import BottomModal from "../../components/BottomModal";
 import CrossIconButton from "../../components/CrossIconButton";
 import Grid from "../../components/Grid";
@@ -33,9 +33,8 @@ const ListItemCard = ({item}: { item: Item }) => {
                     flex: 0.7,
                     backgroundColor: 'white',
                     alignItems: 'center',
-                    width: '100%',
-                    borderTopEndRadius: 32,
-                    borderTopLeftRadius: 32
+                    borderTopEndRadius: wp(8),
+                    borderTopLeftRadius: wp(8)
                 }}
                 visible={isVisible} handlePress={() => setIsVisible(false)}>
                 <DetailItem item={item} navigatePop={() => setIsVisible(false)}/>

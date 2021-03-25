@@ -37,7 +37,6 @@ const RootStack = createStackNavigator<RootNaviParamList>();
 
 function RootNavigator() {
     const isAuthenticated = useAccountAuthFlow();
-    usePushNotification();
 
     return (
         <RootStack.Navigator screenOptions={{headerShown: false}}>

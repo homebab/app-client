@@ -1,7 +1,6 @@
 import { useNetInfo } from "@react-native-community/netinfo";
 import {Alarm,  useAccountContext} from "../contexts/Account";
 import { registerForPushNotificationsAsync } from "../services/expo/notification";
-import {Alert} from "react-native";
 import {useEffect} from "react";
 
 
@@ -32,11 +31,7 @@ const usePushNotification = () => {
     useEffect(() => {
       registerForPushNotificationsAsync(alarm)
           .then(token => console.debug("[HOMEBAB]: success to get token, ", token))
-          .catch(error => {
-              Alert.alert('홈밥', error.message);
-              // 롤백
-              accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: alarm } });
-          });
+          .catch(error => console.warn(error.message));
     }, [])
 
     const alarmDispatch = async (action: Action) => {
@@ -50,7 +45,7 @@ const usePushNotification = () => {
         registerForPushNotificationsAsync(newAlarm)
             .then(token => console.debug("[HOMEBAB]: success to get token, ", token))
             .catch(error => {
-                Alert.alert('홈밥', error.message);
+                console.warn(error.message)
                 // 롤백
                 accountDispatch({ type: "SET_CUSTOM_ATTRIBUTES", customAttributes: { alarm: alarm } });
             });

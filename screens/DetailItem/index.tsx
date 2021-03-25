@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {Text, TextInput, TouchableOpacity, View, ViewStyle} from "react-native";
+import {ScrollView, Text, TextInput, TouchableOpacity, View, ViewStyle} from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Avatar from "../../components/Avatar";
 import Assets from "../../constants/Assets";
-import {Item, useContainerContext} from "../../contexts/Container";
+import {Item} from "../../contexts/Container";
 import {convertDateFormat} from "../../utils/convert";
 import {EvilIcons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {formatMemo} from "../../validators/format";
@@ -13,7 +14,7 @@ import {getImageKey} from "../../constants/Ingredients";
 import {leftDays} from "../../hooks/useShelfLifeAnalytics";
 import ButtonList from "../../components/ButtonList";
 import {updateItem} from "../../services/aws/appsync"
-import {styles} from "./styles";
+import {avatarSize, styles} from "./styles";
 
 
 const TextInputBox = ({
@@ -25,7 +26,7 @@ const TextInputBox = ({
 
     return (
         <View
-            style={{flex: 1, padding: 20, paddingTop: 16, paddingBottom: 16, backgroundColor: 'rgba(208,200,192,0.2)'}}>
+            style={styles.textInputContainer}>
             <TextInput style={[containerStyle]} keyboardType={"default"} placeholder={"메모 영역 (100자 이하)"}
                        value={value} onChangeText={onChangeHandler} editable={active} multiline={true}/>
         </View>
@@ -51,50 +52,43 @@ const DetailItem = (props: Props) => {
         const columnItemInfoList = [
             {
                 label: "보관상태", value: item.storage,
-                containerStyle: {flex: 1, alignItems: 'center'},
+                containerStyle: styles.columnItemInfo,
                 pressable: false
             },
             {
                 label: "유통기한", value: convertDateFormat(item.expiredAt!),
-                containerStyle: {
-                    flex: 1, alignItems: 'center',
-                    borderColor: 'rgba(110,115,121,0.8)',
-                    borderRightWidth: 0.3, borderLeftWidth: 0.3
-                },
+                containerStyle: styles.columnItemCenter,
                 pressable: true,
                 onPressHandler: () => setEditingExpiredAt(true)
             },
             {
                 label: "보관일수", value: leftDays(item.createdAt!),
-                containerStyle: {flex: 1, alignItems: 'center'},
+                containerStyle: styles.columnItemInfo,
                 pressable: false
             }
         ]
 
         return (
-            <View style={{flexDirection: "row", width: '100%', marginBottom: 24}}>
+            <View style={styles.columnItemInfoContainer}>
                 {columnItemInfoList.map((info, key) =>
                     <TouchableOpacity disabled={!info.pressable} key={key} style={info.containerStyle as ViewStyle}
                                       onPress={info.onPressHandler}>
-                        <Text style={{marginBottom: 8, color: 'rgb(100,102,110)'}}>{info.label}</Text>
-                        <Text style={{fontWeight: "bold"}}>{info.value}</Text>
+                        <Text style={styles.columnItemInfoTextKey}>{info.label}</Text>
+                        <Text style={styles.columnItemInfoTextValue}>{info.value}</Text>
                     </TouchableOpacity>
                 )}
             </View>
         )
     }
 
-    const a = {
-        1: [1, 2]
-    }
     const RowItemButton = () => {
         const storages = Object.values(Storage).filter(s => s != item.storage);
         const rowItemsButtonList = [
             ...storages.map(s => {
                 return {
                     label: `${s} 보관하기`,
-                    icon: <MaterialCommunityIcons name={"restore"} color={'#000000'} size={24}
-                                                  style={{position: "absolute", left: 32}}/>,
+                    icon: <MaterialCommunityIcons name={"restore"} color={'#000000'}
+                                                  size={hp(2.8)} style={styles.rowItemButtonIcon1}/>,
                     onPress: () => {
                         updateItem({...item, storage: s});
                         // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, storage: s}});
@@ -104,34 +98,32 @@ const DetailItem = (props: Props) => {
             }),
             {
                 label: "버리기",
-                icon: <EvilIcons name="trash" color={'black'} size={32}
-                                 style={{position: "absolute", left: 28}}/>,
+                icon: <EvilIcons name="trash" color={'black'} size={hp(3.6)}
+                                 style={styles.rowITemButtonIcon2}/>,
                 onPress: () => setThrowing(true)
             }
         ]
 
         return (
             <ButtonList dataset={rowItemsButtonList}
-                        containerStyle={{borderTopColor: 'white', borderLeftColor: 'white'}}/>
+                        buttonContainerStyle={{borderTopColor: 'white', borderLeftColor: 'white'}}/>
         )
     }
 
     const ItemAvatar = () => {
         const key = getImageKey(item.name);
-        const avatarSize = 58;
-        const padding = 14;
         return (
-            <View style={{alignItems: 'center', marginBottom: 24}}>
+            <View style={styles.itemAvatarContainer}>
                 <Avatar
-                    containerStyle={{position: "absolute", top: -40, padding: padding, width: avatarSize + padding * 2}}
+                    containerStyle={styles.itemAvatar}
                     // @ts-ignore
                     source={Assets.FoodImages[key ? key : 'default']}
                     size={avatarSize}/>
-                <Text style={{marginTop: 52, fontSize: 18}}>{item.name}</Text>
+                <Text style={styles.itemText}>{item.name}</Text>
 
-                <View style={{position: "absolute", alignItems: 'center', marginTop: 16, right: '4%'}}>
-                    <Text style={{fontSize: 12}}>{convertDateFormat(item.createdAt!)} 등록</Text>
-                    <Text style={{fontSize: 12}}>{convertDateFormat(item.updatedAt!)} 수정</Text>
+                <View style={styles.dateContainer}>
+                    <Text style={styles.dateText}>{convertDateFormat(item.createdAt!)} 등록</Text>
+                    <Text style={styles.dateText}>{convertDateFormat(item.updatedAt!)} 수정</Text>
                 </View>
             </View>
         )
@@ -141,45 +133,45 @@ const DetailItem = (props: Props) => {
         <View style={styles.container}>
             {ItemAvatar()}
 
-            <ColumnItemInfo/>
+            <ScrollView>
+                <ColumnItemInfo/>
 
-            <View style={{height: 120, marginBottom: 20}}>
-                <TextInputBox containerStyle={{
-                    width: '100%',
-                    borderRadius: 8
-                }} value={memo} onChangeHandler={text => setMemo(formatMemo(text))} active={editingMemo}/>
-                <TouchableOpacity style={{position: "absolute", right: "5%", bottom: "10%"}}
-                                  onPress={() => {
-                                      if (editingMemo) {
-                                          setEditingMemo(false)
-                                          updateItem({...item, memo: memo})
-                                          // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, memo: memo}})
-                                      } else setEditingMemo(true)
-                                  }}>
-                    <Text>{editingMemo ? "저장" : "수정"}</Text>
-                </TouchableOpacity>
-            </View>
+                <View style={styles.textInputBoxContainer}>
+                    <TextInputBox containerStyle={styles.textInputBox} value={memo}
+                                  onChangeHandler={text => setMemo(formatMemo(text))} active={editingMemo}/>
+                    <TouchableOpacity style={styles.textEditing}
+                                      onPress={() => {
+                                          if (editingMemo) {
+                                              setEditingMemo(false)
+                                              updateItem({...item, memo: memo})
+                                              // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, memo: memo}})
+                                          } else setEditingMemo(true)
+                                      }}>
+                        <Text style={styles.textEditingText}>{editingMemo ? "저장" : "수정"}</Text>
+                    </TouchableOpacity>
+                </View>
 
-            {/*<DatePicker/>*/}
+                {/*<DatePicker/>*/}
 
-            <RowItemButton/>
-            <DeleteItemModal
-                item={item}
-                visible={throwing}
-                onCancel={() => setThrowing(false)}
-                onConfirm={() => {
-                    setThrowing(false);
-                    navigatePop();
-                }}/>
-            <DateTimePickerModal
-                date={item.expiredAt!}
-                isVisible={editingExpiredAt}
-                onCancel={() => setEditingExpiredAt(false)}
-                onConfirm={(date: Date) => {
-                    updateItem({...item, expiredAt: date})
-                    // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, expiredAt: date}});
-                    setEditingExpiredAt(false);
-                }}/>
+                <RowItemButton/>
+                <DeleteItemModal
+                    item={item}
+                    visible={throwing}
+                    onCancel={() => setThrowing(false)}
+                    onConfirm={() => {
+                        setThrowing(false);
+                        navigatePop();
+                    }}/>
+                <DateTimePickerModal
+                    date={item.expiredAt!}
+                    isVisible={editingExpiredAt}
+                    onCancel={() => setEditingExpiredAt(false)}
+                    onConfirm={(date: Date) => {
+                        updateItem({...item, expiredAt: date})
+                        // containerDispatch({type: "UPDATE_FRIDGE_ITEM", item: {...item, expiredAt: date}});
+                        setEditingExpiredAt(false);
+                    }}/>
+            </ScrollView>
         </View>
     )
 }

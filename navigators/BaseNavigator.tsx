@@ -11,12 +11,14 @@ import { BaseNaviParamList, RecipeNaviParamList, SettingsNaviParamList } from ".
 import AnalyticsNavigator from './AnalyticsNavigator';
 import FridgeNavigator from "./FridgeNavigator";
 import { styles } from "./styles";
+import usePushNotification from "../hooks/usePushNotification";
 
 
 const BottomTab = createBottomTabNavigator<BaseNaviParamList>();
 
 export default function BaseNavigator() {
     const colorScheme = useColorScheme();
+    usePushNotification();
 
     return (
         <BottomTab.Navigator

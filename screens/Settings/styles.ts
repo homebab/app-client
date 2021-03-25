@@ -19,6 +19,6 @@ export const styles = StyleSheet.create({
 
 
     buttonListContainer: {flex: 1, width: '100%', justifyContent: 'flex-start', marginTop: '4%'},
-    buttonContainer: {borderLeftColor: 'white', borderTopColor: 'white'}
+    buttonContainer: {backgroundColor: 'white', borderLeftColor: 'white', borderTopColor: 'white'}
 
 });
