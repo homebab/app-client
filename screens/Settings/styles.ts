@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     container: {flex: 1, backgroundColor: 'white'},
     containerContent: {padding: wp(4)},
 
-    profileContainer: {alignItems: "center", padding: wp(5.2)},
+    profileContainer: {alignItems: "center", paddingTop: wp(3.2), padding: wp(5.2)},
     profileImage: {height:  wp(32), aspectRatio: 1, borderRadius: wp(8)},
 
     alarmContainer: {
